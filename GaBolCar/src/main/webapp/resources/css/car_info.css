@@ -1,0 +1,248 @@
+@charset "UTF-8";
+
+.car_info_title{
+	margin-top: 150px;
+	margin-bottom:50px;
+}
+
+
+#section_6p {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.isbox input[type="checkbox"]:checked + label:after {
+  opacity: 1;
+  background-color: #444;
+}
+
+.isbox {
+  display: flex;
+  justify-content: center;
+  background-color: #F1F6F9;
+  border-radius: 20px;
+}
+
+/* .isbox { */
+/*   display: flex; */
+/*   flex-template-columns: 1fr 1fr; */
+/* } */
+
+.left-div {
+  margin: 10px 10px; /* 적절한 여백을 설정하세요 */
+  
+}
+
+.right-div {
+  margin:  10px 10px; /* 적절한 여백을 설정하세요 */
+  
+}
+
+
+
+
+.isbox dt {
+  font-weight: bold;
+  
+}
+
+.isbox label {
+  display: inline-block;
+  margin-bottom: 5px;
+  padding: 5px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 15px;
+  font-weight: bold;
+}
+
+.isbox label:hover {
+  background-color: #f1f1f1;
+}
+
+.isbox input[type="checkbox"] {
+  display: none;
+}
+
+.isbox input[type="checkbox"] + label {
+  position: relative;
+  padding-left: 10px;
+  cursor: pointer;
+}
+
+.isbox input[type="checkbox"]:checked + label:before {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 5px;
+  width: 20px;
+  height: 20px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  border-radius: 15px;
+}
+
+.isbox input[type="checkbox"]:checked + label:before {
+	background-color : #e2e2e2;
+	border-color : #e2e2e2;
+  
+}
+
+.isbox input[type="checkbox"] + label:after {
+  content: "";
+  position: absolute;
+  left: 9px;
+  top: 9px;
+  width: 2px;
+  height: 6px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  opacity: 0;
+}
+
+.isbox input[type="checkbox"]:checked + label:after {
+  opacity: 1;
+  background-color : #e2e2e2;
+}
+
+
+
+.container {
+  display: flex;
+      padding-top: 30px;
+  
+}
+
+.left-image {
+  flex: 1;
+  height: 400px;
+}
+
+
+
+.right-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width : 623px;
+  height : 450px;
+}
+
+.name1 {
+  display: flex;
+  font-size: 25px;
+  font-weight: bold ;
+  height: 60px;
+
+/*   flex-wrap: nowrap; */
+}
+
+.name1 p {
+	
+}
+
+.name2 {
+    padding-top: 15px;
+    padding-bottom: 0px;
+/*   flex-wrap: nowrap; */
+     color : gray;
+}
+
+.table {
+  padding: 10px;
+}
+
+.custom-div {
+  padding: 10px;
+  background-color: #e2e2e2;
+  	
+}
+
+.custom-div > span {
+  position: relative;
+  padding-right: 10px;
+  color: #727272;
+  display: inline-block;
+  margin-top: 5px; /* 윗줄에 마진을 주는 부분 */
+  margin-bottom: 5px; /* 아랫줄에 마진을 주는 부분 */
+}
+
+.table-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.table-row {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.table-cell {
+  flex: 1;
+  padding: 5px;
+  display :center;
+}
+
+.custom-table {
+  width: 100%;
+  table-layout: fixed;
+    border : 1px solid black;
+  border-collapse : collapse;
+  border-color : lightgray;
+}
+
+.custom-table td {
+  text-align: center;
+  font-size: larger;
+  height : 30px;
+  
+}
+
+.custom-table td:nth-child(1) {
+  width: 20%;
+}
+
+.custom-table td:nth-child(2),
+.custom-table td:nth-child(3) {
+  width: 40%;
+}
+
+.id {
+
+display:center;
+color: green;
+
+}
+
+.name-flex {
+display:flex;
+}
+
+
+
+.option {
+  width: 500px;
+  height: 280px;
+  border: 1px solid black;
+/*   background-color: #f0f0f0; */
+}
+
+.change input {
+  accent-color: red;
+}
+
+.option-div{
+  padding-left: 10px;
+}
+
+input[type="checkbox"]:checked {
+  background-color: gray;
+}
+
+.search-type {
+  border-left:1px solid #eff1f6;
+}
+
+
+

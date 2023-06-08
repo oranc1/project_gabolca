@@ -1,0 +1,1797 @@
+@charset "UTF-8";
+
+/* 공통 */
+@import
+	url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+* {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	font-family: Pretendard, sans-serif;
+}
+
+a {
+	text-decoration: none;
+	color: black;
+}
+
+ol, ul {
+	list-style: none;
+}
+
+input {
+	border: 0;
+	outline: 0;
+}
+
+button {
+	border: 0;
+}
+
+/* 공통 레이아웃 */
+#sec_con {
+	padding-top: 100px;
+	padding-bottom: 80px;
+}
+
+.con_title {
+	margin: 50px 0;
+	text-align: center;
+	font-size: 50px;
+}
+
+.inr {
+	max-width: 1400px;
+	margin: 0 auto;
+}
+
+/* 로그인 */
+#sign {
+	padding-top: 80px;
+	padding-bottom: 40px;
+}
+
+#contents {
+	background-color: #f5f5f5;
+}
+
+.sign_in {
+	max-width: 1200px;
+	margin: 0 auto;
+	margin-top: 60px;
+	margin-bottom: 70px;
+}
+
+.pageTitle {
+	text-align: center;
+	padding: 0 0 50px;
+}
+
+.pageTitle h2 {
+	font-size: 50px;
+}
+
+.container {
+	background-color: #fff;
+	border-radius: 15px;
+	box-shadow: 1px 0 40px rgba(0, 0, 0, 0.021);
+}
+
+.layout2 {
+	max-width: 600px;
+	margin: 0 auto;
+	padding: 60px 0;
+}
+
+.t_tit1 {
+	font-size: 24px;
+	margin-bottom: 30px;
+}
+
+.inp_bundle {
+	width: 100%;
+	height: 70px;
+	background-color: #f3f3f3;
+	border-radius: 5px;
+	position: relative;
+}
+
+.inp_bundle:last-child {
+	margin-top: 10px;
+}
+
+.inp_bundle .inp {
+	width: 90%;
+	height: 100%;
+	display: inline-block;
+	position: absolute;
+	top: 0;
+	left: 50%;
+	transform: translateX(-50%);
+	background-color: transparent;
+	font-size: 16px;
+}
+
+#sign .sign_in .input_bottom {
+	display: flex;
+	align-items: center;
+	margin-top: 20px;
+}
+
+/* 로그인 checkbox */
+.checkbox_ui {
+	display: inline-block;
+	vertical-align: top;
+}
+
+.checkbox_ui.type1 input[type="checkbox"]+label {
+	position: relative;
+	width: auto;
+	min-height: 26px;
+	font-family: "Noto Sans KR";
+	font-weight: 400;
+	font-size: 18px;
+	color: #111;
+	padding-left: 34px;
+}
+
+.checkbox_ui.type1 input[type="checkbox"]+label::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 1px;
+	width: 26px;
+	height: 26px;
+	background-image:
+		url("https://www.h-point.co.kr/assets/app/img/common/chk_bg1.png");
+	background-repeat: no-repeat;
+	background-size: 100% auto;
+	background-position: 0 0;
+}
+
+.checkbox_ui.type1 input[type="checkbox"]+label.no_word {
+	width: 26px;
+	padding-left: 0;
+}
+
+.checkbox_ui.type1 input[type="checkbox"]:checked+label::before {
+	background-position: 0 -26px;
+}
+
+input[type=checkbox] {
+	position: absolute;
+	z-index: -1000;
+	left: -1000px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	height: 1px;
+	width: 1px;
+	margin: -1px;
+	padding: 0;
+	border: 0;
+}
+
+#sign .sign_in .input_bottom .find_btns {
+	margin-left: auto;
+}
+
+#sign .sign_in .input_bottom .find_btns a:first-child {
+	position: relative;
+	padding-right: 23px;
+	margin-right: 15px;
+}
+
+#sign .sign_in .input_bottom .find_btns a:first-child::after {
+	content: "";
+	position: absolute;
+	right: 0;
+	top: 50%;
+	-webkit-transform: translateY(-50%);
+	-ms-transform: translateY(-50%);
+	transform: translateY(-50%);
+	width: 4px;
+	height: 4px;
+	border-radius: 50%;
+	background: #dcdee5;
+}
+
+#sign .sign_in .input_bottom .find_btns a {
+	display: inline-block;
+	font-family: "Noto Sans KR";
+	font-weight: 400;
+	font-size: 18px;
+	color: #111;
+	letter-spacing: -0.8px;
+}
+
+#sign .sign_in .btn_login {
+	width: 100%;
+	margin-top: 40px;
+	display: inline-block;
+	text-align: center;
+}
+
+.btn_typeB2 {
+	display: inline-block;
+	width: auto;
+	min-width: 220px;
+	height: 70px;
+	font-weight: 600;
+	font-size: 22px;
+	color: #fff;
+	text-align: center;
+	line-height: 70px;
+	background: rgb(246, 95, 19);
+	border-radius: 5px;
+	padding: 0 30px;
+	transition: all 0.4s;
+}
+
+.btn_typeB2 span {
+	font-size: 22px;
+	color: #fff;
+	display: inline-block;
+}
+
+.login_other {
+	margin-top: 20px;
+}
+
+.clear {
+	padding-bottom: 40px;
+	border-bottom: 1px solid #eee;
+}
+
+.clear li {
+	border: 1px solid #ddd;
+	text-align: center;
+	padding: 20px 0;
+}
+
+.clear li span:first-child {
+	width: 24px;
+	height: 24px;
+	display: inline-block;
+	background: url(../img/naver.png) no-repeat center;
+	background-size: contain;
+	position: relative;
+	top: 4px;
+	left: -10px;
+}
+
+.clear li a {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+.clear li a span {
+	font-size: 18px;
+	color: black;
+}
+
+.join {
+	margin-top: 40px;
+	text-align: center;
+}
+
+.join p {
+	display: inline-block;
+}
+
+.join a {
+	margin-left: 15px;
+	border-bottom: 1px solid;
+	font-size: 18px;
+	font-weight: bold;
+	color: rgb(240, 108, 20);
+}
+
+@media screen and (max-width: 1200px) {
+	.sign_in {
+		width: 95%;
+	}
+}
+
+@media screen and (max-width: 700px) {
+	.layout2 {
+		max-width: 90%;
+	}
+}
+
+@media screen and (max-width: 550px) {
+	#sign .sign_in .input_bottom {
+		display: block;
+	}
+	#sign .sign_in .input_bottom .find_btns {
+		margin-top: 20px;
+	}
+	#sign .sign_in .input_bottom .find_btns a {
+		font-size: 15px;
+	}
+	#sign .sign_in .input_bottom .find_btns a:first-child {
+		position: relative;
+		padding-right: 15px;
+		margin-right: 5px;
+	}
+}
+
+/* 차량 예약 */
+
+/* 정렬 방식 */
+.car_sort {
+	margin: 25px 0;
+	text-align: right;
+}
+
+.car_sort button {
+	font-size: 16px;
+	padding: 7px 20px;
+	border: 1px solid rgb(28, 28, 80);
+	color: black;
+	border-radius: 15px;
+	cursor: pointer;
+	background-color: transparent;
+}
+
+.car_sort button.on {
+	border: 0;
+	color: white;
+	background-color: rgb(28, 28, 80);
+}
+
+.car_sort button:last-child {
+	margin-left: 8px;
+}
+
+.inq_container {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+/* 달력 부분 */
+/* 05-26 경인 수정 */
+/* 폭 달력에 맞게 조정 및 테두리 색 , 라운드 추가*/
+.res_calendar {
+	width: 303px;
+	border: 1px solid #e7e7e7;
+	border-radius: 10px;
+}
+
+/* 리스트 부분 */
+/* 05-26 경인 수정 */
+/* 폭 넓을때에만 width 제한 (미디어 쿼리) */
+.res_list {
+	margin-left: 2%;
+}
+
+.res_list ul {
+	display: inline-block;
+	width: 100%;
+}
+
+.res_list ul li {
+	display: inline-block;
+	width: 48.5%;
+	height: auto;
+	overflow: hidden;
+	border: 1px solid #e7e7e7;
+	border-radius: 7px;
+	padding: 15px;
+	position: relative;
+	transition: all 0.3s;
+}
+
+.res_list ul li:hover {
+	border: 1px solid #ff6600;
+	box-shadow: 1px 0 40px rgba(0, 0, 0, 0.05);
+}
+
+.res_list ul li:nth-child(even) {
+	margin-left: 2.4%;
+}
+
+.res_list ul li:nth-child(n+3) {
+	margin-top: 30px;
+}
+
+.res_list ul li a {
+	display: inline-block;
+	width: 100%;
+	height: 100%;
+	position: relative;
+}
+
+.res_list ul .res_list_img {
+	display: block;
+	overflow: hidden;
+	width: 100%;
+	height: 300px;
+	text-align: center;
+	position: relative;
+	/* border: 1px solid #e7e7e7; */
+	border-radius: 5px;
+}
+
+.res_list ul .res_list_img img {
+	min-width: 100%;
+	max-width: 100%;
+	min-height: 100%;
+	max-height: 100%;
+	object-fit: contain;
+	position: absolute;
+	margin: 0 auto;
+	transform: translateX(-50%);
+}
+
+.res_list_txt {
+	margin-top: 20px;
+}
+
+.res_list_txt h4 {
+	font-size: 27px;
+}
+
+.res_list_txt .car_info_p {
+	font-size: 16px;
+	color: #444;
+	margin-top: 5px;
+}
+
+.car_amount_p {
+	margin-top: 30px;
+	text-align: right;
+}
+
+.car_amount_p span:first-child {
+	display: inline-block;
+	margin-right: 12px;
+	padding: 6px 20px;
+	background-color: rgb(10, 10, 49);
+	border-radius: 5px;
+	color: #fff;
+}
+
+.car_amount_p span:last-child {
+	vertical-align: middle;
+	font-size: 20px;
+}
+
+.car_amount_p span b {
+	font-size: 28px;
+	letter-spacing: -0.5px;
+	margin-right: 7px;
+	color: #ff6600;
+}
+
+.res_btn {
+	margin-top: 20px;
+	width: 100%;
+	text-align: center;
+	padding: 17px 0;
+	font-size: 19px;
+	font-weight: bold;
+	background-color: #ff6600;
+	border-radius: 5px;
+	color: white;
+}
+
+/* 미디어쿼리 */
+@media screen and (max-width: 1400px) {
+	.inr {
+		width: 97%;
+	}
+}
+
+/* 05-26 경인 수정 */
+/* 폭 넓을때에만 width 제한 */
+
+@media screen and (min-width: 1050px) {
+	.res_list {
+	width: 73%;
+	margin-left: 2%;
+	}
+}
+
+/* 05 26 경인 수정 */
+/* 리스트 아래로 내려 갔을때 차 항목 윗쪽에 살짝 마진주기 */
+
+@media screen and (max-width: 990px) {
+	.res_list ul li{
+		margin-top: 10px;
+	}
+}
+
+@media screen and (max-width: 960px) {
+	.res_list ul li:nth-child(even) {
+		margin-left: 2%;
+	}
+	.res_list ul .res_list_img {
+		height: 220px;
+	}
+	.car_amount_p span b {
+		font-size: 22px;
+	}
+	.car_amount_p span:first-child {
+		margin-right: 10px;
+		padding: 6px 15px;
+	}
+	.res_btn {
+		font-size: 19px;
+	}
+	.res_list_txt h4 {
+		font-size: 24px;
+	}
+}
+
+@media screen and (max-width: 680px) {
+	.res_list ul li:nth-child(even) {
+		margin-left: 0;
+	}
+	.res_list ul li {
+		display: block;
+		width: 100%;
+	}
+	.res_list ul li:nth-child(n+3) {
+		margin-top: 0px;
+	}
+	.res_list ul li:nth-child(n+2) {
+		margin-top: 30px;
+	}
+}
+
+/* 예약 조회 */
+    /* 마이페이지 사이드바 */
+    .mypage_sidebar {
+        width: 25%;
+    }
+
+    .user_profile {
+        text-align: center;
+        padding: 32px 0;
+        border-radius: 10px;
+        background-color: #f3f3f3;
+    }
+
+    .user_info dt {
+        font-size: 20px;
+        color: #555;
+    }
+
+    .user_info b {
+        font-size: 24px;
+        color: #333;
+    }
+
+    .user_info dd {
+        margin-top: 10px;
+    }
+
+    .side_menu {
+        margin-top: 20px;
+        border: 1px solid #e7e7e7;
+        border-radius: 10px;
+        position: relative;
+    }
+
+    .info_manage {
+        margin-top: 30px;
+        width: 140px;
+        padding: 10px 0;
+        border-radius: 20px;
+        border: 0;
+        background: #ff6600;
+        color: #fff;
+        font-size: 15px;
+        cursor: pointer;
+    }
+
+    .side_menu .menu_tit {
+        position: relative;
+        border-bottom: 1px solid #e7e7e7;
+        padding: 17px;
+        cursor: pointer;
+    }
+
+    .side_menu .menu_tit span {
+        font-size: 17px;
+        position: relative;
+        padding-left: 28px;
+        display: inline-block;
+        width: 100%;
+    }
+
+    .side_menu .menu_tit span:before {
+        content: '';
+        position: absolute;
+        top: 4px;
+        left: 0;
+        width: 18px;
+        height: 18px;
+        background: url(../img/sports-car.png) no-repeat center;
+        background-size: contain;
+    }
+
+    .side_menu .menu_tit.mt_user span:before {
+        content: '';
+        position: absolute;
+        top: 4px;
+        left: 0;
+        width: 18px;
+        height: 18px;
+        background: url(../img/man-user.png) no-repeat center;
+        background-size: contain;
+    }
+
+    .side_menu .menu_tit.mt_call span:before {
+        content: '';
+        position: absolute;
+        top: 6px;
+        left: 0;
+        width: 16px;
+        height: 16px;
+        background: url(../img/phone-call.png) no-repeat center;
+        background-size: contain;
+    }
+
+    .side_menu .menu_tit span:after {
+        content: '';
+        position: absolute;
+        top: 3px;
+        right: 0;
+        width: 17px;
+        height: 17px;
+        background: url(../img/arrow.png) no-repeat center;
+        background-size: contain;
+    }
+
+    .side_menu .menu_tit span.on:after {
+        content: '';
+        position: absolute;
+        top: 3px;
+        right: 0;
+        width: 17px;
+        height: 17px;
+        background: url(../img/arrow.png) no-repeat center;
+        background-size: contain;
+        transform: rotate(180deg);
+    }
+
+    .side_menu .side_sub {
+        padding: 17px;
+        padding-left: 30px;
+        border-bottom: 1px solid #e7e7e7;
+    }
+
+    .side_sub li {
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+    .side_sub li:hover {
+        color: #ff6600;
+    }
+
+    .side_sub li:nth-child(n+2) {
+        margin-top: 10px;
+    }
+
+
+
+/* 달력 소폭 수정 */
+.cal_rent {
+	border-radius: 10px 10px 0px 0px !important;
+}
+
+/* 예약 조회 */
+.inq_list {
+	width: 73%;
+	margin-left: 2%;
+}
+
+.inq_list ul li {
+	width: 100%;
+	position: relative;
+	display: flex;
+	border: 1px solid #e7e7e7;
+	border-radius: 7px;
+}
+
+.inq_list ul li:nth-child(n+2) {
+	margin-top: 20px;
+}
+
+.list_car_info {
+	width: 60%;
+}
+
+.res_car_img {
+	width: 40%;
+	height: auto;
+	display: flex;
+	align-items: center;
+}
+
+.res_car_img>div {
+	width: 92%;
+	margin: 0 auto;
+	display: flex;
+	align-items: center;
+	height: 90%;
+	/* border: 1px solid #e7e7e7; */
+	border-radius: 5px;
+	overflow: hidden;
+}
+
+.res_car_img>div>img {
+	width: 100%;
+	height: auto;
+	vertical-align: middle;
+}
+
+.list_res_car p:first-child {
+	font-size: 24px;
+	font-weight: bold;
+}
+
+.list_res_car {
+	position: relative;
+	padding: 25px;
+	padding-left: 30px;
+	border-bottom: 1px solid #e7e7e7;
+}
+
+.list_res_car p:last-child {
+	width: 100px;
+	position: absolute;
+	top: 22px;
+	right: 25px;
+	font-size: 13px;
+	background-color: #ff6600;
+	padding: 10px;
+	color: #fff;
+	border-radius: 25px;
+	text-align: center;
+}
+
+.list_res_car p.ret_car {
+	background-color: #888;
+}
+
+.list_res_date {
+	padding: 25px;
+	padding-left: 30px;
+}
+
+.list_res_date dl {
+	display: flex;
+	margin-top: 7px;
+}
+
+.list_res_date dt {
+	font-weight: bold;
+	position: relative;
+	width: 40%;
+}
+
+.list_res_date dd {
+	width: 60%;
+}
+
+.inq_btn {
+	text-align: center;
+	/* padding-bottom: 25px; */
+	display: flex;
+	margin: 0 auto;
+	padding: 0 25px 25px;
+}
+
+.inq_btn button {
+	width: 50%;
+	padding: 15px;
+	border-radius: 10px;
+	font-size: 15px;
+	cursor: pointer;
+}
+
+.inq_btn button:nth-child(1) {
+	background-color: rgb(10, 10, 49);
+	color: white;
+	font-weight: bold;
+}
+
+.inq_btn button:nth-child(2) {
+	background-color: #ececec;
+}
+
+.inq_btn button.ret_rev {
+	background-color: rgb(135, 163, 202);
+	color: white;
+}
+
+.inq_btn button:nth-child(n+2) {
+	margin-left: 10px;
+}
+
+/* 미디어쿼리 */
+@media screen and (max-width: 1400px) {
+	.inr {
+		width: 97%;
+	}
+}
+
+@media screen and (max-width: 1024px) {
+	.inq_list ul li {
+		display: block;
+	}
+	.res_car_img {
+		width: 100%;
+		padding: 15px;
+	}
+	.res_car_img>div {
+		width: 70%;
+		padding: 0 15px;
+	}
+	.list_car_info {
+		width: 100%;
+	}
+}
+
+/* 예약 완료 */
+
+	#sec_con.com_cont {
+		max-width: 1000px;
+		letter-spacing: 0;
+	}
+	.res_com_txt {
+		padding: 50px 0 30px;
+	}
+	
+	.res_com_txt h1 {
+		margin-top: 20px;
+		font-size: 40px;
+		color: #333;
+	}
+	
+	.res_com_txt p {
+		color: #777;
+		margin-top: 12px;
+		font-size: 16px;
+	}
+	
+	.res_info_wrapper {
+		background-color: #f7f7f7;
+		padding: 23px;
+		border-radius: 10px;
+	}
+	
+	.com_wrap {
+		padding: 25px 10% 30px;
+	}
+	
+	.com_wrap h3 {
+		font-size: 20px;
+		font-weight: 600;
+		color: #ff6600;
+	}
+	
+	.com_wrap em {
+		font-style: normal;
+		font-size: 17px;
+		color: #999;
+		font-weight: 600;
+		display: inline-block;
+		width: 20%
+	}
+	
+	.com_wrap span {
+		font-size: 17px;
+		font-weight: 400;
+	}
+
+	.res_info {   
+		background-color: #FFF;
+		border-radius: 10px;
+	}
+	
+	.com_line {
+		width: 100%;
+	    height: 1px;
+	    background-color: #ddd;
+	    margin: 15px 0;
+    }
+
+	.payment_info {       
+		background-color: #FFF;
+		border-radius: 10px;
+	}
+
+	.res_info li {
+		margin-top: 17px;
+	}
+
+	.payment_info li {
+		margin-top: 20px;
+	}
+
+	.com_wrap h3 {
+		text-align: center;
+	}
+
+	.finish_btn {
+		margin-top: 25px;
+	}
+
+	.finish_btn button{
+		width: 30%;
+		padding: 5px 0;
+		font-size: 17px;
+		color: #fff;
+		text-align: center;
+		line-height: 40px;
+		background: rgb(10, 10, 49);
+		border-radius: 5px;
+		transition: all 0.4s;
+		cursor: pointer;
+	}
+	
+	.finish_btn a:nth-child(n+2) {
+		margin-left: 10px;
+	}
+	
+	.finish_btn button:hover {
+		background-color: #ff6600;
+	}
+
+@media screen and (max-width: 680px) {
+	.res_com_txt {
+		padding: 20px 0 30px;
+	}
+	.com_wrap {
+		padding: 25px 30px 30px;
+	}
+	.com_wrap em {
+		width: 25%;
+	}
+}
+
+@media screen and (max-width: 550px) {
+	.com_wrap {
+		text-align: center;
+	}
+	.com_wrap em {
+		display: block;
+		width: auto;
+		margin-bottom: 7px;
+	}
+}
+
+/* 회원 가입 */
+#sec_con.signup_wrap {
+	max-width: 1200px; 
+}
+.signup_cont {
+    border-radius: 15px;
+    background-color: #fff;
+    padding: 50px 15px;
+    box-shadow: 1px 0 40px rgba(0, 0, 0, 0.021);
+}
+.sign_wrapper {
+	max-width: 600px;
+	margin: 0 auto;
+}
+.sign_wrapper input{
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    line-height: 35px;
+    font-size: 16px;
+    padding: 8px 10px;
+    margin-top: 13px;
+}
+
+.sign_wrapper p{
+	font-size: 18px;
+	display: inline-block;
+}
+
+.sign_wrapper .sign_mark {
+	color: orange;
+	font-size: 14px;
+	margin-left: 2px;
+	position: relative;
+	top: -5px;
+	left: 0;
+}
+
+.sign_wrapper .email input, .name input, .password input, .passwordCheck input {
+    width: 100%;
+}
+
+.sign_wrapper .phone {
+    display: flex;
+    justify-content: space-between;
+    line-height: 35px;
+    align-items: center;
+}
+
+#phone1 {
+    width: 18%;
+}
+
+#phone2 {
+    width: 35%;
+}
+
+#phone3 {
+    width: 35%;
+}
+
+.ph_cert {
+	margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.timer {
+	margin-top: 10px;
+}
+
+.ph_cert div {
+    width: 30%;
+    text-align: center;
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.ph_cert button {
+	padding: 15px 0;
+    width: 70%;
+}
+
+.area select {
+    width: 100%;
+    height: 40px;
+}
+
+.gender {
+    text-align: center;
+}
+
+.signUp button {
+    cursor:pointer;
+    width: 100%;
+    height: 70px;
+    line-height: 70px;
+    font-weight: bold;
+    font-size: 20px;
+    color: #fff;
+    text-align: center;
+    background: rgb(246, 95, 19);
+    border-radius: 5px;
+    margin-top: 45px;
+    transition: all 0.3s
+}
+
+.signUp button:hover {
+	background-color: #ff6600;
+}
+
+.error{
+    font-size: 1px;
+    height: 20px;
+    color:red;
+    font-weight: 700;
+}
+
+/* 차량 소개 */
+.isbox input[type="checkbox"]:checked + label:after {
+  opacity: 1;
+  background-color: #444;
+}
+
+.isbox {
+  display: flex;
+  justify-content: center;
+  background-color: #f5f5f5;
+  border-radius: 15px;
+  padding: 20px;
+}
+
+.search-type {
+	padding: 0 15px;
+	width: 35%;
+}
+
+.search-type:first-child {
+	border-right: 1px solid #e7e7e7;
+}
+
+.isbox dt {
+	font-weight: 600;
+	text-align: center;
+	font-size: 21px;
+	margin-bottom: 15px;
+	letter-spacing: 0.5px;
+	color: #333;
+}
+
+.isbox dd {
+	text-align: center;
+}
+
+.isbox label {
+  display: inline-block;
+  padding: 4px 8px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  transition: all 0.2s;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.isbox label:hover {
+  background-color: #ff6600;
+  color: #fff;
+}
+
+.isbox input[type="checkbox"] {
+  display: none;
+}
+
+.isbox input[type="checkbox"] + label {
+  position: relative;
+  padding-left: 10px;
+  cursor: pointer;
+}
+
+.isbox input[type="checkbox"]:checked + label:before {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 5px;
+  width: 20px;
+  height: 20px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  border-radius: 15px;
+}
+
+.isbox input[type="checkbox"]:checked + label:before {
+	background-color : #e2e2e2;
+	border-color : #e2e2e2;
+  
+}
+
+.isbox input[type="checkbox"] + label:after {
+  content: "";
+  position: absolute;
+  left: 9px;
+  top: 9px;
+  width: 2px;
+  height: 6px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  opacity: 0;
+}
+
+.isbox input[type="checkbox"]:checked + label:after {
+  opacity: 1;
+  background-color : #e2e2e2;
+}
+
+.int_wrap {
+  display: flex;
+  margin-top: 20px;
+  justify-content: space-between;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 30px;
+}
+
+.int_wrap:last-child {
+	border-bottom: 0;
+}
+
+.left-image {
+  width: 40%;
+  height: auto;
+  text-align: center;
+  padding: 15px;
+  overflow: hidden;
+  position: relative;
+}
+
+.left-image img {
+	width: 93%;
+	height: 90%;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	object-fit: contain;
+	border-radius: 10px;
+}
+
+.right-content {
+  width: 60%;
+  padding: 20px 0 20px 30px;
+}
+.name-flex {
+	display: flex;
+	align-items: center;
+}
+.name1 p {
+  font-size: 25px;
+  font-weight: bold;
+  color: #222;
+}
+
+.name2 p {
+	font-size: 18px;
+    color : #888;
+    margin-left: 10px;
+}
+
+.table-wrapper {
+	margin-top: 20px;
+	justify-content: space-between;
+}
+
+.custom-table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse : collapse;
+  border-radius: 10px;
+}
+
+.table h3, .option-div h3 {
+	font-weight: 600;
+	font-size: 18px;
+	margin-bottom: 10px;
+}
+
+.custom-table th {
+	padding: 8px 0;
+	font-size: 17px;
+	font-weight: 500;
+	border: 1px solid #ddd;
+	background: #f7f7f7; 
+} 
+
+.custom-table td {
+  text-align: center;
+  font-size: 16px;
+  padding: 5px 0;
+  border: 1px solid #ddd;
+  color: #444;
+}
+
+.custom-table tr:nth-child(2) td span {
+	color: #ff6600;
+	font-weight: 500;
+}
+
+.custom-table td:nth-child(1) {
+  width: 20%;
+}
+
+.custom-table td:nth-child(2),
+.custom-table td:nth-child(3) {
+  width: 40%;
+}
+
+.option-div {
+	margin-top: 15px;
+}
+
+.custom-div {
+  padding: 12px;
+  background-color: #f3f3f3;
+}
+
+.custom-div > span {
+  position: relative;
+  padding-right: 10px;
+  color: #686868;
+  display: inline-block;
+  margin: 6px 0;
+  font-size: 16px;
+}
+
+input[type="checkbox"]:checked {
+  background-color: gray;
+}
+
+@media screen and (max-width: 1400px) {
+	.search-type {
+		width: 45%;
+	}
+}
+
+@media screen and (max-width: 1100px) {
+	.search-type {
+		width: 50%;
+	}
+}
+
+@media screen and (max-width: 650px) {
+	.int_wrap {
+		display: block;
+	}
+	.left-image {
+		width: 100%;
+		height: 220px;
+		margin-bottom: 15px;
+	}
+	.right-content {
+		width: 100%;
+		padding: 0;
+	}
+}
+
+/* 차량예약 뷰페이지 */
+#sec_con.car_view {
+	padding-top: 150px;
+}
+
+.upperContainner{
+	display: flex;
+	align-items: end;
+}
+
+/*사진 슬라이드*/
+.slide_wrap {
+	width: 50%;
+	position: relative;
+}
+
+.slide_container {
+  width : 100%;
+  position: relative;
+}
+
+/* 큰 그림 */
+.mySlides {
+	width: 100%;
+    height: 430px;
+	overflow:hidden;
+ 	display: none;
+}
+
+.mySlides img {
+	display: inline-block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.cursor {
+  cursor: pointer;
+}
+
+/* Next & previous buttons */
+.prev {
+  	cursor: pointer;
+ 	position: absolute;	
+  	top: 50%;
+	left : 15px;
+  	color: #ff6600;
+  	font-weight: bold;
+  	font-size: 30px;
+  	display: inline-block;
+  	width: 60px;
+  	height: 60px;
+  	line-height: 60px;
+  	border-radius: 50%;
+  	background: #fff;
+  	text-align: center;
+}
+
+.next {
+	cursor: pointer;
+ 	position: absolute;	
+  	top: 50%;
+	right : 15px;
+  	color: #ff6600;
+  	font-weight: bold;
+  	font-size: 30px;
+  	display: inline-block;
+  	width: 60px;
+  	height: 60px;
+  	line-height: 60px;
+  	border-radius: 50%;
+  	background: #fff;
+  	text-align: center;
+}
+
+.numbertext {
+  color: #fff;
+  font-size: 17px;
+  padding: 8px 25px;
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  background-color: rgb(246, 95, 19);
+}
+
+.row {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	width : 20%;
+	height: 90px;
+	overflow: hidden;
+	margin-top: 10px;
+	margin-right: 10px;
+}
+
+.column img {
+	display: inline-block;
+	width: 100%;
+	height: auto;
+	object-fit:cover;
+}
+
+.column:last-child {
+	margin-right: 0;
+}
+
+.demo {
+  opacity: 0.5;
+}
+
+.active, .demo:hover {
+  opacity: 1;
+}
+
+.view_info {
+	width : 50%;
+}
+
+.view_cont {
+	padding: 0 0 0 35px;
+}
+
+.view_cont .car_comp {
+	font-size: 20px;
+	color: #666;
+}
+
+.car_name {
+	margin-top: px;
+	display: flex;
+	align-items: center;
+}
+
+.car_name h4 {
+	font-size: 48px;
+}
+
+.car_name p {
+	background: #f2f2f2;
+	border: 1px solid #444;
+	color: #333;
+	border-radius: 18px;
+	height: 30px;
+	line-height: 30px;
+	padding: 0 12px;
+	margin-left: 8px;
+	font-weight: 16px;
+}
+
+.res_loca {
+	margin: 20px 0;
+	border-top: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+	padding: 20px 0;
+	display: flex;
+	align-items: center;
+}
+
+.loca_comm {
+	width: 40%;
+	text-align: center;
+}
+
+.loca_comm p:first-child {
+	font-size: 22px;
+	color: #ff6600;
+	font-weight: bold;
+}
+
+.loca_comm p:last-child {
+	margin-top: 10px;
+} 
+
+.loca_comm p:last-child .rt_ico {
+	display: inline-block;
+	width: 22px;
+	height: 22px;
+	background: url("../img/pin (1).png") no-repeat center;
+	background-size: contain;
+	position: relative;
+	top: 3px;
+	margin-right: 10px;
+}
+
+.loca_comm p:last-child select {
+	border: 1px solid #ddd;
+	padding: 5px 17px;
+	font-size: 18px;
+}
+
+.rent_arrow {
+	width: 20%;
+}
+.rent_arrow span {
+	display: inline-block;
+	width: 60px;
+	height: 60px;
+	border-radius: 50%;
+	background-color: #ff6600;
+	vertical-align: middle;
+	position: relative;
+	left: 50%;
+	transform: translateX(-50%);
+	
+}
+.rent_arrow span:before {
+	content: '';
+	display: inline-block;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	text-align: center;
+	width: 30px;
+	height: 30px;
+	background: url("../img/next (1).png") no-repeat center;
+	background-size: contain;
+}
+
+.res_date {
+	width: 100%;
+	padding: 18px 0;
+	background-color: #f5f5f5;
+	display: flex;
+	align-items: center;
+	border-radius: 5px;
+}
+.date_comm {
+	width: 35%;
+	text-align: center;
+}
+.date_comm p, .rent_date_total p{
+	font-size: 19px;
+	font-weight: bold;
+	color: #444;
+}
+.date_comm span, .rent_date_total span{
+	display: inline-block;
+	font-size: 20px;
+	margin-top: 5px;
+}
+
+.rent_date_total {
+	width: 30%;
+	text-align: center;
+}
+
+.view_amount {
+	margin: 25px 0;
+	font-size: 30px;
+	text-align: right;
+	color: #444;
+}
+.view_amount b {
+	color: #ff6600;
+	font-size: 35px;
+	margin-right: 3px;
+}
+
+.view_res_btn {
+	display: inline-block;
+	width: 100%;
+	padding: 23px 0;
+	font-size: 21px;
+	background: rgb(10, 10, 49);
+	text-align: center;
+	color: #fff;
+	font-weight: 700;
+	letter-spacing: 0.9px;
+	border-radius: 5px;
+}
+
+.more_wrap_box {
+	margin-top: 60px;
+}
+
+.view_tit {
+	font-size: 38px;
+	font-weight: 600;
+	color: #333;
+	padding-bottom: 20px;
+	border-bottom: 1px solid #ddd;
+}
+
+.more_cont {
+	margin-top: 20px;
+}
+
+.more_box {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.more_box div {
+	width: 16.66%;
+	margin-right: 20px;
+	background-color: #f5f5f5;
+	border-radius: 10px;
+	padding: 20px;
+}
+
+.more_box div:last-child {
+	margin-right: 0;
+}
+
+.more_icon {
+	width: 25px;
+	height: 25px;
+	background: url("../img/user.png") no-repeat center;
+	background-size: contain;
+}
+
+.opt_name {
+	margin-top: 35px;
+	font-size: 18px;
+}
+
+.more_box div span {
+	font-size: 19px;
+	display: inline-block;
+	margin-top: 5px;
+	font-weight: 600;
+}
+
+.opt_list {
+	width: 100%;
+/* 	justify-content: center; */
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.opt_list div {
+	width: 16.66%;
+	overflow: hidden;
+	padding: 20px;
+	text-align: center;
+	margin-top: 10px;
+}
+
+.opt_list div img {
+	width: 40%;
+	text-align: center;
+	height: auto;
+	object-fit: contain;
+}
+
+.opt_list div p {
+	margin-top: 10px;
+	font-size: 17px;
+}
+
+.view_tit_sec {
+	display: flex;
+	align-items: flex-end;
+	width: 100%;
+	padding-bottom: 20px;
+	border-bottom: 1px solid #ddd;
+	position: relative;
+}
+
+.view_tit_sec .view_tit {
+	padding-bottom: 0;
+	border-bottom: 0;
+}
+
+.view_tit_sec a {
+	position: absolute;
+	right: 0;
+	font-size: 19px;
+	text-decoration: underline;
+	color: #ff6600;
+}
+
+.rev_cont {
+	width: 100%;
+	padding: 25px;
+	background: #f5f5f5;
+	border-radius: 10px;
+}
+
+.rev_cont li {
+	display: flex;
+	cursor: pointer;
+}
+
+.rev_cont li:hover .rev_txt {
+	text-decoration: underline;
+}
+
+.rev_cont li span {
+	font-size: 18px;
+}
+
+.rev_cont li:nth-child(n+2) {
+	margin-top: 10px;
+}
+
+.rev_cont li .rev_scp {
+	display: inline-block; 
+	width: 10%;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+.rev_cont li .rev_name {
+	display: inline-block; 
+	width: 7%;
+}
+
+.rev_cont li .rev_txt {
+	display: inline-block; 
+	width: 83%;
+	white-space: nowrap;
+	overflow: hidden;
+  	text-overflow: ellipsis;
+}
+.ins_int table {
+	width: 100%;
+}
+.ins_int table tr {
+	width: 100%;
+}
+
+.ins_int table th {
+	width: 30%;
+	background: #f8f8f8;
+	border-right: 1px solid #ddd;
+	font-size: 17px;
+}
+
+.ins_int table th {
+	height: 50px;
+	line-height: 50px;
+}
+
+.ins_int table td {
+	padding: 15px 0;
+	padding-left: 25px;
+	font-size: 17px;
+}
+
+.ins_int table td span {
+	font-weight: bold;
+	color: #e6282d;
+}
+
+.imp_check {
+	margin-top: 10px;
+	font-size: 17px;
+}
+
+.imp_check li:nth-child(n+2) {
+	margin-top: 5px;
+}
+
+
+

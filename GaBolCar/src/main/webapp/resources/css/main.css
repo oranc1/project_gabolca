@@ -1,0 +1,385 @@
+@charset "UTF-8";
+
+
+/* 좌우 스크롤 생기는 현상 막는 코드 */
+body{
+	max-width: 100%;
+	overflow-x: hidden;
+}
+
+/* 차량 예약 메뉴 관련 css */
+
+
+.main_wrap {
+	text-align: left;
+	width: 610px;
+	height:450px;
+	padding: 0;
+	
+	border: 1px solid #ececec;
+	border-radius: 10px;
+	
+	background-color: white;
+	
+	transition:0.5s;
+}
+
+.main_wrap>div {
+	display: inline-block;
+	/*달력부분과 예약정보 선택부분 세로로 가운데 정렬하기 */
+	vertical-align: middle;
+}
+
+
+
+/* 차량추천 , 리뷰 컨텐츠 , qna 컨텐츠 공통css */
+.car_recom_warp, .review_wrap, .qna_wrap {
+	margin: 30px;
+	padding: 20px;
+	background-color: white;
+	
+	border: 2px solid #ececec;
+	border-radius: 20px;
+}
+
+.car_recom_title, .review_title, .qna_title_wrap {
+	font-size: 2rem;
+	font-weight: bold;
+}
+
+/* 차량 추천 */
+.car_recom_list_wrap{
+	margin: 20px;
+}
+
+.car_recom_list_wrap>div{
+	display: inline-block;
+	width: 270px;
+	height: 300px;
+	border: 2px solid #0B294B;
+	border-radius: 20px;
+	background-color: white;
+	text-align: center;
+	margin: 0 20px;
+	
+}
+
+
+.car_recom_img{
+	display: block;
+	width: 200px;
+}
+
+.car_recom_info_list{
+	margin: 5px;	
+}
+
+.car_recom_info_list span{
+	display: inline-block;
+	margin: 0 5px;
+	padding: 2px;
+	border: 1px solid #ff6600;
+	border-radius: 5px;
+}
+
+.car_recom_info_model{
+	font-weight: bold;
+	font-size: 1.2rem;
+}
+
+.car_recom_info_price{
+	margin-top: 10px;
+	color: #ff6600;
+	font-size: 1.4rem;
+	font-weight: bold;
+}
+
+/* 리뷰 컨텐츠 관련 css */
+.review_list_wrap {
+	margin: 20px;
+}
+
+.review_list_wrap>div {
+	display: inline-block;
+	width: 200px;
+	height: 250px;
+	border: 2px solid #0B294B;
+	border-radius: 20px;
+	background-color: white;
+	text-align: center;
+	margin: 0 40px;
+}
+.review-star{
+	font-size: 2rem;
+	font-weight: bold;
+}
+.review-car-name{
+	font-size:1.7rem;
+}
+
+.review-content{
+	margin-top: 3rem;
+}
+
+.review-content p {
+	font-size:1.3rem;
+
+}
+
+.qna_title {
+	font-size: 2rem;
+	font-weight: bold;
+}
+.qna_title_btn, .review_list_btn{
+	width: 70px;
+	font-weight: bold;
+}
+.qna_list_wrap div {
+	margin-top: 20px;
+	margin-left: 10px;
+}
+
+.qna_list_wrap div a {
+	display: inline-block;
+	text-decoration: none;
+	border-bottom: 1px solid ;
+	color: black;
+	font-weight: bold;
+}
+
+/* 부트스트랩 그리드 적용시 버튼이 너무 길어지는걸 방지하기위해
+	길이 고정*/
+.qna_btn {
+	width: 3rem;
+}
+
+/* 버튼 커스텀 */
+/* 버튼 레이아웃 수정 */
+
+.btn_typeB2 {
+/*     width: 100%; */
+/*     height: 70px; */
+    font-weight: bold;
+/*     font-size: 22px; */
+/*     color: #fff; */
+    text-align: center;
+/*     line-height: 70px; */
+/*     background: #ff6600; */
+    border-radius: 5px;
+}
+
+/* 버튼색 수정 */
+.btn-outline-dark{
+	border-color: #0B294B;
+	--bs-btn-active-bg:#0B294B
+}
+.btn-outline-dark:hover{
+	background-color: #0B294B;
+}
+.btn-outline-warning{
+	border-color: #ff6600;
+}
+.btn-outline-warning:hover{
+	background-color: #ff6600;
+	color: white;
+}
+.btn-warning{
+	background-color: #ff7f02;
+	border-color: #ff7f02;
+	color: white;
+}
+.btn-warning:hover{
+	background-color: #ffb04b;
+}
+/*
+	고객리뷰 , 자주묻는 질문등 container-fluid 쓰는곳 폭 길이제한
+	(container-fluid 적용시 길이가 창 넓이를 초과함으로)
+*/
+.container-fluid {
+	width: 95%;
+}
+
+/* 0608 김예린 추가
+	윗 부분 달력, 슬로건*/
+	
+.main_visual {
+	margin-top: 100px;
+	width: 100%;
+	height: 700px;
+	background: url("../img/car_image.jpg") no-repeat center bottom;
+}
+
+.inr {
+	max-width: 1400px;
+	margin: 0 auto;
+}
+
+.main_cont {
+	display: flex;
+	/* 		align-items: center; */
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+@media screen and (max-width: 1400px) {
+	.inr {
+		width: 97%;
+	}
+	.main_visual {
+		margin-top: 74px;
+		height: 650px;
+	}
+}
+
+.main_txt {
+	width: 40%;
+	position: relative;
+	top: 20px;
+}
+
+.top_t, .top_t span {
+	font-weight: 400;
+	font-size: 25px;
+}
+
+.top_t span {
+	color: #ff6600;
+}
+
+.main_cal {
+	width: 60%;
+	
+	/* 0608 경인 추가 
+		달력, 메뉴 선택 항목들 재 정렬*/
+	
+	display: flex;
+    justify-content: flex-end;
+    /* ====================================== */
+}
+
+.cal_box {
+	display: flex;
+	justify-content: space-between;
+	background: #fff;
+	border-radius: 15px;
+}
+
+.cal_wrap, .rentMenu_wrap {
+	width: 50%;
+}
+
+.main_t, .main_t span, .main_t span b {
+	font-size: 48px;
+}
+
+.main_t {
+	color: rgb(10, 10, 49);
+	line-height: 4rem;
+}
+
+.main_t br:first-child {
+	display: none;
+}
+
+@media screen and (max-width: 1230px) {
+	.main_t br:first-child {
+		display: block;
+	}
+	.main_t, .main_t span, .main_t span b {
+		font-size: 45px;
+	}
+	.txt_op p {
+		font-size: 20px;
+	}
+}
+
+.main_t span {
+	font-weight: bold;
+}
+
+.main_t span b {
+	color: #ff6600;
+}
+
+.txt_op {
+	margin-top: 19px;
+}
+
+.txt_op p {
+	font-size: 24px;
+	color: rgb(10, 10, 49);
+	margin-bottom: 0;
+}
+
+/* 0608 경인 추가 
+	일정 높이, 넓이 이하시 사이드바 침범을 막기위해 캘린더 부분 위치 조정*/
+@media screen and (max-width :1500px) and (max-height:900px)  {
+	.main_cal {
+	    justify-content: flex-start;
+	}
+}
+/* ================================================== */
+
+@media screen and (max-width: 950px) {
+	.main_cont {
+		display: block;
+	}
+	.main_txt, .main_cal {
+		width: 100%;
+	}
+	.top_t, .txt_op {
+		display: none;
+	}
+	.main_t, .main_t span, .main_t span b {
+	    text-align: center;
+		font-size: 30px;
+   		line-height: 42px;
+	}
+	.main_cal {
+		margin-top: 20px;
+	/* 0608 경인 추가 
+		달력, 메뉴 선택 항목들 재 정렬*/
+
+	    justify-content: center;
+    /* ====================================== */
+	}
+	.submit_btn {
+		padding: 10px 0;
+	}
+	.main_txt {
+		top: 0;
+	}
+}
+
+
+
+/* ========================================================== */
+
+
+/* 일정 넓이 이상 창크기시 길이 제한*/
+@media ( min-width :1400px) {
+	.container-fluid {
+		width: 1400px;
+	}
+}
+
+
+
+/* 일정 이하 크기시 항목 지우기*/
+@media( max-width : 1400px){
+	.car_recom_item4{	
+		display: none !important;
+	}
+	.review-wrap4{
+		display: none !important;
+	}
+}
+@media( max-width : 1100px){
+	.car_recom_item3{
+		display: none !important;
+	}
+	.review-wrap3{
+		display: none !important;
+	}
+}

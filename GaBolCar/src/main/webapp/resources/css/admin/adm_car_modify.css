@@ -1,0 +1,94 @@
+@charset "UTF-8";
+
+#title_container {
+    padding-top: 50px;
+    padding-bottom: 50px;
+
+}
+
+#reg_section {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+#modifyForm {
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
+}
+
+#h1_reg {
+  margin: 0;
+}
+
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+table {
+  margin: auto;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table td {
+  border-top: 1px solid #EEEBEB;
+  border-bottom: 1px solid #EEEBEB;
+}
+
+.td_left {
+  width: 30%;
+  text-align: center;
+  border-right: 1px solid #EEEBEB;
+  padding: 5px;
+}
+
+.td_right {
+  width: 70%;
+  background: #FFFFFF;
+  padding: 5px;
+}
+
+#commandCell {
+  text-align: center;
+  margin-top: 20px;
+}
+
+#modifyForm label {
+  font-weight: bold;
+}
+
+.checkbox-label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.checkbox-label input[type="checkbox"] {
+  margin-right: 5px;
+}
+
+/* Custom checkbox style when checked */
+.checkbox-label input[type="checkbox"]:checked {
+  appearance: none;
+  background-color: rgb(255, 94, 0);
+  border: 2px solid rgb(255, 94, 0);
+  border-radius: 3px;
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
+  margin-right: 5px;
+  position: relative;
+}
+
+.checkbox-label input[type="checkbox"]:checked:after {
+  content: "\2714";
+  color: #FFFFFF;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 14px;
+  line-height: 1;
+}

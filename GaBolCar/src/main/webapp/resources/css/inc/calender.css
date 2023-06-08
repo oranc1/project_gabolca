@@ -1,0 +1,101 @@
+@charset "UTF-8";
+
+.calender *{
+	font-size: 16px !important;
+}
+.calender ul { 
+	list-style-type: none;
+}
+
+.calender {
+	width: 300px; 
+	box-sizing: border-box;
+	text-align: center;
+}
+
+.cal_rent {
+	border-radius: 10px 0px 0px 0px;
+	text-align: center;
+	padding-top: 10px; height : 50px; margin : 0;
+	background-color: #0B294B;
+	height: 70px;
+}
+
+.cal_rent div {
+	display: inline-block;
+	color: white! important;
+}
+
+.cal_rent_day {
+	padding-left: 10px;
+	padding-right: 40px;
+}
+.cal_rent_day div{
+	display: block;
+}
+
+.cal_return_day {
+	padding-left: 40px;
+	padding-right: 10px;
+}
+
+.cal_return_day div{
+	display: block;
+}
+
+.cal_rent_day_title, .cal_return_day_title{
+	border: 2px solid #FF7F02;
+	border-radius: 10px;
+	margin-bottom: 3px;
+	width: 70px;
+}
+
+/* 달력 관련 css */
+.dayContainer{
+	width:300px !important;
+	min-width: 300px !important;
+	max-width: 300px !important;
+}
+
+/* 달력 모듈이 input tag 를 필요로함
+해당 태그는 hidden으로 해도 숨겨지지 않으므로 none 으로 처리*/
+.cal-input{
+display: none; 
+}
+
+/* 달력 모듈 관련 css 수정*/
+
+.flatpickr-calendar{
+	width: 300px;
+	margin: 0;
+	position: 0px;
+}
+
+.flatpickr-month{
+	text-align: center !important;
+}
+
+.startRange{
+	border-color: #FF7F02  !important;
+	background-color: #FF7F02 !important;
+}
+.endRange{
+	border-color: #FF7F02  !important;
+	background-color: #FF7F02 !important;
+}
+
+/* 달력 시간 설정 css*/
+
+.cal_hour {
+	text-align: center;
+ 	padding-top:9px; 
+ 	padding-bottom:8px; 
+	border-top: 1px solid gray;
+}
+
+.cal_hour>div {
+	margin: 0px;
+	padding: 5px;
+	display: inline-block;
+}
+
