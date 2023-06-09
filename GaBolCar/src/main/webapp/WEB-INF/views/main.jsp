@@ -175,7 +175,8 @@
 			<div class="col-3  review_title">고객리뷰</div>
 			<input type="button"
 				class="offset-sm-6  offset-lg-8  offset-md-7 col-1 btn btn-outline-warning review_list_btn"
-				value="더보기">
+				value="더보기"
+				onclick="location.href='${pageContext.request.contextPath }/review'">
 		</div>
 		<div
 			class="row align-items-center review_list_wrap justify-content-center">

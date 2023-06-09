@@ -1,5 +1,10 @@
 @charset "UTF-8";
 
+/* 부트스트랩 이미지 라인 틀어짐 조정 */
+img, svg{
+	vertical-align: baseline;
+}
+
 .calender *{
 	font-size: 16px !important;
 }
@@ -28,14 +33,20 @@
 
 .cal_rent_day {
 	padding-left: 10px;
-	padding-right: 40px;
+	padding-right: 20px;
 }
 .cal_rent_day div{
 	display: block;
 }
 
+.cal_next_img {
+	width:30px;
+	height:30px;
+	margin: 7px;
+}
+
 .cal_return_day {
-	padding-left: 40px;
+	padding-left: 20px;
 	padding-right: 10px;
 }
 

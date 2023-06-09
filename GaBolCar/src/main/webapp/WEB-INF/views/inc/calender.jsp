@@ -18,8 +18,10 @@
 						class="cal_rent_day_date">13일</span>
 				</div>
 			</div>
-			<!-- 			화살표이미지 -->
-			<!-- 			<img alt="▶" src=""> -->
+			<div>
+<!-- 				화살표이미지 -->
+				<img class="cal_next_img" alt="▶" src="${pageContext.request.contextPath }/resources/img/inc/next.png">
+			</div>
 			<div class="cal_return_day">
 				<div class="cal_return_day_title">반납일</div>
 				<div>
