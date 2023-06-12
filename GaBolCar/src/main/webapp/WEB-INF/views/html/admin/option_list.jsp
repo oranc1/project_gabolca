@@ -21,24 +21,28 @@
 				<li>옵션 코드</li>
 				<li>옵션 명</li>
 				<li>옵션 이미지</li>
-				<li>
-					<input type="checkbox" name="checkAll">
-				</li>
+				<li>관리</li>
 			</ul>
 			<c:forEach var="option" items="${optionList }">
 			<ul class="option_content">
 				<li>${option.option_idx }</li>
 				<li>${option.option_name }</li>
-				<li><img id="option_image" src="${pageContext.request.contextPath }/resources/upload/car_options/${option.option_image_url }"></li>
 				<li>
-                    <input type="checkbox" name="optchk">
+					<img id="option_image" src="${pageContext.request.contextPath }/resources/upload/car_options/${option.option_image_url }">
+				</li>
+				<li>
+               		<button name="option_update" value="${option.option_idx }">
+						수정
+					</button>
+               		<button name="option_delete" value="${option.option_idx }">
+						삭제
+					</button>
 				</li>
 			</ul>
 			</c:forEach>
 		</div>
 		<div id="optionbtn">
 			<button id="option_insert">신규등록</button>
-			<button id="option_delete">삭제</button>
 			<button onclick="history.back()">뒤로가기</button>
 		</div>
 	</section>

@@ -41,4 +41,8 @@ public class CarService {
 	public List<Map<String, Object>> optionList() {
 		return mapper.selectOptionList();
 	}
+
+	public Map<String, Object> optionSelect(int option_idx) {
+		return mapper.selectOption(option_idx);
+	}
 }
