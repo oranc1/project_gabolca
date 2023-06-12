@@ -1,5 +1,8 @@
 package com.itwillbs.project_gabolcar.mapper;
 
-public class CarItemMapper {
+import org.apache.ibatis.annotations.Mapper;
 
+@Mapper
+public interface CarItemMapper {
+	
 }

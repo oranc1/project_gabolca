@@ -1,5 +1,9 @@
 package com.itwillbs.project_gabolcar.service;
 
-public class CarItemService {
+import org.springframework.stereotype.Service;
 
+@Service
+public class CarItemService {
+	
+	
 }
