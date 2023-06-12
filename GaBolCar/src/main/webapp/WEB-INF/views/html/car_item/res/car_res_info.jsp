@@ -177,7 +177,7 @@
 					</div>
 					<div>
 						<p class="more_icon"></p>
-						<p class="opt_name">모델</p>
+						<p class="opt_name">모델</p>	
 						<span>코나</span>
 					</div>
 					<div>
@@ -209,64 +209,76 @@
 			<div class="more_cont">
 				<div class="opt_list">
 					<div>
-						<img alt="" src="${pageContext.request.contextPath }/resources/img/car_item/res/car.png">
+						<img alt="" src="${pageContext.request.contextPath }/resources/img/car_img_storage/car_option/option_linsece.png">
 						<p>국제운전면허증가능</p>
 					</div>
 					<div>
-						<img alt="" src="${pageContext.request.contextPath }/resources/img/car_item/res/car.png">
+						<img alt="" src="${pageContext.request.contextPath }/resources/img/car_img_storage/car_option/option_sos.png">
 						<p>긴급출동무료</p>
 					</div>
 					<div>
-						<img alt="" src="${pageContext.request.contextPath }/resources/img/car_item/res/car.png">
+						<img alt="" src="${pageContext.request.contextPath }/resources/img/car_img_storage/car_option/option_charger.png">
 						<p>충전기제공</p>
 					</div>
 					<div>
-						<img alt="" src="${pageContext.request.contextPath }/resources/img/car_item/res/car.png">
+						<img alt="" src="${pageContext.request.contextPath }/resources/img/car_img_storage/car_option/option_aux_cable.png">
 						<p>AUX선 제공</p>
 					</div>
 					<div>
-						<img alt="" src="${pageContext.request.contextPath }/resources/img/car_item/res/car.png">
+						<img alt="" src="${pageContext.request.contextPath }/resources/img/car_img_storage/car_option/option_seat.png">
 						<p>카시트무료(수량한정)</p>
 					</div>
 					<div>
-						<img alt="" src="${pageContext.request.contextPath }/resources/img/car_item/res/car.png">
+						<img alt="" src="${pageContext.request.contextPath }/resources/img/car_img_storage/car_option/option_nosmoking.png">
 						<p>금연</p>
 					</div>
 					<div>
-						<img alt="" src="${pageContext.request.contextPath }/resources/img/car_item/res/car.png">
+						<img alt="" src="${pageContext.request.contextPath }/resources/img/car_img_storage/car_option/option_heatseat.png">
 						<p>열선시트</p>
 					</div>
 					<div>
-						<img alt="" src="${pageContext.request.contextPath }/resources/img/car_item/res/car.png">
+						<img alt="" src="${pageContext.request.contextPath }/resources/img/car_img_storage/car_option/option_heathandle.png">
 						<p>핸들열선</p>
 					</div>
 					<div>
-						<img alt="" src="${pageContext.request.contextPath }/resources/img/car_item/res/car.png">
+						<img alt="" src="${pageContext.request.contextPath }/resources/img/car_img_storage/car_option/option_sunloof.png">
 						<p>썬루프</p>
 					</div>
 					<div>
-						<img alt="" src="${pageContext.request.contextPath }/resources/img/car_item/res/car.png">
+						<img alt="" src="${pageContext.request.contextPath }/resources/img/car_img_storage/car_option/option_smartkey.png">
 						<p>스마트키</p>
 					</div>
 					<div>
-						<img alt="" src="${pageContext.request.contextPath }/resources/img/car_item/res/car.png">
+						<img alt="" src="${pageContext.request.contextPath }/resources/img/car_img_storage/car_option/option_navigation.png">
 						<p>네비게이션</p>
 					</div>
 					<div>
-						<img alt="" src="${pageContext.request.contextPath }/resources/img/car_item/res/car.png">
+						<img alt="" src="${pageContext.request.contextPath }/resources/img/car_img_storage/car_option/option_backcamera.png">
 						<p>후방카메라</p>
 					</div>
 					<div>
-						<img alt="" src="${pageContext.request.contextPath }/resources/img/car_item/res/car.png">
+						<img alt="" src="${pageContext.request.contextPath }/resources/img/car_img_storage/car_option/option_blackbox.png">
 						<p>블랙박스</p>
 					</div>
 					<div>
-						<img alt="" src="${pageContext.request.contextPath }/resources/img/car_item/res/car.png">
+						<img alt="" src="${pageContext.request.contextPath }/resources/img/car_img_storage/car_option/option_highpass.png">
 						<p>하이패스</p>
 					</div>
 					<div>
-						<img alt="" src="${pageContext.request.contextPath }/resources/img/car_item/res/car.png">
+						<img alt="" src="${pageContext.request.contextPath }/resources/img/car_img_storage/car_option/option_bluetooth.png">
 						<p>블루투스</p>
+					</div>
+					<div>
+						<img alt="" src="${pageContext.request.contextPath }/resources/img/car_img_storage/car_option/option_babyseat.png">
+						<p>유아용 카시트</p>
+					</div>
+					<div>
+						<img alt="" src="${pageContext.request.contextPath }/resources/img/car_img_storage/car_option/option_usb.png">
+						<p>USB</p>
+					</div>
+					<div>
+						<img alt="" src="${pageContext.request.contextPath }/resources/img/car_img_storage/car_option/option_cd.png">
+						<p>CD</p>
 					</div>
 				</div>
 			</div>
