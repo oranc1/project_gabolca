@@ -217,7 +217,7 @@
 			
 			//최초 날짜 , 시간값 설정
 			// 시간값 설정 시 오픈시간보다 뒤면 다음날 날짜로 지정, 시간은 8시로지정
-			if(initTime >= 20) {
+			if(initTime >= 21) {
 				initTime = "08";
 				flatpickr(".cal-input",{
 					inline:true,
@@ -229,7 +229,11 @@
 				});
 			}
 			else{
+				// 0612 배경인 추가) 시간이 0~8시 사이일때는 날짜를 오늘 날짜로 설정
 				if(initTime < 10) initTime = "0" + initTime; 
+				if(initTime < 8){
+					initTime = "08";
+				}
 				flatpickr(".cal-input",{
 					inline:true,
 					mode:"range",
