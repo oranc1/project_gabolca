@@ -44,3 +44,8 @@
 #optionbtn>button {
 	margin: 0 5px;
 }
+
+#option_image {
+	width: 30px;
+	height: 30px;
+}
