@@ -33,4 +33,12 @@ public class CarService {
 	public int carDelete(int car_idx) {
 		return mapper.deleteCar(car_idx);
 	}
+
+	public int optRegister(String option_name, String option_image_url) {
+        return mapper.registerOption(option_name, option_image_url);
+	}
+
+	public List<Map<String, Object>> optionList() {
+		return mapper.selectOptionList();
+	}
 }

@@ -128,72 +128,12 @@
 		                			<input type="checkbox" id="selectAllCheckbox">
 		                			전체 선택
 		              			</label>
-								<label class="checkbox-label">
-									<input type="checkbox" name="options" value="국제운전면허증가능">
-	  								국제운전면허증가능
-								</label>
-								<label class="checkbox-label">
-									<input type="checkbox" name="options" value="긴급출동무료">
-									긴급출동무료
-								</label>
-								<label class="checkbox-label">
-									<input type="checkbox" name="options" value="충전기제공">
-									충전기제공
-								</label>
-								<label class="checkbox-label">
-									<input type="checkbox" name="options" value="카시트무료(수량한정)">
-									카시트무료(수량한정)
-								</label>
-								<label class="checkbox-label">
-									<input type="checkbox" name="options" value="열선시트">
-									열선시트
-								</label>
-								<label class="checkbox-label">
-									<input type="checkbox" name="options" value="금연">
-									금연
-								</label>
-								<label class="checkbox-label">
-									<input type="checkbox" name="options" value="블루투스">
-									블루투스
-								</label>
-								<label class="checkbox-label">
-									<input type="checkbox" name="options" value="썬루프">
-									썬루프
-								</label>
-		            		</div>
-		            		<div class="col-md-6">
-								<label class="checkbox-label">
-									<input type="checkbox" name="options" value="열선시트">
-									열선시트
-								</label>
-								<label class="checkbox-label">
-									<input type="checkbox" name="options" value="스마트키">
-									스마트키
-								</label>
-								<label class="checkbox-label">
-									<input type="checkbox" name="options" value="네비게이션">
-									네비게이션
-								</label>
-								<label class="checkbox-label">
-									<input type="checkbox" name="options" value="후방카메라">
-									후방카메라
-								</label>
-								<label class="checkbox-label">
-									<input type="checkbox" name="options" value="블랙박스">
-									블랙박스
-								</label>
-								<label class="checkbox-label">
-									<input type="checkbox" name="options" value="USB">
-									USB
-								</label>
-								<label class="checkbox-label">
-									<input type="checkbox" name="options" value="AUX">
-									AUX
-								</label>
-								<label class="checkbox-label">
-									<input type="checkbox" name="options" value="AUX">
-									하이패스
-								</label>
+		              			<c:forEach var="option" items="${optionList }">
+									<label class="checkbox-label">
+										<input type="checkbox" name="options" value="${option.option_idx }">
+		  								${option.option_name }
+									</label>
+								</c:forEach>
 		            		</div>
 						</div>
 		        	</td>

@@ -1,7 +1,15 @@
 package com.itwillbs.project_gabolcar.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.itwillbs.project_gabolcar.service.BrcService;
@@ -47,7 +56,10 @@ public class AdminConroller {
 	@GetMapping("CarRegister")
 	public String carRegister(Model model) {
 		List<Map<String, Object>> brcList = brc_service.brcList();
+		List<Map<String, Object>> optionList = car_service.optionList();
 		model.addAttribute("brcList",brcList);
+		model.addAttribute("optionList",optionList);
+		
 		return "html/admin/car_register";
 	}
 	
@@ -142,8 +154,50 @@ public class AdminConroller {
 	
 	//옵션리스트 이동 - 디자인이 어려움
 	@GetMapping("optionList")
-	public String optionList() {
-		return "html/admin/option_list";
+	public ModelAndView optionList() {
+		List<Map<String,Object>> optionList = car_service.optionList();
+		return new ModelAndView("html/admin/option_list","optionList",optionList);
 	}
 	
+    // 옵션등록폼 이동
+    @GetMapping("optionInsert")
+    public String optionInsert() {
+        return "html/admin/option_register";
+    }
+    
+    // 옵션등록
+    @PostMapping("optionRegisterPro")
+    public String optionRegisterPro(
+            @RequestParam(value="option_name", defaultValue="") String option_name, 
+            @RequestParam(value="option_image", defaultValue="") MultipartFile option_image, 
+            HttpSession session, Model model) {
+        String uploadDir = "/resources/upload/car_options";
+        String saveDir = session.getServletContext().getRealPath(uploadDir);
+        try {
+            Path path = Paths.get(saveDir);
+            Files.createDirectories(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        MultipartFile mFile = option_image;
+        String originalFileName = mFile.getOriginalFilename();
+        String uuid = UUID.randomUUID().toString();
+        String option_image_url = uuid.substring(0, 8) + "_" + originalFileName;
+
+        int insertCount = car_service.optRegister(option_name, option_image_url);
+        if(insertCount > 0) {
+            try {
+                mFile.transferTo(new File(saveDir, option_image_url));
+            } catch (IllegalStateException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return "close";
+        } else {
+            model.addAttribute("msg","옵션 등록 실패");
+            return "fail_back";
+        }
+    }
+    
 }

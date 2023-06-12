@@ -13,7 +13,7 @@ $(function(){
 	    }).open()
 	});
 	
-	var callback = function(result, status) {
+    let callback = function(result, status) {
 		if (status === kakao.maps.services.Status.OK) {
 			$("input[name=map_x]").val(result[0].x);
 			$("input[name=map_y]").val(result[0].y);

@@ -68,4 +68,20 @@
 		where
 			car_idx=#{car_idx}
 	</delete>
+    <insert id="registerOption" parameterType="String">
+        insert into
+            option_list
+        values(
+            null
+            , #{option_name}
+            , #{option_image_url}    
+        )
+    </insert>
+   	<select id="selectOptionList" resultType="map">
+		select
+			*
+		from
+			option_list
+	</select>
+    
 </mapper>
