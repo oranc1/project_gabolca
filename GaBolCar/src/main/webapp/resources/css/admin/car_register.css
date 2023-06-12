@@ -1,15 +1,15 @@
 @charset "UTF-8";
 
 #title_container {
-    padding-top: 50px;
-    padding-bottom: 50px;
-
+   padding-top: 50px;
+padding-bottom: 50px;
 }
 
 #reg_section {
   max-width: 1400px;
   margin: 0 auto;
 }
+
 
 #modifyForm {
   max-width: 800px;
@@ -20,7 +20,6 @@
 #h1_reg {
   margin: 0;
 }
-
 
 h1 {
   text-align: center;
@@ -91,4 +90,9 @@ table td {
   transform: translate(-50%, -50%);
   font-size: 14px;
   line-height: 1;
+}
+
+input[type=submit] {
+	 background-color: rgb(255, 94, 0); 
+	 color: #FFFFFF;
 }

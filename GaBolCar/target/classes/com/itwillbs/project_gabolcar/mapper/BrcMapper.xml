@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.itwillbs.project_gabolcar.mapper.BrcMapper">
+	<insert id="registerBrc" parameterType="map">
+		insert into
+			brc_info(brc_name,brc_addr,brc_tel,map_y,map_x)
+		values (
+			#{brc_name}
+			, #{brc_addr}
+			, #{brc_tel}
+			, #{map_y}
+			, #{map_x}
+		)
+	</insert>
+	
+	<select id="selectBrcList" resultType="map">
+		select
+			*
+		from
+			brc_info
+	</select>
+	
+	<select id="selectBrc" resultType="map" parameterType="int">
+		select
+			*
+		from
+			brc_info
+		where
+			brc_idx = #{brc_idx}
+	</select>
+	<update id="updateBrc" parameterType="map">
+		update
+			brc_info
+		set
+			brc_name=#{brc_name},
+			brc_addr=#{brc_addr},
+			brc_tel=#{brc_tel},
+			map_x=#{map_x},
+			map_y=#{map_y}
+		where
+			brc_idx=#{brc_idx}
+	</update>
+	<delete id="deleteBrc" parameterType="int">
+		delete from
+			brc_info
+		where
+			brc_idx=#{brc_idx}
+	</delete>
+</mapper>

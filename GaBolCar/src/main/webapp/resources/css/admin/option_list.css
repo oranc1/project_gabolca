@@ -1,0 +1,46 @@
+@charset "UTF-8";
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+#optionList_main {
+	max-width: 1400px;
+	margin: 0 auto;
+}
+
+#optionList_title {
+	text-align: center;
+	margin-bottom: 20px;
+}
+
+#optionList li {
+	list-style-type: none;
+	display: inline-block;
+	justify-content:center;
+	border: 1px solid;
+}
+
+#optionList li:nth-child(1) {
+	width: 70px;
+}
+#optionList li:nth-child(2) {
+	min-width: 200px;
+}
+#optionList li:nth-child(3) {
+	min-width: 200px;
+}
+
+#optionList li:nth-child(3) {
+	min-width: 200px;
+}
+
+#optionbtn {
+	display: flex;
+	justify-content: center;
+}
+
+#optionbtn>button {
+	margin: 0 5px;
+}

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.itwillbs.project_gabolcar.mapper.CarMapper">
+	<insert id="registerCar">
+		insert into
+			car_info
+		values (
+			null,
+			#{car_type},
+			#{car_number},
+			#{car_company},
+			#{car_model},
+			#{car_old},
+			#{car_shift_type},
+			#{car_fuel_type},
+			#{car_riding},
+			#{car_age},
+			#{car_career},
+			#{car_license},
+			#{car_weekdays},
+			#{car_weekend},
+			#{brc_name},
+			#{car_image_url},
+			default
+		)
+	</insert>
+	
+	<select id="selectCarList" resultType="map">
+		select
+			*
+		from
+			car_info
+	</select>
+		<select id="selectCar" resultType="map" parameterType="int">
+		select
+			*
+		from
+			car_info
+		where
+			car_idx = #{car_idx}
+	</select>
+	<update id="updateCar" parameterType="map">
+		update
+			car_info
+		set
+			car_type = #{car_type},
+			car_number = #{car_number},
+			car_company = #{car_company},
+			car_model = #{car_model},
+			car_old = #{car_old},
+			car_shift_type = #{car_shift_type},
+			car_fuel_type = #{car_fuel_type},
+			car_riding = #{car_riding},
+			car_age = #{car_age},
+			car_career = #{car_career},
+			car_license = #{car_license},
+			car_weekdays = #{car_weekdays},
+			car_weekend = #{car_weekend},
+			brc_name = #{brc_name},
+<!-- 			car_image_url = #{car_image_url}, -->
+			car_status = #{car_status}
+		where
+			car_idx=#{car_idx}
+	</update>
+	<delete id="deleteCar" parameterType="int">
+		delete from
+			car_info
+		where
+			car_idx=#{car_idx}
+	</delete>
+</mapper>

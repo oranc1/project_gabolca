@@ -1,0 +1,72 @@
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-family: Pretendard, sans-serif;
+}
+
+#adm_brc {
+	width: 100%;
+}
+
+
+.adm_brc_button {
+	color: #000;
+	background-color: #fff;
+	border: 1px solid rgb(28, 28, 80);
+	text-align: center;
+	width: 60px;
+	height: 25px;
+	font-size: 12px;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 5px;
+}
+
+.adm_brc_title {
+	font-weight: 400;
+	font-size: 1.5em;
+	margin: 1em auto;
+	display: block;
+}
+
+.brc_info>ul {
+	display: inline-block;
+	vertical-align: top;
+}
+
+.brc_info {
+	border: 1px solid;
+	border-radius: 5px;
+	display: inline-block;
+	margin: 10px;
+}
+
+.brc_content_button>li {
+	display: inline-block;
+}
+
+.brc_content {
+	margin-left: 5px;
+}
+
+.inr {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+@media screen and (max-width: 1400px) {
+    .inr {
+        width: 97%;
+    }
+}
+
+/* 오른쪽 컨텐츠 */
+.content_view {
+    width: 73%;
+    margin-left: 2%;
+}
+

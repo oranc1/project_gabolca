@@ -1,0 +1,49 @@
+@charset "UTF-8";
+
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-family: Pretendard, sans-serif;
+}
+/* article 배치 */
+#adm_dash_main {
+	display:flex;
+	justify-content: center;
+}
+
+/* left article 사이즈 설정 */
+#adm_dash_left {
+	width: 70%;
+	height: auto;
+}
+/* right article 사이즈 설정*/
+#adm_dash_right {
+	width: 30%;
+	height: auto;
+}
+
+#adm_dash_left div {
+	width: auto;
+	height: auto;	
+}
+
+.inr {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+@media screen and (max-width: 1400px) {
+    .inr {
+        width: 97%;
+    }
+}
+
+/* 오른쪽 컨텐츠 */
+.content_view {
+    width: 73%;
+    margin-left: 2%;
+}

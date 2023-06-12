@@ -1,12 +1,12 @@
-/* @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css'); */
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
 
-/* * { */
-/*     box-sizing: border-box; */
-/*     margin: 0; */
-/*     padding: 0; */
-/*     list-style: none; */
-/*     font-family: Pretendard, sans-serif; */
-/* } */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-family: Pretendard, sans-serif;
+}
 
 #adm_car_list,#adm_car_list td,#adm_car_list th {
 /* 	border: 1px solid rgba(255, 102, 0, 0.5); */
@@ -125,140 +125,9 @@ table,td,th {
 	border-radius: 5px;
 }
 
-
-
-.con_title {
-    margin: 50px 0;
-    text-align: center;
-    font-size: 50px;
-}
-
 .inr {
     max-width: 1400px;
     margin: 0 auto;
-}
-
-.inq_container {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-/* 마이페이지 사이드바 */
-.mypage_sidebar {
-    width: 25%;
-}
-
-.user_profile {
-    text-align: center;
-    padding: 32px 0;
-    border-radius: 10px;
-    background-color: #f3f3f3;
-}
-
-.user_info dt {
-    font-size: 20px;
-    color: #555;
-}
-
-.user_info b {
-    font-size: 24px;
-    color: #333;
-}
-
-.user_info dd {
-    margin-top: 10px;
-}
-
-.side_menu {
-    margin-top: 20px;
-    border: 1px solid #e7e7e7;
-    border-radius: 10px;
-    position: relative;
-}
-
-.side_menu .menu_tit {
-    position: relative;
-    border-bottom: 1px solid #e7e7e7;
-    padding: 17px;
-    cursor: pointer;
-}
-
-.side_menu .menu_tit span {
-    font-size: 17px;
-    position: relative;
-    padding-left: 28px;
-    display: inline-block;
-    width: 100%;
-}
-
-.side_menu .menu_tit span:before {
-    content: '';
-    position: absolute;
-    top: 4px;
-    left: 0;
-    width: 18px;
-    height: 18px;
-    background: url(../../img/admin/adm_car_list/traffic-jam.png) no-repeat center;
-    background-size: contain;
-}
-
-.side_menu .menu_tit.mt_user span:before {
-    content: '';
-    position: absolute;
-    top: 4px;
-    left: 0;
-    width: 18px;
-    height: 18px;
-    background: url(../../img/admin/adm_car_list/list.png) no-repeat center;
-    background-size: contain;
-}
-
-.side_menu .menu_tit span:after {
-    content: '';
-    position: absolute;
-    top: 3px;
-    right: 0;
-    width: 17px;
-    height: 17px;
-    background: url(../../img/admin/adm_car_list/arrow.png) no-repeat center;
-    background-size: contain;
-}
-
-.side_menu .menu_tit span.on:after {
-    content: '';
-    position: absolute;
-    top: 3px;
-    right: 0;
-    width: 17px;
-    height: 17px;
-    background: url(../../img/admin/adm_car_list/arrow.png) no-repeat center;
-    background-size: contain;
-    transform: rotate(180deg);
-}
-
-.side_menu .side_sub {
-    padding: 17px;
-    padding-left: 30px;
-    border-bottom: 1px solid #e7e7e7;
-}
-
-.side_sub li {
-    cursor: pointer;
-    transition: all 0.3s;
-}
-
-.side_sub li:hover {
-    color: #ff6600;
-}
-
-.side_sub li:nth-child(n+2) {
-    margin-top: 10px;
-}
-
-/* 오른쪽 컨텐츠 */
-.content_view {
-    width: 73%;
-    margin-left: 2%;
 }
 
 @media screen and (max-width: 1400px) {
@@ -267,12 +136,10 @@ table,td,th {
     }
 }
 
-.adm_page_title {
-	text-align: center;
-	font-weight: bold;
-	margin: 50px 0;
-	text-align: center;
-	font-size: 50px;
+/* 오른쪽 컨텐츠 */
+.content_view {
+    width: 73%;
+    margin-left: 2%;
 }
 
 

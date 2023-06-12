@@ -5,22 +5,24 @@ $(function() {
 	});
 	
 	$("button[name=item_update]").on("click", function() {
-		console.log("update");
-		location.href="";
+		location.href="carUpdate?car_idx="+$(this).val();
 	});
 	
 	$("button[name=item_delete]").on("click", function() {
-		console.log("delete");
-		location.href="";
+		if (confirm("삭제하시겠습니까?")) location.href="carDeletePro?car_idx="+$(this).val() 
 	});
 	
 	$("button[name=item_insert]").on("click", function() {
 		console.log("insert");
-		location.href="";
+		location.href="CarRegister";
 	});
 	
 	$("button[name=item_search]").on("click", function() {
 		location.href="";
+	});
+	
+	$("button[name=option_list]").on("click", function() {
+		location.href="optionList";
 	});
 	
 	$("button[name=car_type]").on("click", function() {
