@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class CarItemController {
 	
 	// db 검색 없이 더미 데이터를 사용시
-	boolean dummy_data_flag = true;
+	static final boolean DUMMY_DATA_FLAG = true;
 	
 	//차량 예약 검색
 	// 차 타입 하고 차 연료는 값 없는 경우 기본 값으로 받아오기
@@ -49,11 +49,11 @@ public class CarItemController {
 		// 2. 지점이 현재 영업하고 있는 지점이 아닌 경우 - db 찾기 작업 필요
 		// 3. 차 타입 또는 차 연료타입이 선택지에 없는 항목들이 들어올 경우 - db 찾기 작업 필요? - 물어보기 아마 하드코딩일것 
 		
-		//=========== 날짜 체크 ===========
-		// 날짜, 시간값 확인 시 아예 파라미터 비어있는 상태면 기본값들로 구성하여 db 검색
-		// 날짜가 null이면 무조건 날짜, 시간값 초기화!
+
 		if(map.size() <= 0 || date == null) {
-			
+			//=========== 날짜 체크 ===========
+			// 날짜, 시간값 확인 시 아예 파라미터 비어있는 상태면 기본값들로 구성하여 db 검색
+			// 날짜가 null이면 무조건 날짜, 시간값 초기화!
 			// 현재시간 가져오기
 			LocalDateTime nowDate = LocalDateTime.now();
 			
@@ -96,11 +96,13 @@ public class CarItemController {
 					" returnHour : " + returnHour +" returnMinute : "+ returnMinute +
 					" date : " + date +" dateArr : " + dateArr +" rentDate : " + rentDate +
 					" returnDate : " + returnDate);
+			//=========== 날짜 체크 끝 ===========
 			
 			return "html/car_item/res/car_res";
 			
 		} // if 문 끝
 		else {
+			//=========== 날짜 체크 ===========
 			// 날짜값 받아오기
 			initHour = 15; // 기본 시간값은 15시                            
 			rentHour = Integer.parseInt(map.get("rentHour"));        
@@ -121,7 +123,7 @@ public class CarItemController {
 				|| (returnMinute > 50 || returnMinute < 0)
 				|| (returnMinute%10 != 0)
 				// 지점 체크는 추후 추가
-					) {
+					) { 
 				model.addAttribute("msg","기간이나 시간이 허용되지 않는 값 입니다! 다시 선택해주세요");
 				return "redirect:/failPage";
 			}
@@ -139,7 +141,8 @@ public class CarItemController {
 				" returnHour : " + returnHour +" returnMinute : "+ returnMinute +
 				" date : " + date +" dateArr : " + dateArr +" rentDate : " + rentDate +
 				" returnDate : " + returnDate);
-		
+
+		//=========== 날짜 체크 끝 ===========
 		
 		return "html/car_item/res/car_res";
 	}
