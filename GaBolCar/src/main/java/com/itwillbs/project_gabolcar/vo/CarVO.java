@@ -1,7 +1,5 @@
 package com.itwillbs.project_gabolcar.vo;
 
-import java.util.Map;
-
 import lombok.Data;
 
 @Data
@@ -21,7 +19,7 @@ public class CarVO {
 	private int car_weekdays;
 	private int car_weekend;
 	private String brc_name;
-	private Map<String,String> options;
+	private int options;
 	private String car_image_url;
 	private String car_status;
 }

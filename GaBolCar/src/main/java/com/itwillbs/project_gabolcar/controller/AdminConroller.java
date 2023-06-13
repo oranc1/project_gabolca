@@ -152,7 +152,7 @@ public class AdminConroller {
 		return "redirect:/admCarList";
 	}
 	
-	//옵션리스트 이동 - 디자인이 어려움
+	// 옵션리스트 이동 - 디자인이 어려움
 	@GetMapping("optionList")
 	public ModelAndView optionList() {
 		List<Map<String,Object>> optionList = car_service.optionList();
@@ -198,6 +198,13 @@ public class AdminConroller {
             model.addAttribute("msg","옵션 등록 실패");
             return "fail_back";
         }
+    }
+    
+    // 옵션수정폼 이동
+    @GetMapping("optionUpdate")
+    public ModelAndView optionUpdate(int option_idx) {
+    	Map<String, Object> option = car_service.optionSelect(option_idx);
+    	return new ModelAndView("html/admin/option_update","option",option);
     }
     
 }

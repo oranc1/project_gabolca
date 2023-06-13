@@ -29,4 +29,6 @@ public interface CarMapper {
 
 	// 옵션 리스트
 	List<Map<String, Object>> selectOptionList();
+
+	Map<String, Object> selectOption(int option_idx);
 }

@@ -83,5 +83,13 @@
 		from
 			option_list
 	</select>
+	<select id="selectOption" resultType="map">
+		select
+			*
+		from
+			option_list
+		where
+			option_idx = #{option_idx}
+	</select>
     
 </mapper>
