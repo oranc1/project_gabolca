@@ -84,10 +84,7 @@
 								</ul>
 								
 								<!-- 예약 내역(반납 시간 후)이 있는 사람만 출력 -->
-								<div class="write_btn">
-									<a href="#">글쓰기</a>
-								</div>
-
+						
 								<div class="list_pager_wrap">
 									<nav class="pg_wrap">
 										<span class="pg">

@@ -40,7 +40,7 @@
 											<span class="write_c">2023-06-02</span>
 										</div>
 										<div class="write_box">
-											<span class="write_t">조회수</span>
+											<span class="write_t">첨부파일</span>
 											<span class="write_c">10</span>
 										</div>
 									</li>
