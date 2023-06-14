@@ -20,8 +20,11 @@
 			#{car_weekdays},
 			#{car_weekend},
 			#{brc_name},
-			#{car_image_url},
-			default
+			#{car_file},
+			#{car_status},	
+<!-- 			#{option_name},	 -->
+			#{car_file_path},
+			now()
 		)
 	</insert>
 	

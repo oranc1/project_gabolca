@@ -18,7 +18,7 @@
     	<div id="title_container">
       		<h1>차량 등록</h1>
     	</div>
-		<form action="CarRegisterPro" name="writeForm" method="post">
+		<form action="CarRegisterPro" name="writeForm" method="post" enctype="multipart/form-data">
 	  		<div id="modifyForm">
 	    		<table>
 	      			<tr>
@@ -28,6 +28,7 @@
 	            				<option value="">선택하세요</option>
 	            				<option value="경형">경형</option>
 	            				<option value="준중형">준중형</option>
+	            				<option value="중형">중형</option>
 	            				<option value="대형">대형</option>
 	            				<option value="SUV">SUV</option>
 					            <option value="전기">전기</option>
@@ -117,31 +118,67 @@
 	              			</select>
 						</td>
 	          		</tr>
-		     		<tr>
-				        <td class="td_left">
-				        	<label for="options">옵션</label>
-				        </td>
-				        <td class="td_right">
-			          		<div class="row">
-			            		<div class="col-md-6">
-									<label class="checkbox-label">
-			                			<input type="checkbox" id="selectAllCheckbox">
-			                			전체 선택
-			              			</label>
-			              			<c:forEach var="option" items="${optionList }">
-										<label class="checkbox-label">
-											<input type="checkbox" name="options" value="${option.option_idx }">
-			  								${option.option_name }
-										</label>
-									</c:forEach>
-			            		</div>
-							</div>
-		        		</td>
-					</tr>
-			      	<tr>
-				        <td class="td_left"><label for="car_image_url">차량 이미지 첨부</label></td>
-				        <td class="td_right"><input type="file" name="car_image_url" required="required" class="form-control" /></td>
+			      	<tr> 
+				        <td class="td_left"><label for="file1">차량 이미지 첨부1</label></td>
+				        <td class="td_right"><input type="file" name="files" id="file1" required="required" class="form-control" /></td>
 			      	</tr>
+			      	<tr> 
+				        <td class="td_left"><label for="file2">차량 이미지 첨부2</label></td>
+				        <td class="td_right"><input type="file" name="files" id="file2" required="required" class="form-control" /></td>
+			      	</tr>
+			      	<tr> 
+				        <td class="td_left"><label for="file3">차량 이미지 첨부3</label></td>
+				        <td class="td_right"><input type="file" name="files" id="file3" required="required" class="form-control" /></td>
+			      	</tr>
+			      	<tr> 
+				        <td class="td_left"><label for="file4">차량 이미지 첨부4</label></td>
+				        <td class="td_right"><input type="file" name="files" id="file4" required="required" class="form-control" /></td>
+			      	</tr>
+			      	<tr> 
+				        <td class="td_left"><label for="file5">차량 이미지 첨부5</label></td>
+				        <td class="td_right"><input type="file" name="files" id="file5" required="required" class="form-control" /></td>
+			      	</tr>
+			      	<tr> 
+				        <td class="td_left"><label for="file6">차량 이미지 첨부6</label></td>
+				        <td class="td_right"><input type="file" name="files" id="file6" required="required" class="form-control" /></td>
+			      	</tr>
+	      			<tr>
+	        			<td class="td_left"><label for="car_status">차량상태</label></td>
+	        			<td class="td_right">
+	          				<select name="car_status" required="required" class="form-select">
+	            				<option value="">선택하세요</option>
+	            				<option value="신규">신규</option>
+	            				<option value="점검">점검</option>
+	            				<option value="대여">대여</option>
+	            				<option value="가능">가능</option>
+							</select>
+	        			</td>
+	      			</tr>
+<!--     	    		<tr> -->
+<!-- 			            <td class="td_left"><label for="car_status">차량 상태</label></td> -->
+<!-- 			            <td class="td_right"><input type="text" name="car_status" required="required" class="form-control" /></td> -->
+<!-- 	         		 </tr> -->
+
+<!-- 				        <td class="td_left"> -->
+<!-- 				        	<label for="option_name">옵션</label> -->
+<!-- 				        </td> -->
+<!-- 				        <td class="td_right"> -->
+<!-- 		          		<div class="row"> -->
+<!-- 		            		<div class="col-md-6"> -->
+<!-- 								<label class="checkbox-label"> -->
+<!-- 		                			<input type="checkbox" id="selectAllCheckbox"> -->
+<!-- 		                			전체 선택 -->
+<!-- 		              			</label> -->
+<%-- 		              			<c:forEach var="option" items="${optionList }"> --%>
+<!-- 									<label class="checkbox-label"> -->
+<%-- 										<input type="checkbox" name="option_name" value="${option.option_idx }"> --%>
+<%-- 		  								${option.option_name } --%>
+<!-- 									</label> -->
+<%-- 								</c:forEach> --%>
+<!-- 		            		</div> -->
+<!-- 						</div> -->
+<!-- 		        	</td> -->
+<!-- 					</tr> -->
 				</table>
 		    <div id="commandCell">
 		      	<input type="submit" value="등록" class="btn btn-warning">&nbsp;&nbsp;

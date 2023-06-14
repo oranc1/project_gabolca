@@ -41,6 +41,30 @@
 	width: 100%;
 }
 
+/* 버튼색 수정 */
+.btn-outline-dark{
+	border-color: #0B294B;
+	--bs-btn-active-bg:#0B294B
+}
+.btn-outline-dark:hover{
+	background-color: #0B294B;
+}
+.btn-outline-warning{
+	border-color: #ff6600;
+}
+.btn-outline-warning:hover{
+	background-color: #ff6600;
+	color: white;
+}
+.btn-warning{
+	background-color: #ff7f02;
+	border-color: #ff7f02;
+	color: white;
+}
+.btn-warning:hover{
+	background-color: #ffb04b;
+}
+
 .submit_btn:hover {
 	background-color: #FFB04B;
 

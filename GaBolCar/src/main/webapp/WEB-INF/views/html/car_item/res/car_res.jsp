@@ -52,6 +52,7 @@
 	</header>
 	<section id="sec_con" class="inr">
 		<h1 class="con_title">차량예약</h1>
+
 		<!-- 정렬 방법 -->
 		<div class="car_sort">
 			<button class="on">가격순</button>
@@ -63,7 +64,7 @@
 				<!-- 0531 달력 추가 -->
 				<!-- 달력 섹션 -->
 				<div class="col-3">
-					<form action="" method="get" onsubmit="return menuCheck();">
+					<form action="" method="post" onsubmit="return menuCheck();">
 						<div class="res_calendar ">
 							<div class="res_cal_wrap ">
 								<jsp:include page="../../../inc/calender.jsp"></jsp:include>

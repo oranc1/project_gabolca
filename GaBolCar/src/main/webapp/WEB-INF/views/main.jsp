@@ -51,7 +51,7 @@
 	</nav>
 	
 
-		<form action="carRes" method="get" onsubmit="return menuCheck()">
+		<form action="carRes" method="post" onsubmit="return menuCheck()">
 
 			<div class="main_visual">
 				<div class="main_cont inr">
@@ -166,8 +166,6 @@
 			</div>
 		</div>
 	</article>
-
-
 
 	<!--  고객 리뷰 구역 !  -->
 	<article class="container-fluid mx-auto review_wrap">

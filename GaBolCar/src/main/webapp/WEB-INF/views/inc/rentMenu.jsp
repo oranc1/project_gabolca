@@ -1,22 +1,43 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <div class="rent_menu">
   <div>대여지점</div>
+  
   <div class="rent_location">
     <select class="form-select" name="rentLocation" id="rentLocation">
-      <option value="서면점">서면점</option>
-      <option value="구포역점">구포역점</option>
-      <option value="부산역점">부산역점</option>
+	
+		<c:choose>
+			<c:when test="${!empty map.brcNameList }">
+		      	<c:forEach var="brc" items="${map.brcNameList}">
+		      		<option value="${brc }">${brc }</option>
+		    	</c:forEach>
+			</c:when>
+			<c:otherwise>
+		      <option value="서면점">서면점</option>
+		      <option value="구포역점">구포역점</option>
+		      <option value="부산역점">부산역점</option>
+			</c:otherwise>
+		</c:choose>
     </select>
   </div>
 
   <div>반납지점</div>
   <div class="return_location">
     <select class="form-select" name="returnLocation" id="returnLocation">
-      <option value="서면점">서면점</option>
-      <option value="구포역점">구포역점</option>
-      <option value="부산역점">부산역점</option>
+		<c:choose>
+			<c:when test="${!empty map.brcNameList }">
+		      	<c:forEach var="brc" items="${map.brcNameList}">
+		      		<option value="${brc }">${brc }</option>
+		    	</c:forEach>
+			</c:when>
+			<c:otherwise>
+		      <option value="서면점">서면점</option>
+		      <option value="구포역점">구포역점</option>
+		      <option value="부산역점">부산역점</option>
+			</c:otherwise>
+		</c:choose>
     </select>
   </div>
   <div class="car_type">
@@ -158,13 +179,21 @@ pageEncoding="UTF-8"%>
 	// 차량 예약 페이지 열릴때 초기화 과정	
 	function initRentMenu(){
 		let getParams = new URL(location.href).searchParams;
+
+		// 파라미터 체크 후 파라미터 값대로 체크박스 버튼들 셋팅하기
 		
+		
+		
+		// 만약 없을때에는 기본값(전체선택) 그대로
 		if(getParams.size > 0){
+			
+			// 사용될 변수 등 초기화
 			let carTypeCheckBox = document.querySelectorAll(".carType");
 			let carFureCheckBox = document.querySelectorAll(".carFure");
 			let rentLocationSelect = document.querySelector("#rentLocation");
 			let returnLocationSelect = document.querySelector("#returnLocation");
 			
+			//체크박스 체크해제
 			for(let d of carTypeCheckBox){
 				d.checked = false;
 			}		
@@ -173,6 +202,8 @@ pageEncoding="UTF-8"%>
 				d.checked = false;
 			}		
 			
+			// ============= 지점명 체크 =============
+			
 			if(getParams.get("rentLocation") != null){
 				rentLocationSelect.value = getParams.get("rentLocation"); 
 			}
@@ -180,6 +211,7 @@ pageEncoding="UTF-8"%>
 				returnLocationSelect.value = getParams.get("returnLocation");
 			}
 			
+			 // ============= 차량타입, 연료 체크 =============
 			
 			if(getParams.getAll("carType").length > 0){
 				let t = getParams.getAll("carType");
@@ -192,7 +224,7 @@ pageEncoding="UTF-8"%>
 					}
 				}		
 			}
-			else{
+			else{ // 만약 차량타입 파라미터값 없을때 전부 체크로 되돌리기
 				for(let d of carTypeCheckBox){
 					d.checked = true;
 				}		
@@ -209,7 +241,7 @@ pageEncoding="UTF-8"%>
 					}
 				}
 			}				
-			else{
+			else{ // 만약 차량연료 파라미터값 없을때 전부 체크로 되돌리기
 				for(let d of carFureCheckBox){
 					d.checked = true;
 				}		
@@ -219,5 +251,62 @@ pageEncoding="UTF-8"%>
 		
 	} // initMenu 끝
 	
-	initRentMenu();
+	function initRentMenuPost(){
+		// 사용될 변수 등 초기화
+		let carTypeCheckBox = document.querySelectorAll(".carType");
+		let carFureCheckBox = document.querySelectorAll(".carFure");
+		let rentLocationSelect = document.querySelector("#rentLocation");
+		let returnLocationSelect = document.querySelector("#returnLocation");
+		
+		//체크박스 체크해제
+		for(let d of carTypeCheckBox){
+			d.checked = false;
+		}		
+		
+		for(let d of carFureCheckBox){
+			d.checked = false;
+		}		
+		
+		// ============= 지점명 체크 =============
+			
+		rentLocationSelect.value = "${map.rentLocation}"; 
+
+		returnLocationSelect.value = "${map.returnLocation}";
+		
+		 // ============= 차량타입, 연료 체크 =============
+		
+		let type = "${map.carType}".split(",").map(e => e.replace("[","").replace("]","").trim());
+		for(let d of carTypeCheckBox){
+			for(let k of type){
+				if(d.value == k){
+					d.checked=true;
+					break;
+				}
+			}
+		}		
+		
+		
+		let fure = "${map.carFure}".split(",").map(e => e.replace("[","").replace("]","").trim());;
+		
+		for(let d of carFureCheckBox){
+			for(let k of fure){
+				if(d.value == k){
+					d.checked=true;
+					break;
+				}
+			}
+		}
+	
+	} //initRentMenuPost 끝
+	
+	// home 에서는 Map 에 파라미터들이 없기때문에 
+	// 파라미터가 있는지 없는지에따라 초기화 방식 변경
+	if("${map.isMapHaveParams}" == "false"){
+		initRentMenu();	
+	}
+	else{
+		initRentMenuPost();	
+	}	
+	
+	
 </script>
