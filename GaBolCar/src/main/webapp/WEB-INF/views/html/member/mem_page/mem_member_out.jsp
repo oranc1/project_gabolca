@@ -18,6 +18,7 @@
 	<header>
 		<jsp:include page="../../../inc/top1.jsp"></jsp:include>
 	</header>
+	<div class="out_con_wrap">
 	<section id="sec_con" class="inr out_con">
 		<h1 class="con_title">탈퇴 안내</h1>
 		<div id="out_wrapper">
@@ -44,12 +45,29 @@
 				<input type="checkbox" name="submit">
 				<span>안내 사항을 모두 확인하였으며, 이에 동의합니다.</span>			
 			</div>
+	        <div class="box_wrap">
+			<h3 class="pad_text" style="color:#c9c9c9">회원님의 정보를 안전하게 보호하기 위해 비밀번호를 한번 더 확인합니다.</h3>
+			<div class="frm-write-form">
+				<ul>
+					<li>
+						<div class="frm_pass">
+						<img alt="" src="${pageContext.request.contextPath }/resources/img/member/mem_page/mem_member_out/lock.png" width ="20px" style="margin-right:10px;">
+							<span class="fld">
+								<input type="password" name="user_pw" id="login_user_pw" value="" maxLength="20" 
+								requireds="required" placeholder="비밀번호를 입력하세요" class="text" style="padding-right:60px !important;"/>
+							</span>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>	
 			
 			<div class="ok">
 	            <button id="okButton">확인</button>
 	        </div>	
 		</div>
 	</section>
+	</div>
 	<footer>
 		<jsp:include page="../../../inc/footer.jsp"></jsp:include>
 	</footer>

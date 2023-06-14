@@ -173,6 +173,8 @@
 		
 		// 만약 파라미터 값이 있을때 체크해서 있으면 파라미터 값으로 항목들 셋팅 
 		let getParams = new URL(location.href).searchParams;
+		// 0613 배경인 수정 ) post 방식으로 변경 
+		
 		
 		
 		if(getParams.size > 0){

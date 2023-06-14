@@ -52,6 +52,9 @@
 	</header>
 	<section id="sec_con" class="inr">
 		<h1 class="con_title">차량예약</h1>
+		<c:forEach var="data" items="${map }">
+			${data }
+		</c:forEach>
 		<!-- 정렬 방법 -->
 		<div class="car_sort">
 			<button class="on">가격순</button>
