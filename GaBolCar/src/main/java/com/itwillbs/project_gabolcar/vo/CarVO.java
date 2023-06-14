@@ -1,5 +1,6 @@
 package com.itwillbs.project_gabolcar.vo;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -33,5 +34,5 @@ public class CarVO {
 	private Timestamp car_date;
 //	private MultipartFile file; // 단일 파일
 	private MultipartFile[] files; // 복수개 파일 
-	
+	private List<String> carFiles;
 }
