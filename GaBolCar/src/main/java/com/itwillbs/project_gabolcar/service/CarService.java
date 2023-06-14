@@ -34,7 +34,7 @@ public class CarService {
 		return mapper.deleteCar(car_idx);
 	}
 
-	public int optRegister(String option_name, String option_image_url) {
+	public int optionRegister(String option_name, String option_image_url) {
         return mapper.registerOption(option_name, option_image_url);
 	}
 
@@ -44,5 +44,17 @@ public class CarService {
 
 	public Map<String, Object> optionSelect(int option_idx) {
 		return mapper.selectOption(option_idx);
+	}
+
+	public int deleteOptionFile(int option_idx) {
+		return mapper.deleteOptionFile(option_idx);
+	}
+
+	public int optionUpdate(Map<String, Object> map) {
+		return mapper.updateOption(map);
+	}
+
+	public int optionDelete(int option_idx) {
+		return mapper.deleteOption(option_idx);
 	}
 }

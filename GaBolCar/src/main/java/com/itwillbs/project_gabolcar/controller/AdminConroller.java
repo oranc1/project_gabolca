@@ -5,10 +5,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -69,7 +73,7 @@ public class AdminConroller {
 		int insertCount = car_service.carRegister(car);
 		if (insertCount == 0 ) {
 			model.addAttribute("msg","등록 실패");
-			return "fail_back";
+			return "inc/fail_back";
 		}
 		return "redirect:/admCarList";
 	}
@@ -86,9 +90,9 @@ public class AdminConroller {
 		int insertCount = brc_service.brcRegister(map);
 		if (insertCount == 0) {
 			model.addAttribute("msg","등록 실패");
-			return "fail_back";
+			return "inc/fail_back";
 		}
-		return "close";
+		return "inc/close";
 	}
 	
 	// 지점수정폼 이동
@@ -104,9 +108,9 @@ public class AdminConroller {
 		int updateCount = brc_service.brcUpdate(map);
 		if (updateCount == 0) {
 			model.addAttribute("msg","수정 실패");
-			return "fail_back";
+			return "inc/fail_back";
 		}
-		return "close";
+		return "inc/close";
 	}
 	
 	// 지점삭제
@@ -115,7 +119,7 @@ public class AdminConroller {
 		int deleteCount = brc_service.brcDelete(brc_idx);
 		if (deleteCount == 0) {
 			model.addAttribute("msg","삭제 실패");
-			return "fail_back";
+			return "inc/fail_back";
 		}
 		return "redirect:/admBrcList";
 	}
@@ -136,7 +140,7 @@ public class AdminConroller {
 		int updateCount = car_service.carUpdate(map);
 		if (updateCount == 0) {
 			model.addAttribute("msg","수정 실패");
-			return "fail_back";
+			return "inc/fail_back";
 		}
 		return "redirect:/admCarList";
 	}
@@ -147,7 +151,7 @@ public class AdminConroller {
 		int deleteCount = car_service.carDelete(car_idx);
 		if (deleteCount == 0) {
 			model.addAttribute("msg","삭제 실패");
-			return "fail_back";
+			return "inc/fail_back";
 		}
 		return "redirect:/admCarList";
 	}
@@ -168,8 +172,8 @@ public class AdminConroller {
     // 옵션등록
     @PostMapping("optionRegisterPro")
     public String optionRegisterPro(
-            @RequestParam(value="option_name", defaultValue="") String option_name, 
-            @RequestParam(value="option_image", defaultValue="") MultipartFile option_image, 
+            @RequestParam String option_name, 
+            @RequestParam MultipartFile option_image, 
             HttpSession session, Model model) {
         String uploadDir = "/resources/upload/car_options";
         String saveDir = session.getServletContext().getRealPath(uploadDir);
@@ -184,7 +188,7 @@ public class AdminConroller {
         String uuid = UUID.randomUUID().toString();
         String option_image_url = uuid.substring(0, 8) + "_" + originalFileName;
 
-        int insertCount = car_service.optRegister(option_name, option_image_url);
+        int insertCount = car_service.optionRegister(option_name, option_image_url);
         if(insertCount > 0) {
             try {
                 mFile.transferTo(new File(saveDir, option_image_url));
@@ -193,10 +197,10 @@ public class AdminConroller {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return "close";
+            return "inc/close";
         } else {
             model.addAttribute("msg","옵션 등록 실패");
-            return "fail_back";
+            return "inc/fail_back";
         }
     }
     
@@ -206,5 +210,102 @@ public class AdminConroller {
     	Map<String, Object> option = car_service.optionSelect(option_idx);
     	return new ModelAndView("html/admin/option_update","option",option);
     }
+    
+    @PostMapping("optionFileDelete")
+    public void optionFileDelete(
+    		@RequestParam int option_idx,
+    		@RequestParam String option_image_url,
+    		HttpSession session,
+    		HttpServletResponse response) {
+    	
+    	try {
+			response.setCharacterEncoding("UTF-8");
+			int deleteCount = car_service.deleteOptionFile(option_idx);
+			
+			if(deleteCount > 0) {
+			    String uploadDir = "/resources/upload/car_options";
+			    String saveDir = session.getServletContext().getRealPath(uploadDir);
+			    Path path = Paths.get(saveDir+"/"+option_image_url);
+			    Files.deleteIfExists(path);
+			    response.getWriter().print("true");
+			} else {
+				response.getWriter().print("false");
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
+    
+    // 옵션수정
+    @PostMapping("optionUpdatePro")
+    public String optionUpdatePro(
+    		@RequestParam Map<String, Object> map,
+    		@RequestParam(value = "option_image", required = false) MultipartFile option_image,
+            HttpSession session, Model model) {
+    	
+    	int updateCount = 0;
+    	if(option_image == null) {
+    		System.out.println("여기서 확인하네요");
+    		updateCount = car_service.optionUpdate(map);
+    		if(updateCount > 0) {
+    			return "close";
+    		} else {
+    			model.addAttribute("msg","수정 실패");
+    			return "fail_back";
+    		}
+    	} else {
+    		String uploadDir = "/resources/upload/car_options";
+    		String saveDir = session.getServletContext().getRealPath(uploadDir);
+    		try {
+    			Path path = Paths.get(saveDir);
+    			Files.createDirectories(path);
+    		} catch (IOException e) {
+    			e.printStackTrace();
+    		}
+    		MultipartFile mFile = option_image;
+    		String originalFileName = mFile.getOriginalFilename();
+    		String uuid = UUID.randomUUID().toString();
+    		String option_image_url = uuid.substring(0, 8) + "_" + originalFileName;
+    		
+    		map.put("option_image_url", option_image_url);
+    		updateCount = car_service.optionUpdate(map);
+    		if(updateCount > 0) {
+    			try {
+    				mFile.transferTo(new File(saveDir, option_image_url));
+    			} catch (IllegalStateException e) {
+    				e.printStackTrace();
+    			} catch (IOException e) {
+    				e.printStackTrace();
+    			}
+    			return "inc/close";
+    		} else {
+    			model.addAttribute("msg","옵션 등록 실패");
+    			return "inc/fail_back";
+    		}
+    	}
+    }
+    
+    // 옵션 삭제(파일 포함)
+    @GetMapping("optionDeletePro")
+    public String optionDeletePro(int option_idx, HttpSession session, Model model) {
+    	Map<String, Object> map = car_service.optionSelect(option_idx);
+    	int deleteCount = car_service.optionDelete(option_idx);
+    	if(deleteCount > 0) {
+    		
+    		try {
+				String uploadDir = "/resources/upload/car_options";
+				String saveDir = session.getServletContext().getRealPath(uploadDir);
+				Path path = Paths.get(saveDir+"/"+map.get("option_image_url"));
+				Files.deleteIfExists(path);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+    	} else {
+    		model.addAttribute("msg","옵션 삭제 실패");
+    		return "inc/fail_back";
+    	}
+    	return "redirect:/optionList";
+    }
+    
     
 }

@@ -29,6 +29,16 @@ public interface CarMapper {
 
 	// 옵션 리스트
 	List<Map<String, Object>> selectOptionList();
-
+	
+	// 옵션 검색
 	Map<String, Object> selectOption(int option_idx);
+
+	// 옵션 파일삭제
+	int deleteOptionFile(int option_idx);
+
+	// 옵션 수정
+	int updateOption(Map<String, Object> map);
+
+	// 옵션 삭제
+	int deleteOption(int option_idx);
 }

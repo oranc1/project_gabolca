@@ -122,21 +122,21 @@
 				        	<label for="options">옵션</label>
 				        </td>
 				        <td class="td_right">
-		          		<div class="row">
-		            		<div class="col-md-6">
-								<label class="checkbox-label">
-		                			<input type="checkbox" id="selectAllCheckbox">
-		                			전체 선택
-		              			</label>
-		              			<c:forEach var="option" items="${optionList }">
+			          		<div class="row">
+			            		<div class="col-md-6">
 									<label class="checkbox-label">
-										<input type="checkbox" name="options" value="${option.option_idx }">
-		  								${option.option_name }
-									</label>
-								</c:forEach>
-		            		</div>
-						</div>
-		        	</td>
+			                			<input type="checkbox" id="selectAllCheckbox">
+			                			전체 선택
+			              			</label>
+			              			<c:forEach var="option" items="${optionList }">
+										<label class="checkbox-label">
+											<input type="checkbox" name="options" value="${option.option_idx }">
+			  								${option.option_name }
+										</label>
+									</c:forEach>
+			            		</div>
+							</div>
+		        		</td>
 					</tr>
 			      	<tr>
 				        <td class="td_left"><label for="car_image_url">차량 이미지 첨부</label></td>
