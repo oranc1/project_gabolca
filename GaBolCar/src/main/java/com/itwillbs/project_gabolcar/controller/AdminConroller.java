@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -68,6 +69,7 @@ public class AdminConroller {
 	// 차량등록
 	@PostMapping("CarRegisterPro")
 	public String carRegisterPro(CarVO car, HttpSession session, Model model) {
+		
 		String uploadDir = "/resources/upload/car"; // 서버 이미지 저장 경로
 		String saveDir = session.getServletContext().getRealPath(uploadDir);
 		
@@ -84,45 +86,51 @@ public class AdminConroller {
 			e.printStackTrace();
 		}
 		
-		// 복수개의 이미지파일 관리
 	    MultipartFile[] mFiles = car.getFiles();
 
 	    if (mFiles != null && mFiles.length > 0) {
 	        int fileCount = Math.min(mFiles.length, 6); // 파일 수를 6개로 제한
-	        
+
+	        List<String> fileNames = new ArrayList<>(); // DB에 저장할 파일명 리스트
 	        boolean registrationComplete = false; // 차량 등록 완료 여부를 나타냄
- 
+
 	        for (int i = 0; i < fileCount; i++) {
 	            MultipartFile mFile = mFiles[i];
 	            String originalFileName = mFile.getOriginalFilename();
 
 	            if (originalFileName != null && !originalFileName.isEmpty()) {
 	                String uuid = UUID.randomUUID().toString();
-	                String car_file = uuid.substring(0, 8) + "_" + originalFileName;
+	                String carFile = uuid.substring(0, 8) + "_" + originalFileName;
 
-	                car.setCar_file(car_file);
-	                System.out.println("실제 업로드 될 파일명 : " + car.getCar_file());
+	                fileNames.add(carFile); // 파일명을 리스트에 추가
 
-	                int insertCount = car_service.carRegister(car);
+	                System.out.println("실제 업로드 될 파일명: " + carFile);
 
-	                if (insertCount > 0) {
-	                    try {
-	                        mFile.transferTo(new File(saveDir, car.getCar_file()));
-	                    } catch (IllegalStateException e) {
-	                        e.printStackTrace();
-	                    } catch (IOException e) {
-	                        e.printStackTrace();
-	                    }
-	                    
-	                    registrationComplete = true; // 자동차가 성공적으로 등록되면 true 로 설정
-	                    break; // break 통해 빠져나옴
-	                } else {
-	                    model.addAttribute("msg", "차량 등록 실패!");
+	                try {
+	                    mFile.transferTo(new File(saveDir, carFile));
+	                } catch (IllegalStateException e) {
+	                    e.printStackTrace();
+	                    model.addAttribute("msg", "파일 업로드 실패!");
+	                    return "fail_back";
+	                } catch (IOException e) {
+	                    e.printStackTrace();
+	                    model.addAttribute("msg", "파일 업로드 실패!");
 	                    return "fail_back";
 	                }
 	            }
 	        }
-	        
+
+	        car.setCarFiles(fileNames); // 차량 객체에 파일명 리스트를 설정
+
+	        int insertCount = car_service.carRegister(car);
+
+	        if (insertCount > 0) {
+	            registrationComplete = true; // 자동차가 성공적으로 등록되면 true로 설정
+	        } else {
+	            model.addAttribute("msg", "차량 등록 실패!");
+	            return "fail_back";
+	        }
+
 	        if (!registrationComplete) {
 	            model.addAttribute("msg", "차량 등록 실패!");
 	            return "fail_back";
