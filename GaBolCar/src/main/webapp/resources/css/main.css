@@ -168,29 +168,7 @@ body{
     border-radius: 5px;
 }
 
-/* 버튼색 수정 */
-.btn-outline-dark{
-	border-color: #0B294B;
-	--bs-btn-active-bg:#0B294B
-}
-.btn-outline-dark:hover{
-	background-color: #0B294B;
-}
-.btn-outline-warning{
-	border-color: #ff6600;
-}
-.btn-outline-warning:hover{
-	background-color: #ff6600;
-	color: white;
-}
-.btn-warning{
-	background-color: #ff7f02;
-	border-color: #ff7f02;
-	color: white;
-}
-.btn-warning:hover{
-	background-color: #ffb04b;
-}
+
 /*
 	고객리뷰 , 자주묻는 질문등 container-fluid 쓰는곳 폭 길이제한
 	(container-fluid 적용시 길이가 창 넓이를 초과함으로)

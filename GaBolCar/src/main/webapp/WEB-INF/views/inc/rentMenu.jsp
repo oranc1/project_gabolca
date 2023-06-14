@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <div class="rent_menu">
   <div>대여지점</div>
   
@@ -8,8 +9,8 @@ pageEncoding="UTF-8"%>
     <select class="form-select" name="rentLocation" id="rentLocation">
 	
 		<c:choose>
-			<c:when test="${!empty mainMap.brcNameList }">
-		      	<c:forEach var="brc" items="${mainMap.brcNameList}">
+			<c:when test="${!empty map.brcNameList }">
+		      	<c:forEach var="brc" items="${map.brcNameList}">
 		      		<option value="${brc }">${brc }</option>
 		    	</c:forEach>
 			</c:when>
@@ -26,8 +27,8 @@ pageEncoding="UTF-8"%>
   <div class="return_location">
     <select class="form-select" name="returnLocation" id="returnLocation">
 		<c:choose>
-			<c:when test="${!empty mainMap.brcNameList }">
-		      	<c:forEach var="brc" items="${mainMap.brcNameList}">
+			<c:when test="${!empty map.brcNameList }">
+		      	<c:forEach var="brc" items="${map.brcNameList}">
 		      		<option value="${brc }">${brc }</option>
 		    	</c:forEach>
 			</c:when>
@@ -250,5 +251,62 @@ pageEncoding="UTF-8"%>
 		
 	} // initMenu 끝
 	
-	initRentMenu();
+	function initRentMenuPost(){
+		// 사용될 변수 등 초기화
+		let carTypeCheckBox = document.querySelectorAll(".carType");
+		let carFureCheckBox = document.querySelectorAll(".carFure");
+		let rentLocationSelect = document.querySelector("#rentLocation");
+		let returnLocationSelect = document.querySelector("#returnLocation");
+		
+		//체크박스 체크해제
+		for(let d of carTypeCheckBox){
+			d.checked = false;
+		}		
+		
+		for(let d of carFureCheckBox){
+			d.checked = false;
+		}		
+		
+		// ============= 지점명 체크 =============
+			
+		rentLocationSelect.value = "${map.rentLocation}"; 
+
+		returnLocationSelect.value = "${map.returnLocation}";
+		
+		 // ============= 차량타입, 연료 체크 =============
+		
+		let type = "${map.carType}".split(",").map(e => e.replace("[","").replace("]","").trim());
+		for(let d of carTypeCheckBox){
+			for(let k of type){
+				if(d.value == k){
+					d.checked=true;
+					break;
+				}
+			}
+		}		
+		
+		
+		let fure = "${map.carFure}".split(",").map(e => e.replace("[","").replace("]","").trim());;
+		
+		for(let d of carFureCheckBox){
+			for(let k of fure){
+				if(d.value == k){
+					d.checked=true;
+					break;
+				}
+			}
+		}
+	
+	} //initRentMenuPost 끝
+	
+	// home 에서는 Map 에 파라미터들이 없기때문에 
+	// 파라미터가 있는지 없는지에따라 초기화 방식 변경
+	if("${map.isMapHaveParams}" == "false"){
+		initRentMenu();	
+	}
+	else{
+		initRentMenuPost();	
+	}	
+	
+	
 </script>

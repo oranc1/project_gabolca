@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -28,11 +29,11 @@ public class CarItemController {
 	CarItemService carItemService;
 	
 	// db 검색 없이 더미 데이터를 사용시
-	static final boolean DUMMY_DATA_FLAG = false;
+	static final boolean DUMMY_DATA_FLAG = true;
 	
 	//차량 예약 검색
 	// 차 타입 하고 차 연료는 값 없는 경우 기본 값으로 받아오기
-	@PostMapping("carRes")
+	@RequestMapping("carRes")
 	public ModelAndView carRes(@RequestParam Map<String , String> map
 			, @RequestParam(value="carType", defaultValue="경형,소형,준중형,중형,대형,suv,전기차") String[] carType
 			, @RequestParam(value="carFure", defaultValue="휘발유,경유,하이브리드,전기") String[] carFure
@@ -121,11 +122,7 @@ public class CarItemController {
 			//분은 동일
 			rentMinute = 0;
 			returnMinute = 0;	
-			System.out.println("rentHour : "+ rentHour +" rentMinute : " + rentMinute +
-					" returnHour : " + returnHour +" returnMinute : "+ returnMinute +
-					" date : " + date +" dateArr : " + dateArr +" rentDate : " + rentDate +
-					" returnDate : " + returnDate);
-			
+	
 		} // if 문 끝
 		else {
 			//=========== 날짜 체크 ===========
@@ -138,11 +135,10 @@ public class CarItemController {
 			
 			// 받아온 날짜 split으로 나누기
 			dateArr = date.split("to");
-			
-			if(	//날짜 체크
-				dateArr.length != 2 
+
+			if(	
 				//시간 체크
-				|| (rentHour < 8 || rentHour > 21)
+				(rentHour < 8 || rentHour > 21)
 				|| (rentMinute > 50 || rentMinute < 0) 
 				|| (rentMinute%10 != 0)
 				|| (returnHour < 8 || returnHour > 21)
@@ -154,19 +150,70 @@ public class CarItemController {
 				model.addAttribute("msg", "기간이나 시간이 허용되지 않는 값 입니다! 다시 선택해주세요");
 				return new ModelAndView("inc/fail_back","map",resultMap);
 			}
-			for(int i = 0; i < dateArr.length; i++) {
-				dateArr[i].trim();
+			
+			// 렌트, 반납 날짜, 시간 비교해서
+			// 반납 날짜가 렌트 날짜 이전인지 체크
+			String[] rentSplit = null;
+			String[] returnSplit = null;
+			
+			// 날짜 오는거 길이체크 해서 당일인지 구분
+			if(dateArr.length == 2) {				
+				// 날짜 공백 제거
+				for(int i = 0; i < dateArr.length; i++) {
+					dateArr[i].strip();
+				}
+				
+				// 렌트, 반납 날짜, 시간 비교해서
+				// 반납 날짜가 렌트 날짜 이전인지 체크
+				rentSplit = dateArr[0].split("-");
+				returnSplit = dateArr[1].split("-");
 			}
-			// 날짜 공백 제거
-			// 공백제거 후 값 셋팅
-			rentDate = dateArr[0];
-			returnDate = dateArr[1];
+			else if(dateArr.length == 1) {
+				rentSplit = dateArr[0].split("-");
+				returnSplit = dateArr[0].split("-");
+			}
+			try {
+				
+				LocalDateTime rentDateTime 
+				= LocalDateTime.of(
+						Integer.parseInt(rentSplit[0]), 
+						Integer.parseInt(rentSplit[1]),
+						Integer.parseInt(rentSplit[2]),
+						rentHour,rentMinute,0);	
+				LocalDateTime returnDateTime 
+				= LocalDateTime.of(
+						Integer.parseInt(returnSplit[0]), 
+						Integer.parseInt(returnSplit[1]),
+						Integer.parseInt(returnSplit[2]),
+						returnHour,returnMinute,0);	
+				
+				if(rentDateTime.isAfter(returnDateTime)) {
+					// 에러 메시지 추가 후 fail_back 이동
+					model.addAttribute("msg", "기간이 허용되지 않는 값 이거나 당일 예약으로 선택되었습니다! 다시 선택해주세요");
+					return new ModelAndView("inc/fail_back","map",resultMap);
+				}
+			}catch(Exception e) {	
+				e.printStackTrace();
+				// 에러 메시지 추가 후 fail_back 이동
+				model.addAttribute("msg", "기간이 허용되지 않는 값 입니다! 다시 선택해주세요");
+				return new ModelAndView("inc/fail_back","map",resultMap);
+			}
+			
+			
+
+			// 날짜 오는거 길이체크 해서 당일인지 구분해서 값 셋팅
+			if(dateArr.length == 2) {				
+				rentDate = dateArr[0];
+				returnDate = dateArr[1];
+			}
+			else if(dateArr.length == 1) {
+
+				rentDate = dateArr[0];
+				returnDate = dateArr[0];
+			}
 			
 		} // else 문 끝
-		System.out.println("rentHour : "+ rentHour +" rentMinute : " + rentMinute +
-				" returnHour : " + returnHour +" returnMinute : "+ returnMinute +
-				" date : " + date +" dateArr : " + dateArr +" rentDate : " + rentDate +
-				" returnDate : " + returnDate);
+
 		//=========== 날짜 체크 끝 ===========
 
 		//=========== 지점 체크 ===========
@@ -175,8 +222,9 @@ public class CarItemController {
 		if(!DUMMY_DATA_FLAG) {
 			brcNameList = carItemService.findBrcList();
 		}
-		
-
+		else {
+			brcNameList = brcNameDummy;
+		}
 		
 		// 지점리스트에 있는지 없는지 확인
 		// 파라미터가 아예 비어있으면 리스트의 가장 첫번째값으로 설정
@@ -193,7 +241,7 @@ public class CarItemController {
 			}
 			// 파라미터 비어있으면 지점리스트의 가장 첫번째값으로
 			else {
-				rentLocation = brcNameList.get(1);
+				rentLocation = brcNameList.get(0);
 			}
 			
 			// returnLocation 체크
@@ -205,7 +253,7 @@ public class CarItemController {
 			}
 			// 파라미터 비어있으면 지점리스트의 가장 첫번째값으로
 			else {
-					returnLocation = brcNameList.get(1);
+					returnLocation = brcNameList.get(0);
 			}
 		}
 		else {
@@ -220,7 +268,7 @@ public class CarItemController {
 			}
 			// 파라미터 비어있으면 지점리스트의 가장 첫번째값으로
 			else {
-				rentLocation = brcNameDummy.get(1);
+				rentLocation = brcNameDummy.get(0);
 			}
 			
 			// returnLocation 체크
@@ -232,7 +280,7 @@ public class CarItemController {
 			}
 			// 파라미터 비어있으면 지점리스트의 가장 첫번째값으로
 			else {
-					returnLocation = brcNameDummy.get(1);
+					returnLocation = brcNameDummy.get(0);
 			}
 		}
 		
@@ -290,6 +338,7 @@ public class CarItemController {
 		resultMap.put("returnHour", returnHour);
 		resultMap.put("returnMinute", returnMinute);
 		resultMap.put("rentDate", rentDate);
+		resultMap.put("returnDate", returnDate);
 		
 		// 렌트 지역값 넣기
 		resultMap.put("brcNameList", brcNameList);
@@ -297,8 +346,10 @@ public class CarItemController {
 		resultMap.put("returnLocation", returnLocation);
 		
 		// 차량 타입 연료 값 넣기
-		resultMap.put("carType", carType);
-		resultMap.put("carFure", carFure);
+		// String[] 배열 형식으로 넣으면 제대로 된 값이 넘어가지 않으므로
+		// new ArrayList(Arrays.asList()) 로 변환해서 넣기
+		resultMap.put("carType", new ArrayList(Arrays.asList(carType)));
+		resultMap.put("carFure", new ArrayList(Arrays.asList(carFure)));
 		
 		
 		return new ModelAndView("html/car_item/res/car_res","map",resultMap) ;
@@ -336,7 +387,7 @@ public class CarItemController {
 	
 	
 	//=================================
-	// 지점체크용 내부메서드
+	// 지점, 차량 타입, 연료 체크용 내부메서드
 	private boolean checkListName(String name, List<String> nameList) {
 		boolean result = false;
 		for(String str : nameList) {

@@ -1,6 +1,8 @@
 package com.itwillbs.project_gabolcar;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -26,7 +28,7 @@ import com.itwillbs.project_gabolcar.service.CarItemService;
 public class HomeController {
 	
 	// db 검색 없이 더미 데이터를 사용시
-	static final boolean DUMMY_DATA_FLAG = false;
+	static final boolean DUMMY_DATA_FLAG = true;
 	
 	@Autowired
 	CarItemService carItemService; // main 의 지점정보와 차량 추천목록 정보 가져올때 사용
@@ -43,16 +45,24 @@ public class HomeController {
 		// 지점 이름 받을 변수
 		List<String> brcNameList = null;
 		
+		// 지점이름 더미데이터
+		List<String> brcNameDummy = new ArrayList<String>(Arrays.asList("서면점","구포역점","부산역점"));
+		
+		
 		// 차량정보 받을변수 (추후생성후 구현)
 		
 		// 더미데이터 사용 여부 체크후 사용 안하면 데이터 받아오기
 		if(!DUMMY_DATA_FLAG) {
 			brcNameList = carItemService.findBrcList();
 		}
+		else{
+			brcNameList = brcNameDummy;
+		}
 
 		map.put("DUMMY_DATA_FLAG", DUMMY_DATA_FLAG);
+		map.put("isMapHaveParams", false);
 		map.put("brcNameList", brcNameList);
-		return new ModelAndView("main","mainMap",map);
+		return new ModelAndView("main","map",map);
 	}
 	
 

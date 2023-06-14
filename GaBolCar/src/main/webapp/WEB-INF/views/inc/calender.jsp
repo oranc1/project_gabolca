@@ -56,9 +56,6 @@
 							<c:when test="${ i == 15 }">
 								<option value="${ i }" selected="selected">${ i }</option>
 							</c:when>
-							<c:when test="${ i < 10 }">
-								<option value="0${ i }">0${ i }</option>
-							</c:when>
 							<c:otherwise>
 								<option value="${ i }">${ i }</option>
 							</c:otherwise>
@@ -87,9 +84,6 @@
 							<c:when test="${ i == 15 }">
 								<option value="${ i }" selected="selected">${ i }</option>
 							</c:when>
-							<c:when test="${ i < 10 }">
-								<option value="${ i }">0${ i }</option>
-							</c:when>
 							<c:otherwise>
 								<option value="${ i }">${ i }</option>
 							</c:otherwise>
@@ -115,6 +109,9 @@
 	<script> 
 	
 
+
+	
+	// get 방식 ===========================
 	// 현재 날짜 시간 체크해서 이전 시간대이면 검색 안되도록 하기
 	
 	function menuCheck(){
@@ -173,8 +170,6 @@
 		
 		// 만약 파라미터 값이 있을때 체크해서 있으면 파라미터 값으로 항목들 셋팅 
 		let getParams = new URL(location.href).searchParams;
-		// 0613 배경인 수정 ) post 방식으로 변경 
-		
 		
 		
 		if(getParams.size > 0){
@@ -220,7 +215,7 @@
 			//최초 날짜 , 시간값 설정
 			// 시간값 설정 시 오픈시간보다 뒤면 다음날 날짜로 지정, 시간은 8시로지정
 			if(initTime >= 21) {
-				initTime = "08";
+				initTime = "8";
 				flatpickr(".cal-input",{
 					inline:true,
 					mode:"range",
@@ -232,9 +227,9 @@
 			}
 			else{
 				// 0612 배경인 추가) 시간이 0~8시 사이일때는 날짜를 오늘 날짜로 설정
-				if(initTime < 10) initTime = "0" + initTime; 
+				
 				if(initTime < 8){
-					initTime = "08";
+					initTime = "8";
 				}
 				flatpickr(".cal-input",{
 					inline:true,
@@ -252,7 +247,40 @@
 		updateCalRent(calInput);
 		
 	}
-	initCal();
+	// ===========================
+		
+	// post방식 ===============================
+	// 사용할 값들은 map 안에 전부 담아 받아옴
+	// 
+	
+	function initCalPost(){
+		// 시간 항목 체크
+		
+		
+		$("#rentHour").val("${map.rentHour}").prop("selected",true);
+		$("#rentMinute").val("${map.rentMinute}").prop("selected",true);
+		$("#returnHour").val("${map.returnHour}").prop("selected",true);
+		$("#returnMinute").val("${map.returnMinute}").prop("selected",true);
+		
+		//달력 초기화
+		flatpickr(".cal-input",{
+			inline:true,
+			mode:"range",
+			minDate:"today",
+			dateFormat: "Y-m-d",
+			//기본 설정 날짜 지정
+			defaultDate:[new Date("${map.rentDate}") , new Date("${map.returnDate}")]
+		});
+	}
+	
+	// home 에서는 Map 에 파라미터들이 없기때문에 
+	// 파라미터가 있는지 없는지에따라 초기화 방식 변경
+	if("${map.isMapHaveParams}" == "false"){
+		initCal();		
+	}
+	else{
+		initCalPost();		
+	}	
 	
 	</script>
 	
