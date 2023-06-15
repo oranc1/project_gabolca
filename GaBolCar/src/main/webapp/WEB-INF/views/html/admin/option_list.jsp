@@ -55,13 +55,13 @@
 				</div>
 				<div id="optionbtn">
 					<button id="option_insert" class="btn btn-warnig">신규등록</button>
-					<button class="btn btn-secondary" onclick="history.back()">뒤로가기</button>
+					<button class="btn btn-secondary" onclick="location.href='admCarList'">뒤로가기</button>
 				</div>
 			</c:when>
 			<c:otherwise>
 				<div id="optionbtn">
 					<button id="option_insert" class="btn btn-warnig">신규등록</button>
-					<button class="btn btn-secondary" onclick="history.back()">뒤로가기</button>
+					<button class="btn btn-secondary" onclick="location.href='admCarList'">뒤로가기</button>
 				</div>
 				<style>#optionbtn {margin-top : 20%;}</style>
 			</c:otherwise>

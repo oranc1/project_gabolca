@@ -17,7 +17,7 @@
 	    <div id="title_container">
 	      <h1>지점 등록</h1>
 	    </div>
-		<form action="brcRegisterPro" name="writeForm" method="post" onsubmit="return false;">
+		<form action="brcRegisterPro" name="writeForm" method="post">
 			<div id="Form">
 				<table>
 	          		<tr>
@@ -39,7 +39,7 @@
 	        	</table>
 			    <div id="btnArea">
 			      	<button id="submitBtn" class="btn btn-warnig">등록</button>
-					<button id="resetBtn" class="btn btn-secondary">초기화</button>
+					<input type="reset" class="btn btn-secondary" value="초기화">
 					<button id="closeBtn" class="btn btn-secondary">닫기</button>
 			    </div>
 		  	</div>

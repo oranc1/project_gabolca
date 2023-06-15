@@ -34,10 +34,6 @@ $(function(){
 		"color" : "#FFFFFF"
 	})
     
-    $("#resetBtn").on("click", function() {
-		location.reload();
-	});
-	
 	$("#closeBtn").on("click", function() {
 		window.close();
 	})

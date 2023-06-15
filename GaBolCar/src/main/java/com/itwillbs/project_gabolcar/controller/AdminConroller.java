@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -274,31 +273,6 @@ public class AdminConroller {
     	return new ModelAndView("html/admin/option_update","option",option);
     }
     
-    @PostMapping("optionFileDelete")
-    public void optionFileDelete(
-    		@RequestParam int option_idx,
-    		@RequestParam String option_image_url,
-    		HttpSession session,
-    		HttpServletResponse response) {
-    	
-    	try {
-			response.setCharacterEncoding("UTF-8");
-			int deleteCount = car_service.deleteOptionFile(option_idx);
-			
-			if(deleteCount > 0) {
-			    String uploadDir = "/resources/upload/car_options";
-			    String saveDir = session.getServletContext().getRealPath(uploadDir);
-			    Path path = Paths.get(saveDir+"/"+option_image_url);
-			    Files.deleteIfExists(path);
-			    response.getWriter().print("true");
-			} else {
-				response.getWriter().print("false");
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-    }
-    
     // 옵션수정
     @PostMapping("optionUpdatePro")
     public String optionUpdatePro(
@@ -308,13 +282,12 @@ public class AdminConroller {
     	
     	int updateCount = 0;
     	if(option_image == null) {
-    		System.out.println("여기서 확인하네요");
     		updateCount = car_service.optionUpdate(map);
     		if(updateCount > 0) {
-    			return "close";
+    			return "inc/close";
     		} else {
     			model.addAttribute("msg","수정 실패");
-    			return "fail_back";
+    			return "inc/fail_back";
     		}
     	} else {
     		String uploadDir = "/resources/upload/car_options";
@@ -329,7 +302,12 @@ public class AdminConroller {
     		String originalFileName = mFile.getOriginalFilename();
     		String uuid = UUID.randomUUID().toString();
     		String option_image_url = uuid.substring(0, 8) + "_" + originalFileName;
-    		
+			try {
+				Path path = Paths.get(saveDir+"/"+map.get("option_image_url"));
+				Files.deleteIfExists(path);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
     		map.put("option_image_url", option_image_url);
     		updateCount = car_service.optionUpdate(map);
     		if(updateCount > 0) {
@@ -354,7 +332,6 @@ public class AdminConroller {
     	Map<String, Object> map = car_service.optionSelect(option_idx);
     	int deleteCount = car_service.optionDelete(option_idx);
     	if(deleteCount > 0) {
-    		
     		try {
 				String uploadDir = "/resources/upload/car_options";
 				String saveDir = session.getServletContext().getRealPath(uploadDir);
