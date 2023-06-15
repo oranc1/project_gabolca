@@ -65,14 +65,14 @@ public class CarItemService {
 				"수입,벤츠,S클래스,가솔린",
 				"수입,BMW,M3,가솔린",
 				"수입,BMW,M5,디젤",
-				"전기,현대,아이오닉5,전기",
-				"전기,테슬라,Model3,전기",
-				"전기,테슬라,ModelY,전기"
+				"SUV,현대,아이오닉5,전기",
+				"준중형,테슬라,Model3,전기",
+				"SUV,테슬라,ModelY,전기"
 				};
 		String[] carNumber2 = {"하-","허-","호-"};
 		String[] carShiftType = {"자동","수동"};
 		List<String> brcList = findBrcList();
-		String[] car_status = {"신규", "점검", "대여", "대기"};
+		String[] car_status = {"신규", "점검", "대여", "가능"};
 		
 		Random r = new Random();
 		for(int i = 0; i < 100; i++) {
@@ -128,7 +128,7 @@ public class CarItemService {
 			}
 			
 			// 차 상태 랜덤 특정값 아래일때만 변화
-			String sc = "대기";
+			String sc = "신규";
 			if(r.nextInt(10)>8) {
 				sc = car_status[r.nextInt(car_status.length)];
 			}
@@ -149,12 +149,13 @@ public class CarItemService {
 			car.setCar_weekdays(rentPrice);
 			car.setCar_weekend((int)(rentPrice * 1.2));
 			car.setBrc_name(brcList.get(r.nextInt(brcList.size())));
-			car.setCar_file(null);
-			car.setCar_file_path(null);
+			car.setCar_file("/resources/upload/car/"+tcmf[2]+".png");
+			car.setCar_file_path(tcmf[2]+".png");
 			car.setCar_status(sc);
 		
 			carMapper.registerCar(car);
 		}// for문 끝
+		
 	}// 메서드 끝
 }
 
