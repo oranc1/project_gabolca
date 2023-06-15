@@ -385,6 +385,12 @@ public class CarItemController {
 		return "html/car_item/review/review_write_form";
 	}
 	
+	// 리뷰 수정 폼 
+	@GetMapping("review/modify")
+	public String reviewModify() {
+		return "html/car_item/review/review_modify_form";
+	}
+	
 	
 	//=================================
 	// 지점, 차량 타입, 연료 체크용 내부메서드
