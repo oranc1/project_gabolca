@@ -119,7 +119,7 @@
 						</td>
 	          		</tr>
 			      	<tr> 
-				        <td class="td_left"><label for="file1">차량 이미지 첨부1(메인,차량소개)</label></td>
+				        <td class="td_left"><label for="file1">차량 이미지 첨부1(메인,차량소개)</label></td> <!-- 메인,차량소개 1장 -->
 				        <td class="td_right"><input type="file" name="files" id="file1" required="required" class="form-control" /></td>
 			      	</tr>
 			      	<tr> 
@@ -150,7 +150,7 @@
 	            				<option value="신규">신규</option>
 	            				<option value="점검">점검</option>
 	            				<option value="대여">대여</option>
-	            				<option value="가능">대기</option>
+	            				<option value="가능">대기</option> 
 							</select>
 	        			</td>
 	      			</tr>
