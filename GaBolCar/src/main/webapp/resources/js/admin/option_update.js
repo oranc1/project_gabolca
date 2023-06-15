@@ -1,21 +1,32 @@
 $(function(){
-	// submit 창이동 및 지연
-	$("#submitBtn").on("click", function() {
-		if($("input[name=option_name]").val()!='' && $("input[name=option_image]").val()!='') {
+	// submit 버튼 클릭 - 부모창 새로고침 및 submit
+	$("#submitBtn").on("click",function() {
+		if($("input[name=option_name]").val() != '' && $("input[name=option_image]").val() != '') {
 			$("form").submit();
-	        setTimeout(() => window.open("about:blank","_self"), 100);
+			setTimeout(() => window.open("about:blank","_self"), 100);
+			return false;
 		}
 	});
 	
-	// submit 버튼 색상
 	$("#submitBtn").css({
 		"background" : "rgb(255, 94, 0)",
 		"color" : "#FFFFFF"
 	});
-	
+    
 	$("#closeBtn").on("click", function() {
-		window.close();
+		if($("input[name=option_image]").val() == '') {
+			if(confirm("이미지 파일이 없습니다.\n닫으시겠습니까?")) window.close();
+		} else {
+			window.close();
+		}
 	});
+    
+    // 파일등록 태그 생성
+    $("#imageDelete").on("click",function() {
+		$("#opth_1").empty().html("<td class='td_left'><label for='option_image'>옵션 이미지</label></td>");
+		$("#opth_2").empty().html("<td class='td_right'><input type='file' accept='image/*' name='option_image' required='required' class='form-control'/></td>");
+	});
+
 	
 	$("input[type=file]").on("change",function() {
 		let file_val = $(this).val()
@@ -31,7 +42,5 @@ $(function(){
 			$(this).val('');
 			alert("첨부파일 사이즈는 5MB 이내로 등록 가능합니다.");
 		}
-		
-	});
+	});		
 });
-	

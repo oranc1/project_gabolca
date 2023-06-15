@@ -20,10 +20,23 @@ $(function(){
 		}
 	};
 	
-	$("input[type=submit]").on("click", function() {
-		$("form").submit();
-		opener.location.reload();
-		setTimeout(() => window.open("about:blank","_self"), 100);
+	// submit 창이동 및 지연
+	$("#submitBtn").on("click",function() {
+		if($("#address").val()!="" && $("input[name=brc_name]").val()!="" && $("input[name=brc_tel]").val() !="") {
+			$("form").submit
+	        setTimeout(() => window.open("about:blank","_self"), 100);
+		}
 	});
+	
+	// submit 버튼 색상
+	$("#submitBtn").css({
+		"background" : "rgb(255, 94, 0)",
+		"color" : "#FFFFFF"
+	})
+    
+	$("#closeBtn").on("click", function() {
+		window.close();
+	})
+	
 	
 });

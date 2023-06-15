@@ -94,5 +94,34 @@
 		where
 			option_idx = #{option_idx}
 	</select>
-    
+	<update id="deleteOptionFile" parameterType="int">
+		update
+			option_list
+		set
+			option_image_url = ''
+		where
+			option_idx = #{option_idx}
+	</update>
+	<update id="updateOption" parameterType="map">
+		update
+			option_list
+		set
+			<choose>
+				<when test="#{option_image_url} == null">
+					option_name = #{option_name}
+				</when>
+				<otherwise>
+					option_name = #{option_name} 
+					, option_image_url = #{option_image_url}
+				</otherwise>
+			</choose>
+		where
+			option_idx = #{option_idx}
+	</update>
+	<delete id="deleteOption" parameterType="int">
+		delete from
+			option_list
+		where
+			option_idx = #{option_idx }
+	</delete>
 </mapper>

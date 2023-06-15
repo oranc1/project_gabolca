@@ -64,162 +64,102 @@
             			</td>
           			</tr>
           			<tr>
-		            <td class="td_left"><label for="car_fuel_type">연료</label></td>
-		            <td class="td_right">
-						<select name="car_fuel_type" required="required" class="form-select">
-			                <option value="">선택하세요</option>
-							<option value="가솔린">가솔린</option>
-							<option value="디젤">디젤</option>
-							<option value="LPG">LPG</option>
-							<option value="하이브리드">하이브리드</option>
-							<option value="전기">전기</option>
-							<option value="가솔린+LPG">가솔린+LPG</option>
-		              	</select>
-					</td>
-          		</tr>
-          		<tr>
-		            <td class="td_left"><label for="car_riding">정원</label></td>
-		            <td class="td_right"><input type="text" name="car_riding" required="required" class="form-control" /></td>
-          		</tr>		
-          		<tr>
-            		<td class="td_left"><label for="car_age">나이제한</label></td>
-            		<td class="td_right"><input type="text" name="car_age" required="required" class="form-control" /></td>
-          		</tr>		
-          		<tr>
-            		<td class="td_left"><label for="car_career">운전경력제한</label></td>
-            		<td class="td_right"><input type="text" name="car_career" required="required" class="form-control" /></td>
-          		</tr>		
-          		<tr>
-		            <td class="td_left"><label for="car_license">면허종류</label></td>
-		            <td class="td_right">
-              			<select name="car_license" required="required" class="form-select">
-                			<option value="">선택하세요</option>
-							<option value="1종">1종</option>
-							<option value="2종">2종</option>
-              			</select>
-            		</td>
-          		</tr>
-          		<tr>
-           			 <td class="td_left"><label for="car_weekdays">주중 대여료</label></td>
-           			 <td class="td_right"><input type="text" name="car_weekdays" required="required" class="form-control" /></td>
-         		 </tr>
-         		 <tr>
-		            <td class="td_left"><label for="car_weekend">주말 대여료</label></td>
-		            <td class="td_right"><input type="text" name="car_weekend" required="required" class="form-control" /></td>
-         		 </tr>
-        		 <tr>
-					<td class="td_left"><label for="brc_name">지점명</label></td>
-					<td class="td_right">
-              			<select name="brc_name" required="required" class="form-select">
-               				<option value="">선택</option>
-              				<c:forEach var="brc" items="${brcList }">
-                				<option value="${brc.brc_name }">${brc.brc_name }</option>
-               				</c:forEach>
-              			</select>
-					</td>
-          		</tr>
-        		 <tr>
-					<td class="td_left"><label for="car_status">차량상태</label></td>
-					<td class="td_right">
-              			<select name="car_status" required="required" class="form-select">
-               				<option value="">선택</option>
-               				<option value="정비">정비</option>
-               				<option value="대여">대여</option>
-               				<option value="정상">정상</option>
-              			</select>
-					</td>
-          		</tr>
-	     		<tr>
-			        <td class="td_left">
-			        	<label for="options">옵션</label>
-			        </td>
-			        <td class="td_right">
-	          		<div class="row">
-	            		<div class="col-md-6">
-							<label class="checkbox-label">
-	                			<input type="checkbox" id="selectAllCheckbox">
-	                			전체 선택
-	              			</label>
-							<label class="checkbox-label">
-								<input type="checkbox" name="options" value="국제운전면허증가능">
-  								국제운전면허증가능
-							</label>
-							<label class="checkbox-label">
-								<input type="checkbox" name="options" value="긴급출동무료">
-								긴급출동무료
-							</label>
-							<label class="checkbox-label">
-								<input type="checkbox" name="options" value="충전기제공">
-								충전기제공
-							</label>
-							<label class="checkbox-label">
-								<input type="checkbox" name="options" value="카시트무료(수량한정)">
-								카시트무료(수량한정)
-							</label>
-							<label class="checkbox-label">
-								<input type="checkbox" name="options" value="열선시트">
-								열선시트
-							</label>
-							<label class="checkbox-label">
-								<input type="checkbox" name="options" value="금연">
-								금연
-							</label>
-							<label class="checkbox-label">
-								<input type="checkbox" name="options" value="블루투스">
-								블루투스
-							</label>
-							<label class="checkbox-label">
-								<input type="checkbox" name="options" value="썬루프">
-								썬루프
-							</label>
-	            		</div>
-	            		<div class="col-md-6">
-							<label class="checkbox-label">
-								<input type="checkbox" name="options" value="열선시트">
-								열선시트
-							</label>
-							<label class="checkbox-label">
-								<input type="checkbox" name="options" value="스마트키">
-								스마트키
-							</label>
-							<label class="checkbox-label">
-								<input type="checkbox" name="options" value="네비게이션">
-								네비게이션
-							</label>
-							<label class="checkbox-label">
-								<input type="checkbox" name="options" value="후방카메라">
-								후방카메라
-							</label>
-							<label class="checkbox-label">
-								<input type="checkbox" name="options" value="블랙박스">
-								블랙박스
-							</label>
-							<label class="checkbox-label">
-								<input type="checkbox" name="options" value="USB">
-								USB
-							</label>
-							<label class="checkbox-label">
-								<input type="checkbox" name="options" value="AUX">
-								AUX
-							</label>
-							<label class="checkbox-label">
-								<input type="checkbox" name="options" value="AUX">
-								하이패스
-							</label>
-	            		</div>
-					</div>
-	        	</td>
-			</tr>
-	      	<tr>
-		        <td class="td_left"><label for="car_image_url">차량 이미지 첨부</label></td>
-		        <td class="td_right"><input type="file" name="car_image_url" required="required" class="form-control" /></td>
-	      	</tr>
-	    </table>
-	    <div id="commandCell">
-	      	<input type="submit" value="등록" class="btn btn-warning">&nbsp;&nbsp;
-	      	<input type="reset" value="다시쓰기" class="btn btn-secondary">&nbsp;&nbsp;
-	      	<input type="button" value="취소" onclick="history.back()" class="btn btn-secondary">
-	    </div>
+			            <td class="td_left"><label for="car_fuel_type">연료</label></td>
+			            <td class="td_right">
+							<select name="car_fuel_type" required="required" class="form-select">
+				                <option value="">선택하세요</option>
+								<option value="가솔린">가솔린</option>
+								<option value="디젤">디젤</option>
+								<option value="LPG">LPG</option>
+								<option value="하이브리드">하이브리드</option>
+								<option value="전기">전기</option>
+								<option value="가솔린+LPG">가솔린+LPG</option>
+			              	</select>
+						</td>
+	          		</tr>
+	          		<tr>
+			            <td class="td_left"><label for="car_riding">정원</label></td>
+			            <td class="td_right"><input type="text" name="car_riding" required="required" class="form-control" /></td>
+	          		</tr>		
+	          		<tr>
+	            		<td class="td_left"><label for="car_age">나이제한</label></td>
+	            		<td class="td_right"><input type="text" name="car_age" required="required" class="form-control" /></td>
+	          		</tr>		
+	          		<tr>
+	            		<td class="td_left"><label for="car_career">운전경력제한</label></td>
+	            		<td class="td_right"><input type="text" name="car_career" required="required" class="form-control" /></td>
+	          		</tr>		
+	          		<tr>
+			            <td class="td_left"><label for="car_license">면허종류</label></td>
+			            <td class="td_right">
+	              			<select name="car_license" required="required" class="form-select">
+	                			<option value="">선택하세요</option>
+								<option value="1종">1종</option>
+								<option value="2종">2종</option>
+	              			</select>
+	            		</td>
+	          		</tr>
+	          		<tr>
+	           			 <td class="td_left"><label for="car_weekdays">주중 대여료</label></td>
+	           			 <td class="td_right"><input type="text" name="car_weekdays" required="required" class="form-control" /></td>
+	         		 </tr>
+	         		 <tr>
+			            <td class="td_left"><label for="car_weekend">주말 대여료</label></td>
+			            <td class="td_right"><input type="text" name="car_weekend" required="required" class="form-control" /></td>
+	         		 </tr>
+	        		 <tr>
+						<td class="td_left"><label for="brc_name">지점명</label></td>
+						<td class="td_right">
+	              			<select name="brc_name" required="required" class="form-select">
+	               				<option value="">선택</option>
+	              				<c:forEach var="brc" items="${brcList }">
+	                				<option value="${brc.brc_name }">${brc.brc_name }</option>
+	               				</c:forEach>
+	              			</select>
+						</td>
+	          		</tr>
+	        		 <tr>
+						<td class="td_left"><label for="car_status">차량상태</label></td>
+						<td class="td_right">
+	              			<select name="car_status" required="required" class="form-select">
+	               				<option value="">선택</option>
+	               				<option value="정비">정비</option>
+	               				<option value="대여">대여</option>
+	               				<option value="정상">정상</option>
+	              			</select>
+						</td>
+	          		</tr>
+		     		<tr>
+				        <td class="td_left">
+				        	<label for="options">옵션</label>
+				        </td>
+				        <td class="td_right">
+			          		<div class="row">
+			            		<div class="col-md-6">
+									<label class="checkbox-label">
+			                			<input type="checkbox" id="selectAllCheckbox">
+			                			전체 선택
+			              			</label>
+			              			<c:forEach var="option" items="${optionList }">
+										<label class="checkbox-label">
+											<input type="checkbox" name="options" value="${option.option_idx }">
+			  								${option.option_name }
+										</label>
+									</c:forEach>
+			            		</div>
+							</div>
+		        		</td>
+					</tr>
+			      	<tr>
+				        <td class="td_left"><label for="car_image_url">차량 이미지 첨부</label></td>
+				        <td class="td_right"><input type="file" name="car_image_url" required="required" class="form-control" /></td>
+			      	</tr>
+	    		</table>
+		    <div id="commandCell">
+				<button id="submitBtn" class="btn btn-warnig">등록</button>
+				<button id="resetBtn" class="btn btn-secondary">초기화</button>
+				<button id="backBtn" class="btn btn-secondary">취소</button>
+		    </div>
 		</div>
 	</form>
 	</section>
@@ -253,6 +193,29 @@
 			$("select[name=brc_name]").val("${car.brc_name}");
 			// 옵션 값 가져와서 체크활성화
 			// 차량이미지 관련 확인필요
+			
+			$(function(){
+				// submit 창이동 및 지연
+				$("#submitBtn").on("click",function() {
+					$("form").submit
+			        setTimeout(() => window.open("about:blank","_self"), 100);
+				});
+				
+				// submit 버튼 색상
+				$("#submitBtn").css({
+					"background" : "rgb(255, 94, 0)",
+					"color" : "#FFFFFF"
+				})
+			    
+			    $("#resetBtn").on("click", function() {
+					location.reload();
+				});
+				
+				$("#backBtn").on("click", function() {
+					history.back();
+				})
+				
+			});
 		});
 	</script>
 </body>
