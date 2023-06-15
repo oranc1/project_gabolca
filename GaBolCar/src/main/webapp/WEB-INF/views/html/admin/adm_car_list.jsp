@@ -40,7 +40,7 @@
 							<input type="checkbox" name="car_type" id="car_type5" class="adm_car_chb" value="SUV">SUV
 						</label>
 						<label for="car_type6">
-							<input type="checkbox" name="car_type" id="car_type6" class="adm_car_chb" value="수입차">수입차
+							<input type="checkbox" name="car_type" id="car_type6" class="adm_car_chb" value="수입">수입
 						</label>
 						<label for="car_type7">
 							<input type="checkbox" name="car_type" id="car_type7" class="adm_car_chb" value="기타">기타

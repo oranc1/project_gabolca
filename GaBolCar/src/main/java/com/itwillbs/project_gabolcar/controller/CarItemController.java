@@ -35,8 +35,8 @@ public class CarItemController {
 	// 차 타입 하고 차 연료는 값 없는 경우 기본 값으로 받아오기
 	@RequestMapping("carRes")
 	public ModelAndView carRes(@RequestParam Map<String , String> map
-			, @RequestParam(value="carType", defaultValue="경형,소형,준중형,중형,대형,suv,전기차") String[] carType
-			, @RequestParam(value="carFure", defaultValue="휘발유,경유,하이브리드,전기") String[] carFure
+			, @RequestParam(value="carType", defaultValue="경형/소형,준중형,중형,대형,SUV,승합,수입") String[] carType
+			, @RequestParam(value="carFure", defaultValue="가솔린,디젤,LPG,전기,하이브리드,가솔린+LPG") String[] carFure
 			, Model model) {
 		
 		// 사용될 변수와 초기값 셋팅
@@ -71,8 +71,8 @@ public class CarItemController {
 		String returnLocation = map.get("returnLocation"); 
 		
 		// 차량 타입 , 연료 데이터
-		List<String> carTypeList = new ArrayList<String>(Arrays.asList("경형","소형","준중형","중형","대형","suv","전기차"));
-		List<String> carFureList = new ArrayList<String>(Arrays.asList("휘발유","경유","하이브리드","전기"));	
+		List<String> carTypeList = new ArrayList<String>(Arrays.asList("경형/소형","준중형","중형","대형","SUV","승합","수입"));
+		List<String> carFureList = new ArrayList<String>(Arrays.asList("가솔린","디젤","LPG","전기","하이브리드","가솔린+LPG"));	
 		
 		// null값으로 넘어오는 파라미터가 있는지, 달력체크가 잘못되어있는지 체크후 안맞으면 이전 페이지로 넘어가게 하기
 		// 1. 날짜 to 없이 하나만 들어오거나 비어있는경우 and 시간이 영업시간이 ( 8 ~ 21시 사이) 아닌경우 - 하드코딩 가능
@@ -399,5 +399,11 @@ public class CarItemController {
 		return result;
 	}
 	
+	//더미 만들기
+	@GetMapping("dummyCarMakeStart")
+	public String dummyCarMakeStart() {
+		carItemService.carInfoDummyMaker();
+		return "redirect:/";
+	}
 	
 }

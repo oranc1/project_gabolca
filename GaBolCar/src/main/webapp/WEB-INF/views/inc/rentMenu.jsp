@@ -50,9 +50,9 @@ pageEncoding="UTF-8"%>
           type="checkbox"
           name="carType"
           id="carType1"
-          value="경형"
+          value="경형/소형"
         />
-        <label class="btn btn-outline-dark" for="carType1">경형</label>
+        <label class="btn btn-outline-dark" for="carType1">경형/소형</label>
       </li>
       <li>
         <input
@@ -61,8 +61,9 @@ pageEncoding="UTF-8"%>
           type="checkbox"
           name="carType"
           id="carType2"
-          value="소형"
-        /><label class="btn btn-outline-dark" for="carType2">소형</label>
+          value="준중형"
+        />
+        <label class="btn btn-outline-dark" for="carType2">준중형</label>
       </li>
       <li>
         <input
@@ -71,9 +72,9 @@ pageEncoding="UTF-8"%>
           type="checkbox"
           name="carType"
           id="carType3"
-          value="준중형"
+          value="중형"
         />
-        <label class="btn btn-outline-dark" for="carType3">준중형</label>
+        <label class="btn btn-outline-dark" for="carType3">중형</label>
       </li>
       <li>
         <input
@@ -82,9 +83,9 @@ pageEncoding="UTF-8"%>
           type="checkbox"
           name="carType"
           id="carType4"
-          value="중형"
+          value="대형"
         />
-        <label class="btn btn-outline-dark" for="carType4">중형</label>
+        <label class="btn btn-outline-dark" for="carType4">대형</label>
       </li>
       <li>
         <input
@@ -93,9 +94,9 @@ pageEncoding="UTF-8"%>
           type="checkbox"
           name="carType"
           id="carType5"
-          value="대형"
+          value="SUV"
         />
-        <label class="btn btn-outline-dark" for="carType5">대형</label>
+        <label class="btn btn-outline-dark" for="carType5">SUV</label>
       </li>
       <li>
         <input
@@ -104,9 +105,8 @@ pageEncoding="UTF-8"%>
           type="checkbox"
           name="carType"
           id="carType6"
-          value="suv"
-        />
-        <label class="btn btn-outline-dark" for="carType6">SUV</label>
+          value="승합"
+        /><label class="btn btn-outline-dark" for="carType6">승합</label>
       </li>
       <li>
         <input
@@ -115,9 +115,9 @@ pageEncoding="UTF-8"%>
           type="checkbox"
           name="carType"
           id="carType7"
-          value="전기차"
+          value="수입"
         />
-        <label class="btn btn-outline-dark" for="carType7">전기차</label>
+        <label class="btn btn-outline-dark" for="carType7">수입</label>
       </li>
     </ul>
   </div>
@@ -131,9 +131,9 @@ pageEncoding="UTF-8"%>
           type="checkbox"
           name="carFure"
           id="carFure1"
-          value="휘발유"
+          value="가솔린"
         />
-        <label class="btn btn-outline-dark" for="carFure1">휘발유</label>
+        <label class="btn btn-outline-dark" for="carFure1">가솔린</label>
       </li>
       <li>
         <input
@@ -142,9 +142,9 @@ pageEncoding="UTF-8"%>
           type="checkbox"
           name="carFure"
           id="carFure2"
-          value="경유"
+          value="디젤"
         />
-        <label class="btn btn-outline-dark" for="carFure2">경유</label>
+        <label class="btn btn-outline-dark" for="carFure2">디젤</label>
       </li>
       <li>
         <input
@@ -153,9 +153,9 @@ pageEncoding="UTF-8"%>
           type="checkbox"
           name="carFure"
           id="carFure3"
-          value="하이브리드"
+          value="LPG"
         />
-        <label class="btn btn-outline-dark" for="carFure3">하이브리드</label>
+        <label class="btn btn-outline-dark" for="carFure3">LPG</label>
       </li>
       <li>
         <input
@@ -167,6 +167,28 @@ pageEncoding="UTF-8"%>
           value="전기"
         />
         <label class="btn btn-outline-dark" for="carFure4">전기</label>
+      </li>
+      <li>
+        <input
+          class="btn-check carFure"
+          checked="checked"
+          type="checkbox"
+          name="carFure"
+          id="carFure5"
+          value="하이브리드"
+        />
+        <label class="btn btn-outline-dark" for="carFure5">하이브리드</label>
+      </li>
+      <li>
+        <input
+          class="btn-check carFure"
+          checked="checked"
+          type="checkbox"
+          name="carFure"
+          id="carFure6"
+          value="가솔린+LPG"
+        />
+        <label class="btn btn-outline-dark" for="carFure6">가솔린+LPG</label>
       </li>
     </ul>
   </div>
