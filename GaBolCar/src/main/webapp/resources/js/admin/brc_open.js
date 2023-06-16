@@ -38,5 +38,24 @@ $(function(){
 		window.close();
 	})
 	
+	$("input[name=brc_tel]").on("change",function() {
+		let brcTel = $(this).val();
+		const regTel = /\d{2,3}-\d{3,4}-\d{4}/g;
+		if (!regTel.test(brcTel) && brcTel.length >= 1) {
+			$(this).val('').focus();
+			$(this).attr("placeholder","전화번호 형식에 맞지 않습니다.")
+			
+		}
+	})
+	
+	$("input[name=brc_name]").on("change",function() {
+		let brcName = $(this).val();
+		const regStr = /[^가-힣\w\s]/g;
+		if (regStr.test(brcName) && brcName.length >= 1) {
+			$(this).val('').focus();
+			$(this).attr("placeholder","한글 또는 영문 숫자만 사용 가능합니다.")
+			
+		}
+	})
 	
 });

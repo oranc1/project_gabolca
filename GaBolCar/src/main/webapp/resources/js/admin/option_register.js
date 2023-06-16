@@ -33,5 +33,14 @@ $(function(){
 		}
 		
 	});
+	
+	$("input[name=option_name]").on("change",function() {
+		let optionName = $(this).val();
+		const regStr = /[^가-힣\w\s]/g;
+		if (regStr.test(optionName) && optionName.length >= 1) {
+			$(this).val('').focus();
+			$(this).attr("placeholder","한글 또는 영문 숫자만 사용 가능합니다.")
+		}
+	})	
 });
 	
