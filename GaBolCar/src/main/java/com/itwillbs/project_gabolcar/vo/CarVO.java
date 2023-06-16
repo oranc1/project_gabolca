@@ -26,10 +26,9 @@ public class CarVO {
 	private int car_weekdays;
 	private int car_weekend;
 	private String brc_name;
-	private Map<String,String> options;
+	private int[] option_idx;
 	private String car_file; // 파일명
 	private String car_status;
-	private String option_name;
 	private String car_file_path; // 파일 업로드 경로
 	private Timestamp car_date;
 //	private MultipartFile file; // 단일 파일

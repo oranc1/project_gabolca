@@ -14,11 +14,7 @@ $(function(){
 	});
     
 	$("#closeBtn").on("click", function() {
-		if($("input[name=option_image]").val() == '') {
-			if(confirm("이미지 파일이 없습니다.\n닫으시겠습니까?")) window.close();
-		} else {
-			window.close();
-		}
+		window.close();
 	});
     
     // 파일등록 태그 생성

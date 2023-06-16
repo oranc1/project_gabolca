@@ -22,8 +22,8 @@ public class CarService {
 		return mapper.selectCarList();
 	}
 	
-	public Map<String, Object> carSelect(int car_idx) {
-		return mapper.selectCar(car_idx);
+	public Map<String, Object> carSelect(CarVO car) {
+		return mapper.selectCar(car);
 	}
 
 	public int carUpdate(Map<String, String> map) {
@@ -56,5 +56,9 @@ public class CarService {
 
 	public int optionDelete(int option_idx) {
 		return mapper.deleteOption(option_idx);
+	}
+
+	public int carOptionRegister(CarVO car) {
+		return mapper.insertCarOption(car);
 	}
 }

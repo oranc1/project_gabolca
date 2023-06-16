@@ -5,28 +5,36 @@
 		insert into
 			car_info
 		values (
-			null,
-			#{car_type},
-			#{car_number},
-			#{car_company},
-			#{car_model},
-			#{car_old},
-			#{car_shift_type},
-			#{car_fuel_type},
-			#{car_riding},
-			#{car_age},
-			#{car_career},
-			#{car_license},
-			#{car_weekdays},
-			#{car_weekend},
-			#{brc_name},
-			#{car_file},
-			#{car_status},	
-<!-- 			#{option_name},	 -->
-			#{car_file_path},
-			now()
+			null
+			, #{car_type}
+			, #{car_number}
+			, #{car_company}
+			, #{car_model}
+			, #{car_old}
+			, #{car_shift_type}
+			, #{car_fuel_type}
+			, #{car_riding}
+			, #{car_age}
+			, #{car_career}
+			, #{car_license}
+			, #{car_weekdays}
+			, #{car_weekend}
+			, #{brc_name}
+			, #{car_file}
+			, '신규'
+			, #{car_file_path}
+			, now()
 		)
 	</insert>
+	<insert id="insertCarOption" parameterType="com.itwillbs.project_gabolcar.vo.CarVO">
+		insert into
+			car_options
+		values
+		<foreach collection="option_idx" item="option" separator=",">
+			(#{car_idx}, #{option})
+		</foreach>
+	</insert>
+	
 	
 	<select id="selectCarList" resultType="map">
 		select
@@ -34,13 +42,19 @@
 		from
 			car_info
 	</select>
-		<select id="selectCar" resultType="map" parameterType="int">
+		<select id="selectCar" resultType="map" parameterType="com.itwillbs.project_gabolcar.vo.CarVO">
 		select
 			*
 		from
 			car_info
-		where
-			car_idx = #{car_idx}
+			<choose>
+				<when test="car_idx eq '' or car_idx eq null">
+				where car_number=#{car_number}
+				</when>
+				<otherwise>
+				where car_idx=#{car_idx}
+				</otherwise>
+			</choose>
 	</select>
 	<update id="updateCar" parameterType="map">
 		update

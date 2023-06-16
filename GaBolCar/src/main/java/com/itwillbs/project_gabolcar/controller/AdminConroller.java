@@ -8,6 +8,7 @@ import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -92,7 +93,6 @@ public class AdminConroller {
 	        int fileCount = Math.min(mFiles.length, 6); // 파일 수를 6개로 제한
 
 	        List<String> fileNames = new ArrayList<>(); // DB에 저장할 파일명 리스트
-	        boolean registrationComplete = false; // 차량 등록 완료 여부를 나타냄
 
 	        for (int i = 0; i < fileCount; i++) {
 	            MultipartFile mFile = mFiles[i];
@@ -125,18 +125,20 @@ public class AdminConroller {
 	        int insertCount = car_service.carRegister(car);
 
 	        if (insertCount > 0) {
-	            registrationComplete = true; // 자동차가 성공적으로 등록되면 true로 설정
+	        	System.out.println("차량 등록 성공");
+	        	car.setCar_idx((int)car_service.carSelect(car).get("car_idx"));
+	        	insertCount = car_service.carOptionRegister(car);
+	        	if (insertCount > 0 ) {
+	        		System.out.println("차량 옵션 등록 성공");
+	        	} else {
+	        		System.out.println("차량 옵션 등록 실패");
+	        	}
 	        } else {
-	            model.addAttribute("msg", "차량 등록 실패!");
-	            return "inc/fail_back";
+	        	model.addAttribute("msg", "차량 등록 실패!");
+	        	return "inc/fail_back";
 	        }
-
-	        if (!registrationComplete) {
-	            model.addAttribute("msg", "차량 등록 실패!");
-	            return "inc/fail_back";
-	        }
+	        
 	    }
-
 	    return "redirect:/admCarList";
 	}
 	
@@ -149,7 +151,8 @@ public class AdminConroller {
 	// 지점등록
 	@PostMapping("brcRegisterPro")
 	public String brcRegisterPro(@RequestParam Map<String, String> map, Model model) {
-		int insertCount = brc_service.brcRegister(map);
+		int insertCount = 0;
+		insertCount = brc_service.brcRegister(map);
 		if (insertCount == 0) {
 			model.addAttribute("msg","등록 실패");
 			return "inc/fail_back";
@@ -167,30 +170,33 @@ public class AdminConroller {
 	// 지점수정
 	@PostMapping("brcUpdatePro")
 	public String brcUpdatePro(@RequestParam Map<String, String> map,Model model) {
+		System.out.println(map);
 		int updateCount = brc_service.brcUpdate(map);
-		if (updateCount == 0) {
+		if (updateCount > 0) {
+			return "inc/close";
+		} else {
 			model.addAttribute("msg","수정 실패");
 			return "inc/fail_back";
 		}
-		return "inc/close";
 	}
 	
 	// 지점삭제
 	@GetMapping("brcDeletePro")
 	public String brcDeletePro(int brc_idx,Model model) {
 		int deleteCount = brc_service.brcDelete(brc_idx);
-		if (deleteCount == 0) {
+		if (deleteCount > 0) {
+			return "redirect:/admBrcList";
+		} else {
 			model.addAttribute("msg","삭제 실패");
 			return "inc/fail_back";
 		}
-		return "redirect:/admBrcList";
 	}
 	
 	// 차량수정폼 이동
 	@GetMapping("carUpdate")
-	public String carUpdate(@RequestParam int car_idx,Model model) {
-		Map<String, Object> car = car_service.carSelect(car_idx);
-		model.addAttribute("car",car);
+	public String carUpdate(CarVO car,Model model) {
+		Map<String, Object> map = car_service.carSelect(car);
+		model.addAttribute("car",map);
 		List<Map<String, Object>> brcList = brc_service.brcList();
 		model.addAttribute("brcList",brcList);
 		return "html/admin/car_update";
@@ -200,22 +206,26 @@ public class AdminConroller {
 	@PostMapping("carUpdatePro")
 	public String carUpdatePro(@RequestParam Map<String, String> map, Model model) {
 		int updateCount = car_service.carUpdate(map);
-		if (updateCount == 0) {
+		if (updateCount > 0) {
+			model.addAttribute("msg","수정 완료");
+			return "redirect:/admCarList";
+		} else {
 			model.addAttribute("msg","수정 실패");
 			return "inc/fail_back";
 		}
-		return "redirect:/admCarList";
 	}
 	
 	// 차량삭제
 	@GetMapping("carDeletePro")
 	public String carDeletePro(int car_idx,Model model) {
 		int deleteCount = car_service.carDelete(car_idx);
-		if (deleteCount == 0) {
+		if (deleteCount > 0) {
+			model.addAttribute("msg","삭제 완료");
+			return "redirect:/admCarList";
+		} else {
 			model.addAttribute("msg","삭제 실패");
 			return "inc/fail_back";
 		}
-		return "redirect:/admCarList";
 	}
 	
 	// 옵션리스트 이동 - 디자인이 어려움
@@ -346,6 +356,5 @@ public class AdminConroller {
     	}
     	return "redirect:/optionList";
     }
-    
     
 }
