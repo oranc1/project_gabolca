@@ -43,6 +43,6 @@ public interface CarMapper {
 	int deleteOption(int option_idx);
 
 	int insertCarOption(CarVO car);
-	//리뷰 관련 Mapper
-	List<ReviewVO> selectReviewList();
+	
+
 }

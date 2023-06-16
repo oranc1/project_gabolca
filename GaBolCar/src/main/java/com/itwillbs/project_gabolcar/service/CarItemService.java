@@ -8,8 +8,7 @@ import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.itwillbs.project_gabolcar.mapper.BrcMapper;
-import com.itwillbs.project_gabolcar.mapper.CarMapper;
+import com.itwillbs.project_gabolcar.mapper.*;
 import com.itwillbs.project_gabolcar.vo.*;
 
 
@@ -17,6 +16,9 @@ import com.itwillbs.project_gabolcar.vo.*;
 public class CarItemService {
 	@Autowired
 	BrcMapper brcMapper;
+	
+	@Autowired
+	CarItemMapper carItemMapper;
 	
 	@Autowired
 	CarMapper carMapper;
@@ -161,7 +163,7 @@ public class CarItemService {
 //==============리뷰 서비스=============================
 	public List<ReviewVO> getReviewList(){
 		
-		return carMapper.selectReviewList();
+		return carItemMapper.selectReviewList();
 	}
 	//==========getReviewList() 끝=======
 }

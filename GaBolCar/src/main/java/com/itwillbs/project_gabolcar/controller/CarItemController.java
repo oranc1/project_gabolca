@@ -373,8 +373,11 @@ public class CarItemController {
 	// 리뷰 게시판
 	@GetMapping("review")
 	public String reviewBoard(Model model) {
+	
 	List<ReviewVO> reviewList = carItemService.getReviewList();
+	
 	model.addAttribute("reviewList", reviewList);
+	
 		return "html/car_item/review/review_board";
 	}
 	// 리뷰 글 자세히 보기
