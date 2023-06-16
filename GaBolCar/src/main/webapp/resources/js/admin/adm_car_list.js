@@ -1,8 +1,8 @@
 // select 값 검색창 name명 전달
 $(function() {
-	$("#search_cate").on("change", function() {
-		$("#search_text").attr("name",$(this).val());
-	});
+//	$("#search_cate").on("change", function() {
+//		$("#search_text").attr("name",$(this).val());
+//	});
 	
 	$("button[name=item_update]").on("click", function() {
 		location.href="carUpdate?car_idx="+$(this).val();
@@ -47,20 +47,6 @@ $(function() {
 			$(this).children().attr("checked",false);
 		}
 	});
-	
-//	$("label[name=car_type").hover(function(){
-//		$(this).css({
-//			"color":"#ff6600",
-//			"transition": "0.1s"
-//		});
-//		
-//	$(".adm_car_button").hover(function(){
-//		$(this).css({
-//			"color":"#ff6600",
-//			"transition": "0.1s"
-//		});
-//      
-//	});
 	
 });
 

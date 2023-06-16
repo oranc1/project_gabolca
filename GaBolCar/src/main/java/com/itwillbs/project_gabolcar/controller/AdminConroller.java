@@ -357,4 +357,10 @@ public class AdminConroller {
     	return "redirect:/optionList";
     }
     
+    // 차량관리 검색
+    @GetMapping("carSearch")
+    public String carSearch(@RequestParam Map<String, String> map,Model model) {
+    	return "redirect:/admCarList";
+    }
+    
 }
