@@ -32,11 +32,13 @@
 		update
 			brc_info
 		set
-			brc_name=#{brc_name},
-			brc_addr=#{brc_addr},
-			brc_tel=#{brc_tel},
-			map_x=#{map_x},
-			map_y=#{map_y}
+			brc_name=#{brc_name}
+			, brc_addr=#{brc_addr}
+			, brc_tel=#{brc_tel}
+			<if test="map_x != '' and map_y != ''">
+				, map_x=#{map_x}
+				, map_y=#{map_y}
+			</if>
 		where
 			brc_idx=#{brc_idx}
 	</update>

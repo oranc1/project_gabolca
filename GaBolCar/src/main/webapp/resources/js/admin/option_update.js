@@ -14,11 +14,7 @@ $(function(){
 	});
     
 	$("#closeBtn").on("click", function() {
-		if($("input[name=option_image]").val() == '') {
-			if(confirm("이미지 파일이 없습니다.\n닫으시겠습니까?")) window.close();
-		} else {
-			window.close();
-		}
+		window.close();
 	});
     
     // 파일등록 태그 생성
@@ -26,7 +22,6 @@ $(function(){
 		$("#opth_1").empty().html("<td class='td_left'><label for='option_image'>옵션 이미지</label></td>");
 		$("#opth_2").empty().html("<td class='td_right'><input type='file' accept='image/*' name='option_image' required='required' class='form-control'/></td>");
 	});
-
 	
 	$("input[type=file]").on("change",function() {
 		let file_val = $(this).val()
@@ -42,5 +37,15 @@ $(function(){
 			$(this).val('');
 			alert("첨부파일 사이즈는 5MB 이내로 등록 가능합니다.");
 		}
-	});		
+	});	
+	
+	$("input[name=option_name]").on("change",function() {
+		let optionName = $(this).val();
+		const regStr = /[^가-힣\w\s]/g;
+		if (regStr.test(optionName) && optionName.length >= 1) {
+			$(this).val('').focus();
+			$(this).attr("placeholder","한글 또는 영문 숫자만 사용 가능합니다.")
+			
+		}
+	})	
 });

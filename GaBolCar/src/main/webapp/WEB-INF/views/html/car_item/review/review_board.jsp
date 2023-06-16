@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>       
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,13 +40,55 @@
 									
 									<li class="list_cont">
 										<a href="#">
-											<p class="list_num">5</p>
+											<p class="list_num">2</p>
 											<p class="list_scope">
-												<span class="fill">★</span>
-												<span class="fill">★</span>
-												<span class="fill">★</span>
-												<span>★</span>
-												<span>★</span>
+											<!-- 별점 구현 초보, 새로운 거 알면 바꾸기-->
+											<c:set var="starLank" value="5"/>
+											 <c:choose>
+    											<c:when test="${starLank eq 0 }">
+  													<span>★</span>
+													<span>★</span>
+													<span>★</span>
+													<span>★</span>
+													<span>★</span>
+    											</c:when>
+    											<c:when test="${starLank eq 1 }">
+  													<span class="fill">★</span>
+													<span>★</span>
+													<span>★</span>
+													<span>★</span>
+													<span>★</span>
+    											</c:when>
+    											<c:when test="${starLank eq 2 }">
+  													<span class="fill">★</span>
+													<span class="fill">★</span>
+													<span>★</span>
+													<span>★</span>
+													<span>★</span>
+    											</c:when>
+    											<c:when test="${starLank eq 3 }">
+  													<span class="fill">★</span>
+													<span class="fill">★</span>
+													<span class="fill">★</span>
+													<span>★</span>
+													<span>★</span>
+    											</c:when>
+    											<c:when test="${starLank eq 4 }">
+  													<span class="fill">★</span>
+													<span class="fill">★</span>
+													<span class="fill">★</span>
+													<span class="fill">★</span>
+													<span>★</span>
+    											</c:when>
+   												 <c:otherwise>
+    												<span class="fill">★</span>
+													<span class="fill">★</span>
+													<span class="fill">★</span>
+	   												<span class="fill">★</span>
+													<span class="fill">★</span>
+												 </c:otherwise>
+											</c:choose>
+											<!-- 별점 구현 초보 -->
 											</p>
 											<p class="list_car">캐스퍼</p>
 											<div class="txt_prev">
@@ -62,13 +105,55 @@
 									
 									<li class="list_cont">
 										<a href="#">
-											<p class="list_num">5</p>
+											<p class="list_num">1</p>
 											<p class="list_scope">
-												<span class="fill">★</span>
-												<span class="fill">★</span>
-												<span class="fill">★</span>
-												<span class="fill">★</span>
-												<span>★</span>
+											<!-- 별점 구현 초보, 새로운 거 알면 바꾸기-->
+											<c:set var="starLank" value="2"/>
+											 <c:choose>
+    											<c:when test="${starLank eq 0 }">
+  													<span>★</span>
+													<span>★</span>
+													<span>★</span>
+													<span>★</span>
+													<span>★</span>
+    											</c:when>
+    											<c:when test="${starLank eq 1 }">
+  													<span class="fill">★</span>
+													<span>★</span>
+													<span>★</span>
+													<span>★</span>
+													<span>★</span>
+    											</c:when>
+    											<c:when test="${starLank eq 2 }">
+  													<span class="fill">★</span>
+													<span class="fill">★</span>
+													<span>★</span>
+													<span>★</span>
+													<span>★</span>
+    											</c:when>
+    											<c:when test="${starLank eq 3 }">
+  													<span class="fill">★</span>
+													<span class="fill">★</span>
+													<span class="fill">★</span>
+													<span>★</span>
+													<span>★</span>
+    											</c:when>
+    											<c:when test="${starLank eq 4 }">
+  													<span class="fill">★</span>
+													<span class="fill">★</span>
+													<span class="fill">★</span>
+													<span class="fill">★</span>
+													<span>★</span>
+    											</c:when>
+   												 <c:otherwise>
+    												<span class="fill">★</span>
+													<span class="fill">★</span>
+													<span class="fill">★</span>
+	   												<span class="fill">★</span>
+													<span class="fill">★</span>
+												 </c:otherwise>
+											</c:choose>
+											<!-- 별점 구현 초보 -->
 											</p>
 											<p class="list_car">레인지로버 P530</p>
 											<div class="txt_prev">
@@ -80,7 +165,8 @@
 											</p>
 											<p class="date">12-02</p>
 										</a>
-									</li>
+									</li>	
+							
 								</ul>
 								
 								<!-- 예약 내역(반납 시간 후)이 있는 사람만 출력 -->

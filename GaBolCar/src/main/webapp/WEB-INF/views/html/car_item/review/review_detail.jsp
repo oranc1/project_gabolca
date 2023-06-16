@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>       
 <!DOCTYPE html>
 <html>
 <head>
@@ -52,11 +53,53 @@
 												캐스퍼
 											</div>
 											<span class="write_s">
-												<span class="fill">⭐</span>
-												<span class="fill">⭐</span>
-												<span class="fill">⭐</span>
-												<span>⭐</span>
-												<span>⭐</span>
+												<!-- 별점 구현 초보, 새로운 거 알면 바꾸기-->
+											<c:set var="starLank" value="2"/>
+											 <c:choose>
+    											<c:when test="${starLank eq 0 }">
+  													<span>★</span>
+													<span>★</span>
+													<span>★</span>
+													<span>★</span>
+													<span>★</span>
+    											</c:when>
+    											<c:when test="${starLank eq 1 }">
+  													<span class="fill">★</span>
+													<span>★</span>
+													<span>★</span>
+													<span>★</span>
+													<span>★</span>
+    											</c:when>
+    											<c:when test="${starLank eq 2 }">
+  													<span class="fill">★</span>
+													<span class="fill">★</span>
+													<span>★</span>
+													<span>★</span>
+													<span>★</span>
+    											</c:when>
+    											<c:when test="${starLank eq 3 }">
+  													<span class="fill">★</span>
+													<span class="fill">★</span>
+													<span class="fill">★</span>
+													<span>★</span>
+													<span>★</span>
+    											</c:when>
+    											<c:when test="${starLank eq 4 }">
+  													<span class="fill">★</span>
+													<span class="fill">★</span>
+													<span class="fill">★</span>
+													<span class="fill">★</span>
+													<span>★</span>
+    											</c:when>
+   												 <c:otherwise>
+    												<span class="fill">★</span>
+													<span class="fill">★</span>
+													<span class="fill">★</span>
+	   												<span class="fill">★</span>
+													<span class="fill">★</span>
+												 </c:otherwise>
+											</c:choose>
+											<!-- 별점 구현 초보 -->
 											</span>
 										</div>
 									</li>
@@ -76,7 +119,6 @@
 									<a class="modify_btn">수정</a>
 									<a class="modify_delete">삭제</a>
 								</div>
-								
 							</div>
 						</div>
 					</section>

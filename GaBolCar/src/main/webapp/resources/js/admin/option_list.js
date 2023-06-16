@@ -1,6 +1,6 @@
 $(function() {
 	$("button[name=option_update]").on("click", function() {
-		window.open("optionUpdate?option_idx="+$(this).val(),"optionUpdate","width=410, height=530");
+		window.open("optionUpdate?option_idx="+$(this).val(),"optionUpdate","width=480, height=530");
 	});
 	
 	$("button[name=option_delete]").on("click", function() {
@@ -8,7 +8,7 @@ $(function() {
 	});
 	
     $("#option_insert").on("click",function() {
-        window.open("optionInsert","optionInsert","width=410, height=530");
+        window.open("optionInsert","optionInsert","width=480, height=530");
     });
     
 })
