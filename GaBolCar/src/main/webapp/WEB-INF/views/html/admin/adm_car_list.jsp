@@ -11,7 +11,6 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/admin/adm_sidebar.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/admin/adm_car_list.css">
 <script src="${pageContext.request.contextPath }/resources/js/inc/jquery-3.7.0.js"></script>
-<script src="${pageContext.request.contextPath }/resources/js/admin/adm_car_list_ajax.js"></script>
 <script src="${pageContext.request.contextPath }/resources/js/admin/adm_car_list.js"></script>
 </head>
 <body>

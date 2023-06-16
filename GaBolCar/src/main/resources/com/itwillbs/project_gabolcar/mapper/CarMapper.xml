@@ -42,17 +42,17 @@
 			*
 		from
 			car_info
-			<if test="search_type != null">
+			<if test="map.search_type != null and map != null">
 				where
 				<choose>
-					<when test="search_keyword == null">
-						car_type = "${search_type}"
+					<when test="map.search_keyword == null">
+						car_type = #{map.search_type}
 					</when>
-					<when test="search_type.equals('car_idx')">
-						car_idx = '${search_keyword}'
+					<when test="map.search_type.equals('car_idx')">
+						car_idx = #{map.search_keyword}
 					</when>
 					<when test="search_type.equals('car_company')">
-						car_company like %${search_keyword}%' 
+						car_company like '%${map.search_keyword}%' 
 					</when>
 				</choose>
 			</if>
