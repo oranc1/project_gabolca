@@ -124,4 +124,13 @@
 		where
 			option_idx = #{option_idx }
 	</delete>
+	
+	
+	<!-- 더미데이터 만들때 사용 -->
+	<select id="selectCarIdxList" resultType="int">
+		select
+			car_idx
+		from
+			car_info
+	</select>
 </mapper>

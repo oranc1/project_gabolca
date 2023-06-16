@@ -63,7 +63,7 @@ public class CarItemController {
 		List<String> brcNameList = null;
 		
 		// 지점이름 더미데이터
-		List<String> brcNameDummy = new ArrayList<String>(Arrays.asList("서면점","구포역점","부산역점"));
+		List<String> brcNameDummy = new ArrayList<String>(Arrays.asList("서면역점","해운대역점","광안리역점","부전역점"));
 		
 		
 		// 파라미터로 보내온 지점 이름 넣을 변수
@@ -405,11 +405,5 @@ public class CarItemController {
 		return result;
 	}
 	
-	//더미 만들기
-	@GetMapping("dummyCarMakeStart")
-	public String dummyCarMakeStart() {
-		carItemService.carInfoDummyMaker();
-		return "redirect:/";
-	}
-	
+
 }
