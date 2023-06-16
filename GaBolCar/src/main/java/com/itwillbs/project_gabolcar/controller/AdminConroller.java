@@ -55,7 +55,7 @@ public class AdminConroller {
 	// 차량리스트 조회
     @ResponseBody
     @RequestMapping(value= "carList.ajax", method = RequestMethod.GET, produces = "application/text; charset=UTF-8")
-    public String carSearch(@RequestParam Map<String, String> map, Model model) {
+    public String carSearch(@RequestParam Map<String, Object> map, Model model) {
     	System.out.println(map);
     	System.out.println(map.get("search_type"));
 		List<Map<String, Object>> carList = car_service.carList(map);

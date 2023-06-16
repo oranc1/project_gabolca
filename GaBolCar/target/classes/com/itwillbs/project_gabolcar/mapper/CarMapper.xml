@@ -36,6 +36,7 @@
 	</insert>
 	
 	
+	<!-- pageInfo 와 map 을 받아 특정 옵션을 특정 갯수, -->
 	<select id="selectCarList" resultType="map" parameterType="map">
 		select
 			*
@@ -48,15 +49,35 @@
 						car_type = "${search_type}"
 					</when>
 					<when test="search_type.equals('car_idx')">
-						car_idx = '${search_keyword}' 
+						car_idx = '${search_keyword}'
 					</when>
 					<when test="search_type.equals('car_company')">
 						car_company like %${search_keyword}%' 
 					</when>
 				</choose>
 			</if>
+<!-- 			<if test="map != null"> -->
+	<!-- 		where -->
+<!-- 				<if test=""> -->
+	<!-- 			  res_return_date < #{map.} -->
+<!-- 				</if>		 -->
+<!-- 			</if> -->
+			<if test="pageInfo != null">
+			limit #{map.pageItemStart},
+				#{pageInfo.pageListLimit}
+			</if>	
 	</select>
-		<select id="selectCar" resultType="map" parameterType="com.itwillbs.project_gabolcar.vo.CarVO">
+	
+	<!-- 차량리스트 페이지의 게시물 갯수제어를 위해 만든 PageInfo의 
+			끝 페이지 번호를 찾기 -->
+	<select id="selectCarListCount" >
+		select
+			count(car_idx)
+		from
+			car_info
+			
+	</select>
+	<select id="selectCar" resultType="map" parameterType="com.itwillbs.project_gabolcar.vo.CarVO">
 		select
 			*
 		from
@@ -152,4 +173,13 @@
 		where
 			option_idx = #{option_idx }
 	</delete>
+	
+	
+	<!-- 더미데이터 만들때 사용 -->
+	<select id="selectCarIdxList" resultType="int">
+		select
+			car_idx
+		from
+			car_info
+	</select>
 </mapper>

@@ -5,8 +5,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,16 +18,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.protobuf.*;
 import com.itwillbs.project_gabolcar.service.CarItemService;
+
+import com.itwillbs.project_gabolcar.service.CarService;
+import com.itwillbs.project_gabolcar.vo.*;
 
 @Controller
 public class CarItemController {
 	
 	@Autowired
 	CarItemService carItemService;
+
+	@Autowired
+	CarService carService;
+	
+	
 	
 	// db 검색 없이 더미 데이터를 사용시
-	static final boolean DUMMY_DATA_FLAG = true;
+	static final boolean DUMMY_DATA_FLAG = false;
 	
 	//차량 예약 검색
 	// 차 타입 하고 차 연료는 값 없는 경우 기본 값으로 받아오기
@@ -56,6 +63,10 @@ public class CarItemController {
 		//날짜 포맷 셋팅
 		SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
 
+		// 날짜 시간 raw값 셋팅(차량 검색시 필요)
+		LocalDateTime rentDateTime = null;
+		LocalDateTime returnDateTime = null;
+		
 		// 지점 이름 등 데이터 저장할 Map 객체 
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		
@@ -63,7 +74,7 @@ public class CarItemController {
 		List<String> brcNameList = null;
 		
 		// 지점이름 더미데이터
-		List<String> brcNameDummy = new ArrayList<String>(Arrays.asList("서면점","구포역점","부산역점"));
+		List<String> brcNameDummy = new ArrayList<String>(Arrays.asList("서면역점","해운대역점","광안리역점","부전역점"));
 		
 		
 		// 파라미터로 보내온 지점 이름 넣을 변수
@@ -73,6 +84,9 @@ public class CarItemController {
 		// 차량 타입 , 연료 데이터
 		List<String> carTypeList = new ArrayList<String>(Arrays.asList("경형/소형","준중형","중형","대형","SUV","승합","수입"));
 		List<String> carFureList = new ArrayList<String>(Arrays.asList("가솔린","디젤","LPG","전기","하이브리드","가솔린+LPG"));	
+
+		// 차량 현재 페이지 정보를 담는 PageInfo 객체 추가
+		PageInfo pageInfo = new PageInfo();
 		
 		// null값으로 넘어오는 파라미터가 있는지, 달력체크가 잘못되어있는지 체크후 안맞으면 이전 페이지로 넘어가게 하기
 		// 1. 날짜 to 없이 하나만 들어오거나 비어있는경우 and 시간이 영업시간이 ( 8 ~ 21시 사이) 아닌경우 - 하드코딩 가능
@@ -174,13 +188,13 @@ public class CarItemController {
 			}
 			try {
 				
-				LocalDateTime rentDateTime 
+				 rentDateTime 
 				= LocalDateTime.of(
 						Integer.parseInt(rentSplit[0]), 
 						Integer.parseInt(rentSplit[1]),
 						Integer.parseInt(rentSplit[2]),
 						rentHour,rentMinute,0);	
-				LocalDateTime returnDateTime 
+				 returnDateTime 
 				= LocalDateTime.of(
 						Integer.parseInt(returnSplit[0]), 
 						Integer.parseInt(returnSplit[1]),
@@ -320,7 +334,7 @@ public class CarItemController {
 		else {
 			checkResult = false;		
 		}
-		System.out.println(carType.length + " / " + carTypeList.size()  + " / " +  carFure.length  + " / " +  carFureList.size());
+
 		if(!checkResult) {
 			// 에러 메시지 추가 후 fail_back 이동
 			model.addAttribute("msg", "차량 타입 또는 연료가 잘못된 값 입니다! 다시 선택해주세요");
@@ -333,6 +347,9 @@ public class CarItemController {
 		resultMap.put("DUMMY_DATA_FLAG", DUMMY_DATA_FLAG);
 
 		// 시간값 넣기
+		resultMap.put("rentDateTime",rentDateTime );
+		resultMap.put("returnDateTime", returnDateTime);
+		
 		resultMap.put("rentHour",rentHour );
 		resultMap.put("rentMinute",rentMinute );
 		resultMap.put("returnHour", returnHour);
@@ -351,6 +368,32 @@ public class CarItemController {
 		resultMap.put("carType", new ArrayList(Arrays.asList(carType)));
 		resultMap.put("carFure", new ArrayList(Arrays.asList(carFure)));
 		
+
+		//페이지 정보 현황 초기화
+		pageInfo.setEndPage(returnMinute);
+		pageInfo.setListCount(1);
+		pageInfo.setPageListLimit(8);
+		pageInfo.setStartPage(1);
+		pageInfo.setMaxPage(1);
+		pageInfo.setNowPage(1);
+		
+
+		//차량 검색 시작
+		if(!DUMMY_DATA_FLAG) {
+			//차량을 일부분씩만 불러오기 때문에 최대 페이지 설정 해주기
+			pageInfo.setMaxPage((carItemService.getCarCount()/pageInfo.getPageListLimit())+1);
+			
+			// 페이지 정보 현황 넣기
+			resultMap.put("pageInfo", pageInfo);			
+			resultMap.put("carList", carService.carList(resultMap));
+			
+		}
+		else {
+			// 페이지 정보 현황 넣기(더미)
+			resultMap.put("pageInfo", pageInfo);
+
+			
+		}
 		
 		return new ModelAndView("html/car_item/res/car_res","map",resultMap) ;
 	}
@@ -370,7 +413,12 @@ public class CarItemController {
 	
 	// 리뷰 게시판
 	@GetMapping("review")
-	public String reviewBoard() {
+	public String reviewBoard(Model model) {
+	
+	List<ReviewVO> reviewList = carItemService.getReviewList();
+	
+	model.addAttribute("reviewList", reviewList);
+	
 		return "html/car_item/review/review_board";
 	}
 	// 리뷰 글 자세히 보기
@@ -402,14 +450,9 @@ public class CarItemController {
 				break;
 			}
 		}
+		
 		return result;
 	}
 	
-	//더미 만들기
-	@GetMapping("dummyCarMakeStart")
-	public String dummyCarMakeStart() {
-		carItemService.carInfoDummyMaker();
-		return "redirect:/";
-	}
-	
+
 }

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.itwillbs.project_gabolcar.mapper.ResMapper">
+	<insert id="insertResInfo">
+		INSERT INTO res_info
+		VALUES
+		(
+			null
+			,#{res_time}
+			,#{res_rental_date}
+			,#{res_return_date}
+			,#{brc_rent_name}
+			,#{brc_return_name}
+			,#{car_idx}
+			,#{car_insurance}
+			,#{lic_num}
+			,#{mem_idx}
+		)
+	</insert>
+</mapper>

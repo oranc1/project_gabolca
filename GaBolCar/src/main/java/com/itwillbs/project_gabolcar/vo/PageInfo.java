@@ -9,4 +9,5 @@ public class PageInfo {
 	private int maxPage; // 전체 페이지 수
 	private int startPage; // 시작 페이지 번호
 	private int endPage; // 끝 페이지 번호
+	private int nowPage; // 현재 페이지 번호
 }

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>       
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>      
 <!DOCTYPE html>
 <html>
 <head>
@@ -37,13 +38,13 @@
 										</p>
 										<p class="date">날짜</p>
 									</li>
-									
+									<c:forEach var="review" items="${reviewList }">
 									<li class="list_cont">
 										<a href="#">
-											<p class="list_num">2</p>
+											<p class="list_num">${review.rev_idx }</p>
 											<p class="list_scope">
 											<!-- 별점 구현 초보, 새로운 거 알면 바꾸기-->
-											<c:set var="starLank" value="5"/>
+											<c:set var="starLank" value="${review.rev_star }"/>
 											 <c:choose>
     											<c:when test="${starLank eq 0 }">
   													<span>★</span>
@@ -90,83 +91,17 @@
 											</c:choose>
 											<!-- 별점 구현 초보 -->
 											</p>
-											<p class="list_car">캐스퍼</p>
+											<p class="list_car">차종</p>
 											<div class="txt_prev">
-												<h4>너무 친절합니당</h4>
+												<h4>${review.rev_subject }</h4>
 											</div>
-
 											<p class="writter">
-												<!-- select 구문에서 2번째 글자 * 로 치환 -->
-												<span class="writter_name"><span class="sv_member">설*우</span></span>
+												<span class="writter_name"><span class="sv_member">${review.rev_name}</span></span>
 											</p>
-											<p class="date">12-02</p>
+											<p class="date">${review.rev_date}</p>
 										</a>
 									</li>
-									
-									<li class="list_cont">
-										<a href="#">
-											<p class="list_num">1</p>
-											<p class="list_scope">
-											<!-- 별점 구현 초보, 새로운 거 알면 바꾸기-->
-											<c:set var="starLank" value="2"/>
-											 <c:choose>
-    											<c:when test="${starLank eq 0 }">
-  													<span>★</span>
-													<span>★</span>
-													<span>★</span>
-													<span>★</span>
-													<span>★</span>
-    											</c:when>
-    											<c:when test="${starLank eq 1 }">
-  													<span class="fill">★</span>
-													<span>★</span>
-													<span>★</span>
-													<span>★</span>
-													<span>★</span>
-    											</c:when>
-    											<c:when test="${starLank eq 2 }">
-  													<span class="fill">★</span>
-													<span class="fill">★</span>
-													<span>★</span>
-													<span>★</span>
-													<span>★</span>
-    											</c:when>
-    											<c:when test="${starLank eq 3 }">
-  													<span class="fill">★</span>
-													<span class="fill">★</span>
-													<span class="fill">★</span>
-													<span>★</span>
-													<span>★</span>
-    											</c:when>
-    											<c:when test="${starLank eq 4 }">
-  													<span class="fill">★</span>
-													<span class="fill">★</span>
-													<span class="fill">★</span>
-													<span class="fill">★</span>
-													<span>★</span>
-    											</c:when>
-   												 <c:otherwise>
-    												<span class="fill">★</span>
-													<span class="fill">★</span>
-													<span class="fill">★</span>
-	   												<span class="fill">★</span>
-													<span class="fill">★</span>
-												 </c:otherwise>
-											</c:choose>
-											<!-- 별점 구현 초보 -->
-											</p>
-											<p class="list_car">레인지로버 P530</p>
-											<div class="txt_prev">
-												<h4>리뷰</h4>
-											</div>
-
-											<p class="writter">
-												<span class="writter_name"><span class="sv_member">최*진</span></span>
-											</p>
-											<p class="date">12-02</p>
-										</a>
-									</li>	
-							
+									</c:forEach>
 								</ul>
 								
 								<!-- 예약 내역(반납 시간 후)이 있는 사람만 출력 -->

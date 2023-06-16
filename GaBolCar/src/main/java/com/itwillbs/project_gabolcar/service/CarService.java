@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.itwillbs.project_gabolcar.mapper.CarMapper;
 import com.itwillbs.project_gabolcar.vo.CarVO;
+import com.itwillbs.project_gabolcar.vo.PageInfo;
 
 @Service
 public class CarService {
@@ -18,12 +19,15 @@ public class CarService {
 		return mapper.registerCar(car);
 	}
 	
-//	public List<Map<String, Object>> carList() {
-//		return mapper.selectCarList();
-//	}
-	
-	public List<Map<String, Object>> carList(Map<String, String> map) {
-		return mapper.selectCarList(map);
+	public List<Map<String, Object>> carList(Map<String, Object> map) {
+		PageInfo pageInfo = null;
+		if(map.get("pageInfo") != null) {			
+			pageInfo = (PageInfo)map.get("pageInfo");
+			map.put("pageItemStart", pageInfo.getNowPage() * pageInfo.getPageListLimit());
+			return mapper.selectCarList(pageInfo,map);
+		} else {
+			return mapper.selectCarList(pageInfo,map);
+		}
 	}
 	
 	
