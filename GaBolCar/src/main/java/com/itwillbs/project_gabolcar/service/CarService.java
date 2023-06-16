@@ -18,9 +18,14 @@ public class CarService {
 		return mapper.registerCar(car);
 	}
 	
-	public List<Map<String, Object>> carList() {
-		return mapper.selectCarList();
+//	public List<Map<String, Object>> carList() {
+//		return mapper.selectCarList();
+//	}
+	
+	public List<Map<String, Object>> carList(Map<String, String> map) {
+		return mapper.selectCarList(map);
 	}
+	
 	
 	public Map<String, Object> carSelect(CarVO car) {
 		return mapper.selectCar(car);
@@ -61,4 +66,6 @@ public class CarService {
 	public int carOptionRegister(CarVO car) {
 		return mapper.insertCarOption(car);
 	}
+
+
 }

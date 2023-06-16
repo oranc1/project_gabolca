@@ -36,11 +36,25 @@
 	</insert>
 	
 	
-	<select id="selectCarList" resultType="map">
+	<select id="selectCarList" resultType="map" parameterType="map">
 		select
 			*
 		from
 			car_info
+			<if test="search_type != null">
+				where
+				<choose>
+					<when test="search_keyword == null">
+						car_type = "${search_type}"
+					</when>
+					<when test="search_type.equals('car_idx')">
+						car_idx = '${search_keyword}' 
+					</when>
+					<when test="search_type.equals('car_company')">
+						car_company like %${search_keyword}%' 
+					</when>
+				</choose>
+			</if>
 	</select>
 		<select id="selectCar" resultType="map" parameterType="com.itwillbs.project_gabolcar.vo.CarVO">
 		select

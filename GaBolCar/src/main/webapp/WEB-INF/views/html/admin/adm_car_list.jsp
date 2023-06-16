@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/admin/adm_sidebar.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/admin/adm_car_list.css">
 <script src="${pageContext.request.contextPath }/resources/js/inc/jquery-3.7.0.js"></script>
+<script src="${pageContext.request.contextPath }/resources/js/admin/adm_car_list_ajax.js"></script>
 <script src="${pageContext.request.contextPath }/resources/js/admin/adm_car_list.js"></script>
 </head>
 <body>
@@ -25,7 +26,7 @@
 					<span id="adm_car_title">[관리자] 차량리스트</span>
 					<article id="adm_car_top">
 						<label for="car_type1">
-							<input type="checkbox" name="car_type" id="car_type1" class="adm_car_chb" value="소형">소형
+							<input type="checkbox" name="car_type" id="car_type1" class="adm_car_chb" value="경형/소형">소형
 						</label>
 						<label for="car_type2">
 							<input type="checkbox" name="car_type" id="car_type2" class="adm_car_chb" value="준중형">준중형
@@ -40,10 +41,10 @@
 							<input type="checkbox" name="car_type" id="car_type5" class="adm_car_chb" value="SUV">SUV
 						</label>
 						<label for="car_type6">
-							<input type="checkbox" name="car_type" id="car_type6" class="adm_car_chb" value="수입">수입
+							<input type="checkbox" name="car_type" id="car_type6" class="adm_car_chb" value="승합">승합
 						</label>
 						<label for="car_type7">
-							<input type="checkbox" name="car_type" id="car_type7" class="adm_car_chb" value="기타">기타
+							<input type="checkbox" name="car_type" id="car_type7" class="adm_car_chb" value="수입">수입
 						</label>
 					</article>
 					<article id="adm_car_center">
@@ -59,29 +60,6 @@
 								<td>상태</td>
 								<td colspan="2">관리</td>
 							</tr>
-							<!-- 리스트를 불러와서 중복 출력될 라인 -->
-							<c:forEach var="car" items="${carList }">
-							<tr class="car_content">
-								<td>${car.car_idx }</td>
-								<td>${car.car_company }</td>
-								<td>${car.car_model }</td>
-								<td>${car.car_type }</td>
-								<td>${car.car_old }</td>
-								<td>${car.brc_name }</td>
-								<td>출력될 옵션</td>
-								<td>${car.car_status }</td>
-								<td>
-									<button name="item_update" class="adm_car_button" value="${car.car_idx }">
-										수정
-									</button>
-								</td>
-								<td>
-									<button name="item_delete" class="adm_car_button" value="${car.car_idx }">
-										삭제
-									</button>
-								</td>
-							</tr>
-							</c:forEach>
 						</table>
 						<button name="item_insert" class="adm_car_button">
 							상품등록
@@ -99,11 +77,11 @@
 								<option value="car_model">모델명</option>
 								<option value="car_type">차종</option>
 								<option value="car_old">연식</option>
-								<option value="branch_idx">지점</option>
+								<option value="branch_name">지점</option>
 								<option value="car_option">옵션</option>
 								<option value="car_status">상태</option> <!-- 예약중인지 -->
 							</select>
-							<input type="search" name="" id="search_box"> <!-- search_cate change -> $(this).val()) -->
+							<input type="search" name="search_keyword" id="search_box"> <!-- search_cate change -> $(this).val()) -->
 							<button name="item_search" class="adm_car_button">
 								검색
 							</button>

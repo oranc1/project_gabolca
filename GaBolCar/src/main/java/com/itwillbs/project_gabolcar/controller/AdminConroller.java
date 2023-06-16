@@ -15,12 +15,16 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -44,11 +48,21 @@ public class AdminConroller {
 	
 	// 차량리스트 이동
 	@GetMapping("admCarList")
-	public ModelAndView admCarList() {
-		List<Map<String, Object>> carList = car_service.carList();
-		return new ModelAndView("html/admin/adm_car_list","carList",carList);
+	public String admCarList() {
+		return "html/admin/adm_car_list";
 	}
 	
+	// 차량리스트 조회
+    @ResponseBody
+    @RequestMapping(value= "carList.ajax", method = RequestMethod.GET, produces = "application/text; charset=UTF-8")
+    public String carSearch(@RequestParam Map<String, String> map, Model model) {
+    	System.out.println(map);
+    	System.out.println(map.get("search_type"));
+		List<Map<String, Object>> carList = car_service.carList(map);
+		JSONArray jsonArray = new JSONArray(carList);
+    	return jsonArray.toString();
+    }
+    
 	// 지점리스트 이동
 	@GetMapping("admBrcList")
 	public ModelAndView admBrcList() {
@@ -355,12 +369,6 @@ public class AdminConroller {
     		return "inc/fail_back";
     	}
     	return "redirect:/optionList";
-    }
-    
-    // 차량관리 검색
-    @GetMapping("carSearch")
-    public String carSearch(@RequestParam Map<String, String> map,Model model) {
-    	return "redirect:/admCarList";
     }
     
 }

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.itwillbs.project_gabolcar.vo.CarVO;
 
@@ -13,7 +14,7 @@ public interface CarMapper {
 	int registerCar(CarVO car);
 
 	// 차량 리스트
-	List<Map<String, Object>> selectCarList();
+	List<Map<String, Object>> selectCarList(@RequestParam(value = "map", required = false) Map<String, String> map);
 
 	// 차량 검색
 	Map<String, Object> selectCar(CarVO car);
