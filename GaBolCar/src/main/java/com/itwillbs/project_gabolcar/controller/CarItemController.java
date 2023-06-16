@@ -18,9 +18,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.protobuf.*;
 import com.itwillbs.project_gabolcar.service.CarItemService;
+
 import com.itwillbs.project_gabolcar.service.CarService;
-import com.itwillbs.project_gabolcar.vo.PageInfo;
+import com.itwillbs.project_gabolcar.vo.*;
 
 @Controller
 public class CarItemController {
@@ -411,7 +413,12 @@ public class CarItemController {
 	
 	// 리뷰 게시판
 	@GetMapping("review")
-	public String reviewBoard() {
+	public String reviewBoard(Model model) {
+	
+	List<ReviewVO> reviewList = carItemService.getReviewList();
+	
+	model.addAttribute("reviewList", reviewList);
+	
 		return "html/car_item/review/review_board";
 	}
 	// 리뷰 글 자세히 보기

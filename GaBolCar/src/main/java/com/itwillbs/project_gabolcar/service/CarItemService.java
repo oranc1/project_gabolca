@@ -7,14 +7,22 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 import com.itwillbs.project_gabolcar.mapper.BrcMapper;
 import com.itwillbs.project_gabolcar.mapper.CarMapper;
+
+import com.itwillbs.project_gabolcar.mapper.*;
+import com.itwillbs.project_gabolcar.vo.*;
+
 
 
 @Service
 public class CarItemService {
 	@Autowired
 	BrcMapper brcMapper;
+	
+	@Autowired
+	CarItemMapper carItemMapper;
 	
 	@Autowired
 	CarMapper carMapper;
@@ -43,7 +51,12 @@ public class CarItemService {
 	public List<Integer> getCarIndexList(){
 		return carMapper.selectCarIdxList();
 	}
-	
+//==============리뷰 서비스=============================
+	public List<ReviewVO> getReviewList(){
+		
+		return carItemMapper.selectReviewList();
+	}
+	//==========getReviewList() 끝=======
 }
 
 

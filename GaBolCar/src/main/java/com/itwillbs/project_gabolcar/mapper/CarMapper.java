@@ -5,8 +5,11 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
+
 import com.itwillbs.project_gabolcar.vo.CarVO;
 import com.itwillbs.project_gabolcar.vo.PageInfo;
+
+import com.itwillbs.project_gabolcar.vo.*;
 
 public interface CarMapper {
 
@@ -50,4 +53,6 @@ public interface CarMapper {
 	List<Integer> selectCarIdxList();
 
 	int insertCarOption(CarVO car);
+	
+
 }
