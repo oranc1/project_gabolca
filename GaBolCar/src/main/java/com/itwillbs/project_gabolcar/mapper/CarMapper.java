@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.itwillbs.project_gabolcar.vo.CarVO;
+import com.itwillbs.project_gabolcar.vo.*;
 
 public interface CarMapper {
 
@@ -43,4 +43,6 @@ public interface CarMapper {
 	int deleteOption(int option_idx);
 
 	int insertCarOption(CarVO car);
+	//리뷰 관련 Mapper
+	List<ReviewVO> selectReviewList();
 }

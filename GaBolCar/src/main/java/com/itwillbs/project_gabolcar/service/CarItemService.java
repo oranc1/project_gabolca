@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.itwillbs.project_gabolcar.mapper.BrcMapper;
 import com.itwillbs.project_gabolcar.mapper.CarMapper;
-import com.itwillbs.project_gabolcar.vo.CarVO;
+import com.itwillbs.project_gabolcar.vo.*;
 
 
 @Service
@@ -157,6 +157,13 @@ public class CarItemService {
 		}// for문 끝
 		
 	}// 메서드 끝
+	
+//==============리뷰 서비스=============================
+	public List<ReviewVO> getReviewList(){
+		
+		return carMapper.selectReviewList();
+	}
+	//==========getReviewList() 끝=======
 }
 
 

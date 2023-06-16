@@ -138,4 +138,14 @@
 		where
 			option_idx = #{option_idx }
 	</delete>
+	
+	<!-- 리뷰 관련 mapper.xml -->
+	<!-- 리뷰 게시판 목록 -->
+	<select id="selectReviewList" resultType="map" parameterType="com.itwillbs.project_gabolcar.vo.ReviewVO">
+		select
+			*
+		from
+			rev_car
+	</select>
+	
 </mapper>
