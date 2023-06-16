@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.itwillbs.project_gabolcar.mapper.CarMapper;
 import com.itwillbs.project_gabolcar.vo.CarVO;
+import com.itwillbs.project_gabolcar.vo.PageInfo;
 
 @Service
 public class CarService {
@@ -19,7 +20,17 @@ public class CarService {
 	}
 	
 	public List<Map<String, Object>> carList() {
-		return mapper.selectCarList();
+		return mapper.selectCarList(null,null);
+	}
+	
+	public List<Map<String, Object>> carList(Map<String,Object> map) {
+		PageInfo pageInfo = null;
+		if(map != null) {			
+			pageInfo = (PageInfo)map.get("pageInfo");
+		}
+		// mybatis 에서 사칙연산 자제해야됨으로 임시로 map 파라미터에 넣기
+		map.put("pageItemStart", pageInfo.getNowPage() * pageInfo.getPageListLimit());
+		return mapper.selectCarList(pageInfo,map);
 	}
 	
 	public Map<String, Object> carSelect(CarVO car) {

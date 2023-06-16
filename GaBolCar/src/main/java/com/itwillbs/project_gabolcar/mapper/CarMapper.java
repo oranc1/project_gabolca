@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 
 import com.itwillbs.project_gabolcar.vo.CarVO;
+import com.itwillbs.project_gabolcar.vo.PageInfo;
 
 public interface CarMapper {
 
@@ -13,10 +14,12 @@ public interface CarMapper {
 	int registerCar(CarVO car);
 
 	// 차량 리스트
-	List<Map<String, Object>> selectCarList();
-
+	List<Map<String, Object>> selectCarList(@Param("pageInfo") PageInfo pageInfo,@Param("map") Map<String, Object> resFindOption);
+	
+	// 차량 수량 확인 (페이지 최대 항목 계산에 사용)
+	int selectCarListCount();
+	
 	// 차량 검색
-
 	Map<String, Object> selectCar(CarVO car);
 
 	// 차량 수정

@@ -28,7 +28,7 @@ import com.itwillbs.project_gabolcar.service.CarItemService;
 public class HomeController {
 	
 	// db 검색 없이 더미 데이터를 사용시
-	static final boolean DUMMY_DATA_FLAG = true;
+	static final boolean DUMMY_DATA_FLAG = false;
 	
 	@Autowired
 	CarItemService carItemService; // main 의 지점정보와 차량 추천목록 정보 가져올때 사용

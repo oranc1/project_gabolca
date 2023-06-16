@@ -19,6 +19,7 @@ public class CarItemService {
 	@Autowired
 	CarMapper carMapper;
 	
+	// db 에서 지점 찾기
 	public List<String> findBrcList(){
 		// 변수 초기화
 		List<String> brcList = new ArrayList<String>();
@@ -33,9 +34,16 @@ public class CarItemService {
 		return brcList;
 	} // findBrcList 끝
 	
+
+	// 최대 페이지 등 페이지 관련에쓸 차량 총 댓수
+	public int getCarCount() {
+		return carMapper.selectCarListCount();
+	}
+	
 	public List<Integer> getCarIndexList(){
 		return carMapper.selectCarIdxList();
 	}
+	
 }
 
 
