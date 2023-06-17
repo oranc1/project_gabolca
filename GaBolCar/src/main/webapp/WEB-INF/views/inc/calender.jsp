@@ -254,6 +254,9 @@
 	// 
 	
 	function initCalPost(){
+		// 달력의 날짜적힌 input 태그 가져오기
+		let calInput = document.querySelector(".cal-input");
+		
 		// 시간 항목 체크
 		
 		
@@ -271,6 +274,10 @@
 			//기본 설정 날짜 지정
 			defaultDate:[new Date("${map.rentDate}") , new Date("${map.returnDate}")]
 		});
+		
+		//대여일 반납일 업데이트
+
+		updateCalRent(calInput);
 	}
 	
 	// home 에서는 Map 에 파라미터들이 없기때문에 

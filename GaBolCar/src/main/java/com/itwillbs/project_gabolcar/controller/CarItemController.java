@@ -1,5 +1,6 @@
 package com.itwillbs.project_gabolcar.controller;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.google.protobuf.*;
 import com.itwillbs.project_gabolcar.service.CarItemService;
 
 import com.itwillbs.project_gabolcar.service.CarService;
@@ -42,8 +42,8 @@ public class CarItemController {
 	// 차 타입 하고 차 연료는 값 없는 경우 기본 값으로 받아오기
 	@RequestMapping("carRes")
 	public ModelAndView carRes(@RequestParam Map<String , String> map
-			, @RequestParam(value="carType", defaultValue="경형/소형,준중형,중형,대형,SUV,승합,수입") String[] carType
-			, @RequestParam(value="carFure", defaultValue="가솔린,디젤,LPG,전기,하이브리드,가솔린+LPG") String[] carFure
+			, @RequestParam(value="car_type", defaultValue="경형/소형,준중형,중형,대형,SUV,승합,수입") String[] car_type
+			, @RequestParam(value="car_fuel_type", defaultValue="가솔린,디젤,LPG,전기,하이브리드,가솔린+LPG") String[] car_fuel_type
 			, Model model) {
 		
 		// 사용될 변수와 초기값 셋팅
@@ -64,26 +64,26 @@ public class CarItemController {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
 
 		// 날짜 시간 raw값 셋팅(차량 검색시 필요)
-		LocalDateTime rentDateTime = null;
-		LocalDateTime returnDateTime = null;
+		LocalDateTime res_rental_date = null;
+		LocalDateTime res_return_date = null;
 		
 		// 지점 이름 등 데이터 저장할 Map 객체 
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		
 		// 지점 이름 받을 변수
-		List<String> brcNameList = null;
+		List<String> brc_name_list = null;
 		
 		// 지점이름 더미데이터
 		List<String> brcNameDummy = new ArrayList<String>(Arrays.asList("서면역점","해운대역점","광안리역점","부전역점"));
 		
 		
 		// 파라미터로 보내온 지점 이름 넣을 변수
-		String rentLocation = map.get("rentLocation"); 
-		String returnLocation = map.get("returnLocation"); 
+		String brc_rent_name = map.get("brc_rent_name"); 
+		String brc_return_name = map.get("brc_return_name"); 
 		
 		// 차량 타입 , 연료 데이터
-		List<String> carTypeList = new ArrayList<String>(Arrays.asList("경형/소형","준중형","중형","대형","SUV","승합","수입"));
-		List<String> carFureList = new ArrayList<String>(Arrays.asList("가솔린","디젤","LPG","전기","하이브리드","가솔린+LPG"));	
+		List<String> car_type_list = new ArrayList<String>(Arrays.asList("경형/소형","준중형","중형","대형","SUV","승합","수입"));
+		List<String> car_fuel_type_list = new ArrayList<String>(Arrays.asList("가솔린","디젤","LPG","전기","하이브리드","가솔린+LPG"));	
 
 		// 차량 현재 페이지 정보를 담는 PageInfo 객체 추가
 		PageInfo pageInfo = new PageInfo();
@@ -103,10 +103,8 @@ public class CarItemController {
 			
 			DateTimeFormatter fomatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 			
-			System.out.println(nowDate);
 			// 기본 렌트 시간은 현 시간보다 + 2
 			int rentTime = nowDate.getHour() + 2;
-			System.out.println(rentTime);
 			// 만약 기본 렌트 시간이 
 			// 21 시가 넘는다면 다음날 지점 오픈 시간으로 셋팅
 			if(rentTime  >= 21) {
@@ -188,20 +186,20 @@ public class CarItemController {
 			}
 			try {
 				
-				 rentDateTime 
+				 res_rental_date 
 				= LocalDateTime.of(
 						Integer.parseInt(rentSplit[0]), 
 						Integer.parseInt(rentSplit[1]),
 						Integer.parseInt(rentSplit[2]),
 						rentHour,rentMinute,0);	
-				 returnDateTime 
+				 res_return_date 
 				= LocalDateTime.of(
 						Integer.parseInt(returnSplit[0]), 
 						Integer.parseInt(returnSplit[1]),
 						Integer.parseInt(returnSplit[2]),
 						returnHour,returnMinute,0);	
 				
-				if(rentDateTime.isAfter(returnDateTime)) {
+				if(res_rental_date.isAfter(res_return_date)) {
 					// 에러 메시지 추가 후 fail_back 이동
 					model.addAttribute("msg", "기간이 허용되지 않는 값 이거나 당일 예약으로 선택되었습니다! 다시 선택해주세요");
 					return new ModelAndView("inc/fail_back","map",resultMap);
@@ -234,10 +232,10 @@ public class CarItemController {
 	
 		// 더미데이터 사용 여부 체크후 사용 안하면 데이터 받아오기
 		if(!DUMMY_DATA_FLAG) {
-			brcNameList = carItemService.findBrcList();
+			brc_name_list = carItemService.findBrcList();
 		}
 		else {
-			brcNameList = brcNameDummy;
+			brc_name_list = brcNameDummy;
 		}
 		
 		// 지점리스트에 있는지 없는지 확인
@@ -245,56 +243,56 @@ public class CarItemController {
 
 		// 통과 되었는지 체크하는 변수
 		boolean checkResult = true;
-		if(brcNameList != null && !DUMMY_DATA_FLAG) {
-			// rentLocation 체크
+		if(brc_name_list != null && !DUMMY_DATA_FLAG) {
+			// brc_rent_name 체크
 			//파라미터 비어있는지 체크
-			if(rentLocation != null) {				
-				if(!checkListName(rentLocation, brcNameList)) {
+			if(brc_rent_name != null) {				
+				if(!checkListName(brc_rent_name, brc_name_list)) {
 					checkResult = false;
 				}
 			}
 			// 파라미터 비어있으면 지점리스트의 가장 첫번째값으로
 			else {
-				rentLocation = brcNameList.get(0);
+				brc_rent_name = brc_name_list.get(0);
 			}
 			
-			// returnLocation 체크
+			// brc_return_name 체크
 			//파라미터 비어있는지 체크
-			if(returnLocation != null ) {				
-				if(!checkListName(returnLocation, brcNameList)) {
+			if(brc_return_name != null ) {				
+				if(!checkListName(brc_return_name, brc_name_list)) {
 					checkResult = false;
 				}
 			}
 			// 파라미터 비어있으면 지점리스트의 가장 첫번째값으로
 			else {
-					returnLocation = brcNameList.get(0);
+					brc_return_name = brc_name_list.get(0);
 			}
 		}
 		else {
 			// 더미데이터로 유효성 체크
 			
-			// rentLocation 체크
+			// brc_rent_name 체크
 			//파라미터 비어있는지 체크
-			if(rentLocation != null) {				
-				if(!checkListName(rentLocation, brcNameDummy)) {
+			if(brc_rent_name != null) {				
+				if(!checkListName(brc_rent_name, brcNameDummy)) {
 					checkResult = false;
 				}
 			}
 			// 파라미터 비어있으면 지점리스트의 가장 첫번째값으로
 			else {
-				rentLocation = brcNameDummy.get(0);
+				brc_rent_name = brcNameDummy.get(0);
 			}
 			
-			// returnLocation 체크
+			// brc_return_name 체크
 			//파라미터 비어있는지 체크
-			if(returnLocation != null ) {				
-				if(!checkListName(returnLocation, brcNameDummy)) {
+			if(brc_return_name != null ) {				
+				if(!checkListName(brc_return_name, brcNameDummy)) {
 					checkResult = false;
 				}
 			}
 			// 파라미터 비어있으면 지점리스트의 가장 첫번째값으로
 			else {
-					returnLocation = brcNameDummy.get(0);
+					brc_return_name = brcNameDummy.get(0);
 			}
 		}
 		
@@ -308,26 +306,24 @@ public class CarItemController {
 		//=========== 차량 타입, 연료 체크 ===========
 	
 		//파라미터 길이 체크 (너무길면 서버 성능 저하의 요소가 되므로)
-		if(carType.length <= carTypeList.size() || carFure.length <= carFureList.size() ) {
+		if(car_type.length <= car_type_list.size() || car_fuel_type.length <= car_fuel_type_list.size() ) {
 			int countCheckTrue1 = 0;
-			for(String str : carType) {	
-				if(checkListName(str, carTypeList)) {
+			for(String str : car_type) {	
+				if(checkListName(str, car_type_list)) {
 					countCheckTrue1++;
 				}
-				System.out.println(str  + " / " + countCheckTrue1);
 			}
-			if(carType.length != countCheckTrue1) {
+			if(car_type.length != countCheckTrue1) {
 				checkResult = false;				
 			}
 			
 			int countCheckTrue2 = 0;
-			for(String str : carFure) {			
-				if(checkListName(str, carFureList)) {
+			for(String str : car_fuel_type) {			
+				if(checkListName(str, car_fuel_type_list)) {
 					countCheckTrue2++;
 				}
-				System.out.println(str  + " / " + countCheckTrue2);
 			}
-			if(carFure.length != countCheckTrue2) {
+			if(car_fuel_type.length != countCheckTrue2) {
 				checkResult = false;				
 			}
 		}
@@ -347,8 +343,10 @@ public class CarItemController {
 		resultMap.put("DUMMY_DATA_FLAG", DUMMY_DATA_FLAG);
 
 		// 시간값 넣기
-		resultMap.put("rentDateTime",rentDateTime );
-		resultMap.put("returnDateTime", returnDateTime);
+		
+		// sql 문으로 날짜,시간 보낼땐 Timestamp로 꼭 변환해서 넣어야함!!
+		resultMap.put("res_rental_date",Timestamp.valueOf( res_rental_date) );
+		resultMap.put("res_return_date", Timestamp.valueOf(res_return_date));
 		
 		resultMap.put("rentHour",rentHour );
 		resultMap.put("rentMinute",rentMinute );
@@ -358,24 +356,24 @@ public class CarItemController {
 		resultMap.put("returnDate", returnDate);
 		
 		// 렌트 지역값 넣기
-		resultMap.put("brcNameList", brcNameList);
-		resultMap.put("rentLocation", rentLocation);
-		resultMap.put("returnLocation", returnLocation);
+		resultMap.put("brc_name_list", brc_name_list);
+		resultMap.put("brc_rent_name", brc_rent_name);
+		resultMap.put("brc_return_name", brc_return_name);
 		
 		// 차량 타입 연료 값 넣기
 		// String[] 배열 형식으로 넣으면 제대로 된 값이 넘어가지 않으므로
 		// new ArrayList(Arrays.asList()) 로 변환해서 넣기
-		resultMap.put("carType", new ArrayList(Arrays.asList(carType)));
-		resultMap.put("carFure", new ArrayList(Arrays.asList(carFure)));
+		resultMap.put("car_type", new ArrayList(Arrays.asList(car_type)));
+		resultMap.put("car_fuel_type", new ArrayList(Arrays.asList(car_fuel_type)));
 		
 
 		//페이지 정보 현황 초기화
 		pageInfo.setEndPage(returnMinute);
 		pageInfo.setListCount(1);
 		pageInfo.setPageListLimit(8);
-		pageInfo.setStartPage(1);
-		pageInfo.setMaxPage(1);
-		pageInfo.setNowPage(1);
+		pageInfo.setStartPage(0); // sql limit 문의 시작 번호는 배열처럼 0 이 시작
+		pageInfo.setMaxPage(8);
+		pageInfo.setNowPage(0);// sql limit 문의 시작 번호는 배열처럼 0 이 시작
 		
 
 		//차량 검색 시작
@@ -385,7 +383,11 @@ public class CarItemController {
 			
 			// 페이지 정보 현황 넣기
 			resultMap.put("pageInfo", pageInfo);			
-			resultMap.put("carList", carService.carList(resultMap));
+			
+			// 현재 car_res 페이지에서 차량을 찾는다는 확인 문구를 넣기
+			resultMap.put("car_search", "true");			
+			resultMap.put("car_search_list", carService.carList(resultMap));
+			System.out.println(resultMap.get("car_search_list"));
 			
 		}
 		else {

@@ -36,12 +36,15 @@
 	</insert>
 	
 	
-	<!-- pageInfo 와 map 을 받아 특정 옵션을 특정 갯수, -->
+	<!-- pageInfo 와 map 을 받아  찾고싶은 차량의 조건들을 확인하여 리스트를 반환
+		만약 pageInfo이 없으면 전체 차량 리스트를 불러옴
+		map의 속성값에 따라서 차량 찾기 만약 map이 아예 없으면 조건선택 X -->
 	<select id="selectCarList" resultType="map" parameterType="map">
 		select
 			*
 		from
 			car_info
+			<!-- adm 페이지의 차량 목록에서 사용 -->
 			<if test="map.search_type != null and map != null">
 				where
 				<choose>
@@ -56,12 +59,63 @@
 					</when>
 				</choose>
 			</if>
-<!-- 			<if test="map != null"> -->
-	<!-- 		where -->
-<!-- 				<if test=""> -->
-	<!-- 			  res_return_date < #{map.} -->
-<!-- 				</if>		 -->
-<!-- 			</if> -->
+			<!-- ============================================== -->
+			
+			<!-- 차량 예약에서 차량 찾을때 쓰는 문구 -->
+			<if test="map.car_search != null and map != null">
+				WHERE 
+			    car_status not in ("점검") -- 차량 상태
+			    <if test="map.car_type != null">
+					AND car_type in  -- 차종
+					(
+					<foreach collection="map.car_type" item="carType" 
+							separator=",">
+						#{carType}
+					</foreach>
+					)
+			    </if>
+			    <if test="map.car_fuel_type != null">
+				    AND car_fuel_type in  -- 연료
+				    (
+					<foreach collection="map.car_fuel_type" item="carFuelType" 
+							 separator=",">
+						#{carFuelType}
+					</foreach>
+				    )
+			    </if>
+			    <if test="map.brc_rent_name != null">
+				    AND brc_name = #{map.brc_rent_name} -- 차량 지점 코드
+			    </if>
+			    AND car_idx not in -- 아래 res_info 에 해당하는 차량들을 모조리 제외
+			    (
+			        SELECT car_idx
+			        FROM res_info
+			         
+			        WHERE
+			        		-- 주의 날짜 관련 데이터 넣을때 sql의 형식이 Timestamp 이면
+			        		-- 자바문 에서 해당 데이터를 Timestamp로 변환해서 넣어야함!!
+			        		 
+			        		-- 1. 예약 리스트에서 렌트 시작일시와 종료일시 사이에 
+			       			-- 사용자가 선택한 렌트 시작 일시가 있는지 확인
+			       	 		(#{map.res_rental_date} BETWEEN  res_rental_date  AND res_return_date) 
+			            	
+			        		-- 2. 예약 리스트에서 렌트 시작일시와 종료일시 사이에 
+			       			-- 사용자가 선택한 렌트 종료 일시가 있는지 확인
+			        			OR (#{map.res_return_date} BETWEEN  res_rental_date  AND res_return_date)
+			        			
+			        		-- 3. 예약 리스트에서 렌트 시작일시, 종료일시가
+			        		-- 사용자가 선택한 렌트 시작일시 와 렌트 종료일시 안에 있을경우 확인
+			        		OR 
+			       	 		(res_rental_date BETWEEN  #{map.res_rental_date} AND #{map.res_return_date}) 
+			        			
+			       	 		OR	
+			       	 		(res_return_date BETWEEN  #{map.res_rental_date} AND #{map.res_return_date}) 
+			        			
+			        			
+			        GROUP by car_idx
+			    )
+			</if>
+			
 			<if test="pageInfo != null">
 			limit #{map.pageItemStart},
 				#{pageInfo.pageListLimit}

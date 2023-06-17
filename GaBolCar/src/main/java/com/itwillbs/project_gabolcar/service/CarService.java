@@ -24,6 +24,7 @@ public class CarService {
 		if(map.get("pageInfo") != null) {			
 			pageInfo = (PageInfo)map.get("pageInfo");
 			map.put("pageItemStart", pageInfo.getNowPage() * pageInfo.getPageListLimit());
+
 			return mapper.selectCarList(pageInfo,map);
 		} else {
 			return mapper.selectCarList(pageInfo,map);

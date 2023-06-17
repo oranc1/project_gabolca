@@ -43,25 +43,25 @@ public class HomeController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		// 지점 이름 받을 변수
-		List<String> brcNameList = null;
+		List<String> brc_name_list = null;
 		
 		// 지점이름 더미데이터
-		List<String> brcNameDummy = new ArrayList<String>(Arrays.asList("서면점","구포역점","부산역점"));
+		List<String> brcNameDummy = new ArrayList<String>(Arrays.asList("서면역점","해운대역점","광안리역점","부전역점"));
 		
 		
 		// 차량정보 받을변수 (추후생성후 구현)
 		
 		// 더미데이터 사용 여부 체크후 사용 안하면 데이터 받아오기
 		if(!DUMMY_DATA_FLAG) {
-			brcNameList = carItemService.findBrcList();
+			brc_name_list = carItemService.findBrcList();
 		}
 		else{
-			brcNameList = brcNameDummy;
+			brc_name_list = brcNameDummy;
 		}
 
 		map.put("DUMMY_DATA_FLAG", DUMMY_DATA_FLAG);
 		map.put("isMapHaveParams", false);
-		map.put("brcNameList", brcNameList);
+		map.put("brc_name_list", brc_name_list);
 		return new ModelAndView("main","map",map);
 	}
 	
