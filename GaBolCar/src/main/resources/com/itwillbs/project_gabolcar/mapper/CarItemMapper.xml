@@ -11,4 +11,12 @@
 			rev_car
 	</select>
 	
+	<!-- 차량 소개 mapper.xml -->
+	<select id="selectCarInfoList" resultType="map">
+		select
+			*
+		from
+			car_info
+	</select>
+	
 </mapper>

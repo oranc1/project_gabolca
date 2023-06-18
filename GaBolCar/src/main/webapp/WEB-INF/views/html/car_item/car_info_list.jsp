@@ -17,7 +17,6 @@
 
  	<script src="${pageContext.request.contextPath }/resources/js/inc/jquery-3.7.0.js"></script>
  	
-	
 </head>
 <body>
 	<header>
@@ -31,24 +30,34 @@
 				<dt>차종 선택</dt>
 				<dd>
 					<div class="left-div">
-						<label for="selectCarType_0"><input name="selectCarType"
-							id="selectCarType_0" type="checkbox" value="경형"
-							onchange="Light_Car()">경형</label> <label for="selectCarType_1"><input
-							name="selectCarType" id="selectCarType_1" type="checkbox"
-							value="준중형">준중형</label> <label for="selectCarType_2"><input
-							name="selectCarType" id="selectCarType_2" type="checkbox"
-							value="중형">중형</label> <label for="selectCarType_3"><input
-							name="selectCarType" id="selectCarType_3" type="checkbox"
-							value="대형">대형</label> <label for="selectCarType_4"><input
-							name="selectCarType" id="selectCarType_4" type="checkbox"
-							value="SUV">SUV</label> <label for="selectCarType_5"><input
-							name="selectCarType" id="selectCarType_5" type="checkbox"
-							value="전기">전기</label> <label for="selectCarType_6"><input
-							name="selectCarType" id="selectCarType_6" type="checkbox"
-							value="승합">승합</label> <label for="selectCarType_7"><input
-							name="selectCarType" id="selectCarType_7" type="checkbox"
-							value="수입">수입</label>
-
+					<label for="selectCarType_0">
+				    <input name="selectCarType" id="selectCarType_0" type="checkbox" value="경형/소형">
+				    	경형/소형
+					</label> 
+					<label for="selectCarType_1">
+					    <input name="selectCarType" id="selectCarType_1" type="checkbox" value="준중형">
+					    준중형
+					</label> 
+					<label for="selectCarType_2">
+					    <input name="selectCarType" id="selectCarType_2" type="checkbox" value="중형">
+					    중형
+					</label> 
+					<label for="selectCarType_3">
+					    <input name="selectCarType" id="selectCarType_3" type="checkbox" value="대형">
+					    대형
+					</label>
+					<label for="selectCarType_4"> 
+					    <input name="selectCarType" id="selectCarType_4" type="checkbox" value="SUV">
+					    SUV
+					</label>
+					<label for="selectCarType_5"> 
+					    <input name="selectCarType" id="selectCarType_5" type="checkbox" value="전기">
+					    전기
+					</label>
+					<label for="selectCarType_6"> 
+					    <input name="selectCarType" id="selectCarType_6" type="checkbox" value="수입">
+					    수입
+					</label> 
 					</div>
 				</dd>
 			</dl>
@@ -73,52 +82,112 @@
 					</div>
 				</dd>
 			</dl>
+			
 		</div>
-
+		
+		<!-- 차량 소개에서 차량 목록을 사용자가 차종에 따라 필터링하는 기능 구현 -->
 		<script type="text/javascript">
-			// 체크박스 클릭시 버튼 바꾸기
-			$(".left-div > label").on("click", function() {
-				$(this).addClass("on");
-				if ($(this).children("input[type=checkbox]").is(":checked")) {
-					$(this).css({
-						"background" : "#ff6600",
-						"color" : "#fff",
-					});
-					$(this).children().attr("checked", true);
-					$(this).removeClass("on");
-				} else {
-					$(this).css({
-						"background" : "#fff",
-						"color" : "#000"
-					});
-					$(this).children().attr("checked", false);
+// 		selectCarTypeCheckboxes: input[name='selectCarType']에 해당하는 모든 체크박스를 선택하여 가져온다.
+		  const selectCarTypeCheckboxes = document.querySelectorAll("input[name='selectCarType']");
+		
+//		selectedCarTypes: 선택된 차종을 저장할 빈 배열을 선언
+		  let selectedCarTypes = [];
+		
+		  const selectFuelCheckboxes = document.querySelectorAll("input[name='selectFuel']"); // input[name='selectFuel']에 해당하는 모든 체크박스를 선택하여 가져온다.
 
-				}
+		  let selectedFuelTypes = []; //	selectedFuelTypes: 선택된 연료 종류를 저장할 빈 배열을 선언
+
+		  selectFuelCheckboxes.forEach((checkbox) => {
+		    checkbox.addEventListener("change", (e) => {
+		      if (e.target.checked) {
+		        selectedFuelTypes.push(e.target.value);
+		      } else {
+		        selectedFuelTypes = selectedFuelTypes.filter((type) => type !== e.target.value);
+		      }
+
+		      filterCarList();
+		    });
+		  });
+		
+		// filterCarList 함수: 차량 목록을 필터링하는데 사용되는 함수
+		  function filterCarList() {
+		    const carItems = document.getElementsByClassName("car-item");
+
+		    [...carItems].forEach((item) => {
+		    	  let shouldDisplayByCarType = false;
+		    	  let shouldDisplayByFuelType = false;
+
+		    	  if (selectedCarTypes.length === 0) {
+		    	    shouldDisplayByCarType = true;
+		    	  } else {
+		    	    selectedCarTypes.forEach((carType) => {
+		    	      if (item.classList.contains(carType.toLowerCase().replace(' ', '_'))) {
+		    	        shouldDisplayByCarType = true;
+		    	      }
+		    	    });
+		    	  }
+
+		    	  if (selectedFuelTypes.length === 0) {
+		    	    shouldDisplayByFuelType = true;
+		    	  } else {
+		    	    selectedFuelTypes.forEach((fuelType) => {
+		    	      if (item.classList.contains(fuelType)) {
+		    	        shouldDisplayByFuelType = true;
+		    	      }
+		    	    });
+		    	  }
+
+		    	  if (shouldDisplayByCarType && shouldDisplayByFuelType) {
+		    	    item.style.display = "block";
+		    	  } else {
+		    	    item.style.display = "none";
+		    	  }
+		    	});
+		  }
+
+		  selectCarTypeCheckboxes.forEach((checkbox) =>
+		    checkbox.addEventListener("change", (e) => {
+		      if (e.target.checked) {
+		        selectedCarTypes.push(e.target.value);
+		      } else {
+		        selectedCarTypes = selectedCarTypes.filter((type) => type !== e.target.value);
+		      }
+
+		      filterCarList();
+		    })
+		  );
+
+		  filterCarList();
+			  
+			  
+			// 체크박스 클릭시 버튼 활성화 처리
+			$(".left-div > label").on("click", function() {
+			  const checkbox = $(this).find("input:checkbox");
+			  if (checkbox.is(":checked")) {
+			    $(this).css({"background": "#fff", "color": "#000"});
+			    checkbox.prop("checked", false);
+			  } else {
+			    $(this).css({"background": "#ff6600", "color": "#fff"});
+			    checkbox.prop("checked", true);
+			  }
 			});
 
 			$(".right-div > label").on("click", function() {
-				$(this).addClass("on");
-				if ($(this).children("input[type=checkbox]").is(":checked")) {
-					$(this).css({
-						"background" : "#ff6600",
-						"color" : "#fff"
-					});
-					$(this).children().attr("checked", true);
-					$(this).removeClass("on");
-				} else {
-					$(this).css({
-						"background" : "#fff",
-						"color" : "#000"
-					});
-					$(this).children().attr("checked", false);
-				}
+			  const checkbox = $(this).find("input:checkbox");
+			  if (checkbox.is(":checked")) {
+			    $(this).css({"background": "#fff", "color": "#000"});
+			    checkbox.prop("checked", false);
+			  } else {
+			    $(this).css({"background": "#ff6600", "color": "#fff"});
+			    checkbox.prop("checked", true);
+			  }
 			});
+			
+
 		</script>
 
 		<jsp:include page="inc/car_info_item.jsp"></jsp:include>
 
-		<jsp:include page="inc/car_info_item.jsp"></jsp:include>
-		
 	</section>
 	<footer>
 		<jsp:include page="../../inc/footer.jsp"></jsp:include>
