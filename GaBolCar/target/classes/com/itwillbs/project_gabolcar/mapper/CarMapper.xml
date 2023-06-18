@@ -60,12 +60,24 @@
 				<choose>
 					<when test="map.search_keyword == null">
 						car_type = #{map.search_type}
+<!-- 							<foreach collection="map.search_type" item="item" open="(" close=")" separator=","> -->
+<!-- 								#{item} -->
+<!-- 							</foreach> -->
 					</when>
 					<when test="map.search_type.equals('car_idx')">
 						car_idx = #{map.search_keyword}
 					</when>
-					<when test="search_type.equals('car_company')">
-						car_company like '%${map.search_keyword}%' 
+					<when test="map.search_type.equals('car_company')">
+						car_company like ('%',#{map.search_keyword},'%')
+					</when>
+					<when test="map.search_type.equals('car_model')">
+						car_model like concat('%',#{map.search_keyword},'%')
+					</when>
+					<when test="map.search_type.equals('car_old')">
+						car_old = #{map.search_keyword}
+					</when>
+					<when test="map.search_type.equals('brc_name')">
+						brc_name like concat('%',#{map.search_keyword},'%')
 					</when>
 				</choose>
 			</if>

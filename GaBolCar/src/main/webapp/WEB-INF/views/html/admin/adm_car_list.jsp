@@ -74,11 +74,9 @@
 								<option value="car_idx">차량코드</option>
 								<option value="car_company">브랜드</option>
 								<option value="car_model">모델명</option>
-								<option value="car_type">차종</option>
 								<option value="car_old">연식</option>
-								<option value="branch_name">지점</option>
+								<option value="brc_name">지점</option>
 								<option value="car_option">옵션</option>
-								<option value="car_status">상태</option> <!-- 예약중인지 -->
 							</select>
 							<input type="search" name="search_keyword" id="search_box"> <!-- search_cate change -> $(this).val()) -->
 							<button name="item_search" class="adm_car_button">
