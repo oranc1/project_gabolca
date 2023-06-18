@@ -1,15 +1,11 @@
 package com.itwillbs.project_gabolcar.service;
 
-import java.util.List;
-import java.util.Random;
-
-import com.itwillbs.project_gabolcar.vo.CarVO;
-import com.itwillbs.project_gabolcar.vo.ResInfoVO;
-
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Map;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
+import java.util.TreeSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +13,8 @@ import org.springframework.stereotype.Service;
 import com.itwillbs.project_gabolcar.mapper.BrcMapper;
 import com.itwillbs.project_gabolcar.mapper.CarMapper;
 import com.itwillbs.project_gabolcar.mapper.ResMapper;
+import com.itwillbs.project_gabolcar.vo.CarVO;
+import com.itwillbs.project_gabolcar.vo.ResInfoVO;
 
 @Service
 public class DummyDbService {
@@ -151,6 +149,18 @@ public class DummyDbService {
 			car.setCar_status(sc);
 		
 			carMapper.registerCar(car);
+			
+			// 차량 옵션 랜덤 등록
+			Integer[] option = new Integer[r.nextInt(20)+1];
+			TreeSet<Integer> tree = new TreeSet<Integer>();
+			while (tree.size() < option.length) {
+				int idx = r.nextInt(20)+1;
+				tree.add(idx);
+			}
+			option = tree.toArray(new Integer[tree.size()]);
+			car.setCar_idx(i+1);
+			car.setOption_idx(Arrays.stream(option).mapToInt(Integer::intValue).toArray());
+			carMapper.insertCarOption(car);
 		}// for문 끝
 		
 	}// 메서드 끝
