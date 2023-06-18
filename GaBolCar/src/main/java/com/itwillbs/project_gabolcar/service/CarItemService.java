@@ -68,6 +68,11 @@ public class CarItemService {
 		return carItemMapper.selectReviewList();
 	}
 	//==========getReviewList() 끝=======
+	
+// ============ 차량 소개 ==================================
+	public List<Map<String, Object>> carInfoList() {
+		return carItemMapper.selectCarInfoList();
+	}
 }
 
 
