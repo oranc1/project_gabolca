@@ -11,4 +11,7 @@ public interface CarItemMapper {
 	//리뷰 관련 Mapper
 	//리뷰게시판 목록조회
 	List<ReviewVO> selectReviewList();
+	
+	// 차량 소개 Mapper
+	List<Map<String, Object>> selectCarInfoList();
 }
