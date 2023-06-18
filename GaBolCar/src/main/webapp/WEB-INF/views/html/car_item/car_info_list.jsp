@@ -87,100 +87,89 @@
 		
 		<!-- 차량 소개에서 차량 목록을 사용자가 차종에 따라 필터링하는 기능 구현 -->
 		<script type="text/javascript">
-// 		selectCarTypeCheckboxes: input[name='selectCarType']에 해당하는 모든 체크박스를 선택하여 가져온다.
-		  const selectCarTypeCheckboxes = document.querySelectorAll("input[name='selectCarType']");
-		
-//		selectedCarTypes: 선택된 차종을 저장할 빈 배열을 선언
-		  let selectedCarTypes = [];
-		
-		  const selectFuelCheckboxes = document.querySelectorAll("input[name='selectFuel']"); // input[name='selectFuel']에 해당하는 모든 체크박스를 선택하여 가져온다.
+		$(document).ready(function() {
+			  const selectCarTypeCheckboxes = $("input[name='selectCarType']");
+			  let selectedCarTypes = [];
 
-		  let selectedFuelTypes = []; //	selectedFuelTypes: 선택된 연료 종류를 저장할 빈 배열을 선언
+			  const selectFuelCheckboxes = $("input[name='selectFuel']");
+			  let selectedFuelTypes = [];
 
-		  selectFuelCheckboxes.forEach((checkbox) => {
-		    checkbox.addEventListener("change", (e) => {
-		      if (e.target.checked) {
-		        selectedFuelTypes.push(e.target.value);
-		      } else {
-		        selectedFuelTypes = selectedFuelTypes.filter((type) => type !== e.target.value);
-		      }
+			  selectFuelCheckboxes.on("change", function() {
+			    if ($(this).is(":checked")) {
+			      selectedFuelTypes.push($(this).val());
+			    } else {
+			      selectedFuelTypes = selectedFuelTypes.filter(type => type !== $(this).val());
+			    }
 
-		      filterCarList();
-		    });
-		  });
-		
-		// filterCarList 함수: 차량 목록을 필터링하는데 사용되는 함수
-		  function filterCarList() {
-		    const carItems = document.getElementsByClassName("car-item");
+			    filterCarList();
+			  });
 
-		    [...carItems].forEach((item) => {
-		    	  let shouldDisplayByCarType = false;
-		    	  let shouldDisplayByFuelType = false;
+			  selectCarTypeCheckboxes.on("change", function() {
+			    if ($(this).is(":checked")) {
+			      selectedCarTypes.push($(this).val());
+			    } else {
+			      selectedCarTypes = selectedCarTypes.filter(type => type !== $(this).val());
+			    }
 
-		    	  if (selectedCarTypes.length === 0) {
-		    	    shouldDisplayByCarType = true;
-		    	  } else {
-		    	    selectedCarTypes.forEach((carType) => {
-		    	      if (item.classList.contains(carType.toLowerCase().replace(' ', '_'))) {
-		    	        shouldDisplayByCarType = true;
-		    	      }
-		    	    });
-		    	  }
+			    filterCarList();
+			  });
 
-		    	  if (selectedFuelTypes.length === 0) {
-		    	    shouldDisplayByFuelType = true;
-		    	  } else {
-		    	    selectedFuelTypes.forEach((fuelType) => {
-		    	      if (item.classList.contains(fuelType)) {
-		    	        shouldDisplayByFuelType = true;
-		    	      }
-		    	    });
-		    	  }
+			  function filterCarList() {
+			    const carItems = $(".car-item");
 
-		    	  if (shouldDisplayByCarType && shouldDisplayByFuelType) {
-		    	    item.style.display = "block";
-		    	  } else {
-		    	    item.style.display = "none";
-		    	  }
-		    	});
-		  }
+			    carItems.each(function() {
+			      let shouldDisplayByCarType = false;
+			      let shouldDisplayByFuelType = false;
 
-		  selectCarTypeCheckboxes.forEach((checkbox) =>
-		    checkbox.addEventListener("change", (e) => {
-		      if (e.target.checked) {
-		        selectedCarTypes.push(e.target.value);
-		      } else {
-		        selectedCarTypes = selectedCarTypes.filter((type) => type !== e.target.value);
-		      }
+			      if (selectedCarTypes.length === 0) {
+			        shouldDisplayByCarType = true;
+			      } else {
+			        selectedCarTypes.forEach((carType) => {
+			          if ($(this).hasClass(carType.toLowerCase().replace(' ', '_'))) {
+			            shouldDisplayByCarType = true;
+			          }
+			        });
+			      }
 
-		      filterCarList();
-		    })
-		  );
+			      if (selectedFuelTypes.length === 0) {
+			        shouldDisplayByFuelType = true;
+			      } else {
+			        selectedFuelTypes.forEach((fuelType) => {
+			          if ($(this).hasClass(fuelType)) {
+			            shouldDisplayByFuelType = true;
+			          }
+			        });
+			      }
 
-		  filterCarList();
-			  
-			  
-			// 체크박스 클릭시 버튼 활성화 처리
-			$(".left-div > label").on("click", function() {
-			  const checkbox = $(this).find("input:checkbox");
-			  if (checkbox.is(":checked")) {
-			    $(this).css({"background": "#fff", "color": "#000"});
-			    checkbox.prop("checked", false);
-			  } else {
-			    $(this).css({"background": "#ff6600", "color": "#fff"});
-			    checkbox.prop("checked", true);
+			      if (shouldDisplayByCarType && shouldDisplayByFuelType) {
+			        $(this).css("display", "block");
+			      } else {
+			        $(this).css("display", "none");
+			      }
+			    });
 			  }
-			});
 
-			$(".right-div > label").on("click", function() {
-			  const checkbox = $(this).find("input:checkbox");
-			  if (checkbox.is(":checked")) {
-			    $(this).css({"background": "#fff", "color": "#000"});
-			    checkbox.prop("checked", false);
-			  } else {
-			    $(this).css({"background": "#ff6600", "color": "#fff"});
-			    checkbox.prop("checked", true);
-			  }
+			  $(".left-div > label").on("click", function() {
+			    const checkbox = $(this).find("input:checkbox");
+			    if (checkbox.is(":checked")) {
+			      $(this).css({"background": "#fff", "color": "#000"});
+			      checkbox.prop("checked", false);
+			    } else {
+			      $(this).css({"background": "#ff6600", "color": "#fff"});
+			      checkbox.prop("checked", true);
+			    }
+			  });
+
+			  $(".right-div > label").on("click", function() {
+			    const checkbox = $(this).find("input:checkbox");
+			    if (checkbox.is(":checked")) {
+			      $(this).css({"background": "#fff", "color": "#000"});
+			      checkbox.prop("checked", false);
+			    } else {
+			      $(this).css({"background": "#ff6600", "color": "#fff"});
+			      checkbox.prop("checked", true);
+			    }
+			  });
 			});
 			
 
