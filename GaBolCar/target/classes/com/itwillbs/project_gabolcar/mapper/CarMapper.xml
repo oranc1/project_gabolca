@@ -41,7 +41,17 @@
 		map의 속성값에 따라서 차량 찾기 만약 map이 아예 없으면 조건선택 X -->
 	<select id="selectCarList" resultType="map" parameterType="map">
 		select
-			*
+		<choose>
+			<when test="map.carRes != null">
+			 brc_name ,car_model
+			, car_old,car_company,car_weekdays,car_weekend
+			,car_riding, car_shift_type
+			, car_fuel_type,car_age,car_file
+			</when>
+			<otherwise>			
+				*
+			</otherwise>
+		</choose>
 		from
 			car_info
 			<!-- adm 페이지의 차량 목록에서 사용 -->
@@ -114,6 +124,39 @@
 			        			
 			        GROUP by car_idx
 			    )
+			</if>
+			 	<!-- 차량 각 지점마다 중복된 모델,년식 있는 차량을 하나로 묶기위해
+			    	group by 문 사용  
+			    	
+			    	주의!!!! 현재는 carRes에서만 사용하도록 test 문에 되어있고
+			    	select 문과 동일한 순서로 항목들이 기입 되어있어야됨-->
+			 <if test="map.carRes != null">
+   				group by brc_name, car_model
+   				, car_old,car_company,car_weekdays,car_weekend
+  				,car_riding, car_shift_type, car_fuel_type
+  				,car_age,car_file
+			</if>
+			
+			<!-- 차량 정렬 방식 설정 -->
+			<if test="map.car_order_by != null">	
+				<choose>
+					<when test="map.car_order_by.equals('price')">	
+						order by car_weekdays, car_old desc
+					</when>
+					<when test="map.car_order_by.equals('populer')">
+						<!-- 인기순 정렬은 먼저 차 검색 sql 문 들어오기 전에
+							 먼저 인기순 차량들 검색식으로 데이터를 가져와서
+							 map 으로 집어넣고 여기로 와야함 -->
+						 <if test="map.car_populer_list != null">
+							order by 		
+							<foreach collection="map.car_populer_list" item="carModel"
+								separator=",">
+								car_model LIKE #{carModel.car_model}
+							</foreach>	
+							, car_old desc
+						 </if>
+					</when>
+				</choose>
 			</if>
 			
 			<if test="pageInfo != null">

@@ -17,4 +17,19 @@
 			,#{mem_idx}
 		)
 	</insert>
+	
+	<!-- 차량 인기순위 뽑기 -->
+	<!-- 유의사항 !
+		인기순위를 뽑아 order by 절에 사용할때
+		order by 는 맨 위에있는것을 우선순위로 둠
+		따라서 인기 순위를 뽑을때 인기가 적은순으로 뽑아야 
+		foreach 문을 쓸때 수월함!
+		반대로 인기가 적은순으로 뽑을땐 인기가 많은순으로 뽑아 사용 -->
+	<select id="selectResPopuler" resultType="map">
+		SELECT car_model, count(car_model) res_count
+		FROM car_info c 
+		JOIN res_info r ON c.car_idx = r.car_idx 
+		GROUP BY car_model
+		ORDER BY res_count
+	</select>
 </mapper>

@@ -375,19 +375,37 @@ public class CarItemController {
 		pageInfo.setMaxPage(8);
 		pageInfo.setNowPage(0);// sql limit 문의 시작 번호는 배열처럼 0 이 시작
 		
+		// 차량 검색 정렬 조건 셋팅
+		resultMap.put("car_order_by",map.get("car_order_by"));
+		
+		// 만약 셋팅 조건이 없을 시 가격순 셋팅
+		if(resultMap.get("car_order_by") == null)		
+			resultMap.put("car_order_by","price");
 
+		
 		//차량 검색 시작
 		if(!DUMMY_DATA_FLAG) {
-			//차량을 일부분씩만 불러오기 때문에 최대 페이지 설정 해주기
-			pageInfo.setMaxPage((carItemService.getCarCount()/pageInfo.getPageListLimit())+1);
-			
-			// 페이지 정보 현황 넣기
-			resultMap.put("pageInfo", pageInfo);			
-			
-			// 현재 car_res 페이지에서 차량을 찾는다는 확인 문구를 넣기
-			resultMap.put("car_search", "true");			
-			resultMap.put("car_search_list", carService.carList(resultMap));
-			System.out.println(resultMap.get("car_search_list"));
+			try {				
+				//차량을 일부분씩만 불러오기 때문에 최대 페이지 설정 해주기
+				pageInfo.setMaxPage((carItemService.getCarCount()/pageInfo.getPageListLimit())+1);
+				
+				if(resultMap.get("car_order_by").equals("populer")) {					
+					//차량 인기순위 검색후 넣기
+					resultMap.put("car_populer_list", carItemService.getCarPopuler());
+				}
+				
+				// 페이지 정보 현황 넣기
+				resultMap.put("pageInfo", pageInfo);			
+				
+				// 현재 car_res 페이지에서 차량을 찾는다는 확인 문구를 넣기
+				resultMap.put("carRes", "true");
+				// 차량 종류를 정해서 찾는다는 확인 문구 보내기
+				resultMap.put("car_search", "true");			
+				resultMap.put("car_search_list", carService.carList(resultMap));
+			}
+			catch(Exception e) {
+				e.printStackTrace();
+			}
 			
 		}
 		else {
