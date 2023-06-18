@@ -425,8 +425,9 @@ public class CarItemController {
 
 	//차량 소개
 	@GetMapping("carInfoList")
-	public String carInfo() {
-		return "html/car_item/car_info_list";
+	public ModelAndView carInfo() {
+	List<Map<String, Object>> carInfoList = carItemService.carInfoList();
+	return new ModelAndView("html/car_item/car_info_list","carInfoList",carInfoList);
 	}
 	
 	//============ 리뷰 =================
