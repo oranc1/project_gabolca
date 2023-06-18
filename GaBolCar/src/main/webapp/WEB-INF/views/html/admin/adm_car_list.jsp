@@ -24,26 +24,26 @@
 				<section id="adm_car">
 					<span id="adm_car_title">[관리자] 차량리스트</span>
 					<article id="adm_car_top">
-						<label for="car_type1">
-							<input type="checkbox" name="car_type" id="car_type1" class="adm_car_chb" value="경형/소형">소형
+						<label>
+							<input type="checkbox" name="car_type" class="adm_car_chb" value="경형/소형">경형/소형
 						</label>
-						<label for="car_type2">
-							<input type="checkbox" name="car_type" id="car_type2" class="adm_car_chb" value="준중형">준중형
+						<label>
+							<input type="checkbox" name="car_type" class="adm_car_chb" value="준중형">준중형
 						</label>
-						<label for="car_type3">
-							<input type="checkbox" name="car_type" id="car_type3" class="adm_car_chb" value="중형">중형
+						<label>
+							<input type="checkbox" name="car_type" class="adm_car_chb" value="중형">중형
 						</label>
-						<label for="car_type4">
-							<input type="checkbox" name="car_type" id="car_type4" class="adm_car_chb" value="대형">대형
+						<label>
+							<input type="checkbox" name="car_type" class="adm_car_chb" value="대형">대형
 						</label>
-						<label for="car_type5">
-							<input type="checkbox" name="car_type" id="car_type5" class="adm_car_chb" value="SUV">SUV
+						<label>
+							<input type="checkbox" name="car_type" class="adm_car_chb" value="SUV">SUV
 						</label>
-						<label for="car_type6">
-							<input type="checkbox" name="car_type" id="car_type6" class="adm_car_chb" value="승합">승합
+						<label>
+							<input type="checkbox" name="car_type" class="adm_car_chb" value="승합">승합
 						</label>
-						<label for="car_type7">
-							<input type="checkbox" name="car_type" id="car_type7" class="adm_car_chb" value="수입">수입
+						<label>
+							<input type="checkbox" name="car_type" class="adm_car_chb" value="수입">수입
 						</label>
 					</article>
 					<article id="adm_car_center">
@@ -76,7 +76,7 @@
 								<option value="car_model">모델명</option>
 								<option value="car_old">연식</option>
 								<option value="brc_name">지점</option>
-								<option value="car_option">옵션</option>
+								<option value="option_name">옵션</option>
 							</select>
 							<input type="search" name="search_keyword" id="search_box"> <!-- search_cate change -> $(this).val()) -->
 							<button name="item_search" class="adm_car_button">
