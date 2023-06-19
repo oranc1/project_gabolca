@@ -242,8 +242,7 @@
 				<if test="map.startRow != null and map.listLimit != null">
 					limit
 						#{map.startRow}
-						, #{listLimit}
-				
+						, #{map.listLimit}
 				</if>
 			</when>
 			<otherwise></otherwise>

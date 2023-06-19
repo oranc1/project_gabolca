@@ -24,10 +24,13 @@ public class CarService {
 		if(map.get("pageInfo") != null) {			
 			pageInfo = (PageInfo)map.get("pageInfo");
 			map.put("pageItemStart", pageInfo.getNowPage() * pageInfo.getPageListLimit());
-			return mapper.selectCarList(pageInfo,map);
-		} else {
-			return mapper.selectCarList(pageInfo,map);
+		} else if(map.get("admin") != null){
+			int listLimit = 10;
+			int startRow = (Integer.parseInt((String) map.get("pageNum"))-1) * listLimit;
+			map.put("startRow", startRow);
+			map.put("listLimit", listLimit);
 		}
+		return mapper.selectCarList(pageInfo,map);
 	}
 	
 	
