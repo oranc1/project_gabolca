@@ -39,7 +39,7 @@
 							</a>
 						</li>
 						<li>
-							<a href=""> <i class="xi-user"></i> 로그아웃
+							<a href="javascript:logout()"> <i class="xi-user"></i> 로그아웃
 							</a>
 						</li>
 						</c:otherwise>
@@ -112,7 +112,15 @@
 		</div>
 
 	</nav>
-
+	<script>
+		function logout(){
+			let isLogout = confirm("로그아웃 하시겠습니까?");
+			
+			if(isLogout){
+				location.href="Logout";
+			}
+					}
+	</script>
 	<script>
         let subMenu = $('#header .gnb .sub_menu');
         let mainMenu = $('#header .gnb .gnb_cont');
