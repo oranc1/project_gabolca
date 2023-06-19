@@ -99,7 +99,6 @@
 			<!-- 차량예약 where -->
 			<when test="map.carRes != null">
 				<!-- 차량 예약에서 차량 찾을때 쓰는 문구 -->
-				<if test="map.car_search != null and map != null">
 					WHERE 
 				    car_status not in ("점검") -- 차량 상태
 				    <if test="map.car_type != null">
@@ -110,7 +109,6 @@
 							#{carType}
 						</foreach>
 						)
-				    </if>
 				    <if test="map.car_fuel_type != null">
 					    AND car_fuel_type in  -- 연료
 					    (
@@ -121,7 +119,7 @@
 					    )
 				    </if>
 				    <if test="map.brc_rent_name != null">
-					    AND brc_name = #{map.brc_rent_name} -- 차량 지점 코드
+					AND brc_name = #{map.brc_rent_name} -- 차량 지점 코드
 				    </if>
 				    AND car_idx not in -- 아래 res_info 에 해당하는 차량들을 모조리 제외
 				    (
@@ -188,12 +186,10 @@
 		    	group by 문 사용  
 		    	주의!!!! 현재는 carRes에서만 사용하도록 test 문에 되어있고
 		    	select 문과 동일한 순서로 항목들이 기입 되어있어야됨-->
-				<if test="map.carRes != null">
-	   				group by brc_name, car_model
-	   				, car_old,car_company,car_weekdays,car_weekend
-	  				,car_riding, car_shift_type, car_fuel_type
-	  				,car_age,car_file
-				</if>
+   				group by brc_name, car_model
+   				, car_old,car_company,car_weekdays,car_weekend
+  				,car_riding, car_shift_type, car_fuel_type
+  				,car_age,car_file		
 			</when>
 			<!-- 관리자 group by -->
 			<when test="map.admin != null">
@@ -268,6 +264,11 @@
 		from
 			car_info
 			<choose>
+				<when test="car_model != null"> <!-- 0619 경인 추가 -->
+				where car_model = #{car_model}
+				order by car_old desc
+				limit 0,1
+				</when>
 				<when test="car_idx eq '' or car_idx eq null">
 				where car_number=#{car_number}
 				</when>

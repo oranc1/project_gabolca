@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -108,62 +109,87 @@
 		</div>
 		<div
 			class="row align-items-center car_recom_list_wrap justify-content-center">
-			<div
-				class="mt-2 col-2 d-flex align-items-center justify-content-center car_recom_item1">
-				<div>
-					<img class="car_recom_img" alt=""
-						src="${pageContext.request.contextPath }/resources/img/car_img_storage/test_img/캐스퍼.png">
-					<div class="car_recom_info_wrap">
-						<p class="car_recom_info_model">캐스퍼 1.0 NA 인스퍼레이션</p>
-						<div class="car_recom_info_list">
-							<span>21년식</span><span>가솔린</span>
+			
+			<c:choose>
+				<c:when test="${!empty map.car_populer_list and fn:length(map.car_populer_list) <= 4}">
+					<c:forEach var="populer_car"  items="${map.car_populer_list }" varStatus="i">			
+					<div
+						class="mt-2 col-2 d-flex align-items-center justify-content-center car_recom_item${i.index + 1 }">
+						<a href="">
+						</a>
+						<div>
+							<img class="car_recom_img" alt=""
+								src="${populer_car.car_file}">
+							<div class="car_recom_info_wrap">
+								<p class="car_recom_info_model">${populer_car.car_model}(${populer_car.car_company})</p>
+								<div class="car_recom_info_list">
+									<span>${populer_car.car_old}년식</span><span>${populer_car.car_fuel_type}</span>
+								</div>
+								<p class="car_recom_info_price">일 ${populer_car.car_weekdays} 원</p>
+							</div>
 						</div>
-						<p class="car_recom_info_price">일 50,000 원</p>
+					</div>
+					</c:forEach>
+				</c:when> <%-- map.car_populer_list 있을때 --%>
+				<c:otherwise> <%-- 더미값 --%>
+				<div
+					class="mt-2 col-2 d-flex align-items-center justify-content-center car_recom_item1">
+					<div>
+						<img class="car_recom_img" alt=""
+							src="${pageContext.request.contextPath }/resources/img/car_img_storage/test_img/캐스퍼.png">
+						<div class="car_recom_info_wrap">
+							<p class="car_recom_info_model">캐스퍼 1.0 NA 인스퍼레이션</p>
+							<div class="car_recom_info_list">
+								<span>21년식</span><span>가솔린</span>
+							</div>
+							<p class="car_recom_info_price">일 50,000 원</p>
+						</div>
 					</div>
 				</div>
-			</div>
-			<div
-				class="mt-2 col-2 d-flex align-items-center justify-content-center car_recom_item2">
-				<div>
-					<img class="car_recom_img" alt=""
-						src="${pageContext.request.contextPath }/resources/img/car_img_storage/test_img/캐스퍼.png">
-					<div class="car_recom_info_wrap">
-						<p class="car_recom_info_model">캐스퍼 1.0 NA 인스퍼레이션</p>
-						<div class="car_recom_info_list">
-							<span>21년식</span><span>가솔린</span>
+				<div
+					class="mt-2 col-2 d-flex align-items-center justify-content-center car_recom_item2">
+					<div>
+						<img class="car_recom_img" alt=""
+							src="${pageContext.request.contextPath }/resources/img/car_img_storage/test_img/캐스퍼.png">
+						<div class="car_recom_info_wrap">
+							<p class="car_recom_info_model">캐스퍼 1.0 NA 인스퍼레이션</p>
+							<div class="car_recom_info_list">
+								<span>21년식</span><span>가솔린</span>
+							</div>
+							<p class="car_recom_info_price">일 50,000 원</p>
 						</div>
-						<p class="car_recom_info_price">일 50,000 원</p>
 					</div>
 				</div>
-			</div>
-			<div
-				class="mt-2 col-2 d-flex align-items-center justify-content-center car_recom_item3">
-				<div>
-					<img class="car_recom_img" alt=""
-						src="${pageContext.request.contextPath }/resources/img/car_img_storage/test_img/캐스퍼.png">
-					<div class="car_recom_info_wrap">
-						<p class="car_recom_info_model">캐스퍼 1.0 NA 인스퍼레이션</p>
-						<div class="car_recom_info_list">
-							<span>21년식</span><span>가솔린</span>
+				<div
+					class="mt-2 col-2 d-flex align-items-center justify-content-center car_recom_item3">
+					<div>
+						<img class="car_recom_img" alt=""
+							src="${pageContext.request.contextPath }/resources/img/car_img_storage/test_img/캐스퍼.png">
+						<div class="car_recom_info_wrap">
+							<p class="car_recom_info_model">캐스퍼 1.0 NA 인스퍼레이션</p>
+							<div class="car_recom_info_list">
+								<span>21년식</span><span>가솔린</span>
+							</div>
+							<p class="car_recom_info_price">일 50,000 원</p>
 						</div>
-						<p class="car_recom_info_price">일 50,000 원</p>
 					</div>
 				</div>
-			</div>
-			<div
-				class="mt-2 col-2 d-flex align-items-center justify-content-center car_recom_item4">
-				<div>
-					<img class="car_recom_img" alt=""
-						src="${pageContext.request.contextPath }/resources/img/car_img_storage/test_img/캐스퍼.png">
-					<div class="car_recom_info_wrap">
-						<p class="car_recom_info_model">캐스퍼 1.0 NA 인스퍼레이션</p>
-						<div class="car_recom_info_list">
-							<span>21년식</span><span>가솔린</span>
+				<div
+					class="mt-2 col-2 d-flex align-items-center justify-content-center car_recom_item4">
+					<div>
+						<img class="car_recom_img" alt=""
+							src="${pageContext.request.contextPath }/resources/img/car_img_storage/test_img/캐스퍼.png">
+						<div class="car_recom_info_wrap">
+							<p class="car_recom_info_model">캐스퍼 1.0 NA 인스퍼레이션</p>
+							<div class="car_recom_info_list">
+								<span>21년식</span><span>가솔린</span>
+							</div>
+							<p class="car_recom_info_price">일 50,000 원</p>
 						</div>
-						<p class="car_recom_info_price">일 50,000 원</p>
 					</div>
 				</div>
-			</div>
+				</c:otherwise>
+			</c:choose>
 		</div>
 	</article>
 
