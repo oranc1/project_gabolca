@@ -20,7 +20,7 @@
 		<jsp:include page="../../../inc/top1.jsp"></jsp:include>
 	</header>
 	
-    <div id="contents" class="subPage">
+ <div id="contents" class="subPage">
         <div id="sign">
 
             <!-- 서브컨텐츠 -->
@@ -35,21 +35,22 @@
                 <!--// pageTitle -->
 
                 <!-- 로그인 -->
+                <form action="MemberLoginPro" method="post">
                 <section class="container">
                     <div class="layout2">
                         <div class="wrap_box">
                             <div class="inner600">
                                 <h3 class="t_tit1">로그인</h3>
-
+				
                                 <div class="login_input">
                                     <div class="inp_bundle">
-                                        <input type="text" class="inp" placeholder="아이디" />
+                                        <input type="text" name="mem_id"  value="${cookie.REMEMBER_ID.value}" class="inp" placeholder="아이디" />
                                     </div>
                                     <!--// 아이디 -->
 
                                     <!-- 비밀번호 -->
                                     <div class="inp_bundle">
-                                        <input type="password" name="custPwd" class="inp flex"
+                                        <input type="password" name="mem_passwd" class="inp flex"
                                             placeholder="비밀번호 (영문, 숫자, 특수문자 포함 8~30자)" />
                                     </div>
                                     <!--// 비밀번호 -->
@@ -57,8 +58,8 @@
 
                                 <div class="input_bottom">
                                     <div class="checkbox_ui type1">
-                                        <input type="checkbox" id="idSave">
-                                        <label for="idSave">아이디 저장</label>
+                                        <input type="checkbox" id="rememberId" name="rememberId" <c:if test="${not empty cookie.REMEMBER_ID.value}">checked</c:if>>
+                                        <label for="rememberId">아이디 저장</label>
                                     </div>
                                     <div class="find_btns">
                                         <a href="memberFind" onclick="">아이디 찾기</a>
@@ -67,7 +68,7 @@
                                 </div>
 
 
-                                <a href="" onclick="" class="btn_login btn_typeB2"><span>로그인</span></a>
+                                <input type="submit" class="btn_login btn_typeB2" value="로그인">
 
                                 <div class="login_other">
                                     <ul class="clear">
@@ -88,13 +89,14 @@
                         </div>
                     </div>
                 </section>
+               </form>
                 <!--// 로그인 -->
 
             </article>
             <!--[E] 서브컨텐츠 -->
         </div>
     </div>
-
+    
 	<footer>
 		<jsp:include page="../../../inc/footer.jsp"></jsp:include>
 	</footer>

@@ -9,6 +9,7 @@
 			*,date_format(rev_date, '%Y-%m-%d')AS rev_date_format
 		from
 			rev_car
+			ORDER BY rev_date desc
 	</select>
 	
 	<!-- 차량 소개 mapper.xml -->
