@@ -56,8 +56,6 @@ public class AdminConroller {
     @ResponseBody
     @RequestMapping(value= "carList.ajax", method = RequestMethod.GET, produces = "application/text; charset=UTF-8")
     public String carSearch(@RequestParam Map<String, Object> map, Model model) {
-    	System.out.println(map);
-    	System.out.println(map.get("search_type"));
 		List<Map<String, Object>> carList = car_service.carList(map);
 		JSONArray jsonArray = new JSONArray(carList);
     	return jsonArray.toString();
@@ -77,7 +75,6 @@ public class AdminConroller {
 		List<Map<String, Object>> optionList = car_service.optionList();
 		model.addAttribute("brcList",brcList);
 		model.addAttribute("optionList",optionList);
-		
 		return "html/admin/car_register";
 	}
 	

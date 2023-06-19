@@ -103,8 +103,8 @@
 .mod_box a:hover {
 	 background: #ff6600;
 }
-.mod_box a:first-child {
-	margin-right: 15px;
+.mod_box a:nth-child(n+2) {
+	margin-left: 15px;
 }
 
 @media screen and (max-width: 915px) {

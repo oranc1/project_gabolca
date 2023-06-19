@@ -68,16 +68,26 @@ public class CarItemService {
 	}
 	
 //==============리뷰 서비스=============================
-	public List<ReviewVO> getReviewList(){
+	public List<ReviewVO> getReviewList(int startRow, int listLimit){
 		
 		return carItemMapper.selectReviewList();
 	}
 	//==========getReviewList() 끝=======
 	
+	
+	
+	public int getReviewListCount() {
+		// TODO Auto-generated method stub
+		return carItemMapper.selectReviewListCount();
+	}
+	//=================getReviewListCount()끝
+	
 // ============ 차량 소개 ==================================
 	public List<Map<String, Object>> carInfoList() {
 		return carItemMapper.selectCarInfoList();
 	}
+
+	
 }
 
 

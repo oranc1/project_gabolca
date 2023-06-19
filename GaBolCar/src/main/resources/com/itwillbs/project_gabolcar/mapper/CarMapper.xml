@@ -76,6 +76,9 @@
 			-- 	, car_weekdays
 				, group_concat(option_name SEPARATOR ', ') AS option_name
 			</when>
+			<otherwise>
+				*
+			</otherwise>
 		</choose>
 		<choose>
 			<!-- 차량예약 from -->
@@ -88,12 +91,14 @@
 				JOIN car_options co ON ci.car_idx = co.car_idx
 				JOIN option_list ol ON co.option_idx = ol.option_idx
 			</when>
+			<otherwise>
+				from car_info
+			</otherwise>
 		</choose>
 		<choose>
 			<!-- 차량예약 where -->
 			<when test="map.carRes != null">
 				<!-- 차량 예약에서 차량 찾을때 쓰는 문구 -->
-				<if test="map != null">
 					WHERE 
 				    car_status not in ("점검") -- 차량 상태
 				    <if test="map.car_type != null">
@@ -104,7 +109,6 @@
 							#{carType}
 						</foreach>
 						)
-				    </if>
 				    <if test="map.car_fuel_type != null">
 					    AND car_fuel_type in  -- 연료
 					    (
@@ -148,15 +152,10 @@
 				</if>
 			</when>
 			<!-- 관리자 where -->
-			<when test="map.admin != null">
+			<when test="map.admin != null and map.search_type != null">
 				<choose>
 					<when test="map.search_keyword == null">
 						where car_type = #{map.search_type}
-<!-- 						where car_type in ( -->
-<!-- 							<foreach collection="map.search_type" item="type" separator=","> -->
-<!-- 								#{type} -->
-<!-- 							</foreach> -->
-<!-- 							) -->
 					</when>
 					<when test="map.search_type.equals('car_idx')">
 						where ci.car_idx = #{map.search_keyword}
@@ -178,6 +177,7 @@
 					</when>
 				</choose>
 			</when>
+			<otherwise></otherwise>
 		</choose>
 		<choose>
 			<!-- 차량예약 group by -->
@@ -195,6 +195,7 @@
 			<when test="map.admin != null">
 				GROUP BY ci.car_idx
 			</when>
+			<otherwise></otherwise>
 		</choose>
 		<choose>
 			<!-- 차량예약 order by -->
@@ -224,6 +225,7 @@
 			<!-- 관리자 order by -->
 <!-- 			<when test="map.admin != null"> -->
 <!-- 			</when>			 -->
+			<otherwise></otherwise>
 		</choose>
 		<choose>
 			<!-- 차량예약 limit -->
@@ -236,6 +238,7 @@
 			<!-- 관리자 limit -->
 <!-- 			<when test="map.admin != null"> -->
 <!-- 			</when> -->
+			<otherwise></otherwise>
 		</choose>
 	</select>
 	

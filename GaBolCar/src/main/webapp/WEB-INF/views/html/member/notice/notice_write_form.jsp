@@ -19,7 +19,7 @@
 	<div id="notice_cont">
 		<section id="sec_con" class="inr">
 			<h1 class="con_title">공지사항</h1>
-			<form action="" method="get">
+			<form action="noticeWritePro" method="post">
 				<section id="board_wrap">
 					<section id="board_list" class="notice">
 						<div class="wrapper">
@@ -27,38 +27,17 @@
 								<ul class="list">
 									<li>
 										<div class="subject">
-											<input type="text" placeholder="제목을 입력해주세요" class="inputBox">
+											<input type="text" placeholder="제목을 입력해주세요" class="inputBox" name="bo_title">
 										</div>
 									</li>
-	<!-- 								<li class="write_info"> -->
-	<!-- 									<div class="write_box"> -->
-	<!-- 										<span class="write_t">작성자명</span> -->
-	<!-- 										<span class="write_c">관리자</span> -->
-	<!-- 									</div> -->
-	<!-- 									<div class="write_box"> -->
-	<!-- 										<span class="write_t">등록일</span> -->
-	<!-- 										<span class="write_c">2023-06-02</span> -->
-	<!-- 									</div> -->
-	<!-- 									<div class="write_box"> -->
-	<!-- 										<span class="write_t">조회수</span> -->
-	<!-- 										<span class="write_c">10</span> -->
-	<!-- 									</div> -->
-	<!-- 								</li> -->
 								</ul>
 								<div class="write_cont">
-									<!-- 이미지 파일 출력 -->
-	<!-- 								<img src="../img/casper.jpg" alt=""> -->
-									<!-- 작성글 출력 -->
 									<p>
-										<textarea rows="" cols="" class="inputBox" placeholder="내용을 입력해주세요"></textarea>
+										<textarea style="white-space: pre-line;" class="inputBox" placeholder="내용을 입력해주세요" name="bo_content" required="required"></textarea>
 									</p>
 								</div>
-	<!-- 							<div class="write_file"> -->
-	<!-- 								<input type="file"> -->
-	<!-- 							</div>							 -->
 								<div class="mod_box">
-	<!-- 								<a class="modify_btn">수정</a> -->
-									<input type="submit" class="delete_btn" value="등록">
+									<input type="submit" class="submit_btn" value="등록">
 								</div>
 							</div>
 						</div>

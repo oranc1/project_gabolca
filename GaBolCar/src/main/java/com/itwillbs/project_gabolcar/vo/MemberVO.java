@@ -32,6 +32,7 @@ private String mem_addr;
 private String sample6_address;
 private String sample6_detailAddress;
 private String sample6_extraAddress;
+private String sample6_postcode;
 //---------------
 private Date mem_birthday;
 private Date mem_sign_date; //now()

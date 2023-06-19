@@ -153,6 +153,15 @@
 		    <version>3.1.0</version>
 		</dependency>
 		
+		<!-- https://mvnrepository.com/artifact/net.nurigo/sdk -->
+		<!-- CoolSMS 문자인증 이온 -->
+		<dependency>
+		    <groupId>net.nurigo</groupId>
+		    <artifactId>sdk</artifactId>
+		    <version>4.3.0</version>
+		</dependency>
+		
+		
 		<!-- AspectJ -->
 		<dependency>
 			<groupId>org.aspectj</groupId>

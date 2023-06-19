@@ -1,6 +1,10 @@
 package com.itwillbs.project_gabolcar.controller;
 
+import java.security.SecureRandom;
+import java.util.Random;
+
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -16,6 +20,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.itwillbs.project_gabolcar.service.MemberService;
 import com.itwillbs.project_gabolcar.vo.*;
+
+import net.nurigo.sdk.NurigoApp;
+import net.nurigo.sdk.message.model.Message;
+import net.nurigo.sdk.message.request.SingleMessageSendingRequest;
+import net.nurigo.sdk.message.response.SingleMessageSentResponse;
+import net.nurigo.sdk.message.service.DefaultMessageService;
 
 @Controller
 public class MemberController {
@@ -49,13 +59,7 @@ public class MemberController {
 	
 	
 	// =============== 로그인 회원가입 관련 ================
-	//로그인 페이지
-//	@GetMapping("login")
-//	public String login() {
-//		return "html/member/login/login";
-//	}
-	
-	// 아이디 비밀번호 찾기
+
 
 	//회원가입
 	@GetMapping("signup")
@@ -63,7 +67,7 @@ public class MemberController {
 		return "html/member/login/signup";
 	}
 	
-	
+	//id 중복 확인
 	@PostMapping("/idCheck")
 	@ResponseBody
 	public int idCheck(@RequestParam("id") String id) {
@@ -72,6 +76,48 @@ public class MemberController {
 		return cnt;
 	}
 	
+	
+	
+	//문자인증 작업중 6/19
+	@PostMapping("send-one")
+    public SingleMessageSentResponse sendOne(HttpServletRequest request,@RequestParam String phone1,@RequestParam String phone2,@RequestParam String phone3) {
+    	final DefaultMessageService messageService;
+    	 messageService = NurigoApp.INSTANCE.initialize("NCSSWYB7WLC6MPMX", "G8IIRAISGJ20DGUJ6WN2YGYWOZ9KMIGK", "https://api.coolsms.co.kr");
+	   
+    	 //인증번호 만들기(4자리)
+//	   	SecureRandom secureRandom = new SecureRandom(); //securerandom 임시 비밀번호 생성시 사용해보기
+//	   	final int randomNumber=	secureRandom.nextInt();
+	   	
+		Random rand = new Random(); 
+		String randomNumber = "";
+		for(int i=0; i<4; i++) {
+			String ran = Integer.toString(rand.nextInt(10)); 
+			randomNumber += ran;
+		}
+	   	
+	   	
+        Message message = new Message();
+        // 발신번호 및 수신번호는 반드시 01012345678 형태로 입력되어야 합니다.
+        message.setFrom("010-2658-2568");
+        message.setTo(phone1+"-"+phone2+"-"+phone3); //번호 어떻게 - 형태로 만들건지 생각
+        message.setText("Gabolcar 회원가입 인증 번호는 [" + randomNumber+"] 입니다.");
+        //randomNumber 여기에 걍 써도 됩니까? 생각을 해보자 - 일단 해보자 6/19
+        //보낸 randomNumber 저장을 해야 비교후 인증 성공여부 따질수있음 어디에 저장함?
+        //
+
+        SingleMessageSentResponse response = messageService.sendOne(new SingleMessageSendingRequest(message));
+        System.out.println(response);
+        
+        return response;
+    }
+   
+   
+   
+   
+   
+   
+	
+	//회원가입 db작업
 	@PostMapping("MemberJoinPro")
 	public String memberJoin(MemberVO member, Model model) {
 		
@@ -95,7 +141,8 @@ public class MemberController {
 		
 	}
 	
-
+	//로그인 
+	
 	@GetMapping("login")
 	public String login(@CookieValue(value = "REMEMBER_ID", required = false) Cookie cookie) {
 		
@@ -106,7 +153,7 @@ public class MemberController {
 		return "html/member/login/login";
 	}
 	
-	
+	//로그인 db
 	@PostMapping("MemberLoginPro")
 	public String loginPro(MemberVO member, @RequestParam(required = false) boolean rememberId, 
 			Model model, HttpSession session, HttpServletResponse response) {
@@ -149,6 +196,7 @@ public class MemberController {
 		}
 		}
 	
+	//로그아웃
 	@GetMapping("Logout")
 	public String logout(HttpSession session) {
 //		session.removeAttribute("sId"); // 세션 아이디만 제거
@@ -158,6 +206,7 @@ public class MemberController {
 		return "redirect:/";
 	}
 	
+	//아이디 비밀번호 찾기페이지
 	@GetMapping("memberFind")
 	public String memberFind() {
 		return "html/member/login/find";
@@ -169,13 +218,18 @@ public class MemberController {
 //		return "html/Find";
 //	}
 	
-	@GetMapping("findIdPro")
+	@GetMapping("findIdPro")//수정해야함
 	public String findIdPro(@RequestParam(required = false) String mem_name,@RequestParam(required = false) String mem_mtel, Model model) {
-		System.out.println("여기까지 오니?"
-				+ "");
-		com.itwillbs.project_gabolcar.vo.MemberVO member = memberService.getId(mem_name, mem_mtel); 
+		System.out.println("여기까지 오니?");
+		//count==0일때 history.back
+		//else 모델에 저장하고 뷰페이지에 아이디 보여주기
+		//핸드폰 번호 입력부분 어떻게 할지?
+		//DB에는 010-1234-5678 형태로 저장 되어있음
+		//^js로 해결완료~__~
+		
+		MemberVO member = memberService.getId(mem_name, mem_mtel); 
 		model.addAttribute("member",member);
-		return "html/member/login/findIdResult";
+		return "html/member/login/find_id";
 	}
 	
 	//id찾기 입력 데이터 받아오기
@@ -183,7 +237,7 @@ public class MemberController {
 	//id 찾기 결과페이지
 	@GetMapping("findIdResult")
 	public String findIdResult() {
-		return "html/member/login/findIdRes";
+		return "html/member/login/find_id";
 	}
 	
 	
