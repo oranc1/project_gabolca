@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 
 <html>
@@ -23,6 +25,8 @@
 			<section id="board_wrap">
 				<section id="board_list" class="notice">
 					<form name="fboardlist" id="fboardlist" action="" method="post">
+						<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum }">
+						<input type="hidden" name="amount" value="${pageMaker.cri.amount }">
 						<div class="wrapper">
 							<div class="list_wrap">
 								<ul class="list">
@@ -37,46 +41,50 @@
 										<p class="date">날짜</p>
 									</li>
 									
-									<li class="list_cont">
-										<a href="#">
-											<p class="list_num">5</p>
-											<div class="txt_prev">
-												<h4>공지사항1</h4>
-											</div>
-
-											<p class="writter">
-												<span class="writter_name"><span class="sv_member">관리자</span></span>
-											</p>
-											<p class="date">12-02</p>
-										</a>
-									</li>
-									
-									<li class="list_cont">
-										<a href="#">
-											<p class="list_num">5</p>
-											<div class="txt_prev">
-												<h4>공지사항2</h4>
-											</div>
-
-											<p class="writter">
-												<span class="writter_name"><span class="sv_member">관리자</span></span>
-											</p>
-											<p class="date">12-02</p>
-										</a>
-									</li>
+									<c:forEach var="noticeList" items="${noticeListP}">
+										<li class="list_cont">
+											<a href="noticeDetail?pageNum=${pageMaker.cri.pageNum }&bo_idx=${noticeList.bo_idx }">
+												<p class="list_num">${noticeList.bo_idx }</p>
+												<div class="txt_prev">
+													<h4>${noticeList.bo_title }</h4>
+												</div>
+	
+												<p class="writter">
+													<span class="writter_name"><span class="sv_member">관리자</span></span>
+												</p>
+												<p class="date">
+													<fmt:formatDate value="${noticeList.bo_sysdate }" pattern="YY-MM-dd"/>
+												</p>
+											</a>
+										</li>
+									</c:forEach>
 								</ul>
 								
 								<div class="write_btn">
-									<a href="#">글쓰기</a>
+									<c:if test="${sessionScope.sId eq 'admin'}">
+										<a href="noticeWriteForm">글쓰기</a>
+									</c:if>
 								</div>
 
 								<div class="list_pager_wrap">
 									<nav class="pg_wrap">
 										<span class="pg">
-											<strong class="pg_current">1</strong>
-											<a href="" class="pg_page">2</a>
-											<a href="" class="pg_page pg_next">다음</a>
-											<a href="" class="pg_page pg_end">맨끝</a>
+											<c:if test="${pageMaker.cri.pageNum > 1 }">											
+												<a href="noticeList?pageNum=${pageMaker.cri.pageNum - 1 }" class="pg_page pg_prev" >이전</a>
+											</c:if>
+											<c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="num">
+													<c:choose>
+														<c:when test="${pageMaker.cri.pageNum == num }">
+															<strong class="pg_current">${num}</strong>
+														</c:when>
+														<c:otherwise>
+															<a href="noticeList?pageNum=${num }" class="pg_page">${num }</a>
+														</c:otherwise>
+													</c:choose>
+											</c:forEach>
+											<c:if test="${pageMaker.endPage < pageMaker.realEnd || pageMaker.endPage > 1 && pageMaker.cri.pageNum < pageMaker.realEnd}">											
+												<a href="noticeList?pageNum=${pageMaker.cri.pageNum + 1 }" class="pg_page pg_next" >다음</a>
+											</c:if>
 										</span>
 									</nav>
 								</div>

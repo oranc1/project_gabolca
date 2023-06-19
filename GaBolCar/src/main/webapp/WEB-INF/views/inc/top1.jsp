@@ -13,7 +13,7 @@
 					<li class="gnb_cont"><a href="${pageContext.request.contextPath }/carInfoList">차량안내</a></li>
 					<li class="gnb_cont"><a href="#">고객센터</a>
 						<ul class="sub_menu shadow" style="display: none;">
-							<li><a href="${pageContext.request.contextPath }/notice">공지사항</a></li>
+							<li><a href="${pageContext.request.contextPath }/noticeList">공지사항</a></li>
 							<li><a href="${pageContext.request.contextPath }/siteFAQ">FAQ</a></li>
 							<li><a href="${pageContext.request.contextPath }/question">1:1 문의</a></li>
 						</ul></li>
