@@ -48,9 +48,14 @@ public class CarItemService {
 	// ========== 차량 인기 순위 리스트 ============
 	public List<Map<String,Object>> getCarPopuler(){
 		
-		return resMapper.selectResPopuler();
+		return resMapper.selectResPopuler(null);
 	}
-	
+	// ========== 차량 인기 순위 리스트(내림차순) ============
+	public List<Map<String,Object>> getCarPopuler(String desc){
+		
+		return resMapper.selectResPopuler(desc);
+	}
+	//==================================================
 	
 	// 최대 페이지 등 페이지 관련에쓸 차량 총 댓수
 	public int getCarCount() {

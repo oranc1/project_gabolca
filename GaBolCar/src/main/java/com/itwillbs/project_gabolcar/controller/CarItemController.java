@@ -46,6 +46,7 @@ public class CarItemController {
 			, @RequestParam(value="car_fuel_type", defaultValue="가솔린,디젤,LPG,전기,하이브리드,가솔린+LPG") String[] car_fuel_type
 			, Model model) {
 		
+		
 		// 사용될 변수와 초기값 셋팅
 		
 		int initHour = 15; // 기본 시간값은 15시
@@ -93,7 +94,6 @@ public class CarItemController {
 		// 2. 지점이 현재 영업하고 있는 지점이 아닌 경우 - db 찾기 작업 필요
 		// 3. 차 타입 또는 차 연료타입이 선택지에 없는 항목들이 들어올 경우 - db 찾기 작업 필요? - 물어보기 아마 하드코딩일것 
 		
-
 		//=========== 날짜 체크 ===========
 		if(map.size() <= 0 || date == null) {
 			// 날짜, 시간값 확인 시 아예 파라미터 비어있는 상태면 기본값들로 구성하여 db 검색
@@ -116,7 +116,9 @@ public class CarItemController {
 				// 시작날짜가 다음날로
 				rentDate = nowDate.plusDays(1).format(fomatter);
 				returnDate = nowDate.plusDays(3).format(fomatter);
-			}
+				
+
+		}
 			else {
 				// 렌트 시간이 0~8 시 사이면 8 시로 고정 (날짜는 오늘날짜 그대로) 
 				if(rentTime < 8) {
@@ -134,6 +136,29 @@ public class CarItemController {
 			//분은 동일
 			rentMinute = 0;
 			returnMinute = 0;	
+			
+			//값 집어넣기
+			String[] rentSplit = rentDate.split("-");
+			String[] returnSplit = returnDate.split("-");
+
+			 res_rental_date 
+			= LocalDateTime.of(
+					Integer.parseInt(rentSplit[0]), 
+					Integer.parseInt(rentSplit[1]),
+					Integer.parseInt(rentSplit[2]),
+					rentHour,rentMinute,0);	
+			 res_return_date 
+			= LocalDateTime.of(
+					Integer.parseInt(returnSplit[0]), 
+					Integer.parseInt(returnSplit[1]),
+					Integer.parseInt(returnSplit[2]),
+					returnHour,returnMinute,0);	
+			
+			if(res_rental_date.isAfter(res_return_date)) {
+				// 에러 메시지 추가 후 fail_back 이동
+				model.addAttribute("msg", "기간이 허용되지 않는 값 이거나 당일 예약으로 선택되었습니다! 다시 선택해주세요");
+				return new ModelAndView("inc/fail_back","map",resultMap);
+			}
 	
 		} // if 문 끝
 		else {
@@ -396,12 +421,12 @@ public class CarItemController {
 				
 				// 페이지 정보 현황 넣기
 				resultMap.put("pageInfo", pageInfo);			
-				
 				// 현재 car_res 페이지에서 차량을 찾는다는 확인 문구를 넣기
 				resultMap.put("carRes", "true");
 				// 차량 종류를 정해서 찾는다는 확인 문구 보내기
-				resultMap.put("car_search", "true");			
+				resultMap.put("search", "carRes");			
 				resultMap.put("car_search_list", carService.carList(resultMap));
+				
 			}
 			catch(Exception e) {
 				e.printStackTrace();
