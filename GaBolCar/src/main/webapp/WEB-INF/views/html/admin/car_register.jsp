@@ -139,45 +139,41 @@
 		        		</td>
 					</tr>
 			      	<tr> 
-				        <td class="td_left"><label for="file1">차량 이미지 첨부1(메인,차량소개)</label></td> <!-- 메인,차량소개 1장 -->
-				        <td class="td_right"><input type="file" name="files" id="file1" required="required" class="form-control" /></td>
+				        <td class="td_left"><label for="file1"> 차량예약, 차량소개 이미지</label></td>
+				        <td class="td_right"><input type="file" name="files" id="car_file1" required="required" class="form-control" /></td>
 			      	</tr>
 			      	<tr> 
-				        <td class="td_left"><label for="file2">차량 이미지 첨부2</label></td>
-				        <td class="td_right"><input type="file" name="files" id="file2" required="required" class="form-control" /></td>
+				        <td class="td_left"><label for="file2">차량상세예약 1(정면)</label></td>
+				        <td class="td_right"><input type="file" name="files" id="car_file2" required="required" class="form-control" /></td>
 			      	</tr>
 			      	<tr> 
-				        <td class="td_left"><label for="file3">차량 이미지 첨부3</label></td>
-				        <td class="td_right"><input type="file" name="files" id="file3" required="required" class="form-control" /></td>
+				        <td class="td_left"><label for="file3">차량상세예약 2(후면)</label></td>
+				        <td class="td_right"><input type="file" name="files" id="car_file3" required="required" class="form-control" /></td>
 			      	</tr>
 			      	<tr> 
-				        <td class="td_left"><label for="file4">차량 이미지 첨부4</label></td>
-				        <td class="td_right"><input type="file" name="files" id="file4" required="required" class="form-control" /></td>
+				        <td class="td_left"><label for="file4">차량상세예약 3(측면)</label></td>
+				        <td class="td_right"><input type="file" name="files" id="car_file4" required="required" class="form-control" /></td>
 			      	</tr>
 			      	<tr> 
-				        <td class="td_left"><label for="file5">차량 이미지 첨부5</label></td>
-				        <td class="td_right"><input type="file" name="files" id="file5" required="required" class="form-control" /></td>
+				        <td class="td_left"><label for="file5">차량상세예약 4(내부1)</label></td>
+				        <td class="td_right"><input type="file" name="files" id="car_file5" required="required" class="form-control" /></td>
 			      	</tr>
 			      	<tr> 
-				        <td class="td_left"><label for="file6">차량 이미지 첨부6</label></td>
-				        <td class="td_right"><input type="file" name="files" id="file6" required="required" class="form-control" /></td>
+				        <td class="td_left"><label for="file6">차량상세예약 5(내부2)</label></td>
+				        <td class="td_right"><input type="file" name="files" id="car_file6" required="required" class="form-control" /></td>
 			      	</tr>
-<!-- 	      			<tr> -->
-<!-- 	        			<td class="td_left"><label for="car_status">차량상태</label></td> -->
-<!-- 	        			<td class="td_right"> -->
-<!-- 	          				<select name="car_status" required="required" class="form-select"> -->
-<!-- 	            				<option value="">선택하세요</option> -->
-<!-- 	            				<option value="신규">신규</option> -->
-<!-- 	            				<option value="점검">점검</option> -->
-<!-- 	            				<option value="대여">대여</option> -->
-<!-- 	            				<option value="가능">대기</option>  -->
-<!-- 							</select> -->
-<!-- 	        			</td> -->
-<!-- 	      			</tr> -->
-<!--     	    		<tr> -->
-<!-- 			            <td class="td_left"><label for="car_status">차량 상태</label></td> -->
-<!-- 			            <td class="td_right"><input type="text" name="car_status" required="required" class="form-control" /></td> -->
-<!-- 					</tr> -->
+	      			<tr>
+	        			<td class="td_left"><label for="car_status">차량상태</label></td>
+	        			<td class="td_right">
+	          				<select name="car_status" required="required" class="form-select">
+	            				<option value="">선택하세요</option>
+	            				<option value="신규">신규</option>
+	            				<option value="점검">점검</option>
+	            				<option value="대여">대여</option>
+	            				<option value="가능">대기</option> 
+							</select>
+	        			</td>
+	      			</tr>
 				</table>
 		    <div id="commandCell">
 		      	<input type="submit" value="등록" class="btn btn-warning">&nbsp;&nbsp;

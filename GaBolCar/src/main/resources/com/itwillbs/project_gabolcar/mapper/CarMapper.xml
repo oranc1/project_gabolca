@@ -20,7 +20,12 @@
 			, #{car_weekdays}
 			, #{car_weekend}
 			, #{brc_name}
-			, #{car_file}
+			, #{car_file1}
+			, #{car_file2}
+			, #{car_file3}
+			, #{car_file4}
+			, #{car_file5}
+			, #{car_file6}
 			, '신규'
 			, #{car_file_path}
 			, now()
