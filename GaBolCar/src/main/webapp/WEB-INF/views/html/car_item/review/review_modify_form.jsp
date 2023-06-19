@@ -10,6 +10,32 @@
 	<link href="${pageContext.request.contextPath }/resources/css/inc/footer.css" rel="styleSheet">
 	<script src="${pageContext.request.contextPath }/resources/js/inc/jquery-3.7.0.js"></script>
 <title>Insert title here</title>
+<script type="text/javascript">
+/*${!!jquery ~ 
+
+    if(${review.rating}== '1')
+    {
+        $("#rate1").prop("checked", true);
+    }
+    else if(${review.rating}== '2')
+    {
+        $("#rate2").prop("checked", true);
+    }
+    else if(${review.rating}== '3')
+    {
+        $("#rate3").prop("checked", true);
+    }
+    else if(${review.rating}== '4')
+    {
+        $("#rate4").prop("checked", true);
+    }
+    else if(${review.rating}== '5')
+    {
+        $("#rate5").prop("checked", true);
+    }
+}*/
+
+</script>
 </head>
 <body>
 	<header>
