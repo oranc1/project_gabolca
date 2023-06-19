@@ -6,11 +6,17 @@
 	<!-- 리뷰 게시판 목록 -->
 	<select id="selectReviewList" resultType="map" parameterType="com.itwillbs.project_gabolcar.vo.ReviewVO">
 		select
-			*,date_format(rev_date, '%Y-%m-%d')AS rev_date_format
+			*, date_format(rev_date, '%Y-%m-%d')AS rev_date_format
 		from
 			rev_car
 			ORDER BY rev_date desc
 	</select>
+	
+	<select id="selectReviewListCount" resultType="int">
+		SELECT COUNT(*) FROM rev_car
+	</select>
+	
+	
 	
 	<!-- 차량 소개 mapper.xml -->
 	<select id="selectCarInfoList" resultType="map">

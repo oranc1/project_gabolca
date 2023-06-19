@@ -434,14 +434,46 @@ public class CarItemController {
 	
 	// 리뷰 게시판
 	@GetMapping("review")
-	public String reviewBoard(Model model) {
+	public String reviewBoard(@RequestParam Map<String, String> map, Model model, PageInfo pageInfo, ReviewVO review) {
+		
+		int pageNum = 1;
+		if(map.get("pageNum") != null) {
+			pageNum = Integer.parseInt(map.get("pageNum"));
+		}
+				
+		int listLimit = 10; // 한 페이지에서 표시할 목록 갯수 지정
+		int startRow = (pageNum - 1 ) * listLimit; //조회 행번호 지정
 	
-	List<ReviewVO> reviewList = carItemService.getReviewList();
+	List<ReviewVO> reviewList = carItemService.getReviewList(startRow, listLimit);
+	int listCount = carItemService.getReviewListCount();
+	System.out.println("리스트카운트"+listCount);
+		
+	int pageListLimit = 3;
+	int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0);
+	int startPage = (pageNum - 1) / pageListLimit * pageListLimit + 1;
+	int endPage = startPage + pageListLimit - 1;
+	if(endPage > maxPage) {
+		endPage = maxPage;
+	}
+	
+	
+	pageInfo.getListCount();
+	pageInfo.setPageListLimit(pageListLimit);
+	pageInfo.setMaxPage(maxPage);
+	pageInfo.setStartPage(startPage);
+	pageInfo.setEndPage(endPage);
+	
 	
 	model.addAttribute("reviewList", reviewList);
+	model.addAttribute("pageInfo", pageInfo);
+	
+	System.out.println(reviewList);
+	System.out.println("페이지 인포"+pageInfo);
+	
 	
 		return "html/car_item/review/review_board";
 	}
+	
 	// 리뷰 글 자세히 보기
 	@GetMapping("review/detail")
 	public String reviewDetail() {
