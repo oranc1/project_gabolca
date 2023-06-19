@@ -10,11 +10,37 @@
 		from
 			rev_car
 			ORDER BY rev_date desc
+			LIMIT #{startRow}, #{listLimit}
 	</select>
 	
 	<select id="selectReviewListCount" resultType="int">
-		SELECT COUNT(*) FROM rev_car
+		SELECT COUNT(*)  FROM rev_car
 	</select>
+	
+	
+	
+	
+	<select id="getReviewListPaging" resultType="map" parameterType="com.itwillbs.project_gabolcar.vo.ReviewVO">
+		SELECT *
+			FROM (
+                SELECT
+                	*, date_format(rev_date, '%Y-%m-%d')AS rev_date_format 
+              	FROM rev_car
+              	) AS n1
+        ORDER BY rev_date DESC 
+	    LIMIT #{skip}, #{amount}
+	</select>
+	
+	<select id="getTotal" resultType="int">
+		SELECT COUNT(*)
+			FROM rev_car
+	</select>
+	
+	
+	
+	
+	
+	
 	
 	
 	

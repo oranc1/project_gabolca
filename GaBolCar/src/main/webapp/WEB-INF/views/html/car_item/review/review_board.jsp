@@ -54,7 +54,7 @@
 									</li>
 									<c:forEach var="review" items="${reviewList }">
 									<li class="list_cont">
-										<a href="#">
+										<a href="/review/detail?rev_idx=${review.rev_idx}&pageNum=${pageNum}">
 											<p class="list_num">${review.rev_idx }</p>
 											<p class="list_scope">
 											<!-- 별점 구현 초보, 새로운 거 알면 바꾸기-->
@@ -108,7 +108,7 @@
 											<p class="list_car">차종</p>
 									<%-- 제목 클릭을 위한 하이퍼링크 설정(BoardDetail) --%>
 									<%-- 파라미터 : 글번호(board_num), 페이지번호(pageNum) --%>
-											<div class="txt_prev" href="BoardDetail?board_num=${board.board_num }&pageNum=${pageNum}">
+											<div class="txt_prev">
 												<h4>${review.rev_subject }</h4>
 											</div>
 											<p class="writter">
@@ -122,6 +122,11 @@
 								
 								<!-- 예약 내역(반납 시간 후)이 있는 사람만 출력 -->
 						
+		
+		
+		
+		
+
 								<div class="list_pager_wrap">
 <!-- 									<nav class="pg_wrap"> -->
 <!-- 										<span class="pg"> -->
@@ -137,7 +142,7 @@
 		--%>
 		<c:choose>
 			<c:when test="${pageNum > 1 }">
-				<input type="button" value="이전" onclick="location.href='BoardList?pageNum=${pageNum - 1}'">
+				<input type="button" value="이전" onclick="location.href='review?pageNum=${pageNum - 1}'">
 			</c:when>
 			<c:otherwise>
 				<input type="button" value="이전" disabled="disabled">
@@ -155,7 +160,7 @@
 					<b>${i }</b>
 				</c:when>
 				<c:otherwise>
-					<a href="BoardList?pageNum=${i }">${i }</a>
+					<a href="review?pageNum=${i }">${i }</a>
 				</c:otherwise>
 			</c:choose>
 		</c:forEach>		
@@ -166,12 +171,67 @@
 		--%>
 		<c:choose>
 			<c:when test="${pageNum < pageInfo.maxPage }">
-				<input type="button" value="다음" onclick="location.href='BoardList?pageNum=${pageNum + 1}'">
+				<input type="button" value="다음" onclick="location.href='review?pageNum=${pageNum + 1}'">
 			</c:when>
 			<c:otherwise>
 				<input type="button" value="다음" disabled="disabled">
 			</c:otherwise>
 		</c:choose>
+
+
+
+
+
+
+				
+		
+		
+		
+		
+		
+		
+		
+		<div class="list_pager_wrap">
+			<nav class="pg_wrap">
+				<span class="pg">
+					<c:if test="${pageMaker.cri.pageNum > 1 }">											
+						<a href="review?pageNum=${pageMaker.cri.pageNum - 1 }" class="pg_page pg_prev" >이전</a>
+					</c:if>
+					<c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="num">
+							<c:choose>
+								<c:when test="${pageMaker.cri.pageNum == num }">
+									<strong class="pg_current">${num}</strong>
+								</c:when>
+								<c:otherwise>
+									<a href="review?pageNum=${num }" class="pg_page">${num }</a>
+								</c:otherwise>
+							</c:choose>
+					</c:forEach>
+					<c:if test="${pageMaker.endPage < pageMaker.realEnd || pageMaker.endPage > 1 && pageMaker.cri.pageNum < pageMaker.realEnd}">											
+						<a href="review?pageNum=${pageMaker.cri.pageNum + 1 }" class="pg_page pg_next" >다음</a>
+					</c:if>
+				</span>
+			</nav>
+		</div>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 								
 								</div>
 							</div>
