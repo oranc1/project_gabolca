@@ -68,7 +68,7 @@
 				        
 				        <div class="addr">
 				        	<p>주소</p><br>
-				            <input id="sample6_postcode" type="text" placeholder="우편번호">
+				            <input id="sample6_postcode" name="sample6_postcode" type="text" placeholder="우편번호">
 				            <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
 				            <input type="text" id="sample6_address" name="sample6_address" placeholder="주소"><br>
 							<input type="text" id="sample6_detailAddress" name="sample6_detailAddress" placeholder="상세주소">
@@ -85,17 +85,19 @@
 				            <input id="phone2" name="phone2" type="text" size="3" maxlength="4" oninput="changePhone2()" required="required"> -
 				            <input id="phone3" name="phone3" type="text" size="3" maxlength="4" oninput="changePhone3()" required="required">
 <!-- 				        </div> -->
-<!-- 				        <div class="auth"> -->
-<!-- 				            <button disabled id="sendMessage" >인증번호 전송</button> -->
+				            <button disabled id="sendMessage"  onclick="sendMsg()">인증번호 전송</button>
+				        <div class="auth">
 				        </div>
 				       </div>
 				
 <!-- 				        <div class="timer ph_cert">  -->
 <!-- 				        여기 수정 해야함 ㅡㅡ -->
 <!-- 				            <div id="timeLimit"> -->
-<!-- 				            <input type="text" name="memberPhoneCertify" placeholder="인증번호를 입력 해주세요"></div> -->
-<!-- 				            <button disabled id="completion" >인증확인</button> -->
+						<div class="confirm">
+				            <input type="text" id="cert" name="memberPhoneCertify" placeholder="인증번호를 입력 해주세요"></div>
+				            <button disabled id="completion" >인증확인</button>
 <!-- 				        </div> -->
+				        </div>
 				        
 				        <div class="line">
 				            <hr>

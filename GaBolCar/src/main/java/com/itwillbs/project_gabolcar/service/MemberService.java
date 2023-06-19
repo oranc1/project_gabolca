@@ -6,6 +6,9 @@ import org.springframework.stereotype.Service;
 import com.itwillbs.project_gabolcar.mapper.MemberMapper;
 import com.itwillbs.project_gabolcar.vo.MemberVO;
 
+import net.nurigo.sdk.message.request.SingleMessageSendingRequest;
+import net.nurigo.sdk.message.response.SingleMessageSentResponse;
+
 
 
 @Service
@@ -45,4 +48,6 @@ public class MemberService{
 			System.out.println("아이디찾기");
 			return mapper.selectId(null);
 		}
+
+	
 }

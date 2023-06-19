@@ -55,12 +55,30 @@
 }
 
 #phone2 {
-    width: 35%;
+    width: 20%;
 }
 
 #phone3 {
-    width: 35%;
+    width: 20%;
 }
+#sendMessage, #completion {
+    width: 20%;
+    margin-left: 30px;
+    margin:13px 0 0;
+    padding:8px 10px;
+    width: 120px;
+    height: 53px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+#completion, #cert{
+	display: inline-block;
+    justify-content: space-between;
+    line-height: 35px;
+    align-items: center;
+}
+
 
 .ph_cert {
 	margin-top: 20px;

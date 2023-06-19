@@ -27,7 +27,7 @@
 					</div>
 					<div class="id_result">
 						<p id="result">회원님의 아이디는<br>
-							<span class="result_c">개똥이</span> 입니다</p>
+							<span class="result_c">${member.mem_id }</span> 입니다</p>
 					</div>
 					<div class="btn-wrap">
 						<input type="button" class="move_main" value="메인으로 이동">
