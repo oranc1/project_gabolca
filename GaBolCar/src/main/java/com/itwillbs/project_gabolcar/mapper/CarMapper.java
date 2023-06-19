@@ -26,8 +26,6 @@ public interface CarMapper {
 	// 차량 검색
 	Map<String, Object> selectCar(CarVO car);
 
-	// 차량 수정
-	int updateCar(Map<String, String> map);
 
 	// 차량 삭제
 	int deleteCar(int car_idx);
@@ -54,6 +52,12 @@ public interface CarMapper {
 	List<Integer> selectCarIdxList();
 
 	int insertCarOption(CarVO car);
+
+//	 차량 수정
+	int updateCar(Map<String, String> map);
+	
+//	// 차량 수정 0619
+//	int updateCar(CarVO car);
 	
 
 }

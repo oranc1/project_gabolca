@@ -38,9 +38,6 @@ public class CarService {
 		return mapper.selectCar(car);
 	}
 
-	public int carUpdate(Map<String, String> map) {
-		return mapper.updateCar(map);
-	}
 
 	public int carDelete(int car_idx) {
 		return mapper.deleteCar(car_idx);
@@ -73,6 +70,15 @@ public class CarService {
 	public int carOptionRegister(CarVO car) {
 		return mapper.insertCarOption(car);
 	}
+
+	public int carUpdate(Map<String, String> map) {
+		return mapper.updateCar(map);
+	}
+	
+//	// 차량수정 0619
+//	public int carUpdate(CarVO car) {
+//		return mapper.updateCar(car);
+//	}
 
 
 }
