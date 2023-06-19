@@ -6,7 +6,7 @@
 	<!-- 리뷰 게시판 목록 -->
 	<select id="selectReviewList" resultType="map" parameterType="com.itwillbs.project_gabolcar.vo.ReviewVO">
 		select
-			*
+			*,date_format(rev_date, '%Y-%m-%d')AS rev_date_format
 		from
 			rev_car
 	</select>

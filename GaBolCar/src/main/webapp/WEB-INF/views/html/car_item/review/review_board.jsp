@@ -98,7 +98,7 @@
 											<p class="writter">
 												<span class="writter_name"><span class="sv_member">${review.rev_name}</span></span>
 											</p>
-											<p class="date">${review.rev_date}</p>
+											<p class="date">${review.rev_date_format}</p>
 										</a>
 									</li>
 									</c:forEach>
