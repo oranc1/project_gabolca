@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.itwillbs.project_gabolcar.mapper.BoardMapper">
+	<select id="selectMaxIdx" resultType="int">
+		SELECT MAX(bo_idx) + 1
+			FROM board_notice
+	</select>
+
+	<insert id="insertNotice">
+		INSERT
+			INTO board_notice
+			VALUES (
+				#{bo_idx},
+				#{bo_title},
+				#{bo_content},
+				now(),
+				0
+			)
+	</insert>
+	
+	<select id="getNoticeListPaging" resultType="com.itwillbs.project_gabolcar.vo.NoticeVO">
+		SELECT *
+			FROM (
+                SELECT
+                	bo_idx
+                	, bo_title
+                	, bo_content
+                	, bo_sysdate
+                	, bo_readcount
+              	FROM board_notice
+              	) AS n1
+              	ORDER BY bo_idx DESC 
+		        LIMIT #{skip}, #{amount}
+	</select>
+	
+	<select id="getTotal" resultType="int">
+		SELECT COUNT(*)
+			FROM board_notice
+	</select>
+
+	<select id="noticeDetail" resultType="com.itwillbs.project_gabolcar.vo.NoticeVO">
+		SELECT *
+			FROM board_notice
+				WHERE bo_idx = #{bo_idx}
+	</select>
+	
+	<update id="updateReadcount">
+		UPDATE board_notice
+			SET bo_readcount = bo_readcount + 1
+				WHERE bo_idx = #{bo_idx}
+	</update>
+	
+	<update id="modifyBoard">
+		UPDATE board_notice
+			SET bo_title = #{bo_title},
+				bo_content = #{bo_content}
+					WHERE bo_idx = #{bo_idx}
+	</update>
+	
+	<delete id="deleteNotice">
+		DELETE
+			FROM board_notice
+				WHERE bo_idx = #{bo_idx}
+	</delete>
+	
+	<update id="updateIdx">
+		UPDATE board_notice
+			SET bo_idx = bo_idx - 1
+			WHERE bo_idx > #{bo_idx}
+	</update>
+</mapper>
