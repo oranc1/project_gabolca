@@ -1,3 +1,37 @@
+let pageNum = 1;
+
+// 스크롤 바
+$(window).scroll(function(requestUrl, pageNum) {
+	let scrollTop = $(window).scrollTop();
+	let windowHeight = $(window).height();
+	let documentHeight = $(document).height();
+	if (scrollTop + windowHeight + 1 >= documentHeight) {
+		pageNum++;
+		carAjax(requestUrl);
+	}
+})
+
+// 차량리스트 조회 func
+function carAjax(requestUrl) {
+	if (requestUrl.indexOf('?') > 0) {
+		requestUrl += "&admin=&pageNum="+pageNum;
+	} else {
+		requestUrl += "?admin=&pageNum="+pageNum;
+	}
+	
+	$.ajax({
+		type: "GET",
+		url: requestUrl,
+		dataType: "json"
+	})
+	.done(function(carList){
+		doneResult(carList);
+	})
+	.fail(function(){
+		failResult();
+	});
+};
+
 // ajax 성공 함수
 function doneResult(carList) {
 	$(".car_content").remove();
@@ -34,29 +68,6 @@ function failResult() {
 // 차량리스트 조회 func 호출
 carAjax("carList.ajax");
 
-// 차량리스트 조회 func
-function carAjax(requestUrl) {
-	if (requestUrl.indexOf('?') > 0) {
-		requestUrl += "&admin=";
-	} else {
-		requestUrl += "?admin=";
-	}
-	
-	$.ajax({
-		type: "GET",
-		url: requestUrl,
-		dataType: "json"
-	})
-	.done(function(carList){
-		doneResult(carList);
-	})
-	.fail(function(){
-		failResult();
-	});
-};
-
-
-
 $(function() {
         // 차종 선택시 체크박스 및 라벨 변경
     $("#adm_car_top > label").on("click", function() {
@@ -78,6 +89,7 @@ $(function() {
             $(this).children().attr("checked",false);
         }
 	});
+	
 	// 버튼 기능부여
 	$("button[name=item_search]").on("click", function() {
 		carAjax("carList.ajax?search_type="+$("#search_cate").val()+"&search_keyword="+$("#search_box").val());

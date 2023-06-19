@@ -226,8 +226,10 @@
 					</choose>
 				</if>
 			</when>
-			<!-- 관리자 order by -->
+<!-- 			관리자 order by -->
 <!-- 			<when test="map.admin != null"> -->
+<!-- 				<if test="map.startRow != null and map.listLimit != null"> -->
+<!-- 				</if> -->
 <!-- 			</when>			 -->
 			<otherwise></otherwise>
 		</choose>
@@ -240,8 +242,14 @@
 				</if>
 			</when>
 			<!-- 관리자 limit -->
-<!-- 			<when test="map.admin != null"> -->
-<!-- 			</when> -->
+			<when test="map.admin != null">
+				<if test="map.startRow != null and map.listLimit != null">
+					limit
+						#{map.startRow}
+						, #{listLimit}
+				
+				</if>
+			</when>
 			<otherwise></otherwise>
 		</choose>
 	</select>
