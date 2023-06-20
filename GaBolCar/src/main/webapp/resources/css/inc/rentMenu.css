@@ -3,7 +3,7 @@
 
 .rent_menu {
 	padding: 0px;
-	width: 300px;
+	width: 100% !important;
 	height: 100%;
 	background: white; 
 	text-align: left;

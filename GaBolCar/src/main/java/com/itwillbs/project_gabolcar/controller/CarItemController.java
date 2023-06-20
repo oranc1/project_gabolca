@@ -434,8 +434,6 @@ public class CarItemController {
 		else {
 			// 페이지 정보 현황 넣기(더미)
 			resultMap.put("pageInfo", pageInfo);
-
-			
 		}
 		
 		return new ModelAndView("html/car_item/res/car_res","map",resultMap) ;

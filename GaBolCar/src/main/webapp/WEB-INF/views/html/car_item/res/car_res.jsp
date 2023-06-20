@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -74,7 +75,7 @@
 
 				<!-- 0531 달력 추가 -->
 				<!-- 달력 섹션 -->
-				<div class="col-3">
+				<div class="col-3 car_menu_warp">
 						<div class="res_calendar ">
 							<div class="res_cal_wrap ">
 								<jsp:include page="../../../inc/calender.jsp"></jsp:include>
@@ -93,8 +94,10 @@
 						<c:choose>
 							<c:when test="${!empty map.car_search_list  }">
 								<c:forEach var="car" items="${map.car_search_list }">
-								<li>
-									<a href="carRes/carResInfo">
+								<li> <%-- 0620 경인 추가 주소 설정 --%>
+									<a href="carRes/carResInfo?car_idx=${fn:split(car.car_idx_list,',')[0] }
+									&res_rental_date=${map.res_rental_date}&res_return_date=${map.res_return_date}
+									&brc_rent_name=${map.brc_rent_name}&brc_return_name=${map.brc_rent_name}">
 										<div class="res_list_img">
 											<img
 												src="${pageContext.request.contextPath }${car.car_file }"
@@ -134,10 +137,19 @@
 						</c:choose>
 
 					</ul>
+				</div><!-- 검색목록 리스트 끝 -->
+				
+			</div><!-- div row 끝 -->
+			<div class="row inq_container">
+				<div class="col-2 res_addCar_btn">
+					<a href="">
+						<p class="res_btn">더보기</p>
+					</a>
 				</div>
 			</div>
 		</div>
 		</form>
+
 	</section>
 
 	<script>

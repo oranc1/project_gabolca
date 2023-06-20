@@ -200,7 +200,7 @@ pageEncoding="UTF-8"%>
 <script type="text/javascript">
 
 
-	// 차량 예약 페이지 열릴때 초기화 과정	
+	// 차량 예약 페이지 열릴때 초기화 과정(get)
 	function initRentMenu(){
 		let getParams = new URL(location.href).searchParams;
 
