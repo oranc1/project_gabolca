@@ -166,6 +166,7 @@
 			$(this).addClass("on");
 			$(this).siblings("button").removeClass("on");
 		});
+		
 	</script>
 
 	<footer>
