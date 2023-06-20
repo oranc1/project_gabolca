@@ -19,9 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.itwillbs.project_gabolcar.service.CarItemService;
-
-import com.itwillbs.project_gabolcar.service.CarService;
+import com.itwillbs.project_gabolcar.service.*;
 import com.itwillbs.project_gabolcar.vo.*;
 
 @Controller
@@ -458,7 +456,7 @@ public class CarItemController {
 	//============ 리뷰 =================
 	
 	// 리뷰 게시판
-	@GetMapping("review")
+	/*@GetMapping("review")
 	public String reviewBoard(@RequestParam Map<String, String> map, Model model, PageInfo pageInfo, ReviewVO review) {
 		
 		int pageNum = 1;
@@ -497,6 +495,21 @@ public class CarItemController {
 	
 	
 		return "html/car_item/review/review_board";
+	}*/
+	
+	// 리뷰게시판 글 목록, 페이지 나눔
+	@GetMapping("reviewList")
+	public String reviewList(Model model, Criteria cri) {
+
+		List<ReviewVO> reviewListWithPaging = carItemService.getReviewListPaging(cri);
+		model.addAttribute("reviewList", reviewListWithPaging);
+		
+		int total = carItemService.getTotal();
+		PageDTO pageMaker = new PageDTO(cri, total);
+		model.addAttribute("pageMaker", pageMaker);		
+		
+		return "html/car_item/review/review_board";
+		
 	}
 	
 	// 리뷰 글 자세히 보기

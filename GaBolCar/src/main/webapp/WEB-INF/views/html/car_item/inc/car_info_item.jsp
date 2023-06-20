@@ -7,7 +7,7 @@
     <div class="car-item ${fn:toLowerCase(car.car_type.replace(' ', '_'))} ${car.car_fuel_type}">
       <div class="int_wrap">
         <div class="left-image">
-          <img src="${pageContext.request.contextPath}/resources/upload/car/${car.car_file_path}/${car.car_files[0].file_name}" alt="${car.car_model}" />
+          <img src="${pageContext.request.contextPath}/resources/upload/car/${car.car_file_path}/${car.car_file1}" alt="${car.car_model}" />
         </div>
         <div class="right-content">
           <div class="name-flex">

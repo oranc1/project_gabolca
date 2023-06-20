@@ -8,16 +8,35 @@ import com.itwillbs.project_gabolcar.vo.*;
 
 @Mapper
 public interface CarItemMapper {
-	//리뷰 관련 Mapper
+	//리뷰 관련 Mapper========================================================================
 	//리뷰게시판 목록조회
-	List<ReviewVO> selectReviewList();
+	//List<ReviewVO> selectReviewList(int startRow, int listLimit);
+	
+	//List<ReviewVO> selectReviewList(int startRow, int listLimit);
 	//리뷰게시판 목록 수 참고위한 카운터
-	int selectReviewListCount();
+	//int selectReviewListCount();
 	//리뷰게시판 메퍼 종료
+	
+	
+	
+	//  리뷰게시판 글 목록, 페이지 나눔
+	List<ReviewVO> getReviewListPaging(Criteria cri);
+
+	// 리뷰게시판 총 갯수
+	int getTotal();
+	
+	//=========================================================================================
+	
+	
+	
+	
+	
 	
 	
 	// 차량 소개 Mapper
 	List<Map<String, Object>> selectCarInfoList();
+	
+	
 
 
 }

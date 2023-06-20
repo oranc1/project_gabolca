@@ -24,10 +24,13 @@ public class CarService {
 		if(map.get("pageInfo") != null) {			
 			pageInfo = (PageInfo)map.get("pageInfo");
 			map.put("pageItemStart", pageInfo.getNowPage() * pageInfo.getPageListLimit());
-			return mapper.selectCarList(pageInfo,map);
-		} else {
-			return mapper.selectCarList(pageInfo,map);
+		} else if(map.get("admin") != null){
+			int listLimit = 10;
+			int startRow = (Integer.parseInt((String) map.get("pageNum"))-1) * listLimit;
+			map.put("startRow", startRow);
+			map.put("listLimit", listLimit);
 		}
+		return mapper.selectCarList(pageInfo,map);
 	}
 	
 	
@@ -35,9 +38,6 @@ public class CarService {
 		return mapper.selectCar(car);
 	}
 
-	public int carUpdate(Map<String, String> map) {
-		return mapper.updateCar(map);
-	}
 
 	public int carDelete(int car_idx) {
 		return mapper.deleteCar(car_idx);
@@ -70,6 +70,15 @@ public class CarService {
 	public int carOptionRegister(CarVO car) {
 		return mapper.insertCarOption(car);
 	}
+
+	public int carUpdate(Map<String, String> map) {
+		return mapper.updateCar(map);
+	}
+	
+//	// 차량수정 0619
+//	public int carUpdate(CarVO car) {
+//		return mapper.updateCar(car);
+//	}
 
 
 }

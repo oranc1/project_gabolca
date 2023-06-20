@@ -20,7 +20,12 @@
 			, #{car_weekdays}
 			, #{car_weekend}
 			, #{brc_name}
-			, #{car_file}
+			, #{car_file1}
+			, #{car_file2}
+			, #{car_file3}
+			, #{car_file4}
+			, #{car_file5}
+			, #{car_file6}
 			, '신규'
 			, #{car_file_path}
 			, now()
@@ -222,8 +227,10 @@
 					</choose>
 				</if>
 			</when>
-			<!-- 관리자 order by -->
+<!-- 			관리자 order by -->
 <!-- 			<when test="map.admin != null"> -->
+<!-- 				<if test="map.startRow != null and map.listLimit != null"> -->
+<!-- 				</if> -->
 <!-- 			</when>			 -->
 			<otherwise></otherwise>
 		</choose>
@@ -236,8 +243,13 @@
 				</if>
 			</when>
 			<!-- 관리자 limit -->
-<!-- 			<when test="map.admin != null"> -->
-<!-- 			</when> -->
+			<when test="map.admin != null">
+				<if test="map.startRow != null and map.listLimit != null">
+					limit
+						#{map.startRow}
+						, #{map.listLimit}
+				</if>
+			</when>
 			<otherwise></otherwise>
 		</choose>
 	</select>
@@ -269,6 +281,7 @@
 				</otherwise>
 			</choose>
 	</select>
+	
 	<update id="updateCar" parameterType="map">
 		update
 			car_info
@@ -287,11 +300,42 @@
 			car_weekdays = #{car_weekdays},
 			car_weekend = #{car_weekend},
 			brc_name = #{brc_name},
-<!-- 			car_image_url = #{car_image_url}, -->
+ 			car_image_url = #{car_image_url}, 
 			car_status = #{car_status}
 		where
 			car_idx=#{car_idx}
 	</update>
+	
+<!-- 		<update id="updateCar"> -->
+<!-- 		update -->
+<!-- 			car_info -->
+<!-- 		set -->
+<!-- 	        car_type = #{car_type}, -->
+<!-- 	        car_number = #{car_number}, -->
+<!-- 	        car_company = #{car_company}, -->
+<!-- 	        car_model = #{car_model}, -->
+<!-- 	        car_old = #{car_old}, -->
+<!-- 	        car_shift_type = #{car_shift_type}, -->
+<!-- 	        car_fuel_type = #{car_fuel_type}, -->
+<!-- 	        car_riding = #{car_riding}, -->
+<!-- 	        car_age = #{car_age}, -->
+<!-- 	        car_career = #{car_career}, -->
+<!-- 	        car_license = #{car_license}, -->
+<!-- 	        car_weekdays = #{car_weekdays}, -->
+<!-- 	        car_weekend = #{car_weekend}, -->
+<!-- 	        brc_name = #{brc_name}, -->
+<!--      		car_file1 = #{car_file1}, -->
+<!-- 			car_file2 = #{car_file2}, -->
+<!-- 			car_file3 = #{car_file3}, -->
+<!-- 			car_file4 = #{car_file4}, -->
+<!-- 			car_file5 = #{car_file5}, -->
+<!-- 			car_file6 = #{car_file6}, -->
+<!-- 	        car_file_path = #{car_file_path}, -->
+<!-- 			car_status = #{car_status} -->
+<!-- 		where -->
+<!-- 			car_idx=#{car_idx} -->
+<!-- 	</update> -->
+	
 	<delete id="deleteCar" parameterType="int">
 		delete from
 			car_info

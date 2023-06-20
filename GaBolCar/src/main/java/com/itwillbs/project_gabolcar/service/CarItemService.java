@@ -68,9 +68,10 @@ public class CarItemService {
 	}
 	
 //==============리뷰 서비스=============================
-	public List<ReviewVO> getReviewList(int startRow, int listLimit){
+	/*public List<ReviewVO> getReviewList(int startRow, int listLimit){
 		
-		return carItemMapper.selectReviewList();
+		
+		return carItemMapper.selectReviewList(startRow, listLimit);
 	}
 	//==========getReviewList() 끝=======
 	
@@ -81,6 +82,35 @@ public class CarItemService {
 		return carItemMapper.selectReviewListCount();
 	}
 	//=================getReviewListCount()끝
+	
+	*/
+	
+	
+	
+	// 리뷰게시판 글 목록, 페이지 나눔
+	public List<ReviewVO> getReviewListPaging(Criteria cri) {
+		return carItemMapper.getReviewListPaging(cri);
+	}
+
+	// 리뷰 게시판 총 갯수
+	public int getTotal() {
+		return carItemMapper.getTotal();
+	}
+
+	
+	
+	//==========================================================
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 // ============ 차량 소개 ==================================
 	public List<Map<String, Object>> carInfoList() {

@@ -22,6 +22,8 @@ public class ReviewVO {
 	private Timestamp rev_date;
 	private int car_idx;
 	private String car_model;
+	
+	
 }
 
 

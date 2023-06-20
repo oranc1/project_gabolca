@@ -33,5 +33,41 @@ public class CarVO {
 	private Timestamp car_date;
 //	private MultipartFile file; // 단일 파일
 	private MultipartFile[] files; // 복수개 파일 
-	private List<String> carFiles;
+	private String oldFilename;
+//	private List<String> carFiles;
+//	private List<String> carFile; //
+	
+	private String car_file1;
+	private String car_file2;
+	private String car_file3;
+	private String car_file4;
+	private String car_file5;
+	private String car_file6;
+	
+	// 파일명을 carFile1 ~ carFile6 변수에 셋팅
+    public void setCarFileAt(int index, String carFile){
+        switch (index) {
+            case 1:
+                this.car_file1 = carFile;
+                break;
+            case 2:
+                this.car_file2 = carFile;
+                break;
+            case 3:
+                this.car_file3 = carFile;
+                break;
+            case 4:
+                this.car_file4 = carFile;
+                break;
+            case 5:
+                this.car_file5 = carFile;
+                break;
+            case 6:
+                this.car_file6 = carFile;
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid index: " + index);
+        }
+    }
+
 }
