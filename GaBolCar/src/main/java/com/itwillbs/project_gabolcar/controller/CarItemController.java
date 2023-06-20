@@ -502,7 +502,7 @@ public class CarItemController {
 	public String reviewList(Model model, Criteria cri) {
 
 		List<ReviewVO> reviewListWithPaging = carItemService.getReviewListPaging(cri);
-		model.addAttribute("reviewList", reviewListWithPaging);
+		model.addAttribute("reviewListP", reviewListWithPaging);
 		
 		int total = carItemService.getTotal();
 		PageDTO pageMaker = new PageDTO(cri, total);
