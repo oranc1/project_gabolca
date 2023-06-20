@@ -10,6 +10,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -517,9 +519,25 @@ public class CarItemController {
 	}
 	
 	// 리뷰 쓰기 폼
-	@GetMapping("review/write")
-	public String reviewWrite() {
+	@GetMapping("reviewWriteForm")
+	public String reviewWriteForm() {
 		return "html/car_item/review/review_write_form";
+	}
+	
+	//리뷰 작성 프로
+	@PostMapping("reviewWritePro")
+	public String reviewWritePro(HttpSession session, ReviewVO review, Model model) {
+		String sId = (String)session.getAttribute("sId");
+		
+		if(sId == null) {//세션아이디 없을 때
+			model.addAttribute("msg", "잘못된 접근입니다.");
+			return "html/car_item/review/review_board";
+		}
+		String rev_name = sId;
+		int insertCount = carItemService.insertReview(review);
+		
+		System.out.println("일단");
+		return "redirect:/reviewList";
 	}
 	
 	// 리뷰 수정 폼 

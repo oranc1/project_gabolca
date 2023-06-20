@@ -1,6 +1,5 @@
 package com.itwillbs.project_gabolcar.controller;
 
-import java.security.SecureRandom;
 import java.util.Random;
 
 import javax.servlet.http.Cookie;
@@ -100,7 +99,7 @@ public class MemberController {
         // 발신번호 및 수신번호는 반드시 01012345678 형태로 입력되어야 합니다.
         message.setFrom("010-2658-2568");
         message.setTo(phone1+"-"+phone2+"-"+phone3); //번호 어떻게 - 형태로 만들건지 생각
-        message.setText("Gabolcar 회원가입 인증 번호는 [" + randomNumber+"] 입니다.");
+        message.setText("Gabolcar 회원가입 인증 번호는 ["+randomNumber+"] 입니다.");
         //randomNumber 여기에 걍 써도 됩니까? 생각을 해보자 - 일단 해보자 6/19
         //보낸 randomNumber 저장을 해야 비교후 인증 성공여부 따질수있음 어디에 저장함?
         //
@@ -113,10 +112,6 @@ public class MemberController {
    
    
    
-   
-   
-   
-	
 	//회원가입 db작업
 	@PostMapping("MemberJoinPro")
 	public String memberJoin(MemberVO member, Model model) {
@@ -142,7 +137,6 @@ public class MemberController {
 	}
 	
 	//로그인 
-	
 	@GetMapping("login")
 	public String login(@CookieValue(value = "REMEMBER_ID", required = false) Cookie cookie) {
 		
@@ -157,25 +151,11 @@ public class MemberController {
 	@PostMapping("MemberLoginPro")
 	public String loginPro(MemberVO member, @RequestParam(required = false) boolean rememberId, 
 			Model model, HttpSession session, HttpServletResponse response) {
-		System.out.println("넘어요냐???");
-		
-//		MemberVO memberResult = memberService.selectCorrectUser(member);
-//		
-//		System.out.println("null값 뭔데");
-//		System.out.println(memberResult);
-//	
-//		if(memberResult == null) {
-//			model.addAttribute("msg", "로그인 실패!");
-//			return "html/fail_back";
-//			
-//		} 
+
 		
 		String securePasswd = memberService.getPasswd(member);
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-		
-	
-//		String mem_passwd = memberService.getPasswd(member);
-//		System.out.println(mem_passwd);
+
 		
 		if(member.getMem_passwd() == null || !passwordEncoder.matches(member.getMem_passwd(), securePasswd)) { // 로그인 실패
 			model.addAttribute("msg", "로그인 실패!");
@@ -199,8 +179,7 @@ public class MemberController {
 	//로그아웃
 	@GetMapping("Logout")
 	public String logout(HttpSession session) {
-//		session.removeAttribute("sId"); // 세션 아이디만 제거
-		
+		session.removeAttribute("sId"); // 세션 아이디만 제거
 		// 세션 객체 초기화 후 메인페이지로 리다이렉트
 		session.invalidate();
 		return "redirect:/";
@@ -212,27 +191,29 @@ public class MemberController {
 		return "html/member/login/find";
 	}
 	
-	//id찾기 입력
-//	@GetMapping("findId")
-//	public String findId() {
-//		return "html/Find";
-//	}
-	
-	@GetMapping("findIdPro")//수정해야함
-	public String findIdPro(@RequestParam(required = false) String mem_name,@RequestParam(required = false) String mem_mtel, Model model) {
-		System.out.println("여기까지 오니?");
+
+	@PostMapping("findIdPro")
+	public String findIdPro(MemberVO member, Model model) {
+//		System.out.println("여기까지 오니?");
 		//count==0일때 history.back
 		//else 모델에 저장하고 뷰페이지에 아이디 보여주기
 		//핸드폰 번호 입력부분 어떻게 할지?
 		//DB에는 010-1234-5678 형태로 저장 되어있음
 		//^js로 해결완료~__~
+
+		//로그인 방식으로 다시 시도 해봅니다..
+		String idResult = memberService.getId(member);
+//		System.out.println(idResult);
+		model.addAttribute("idResult",idResult);
 		
-		MemberVO member = memberService.getId(mem_name, mem_mtel); 
-		model.addAttribute("member",member);
-		return "html/member/login/find_id";
-	}
+		//성공 실패 나누기
+		if(idResult == null) {
+			model.addAttribute("msg", "입력하신 정보와 일치하는 아이디가 없습니다.");
+			return "html/member/login/fail_back";
+		}
+		return "html/member/login/find_id";}
+//	}
 	
-	//id찾기 입력 데이터 받아오기
 	
 	//id 찾기 결과페이지
 	@GetMapping("findIdResult")
