@@ -66,8 +66,5 @@ public class MemberService{
 		public int removeMember(MemberVO member) {
 			
 			return mapper.deleteMember(member);
-		}
-
-
-	
+		}	
 }
