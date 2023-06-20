@@ -17,8 +17,10 @@
 	</header>
 	<div id="notice_cont">
 		<section id="sec_con" class="inr">
-			<h1 class="con_title">리뷰 게시판</h1>
-			<form action="" method="get">
+			<h1 class="con_title">리뷰 작성</h1>
+			<form action="reviewWritePro" method="post" enctype="multipart/form-data">
+				<input type="hidden" name="rev_name" value="${sessionScope.sId }"/>
+				<input type="hidden" name="res_idx" value="${sessionScope.res_idx }"/>
 				<section id="board_wrap">
 					<section id="board_list" class="notice">
 						<div class="wrapper">
@@ -26,26 +28,26 @@
 								<ul class="list">
 									<li>
 										<div class="subject">
-											<input type="text" placeholder="제목을 입력해주세요" class="inputBox">
+											<input type="text" name="rev_subject" placeholder="제목을 입력해주세요" class="inputBox">
 										</div>
 									</li>
 
 									<li class="write_scope">
 										<div id="myform">
 											<!-- DB에서 예약차 이름 가져오기 -->
-											<div class="car_name">
+											<div class="car_name" name="car_model">
 											캐스퍼
 											</div>
 											<fieldset>
-													<input type="radio" name="rating" value="5" id="rate1">
+													<input type="radio" name="rev_star" value="5" id="rate1">
 													<label for="rate1">⭐</label>
-													<input type="radio" name="rating" value="4" id="rate2">
+													<input type="radio" name="rev_star" value="4" id="rate2">
 													<label for="rate2">⭐</label>
-													<input type="radio" name="rating" value="3" id="rate3">
+													<input type="radio" name="rev_star" value="3" id="rate3">
 													<label for="rate3">⭐</label>
-													<input type="radio" name="rating" value="2" id="rate4">
+													<input type="radio" name="rev_star" value="2" id="rate4">
 													<label for="rate4">⭐</label>
-													<input type="radio" name="rating" value="1" id="rate5">
+													<input type="radio" name="rev_star" value="1" id="rate5">
 													<label for="rate5">⭐</label>
 											</fieldset>
 										</div>
@@ -57,12 +59,12 @@
 <!-- 									<img src="../img/casper.jpg" alt=""> -->
 									<!-- 작성글 출력 -->
 									<p>
-										<textarea rows="" cols="" class="inputBox" placeholder="내용을 입력해주세요"></textarea>
+										<textarea rows="" cols="" class="inputBox" name="rev_content" placeholder="내용을 입력해주세요"></textarea>
 									</p>
 								</div>
 
 								<div class="write_file">
-									<input type="file">
+									<input type="file" name="rev_real_image">
 								</div>
 
 								<div class="mod_box">

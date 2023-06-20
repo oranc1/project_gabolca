@@ -29,8 +29,8 @@
 					<span>내 정보 관리</span>
 				</div>
 				<ul class="side_sub">
-					<li>내 정보 수정</li>
-					<li>회원탈퇴</li>
+					<li><a href="MemberUpdatePro">내 정보 수정</a></li>
+					<li><a href="MemberDeleteForm">회원탈퇴</a></li>
 				</ul>
 			</li>
 			<li>
@@ -38,7 +38,7 @@
 					<span>고객센터</span>
 				</div>
 				<ul class="side_sub">
-					<li>1:1 카카오톡으로 문의하기</li>
+					<li><a href="https://pf.kakao.com/_sxfWQxj">1:1 카카오톡으로 문의하기</a></li>
 					<li>전화문의 051-123-4567</li>
 				</ul>
 			</li>

@@ -178,6 +178,12 @@
 	color: white;
 }
 
+/* 0620 경인 수정*/
+/* 차량 더보기 버튼 margin 설정 */
+.res_addCar_btn{
+	margin-left:55%;
+}
+
 
 /* 05-26 경인 수정 */
 /* 폭 넓을때에만 width 제한 */
@@ -189,6 +195,14 @@
 	}
 }
 
+	/* 0620 경인 수정*/
+	/* 차량 더보기 버튼 margin 설정 */
+	
+@media screen and (max-width: 1050px) {
+	.res_addCar_btn{
+		margin-left:52%;
+	}
+}
 /* 05 26 경인 수정 */
 /* 리스트 아래로 내려 갔을때 차 항목 윗쪽에 살짝 마진주기 */
 
@@ -196,6 +210,13 @@
 	.res_list ul li{
 		margin-top: 10px;
 	}
+	/* 0620 경인 수정*/
+	/* 차량 더보기 버튼 margin 설정 */
+	.res_addCar_btn{
+		margin-left:43%;
+	}
+	
+
 }
 
 
@@ -219,6 +240,24 @@
 	.res_list_txt h4 {
 		font-size: 24px;
 	}
+	/* 차량 메뉴(달력 지점 등 선택) 레이아웃 설정 */
+
+	.res_calendar {
+		display: flex;
+		justify-content: space-between;
+		background: #fff;
+		border-radius: 15px;
+		text-align: left;
+		width: 610px;
+		height:450px;
+		padding: 0;
+		
+		border: 1px solid #ececec;
+		border-radius: 10px;
+		
+		background-color: white;
+
+	}
 }
 
 @media screen and (max-width: 680px) {
@@ -235,4 +274,5 @@
 	.res_list ul li:nth-child(n+2) {
 		margin-top: 30px;
 	}
+
 }
