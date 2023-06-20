@@ -101,6 +101,7 @@
 				</div>
 		
 				<div class="find_cont">
+				<form action="findIdPro" method="post">
 					<div class="find_txt">
 						<div class="fir_tit">
 							<strong class="">아이디</strong>가 생각나지 않으세요?
@@ -125,9 +126,11 @@
 					<div class="btn-wrap">
 						<input class="btn_write" type="submit" value="확인" onclick="location.href='findIdPro'">
 					</div>
+				</form>	
 				</div>
 		
 				<div class="find_cont" style="display: none">
+				<form  action="findPwPro" method="post">
 					<div class="find_txt">
 						<div class="fir_tit">
 							<strong class="">비밀번호</strong>가 생각나지 않으세요?
@@ -150,6 +153,7 @@
 					<div class="btn-wrap">
 						<input class="btn_write" type="submit" value="확인">
 					</div>
+				</form>
 				</div>
 			</div>
 		</div>

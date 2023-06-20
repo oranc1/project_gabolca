@@ -97,7 +97,7 @@
 							</a>
 						</li>
 						<li>
-							<a href=""> <i class="xi-user"></i> 로그아웃
+							<a href="javascript:logout()"> <i class="xi-user"></i> 로그아웃
 							</a>
 						</li>
 						</c:otherwise>

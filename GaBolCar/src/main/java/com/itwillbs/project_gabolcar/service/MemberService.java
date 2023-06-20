@@ -23,14 +23,13 @@ public class MemberService{
 			return cnt;
 		}
 		
-	//	회원가입 요청 작업을 위한 registMember()메서드 정의
+		//회원가입 요청 작업을 위한 registMember()메서드 정의
 		public int registMember(MemberVO member) {
 			System.out.println("MemberService-registMember()");
 			return mapper.insertMember(member);
 		}
 
 		// 로그인 정보 조회(아이디와 패스워드가 일치하는 레코드 조회)
-
 		public MemberVO selectCorrectUser(MemberVO member) {
 			System.out.println("서비스-selectCorrectUser()");
 			return mapper.selectCorrectUser(member);
@@ -42,12 +41,13 @@ public class MemberService{
 			// TODO Auto-generated method stub
 			return mapper.selectPasswd(member);
 		}
+		
 		//아이디 찾기
-		public MemberVO getId(String mem_name, String mem_mtel) {
-			// TODO Auto-generated method stub
-			System.out.println("아이디찾기");
-			return mapper.selectId(null);
+		public String getId(MemberVO member) {
+			System.out.println("아디찾기");
+			return mapper.getId(member);
 		}
+		
 
 	
 }
