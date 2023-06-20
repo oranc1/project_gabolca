@@ -28,6 +28,8 @@
 			<section id="board_wrap">
 				<section id="board_list" class="notice">
 					<form name="fboardlist" id="fboardlist" action="" method="post">
+						<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum }">
+						<input type="hidden" name="amount" value="${pageMaker.cri.amount }">
 						<div class="wrapper">
 							<div class="list_wrap">
 	<!-- 순서정렬버튼-->
@@ -52,13 +54,13 @@
 										</p>
 										<p class="date">날짜</p>
 									</li>
-									<c:forEach var="review" items="${reviewList }">
+									<c:forEach var="reviewList" items="${reviewListP }">
 									<li class="list_cont">
-										<a href="/review/detail?rev_idx=${review.rev_idx}&pageNum=${pageNum}">
-											<p class="list_num">${review.rev_idx }</p>
+										<a href="/review/detail?pageNum=${pageMaker.cri.pageNum}&rev_idx=${reviewList.rev_idx}">
+											<p class="list_num">${reviewList.rev_idx }</p>
 											<p class="list_scope">
 											<!-- 별점 구현 초보, 새로운 거 알면 바꾸기-->
-											<c:set var="starLank" value="${review.rev_star }"/>
+											<c:set var="starLank" value="${reviewList.rev_star }"/>
 											 <c:choose>
     											<c:when test="${starLank eq 0 }">
   													<span>★</span>
@@ -109,12 +111,12 @@
 									<%-- 제목 클릭을 위한 하이퍼링크 설정(BoardDetail) --%>
 									<%-- 파라미터 : 글번호(board_num), 페이지번호(pageNum) --%>
 											<div class="txt_prev">
-												<h4>${review.rev_subject }</h4>
+												<h4>${reviewList.rev_subject }</h4>
 											</div>
 											<p class="writter">
-												<span class="writter_name"><span class="sv_member">${review.rev_name}</span></span>
+												<span class="writter_name"><span class="sv_member">${reviewList.rev_name}</span></span>
 											</p>
-											<p class="date">${review.rev_date_format}</p>
+											<p class="date">${reviewList.rev_date_format}</p>
 										</a>
 									</li>
 									</c:forEach>
@@ -122,20 +124,12 @@
 								
 								<!-- 예약 내역(반납 시간 후)이 있는 사람만 출력 -->
 						
-								<!--<div class="list_pager_wrap">-->
-<!-- 									<nav class="pg_wrap"> -->
-<!-- 										<span class="pg"> -->
-<!-- 											<strong class="pg_current">1</strong> -->
-<!-- 											<a href="" class="pg_page">2</a> -->
-<!-- 											<a href="" class="pg_page pg_next">다음</a> -->
-<!-- 											<a href="" class="pg_page pg_end">맨끝</a> -->
-<!-- 										</span> -->
-<!-- 									</nav> -->
+								
 								<div class="list_pager_wrap">
 									<nav class="pg_wrap">
 										<span class="pg">
 											<c:if test="${pageMaker.cri.pageNum > 1 }">											
-												<a href="review?pageNum=${pageMaker.cri.pageNum - 1 }" class="pg_page pg_prev" >이전</a>
+												<a href="reviewList?pageNum=${pageMaker.cri.pageNum - 1 }" class="pg_page pg_prev" >이전</a>
 											</c:if>
 										<c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="num">
 											<c:choose>
@@ -143,12 +137,12 @@
 													<strong class="pg_current">${num}</strong>
 												</c:when>
 													<c:otherwise> 
-														<a href="review?pageNum=${num }" class="pg_page">${num }</a>
+														<a href="reviewList?pageNum=${num }" class="pg_page">${num }</a>
 													</c:otherwise>
 											</c:choose>
 										</c:forEach>
 										<c:if test="${pageMaker.endPage < pageMaker.realEnd || pageMaker.endPage > 1 && pageMaker.cri.pageNum < pageMaker.realEnd}">											
-											<a href="review?pageNum=${pageMaker.cri.pageNum + 1 }" class="pg_page pg_next" >다음</a>
+											<a href="reviewList?pageNum=${pageMaker.cri.pageNum + 1 }" class="pg_page pg_next" >다음</a>
 										</c:if>
 									</span>
 								</nav>
