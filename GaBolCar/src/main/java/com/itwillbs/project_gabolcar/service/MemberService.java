@@ -66,5 +66,19 @@ public class MemberService{
 		public int removeMember(MemberVO member) {
 			
 			return mapper.deleteMember(member);
-		}	
+		}
+		
+		//일치하는 회원 레코드 있는지 확인(비밀번호 찾기 과정 1)
+		public String isExistUser(MemberVO member) {
+			// TODO Auto-generated method stub
+			return mapper.isExistUser(member);
+		}
+
+		public int changePw(MemberVO member) {
+			// TODO Auto-generated method stub
+			return mapper.changePw(member);
+		}
+		
+
+
 }
