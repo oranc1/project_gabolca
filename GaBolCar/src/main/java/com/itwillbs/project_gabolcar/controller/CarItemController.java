@@ -469,6 +469,7 @@ public class CarItemController {
 			resultMap.put("brc_return_name", map.get("brc_return_name"));
 			resultMap.put("car_option", carItemService.getCarOptionList((String)map.get("car_idx")));
 		}
+		
 		resultMap.put("DUMMY_DATA_FLAG", DUMMY_DATA_FLAG);
 		
 		return new ModelAndView("html/car_item/res/car_res_info","map",resultMap);
