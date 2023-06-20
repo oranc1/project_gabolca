@@ -82,4 +82,25 @@
 			where mem_id = #{mem_id}
 			and mem_name = #{mem_name}
 	</update>
+	<select id="dsbUserAges" resultType="map">
+		SELECT
+			CASE
+				round(abs(datediff(mem_birthday, date(now()))/365),-1)
+				WHEN 20 THEN '20대'
+				WHEN 30 THEN '30대'
+				WHEN 40 THEN '40대'
+				WHEN 50 THEN '50대'
+				WHEN 60 THEN '60대'
+				WHEN 70 THEN '70대'
+				WHEN 80 THEN '80대'
+			END AS 'ages',
+			count(*) AS count
+		FROM
+			mem_info mi
+			JOIN res_info ri ON mi.mem_idx = ri.mem_idx
+		WHERE
+			res_idx IS NOT NULL
+		GROUP BY
+			ages
+	</select>
 </mapper>

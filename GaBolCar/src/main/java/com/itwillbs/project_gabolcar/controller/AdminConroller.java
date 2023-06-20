@@ -30,6 +30,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.JsonArray;
 import com.itwillbs.project_gabolcar.service.BrcService;
 import com.itwillbs.project_gabolcar.service.CarService;
+import com.itwillbs.project_gabolcar.service.MemberService;
 import com.itwillbs.project_gabolcar.vo.CarVO;
 
 @Controller
@@ -39,6 +40,8 @@ public class AdminConroller {
 	private CarService car_service;
 	@Autowired
 	private BrcService brc_service;
+	@Autowired
+	private MemberService mem_service;
 	
 	// 대시보드 이동
 	@GetMapping("admDash")
@@ -464,10 +467,8 @@ public class AdminConroller {
     
     @ResponseBody
     @RequestMapping(value = "dsbCarStatus",method = RequestMethod.GET, produces = "application/text; charset=UTF-8")
-    public String CarStatus() {
-    	List<Map<String, Object>> carStatus = car_service.carStatus();
-    	JSONArray jsonArray = new JSONArray(carStatus);
-    	
+    public String dsbCarStatus() {
+    	List<Map<String, Object>> carStatus = car_service.dsbCarStatus();
     	// 전달데이터
     	JSONObject data = new JSONObject();
     	// cols 설정
@@ -490,7 +491,6 @@ public class AdminConroller {
 
     	// rows 설정
     	JSONArray rows = new JSONArray();        //row JSONObject를 담을 JSONArray
-    	System.out.println(jsonArray); 
     	for (Map<String, Object>map : carStatus){        //JSONArray의 size만큼 돌면서 형식을 만듭니다.
     	    JSONObject legend = new JSONObject();
     	    legend.put("v", map.get("car_status"));
@@ -513,6 +513,110 @@ public class AdminConroller {
     	// 전달데이터 cols, rows 추가
     	data.put("cols", cols);
     	data.put("rows", rows);
+    	System.out.println(data.toString());
+    	return data.toString();
+    }
+    
+    @ResponseBody
+    @RequestMapping(value = "dsbCarType",method = RequestMethod.GET, produces = "application/text; charset=UTF-8")
+    public String dsbCarType() {
+    	List<Map<String, Object>> carType = car_service.dsbCarType();
+    	// 전달데이터
+    	JSONObject data = new JSONObject();
+    	// cols 설정
+    	JSONObject col1 = new JSONObject();    //cols의 1번째 object를 담을 JSONObject
+    	JSONObject col2 = new JSONObject();    //cols의 2번째 object를 담을 JSONObject
+    	JSONArray cols = new JSONArray();        //위의 두개의 JSONObject를 담을 JSONArray
+    	
+    	col1.put("id", "");
+    	col1.put("label", "차종");
+    	col1.put("pattern", "");
+    	col1.put("type", "string");
+    	
+    	col2.put("id", "");
+    	col2.put("label", "통계");
+    	col2.put("pattern", "");
+    	col2.put("type", "number");
+    	
+    	cols.put(col1);
+    	cols.put(col2);
+    	
+    	// rows 설정
+    	JSONArray rows = new JSONArray();        //row JSONObject를 담을 JSONArray
+    	for (Map<String, Object>map : carType){        //JSONArray의 size만큼 돌면서 형식을 만듭니다.
+    		JSONObject legend = new JSONObject();
+    		legend.put("v", map.get("car_type"));
+//    	    legend.put("f", null);
+    		
+    		JSONObject value = new JSONObject();
+    		value.put("v", map.get("count"));
+//    	    value.put("f", null);
+    		
+    		JSONArray cValueArry = new JSONArray();
+    		cValueArry.put(legend);
+    		cValueArry.put(value);
+    		
+    		JSONObject cValueObj = new JSONObject();
+    		cValueObj.put("c", cValueArry);
+    		
+    		rows.put(cValueObj);
+    	}
+    	
+    	// 전달데이터 cols, rows 추가
+    	data.put("cols", cols);
+    	data.put("rows", rows);
+    	System.out.println(data.toString());
+    	return data.toString();
+    }
+    @ResponseBody
+    @RequestMapping(value = "dsbUserAges",method = RequestMethod.GET, produces = "application/text; charset=UTF-8")
+    public String userAges() {
+    	List<Map<String, Object>> userAges = mem_service.dsbUserAges();
+    	// 전달데이터
+    	JSONObject data = new JSONObject();
+    	// cols 설정
+    	JSONObject col1 = new JSONObject();    //cols의 1번째 object를 담을 JSONObject
+    	JSONObject col2 = new JSONObject();    //cols의 2번째 object를 담을 JSONObject
+    	JSONArray cols = new JSONArray();        //위의 두개의 JSONObject를 담을 JSONArray
+    	
+    	col1.put("id", "");
+    	col1.put("label", "차종");
+    	col1.put("pattern", "");
+    	col1.put("type", "string");
+    	
+    	col2.put("id", "");
+    	col2.put("label", "통계");
+    	col2.put("pattern", "");
+    	col2.put("type", "number");
+    	
+    	cols.put(col1);
+    	cols.put(col2);
+    	
+    	// rows 설정
+    	JSONArray rows = new JSONArray();        //row JSONObject를 담을 JSONArray
+    	for (Map<String, Object>map : userAges){        //JSONArray의 size만큼 돌면서 형식을 만듭니다.
+    		JSONObject legend = new JSONObject();
+    		legend.put("v", map.get("ages"));
+//    	    legend.put("f", null);
+    		
+    		JSONObject value = new JSONObject();
+    		value.put("v", map.get("count"));
+//    	    value.put("f", null);
+    		
+    		JSONArray cValueArry = new JSONArray();
+    		cValueArry.put(legend);
+    		cValueArry.put(value);
+    		
+    		JSONObject cValueObj = new JSONObject();
+    		cValueObj.put("c", cValueArry);
+    		
+    		rows.put(cValueObj);
+    	}
+    	
+    	// 전달데이터 cols, rows 추가
+    	data.put("cols", cols);
+    	data.put("rows", rows);
+    	System.out.println(data.toString());
     	return data.toString();
     }
     

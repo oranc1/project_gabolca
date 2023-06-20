@@ -1,5 +1,8 @@
 package com.itwillbs.project_gabolcar.service;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -77,6 +80,10 @@ public class MemberService{
 		public int changePw(MemberVO member) {
 			// TODO Auto-generated method stub
 			return mapper.changePw(member);
+		}
+
+		public List<Map<String, Object>> dsbUserAges() {
+			return mapper.dsbUserAges();
 		}
 		
 
