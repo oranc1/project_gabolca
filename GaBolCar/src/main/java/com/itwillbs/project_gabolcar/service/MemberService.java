@@ -2,6 +2,7 @@ package com.itwillbs.project_gabolcar.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.itwillbs.project_gabolcar.mapper.MemberMapper;
 import com.itwillbs.project_gabolcar.vo.MemberVO;
@@ -49,5 +50,21 @@ public class MemberService{
 		}
 		
 
-	
+		//회원 정보 띄우기
+		public MemberVO getMemberInfo(String id) {
+			
+			return mapper.selectMemberinfo(id);
+		}
+		
+		//회원 정보 수정하기
+		public int ModifyMember(MemberVO member, String newPasswd, @RequestParam String newPasswd1) {
+			return mapper.updateMember(member,newPasswd, newPasswd1);
+			
+		}
+		
+		//회원 탈퇴
+		public int removeMember(MemberVO member) {
+			
+			return mapper.deleteMember(member);
+		}	
 }

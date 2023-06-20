@@ -24,6 +24,16 @@ public interface MemberMapper {
 	String getId(MemberVO member);
 
 
-	
+	// 회원 정보 눌렀을 때 내 정보 가져와서 띄우기
+	MemberVO selectMemberinfo(String mem_id);
+
+	// 회원 정보 수정하기
+	int updateMember(@Param("member") MemberVO member, @Param("newPasswd") String newPasswd,
+			@Param("newPasswd1") String newPasswd1);
+
+	String getPasswd(MemberVO member);
+
+	// 회원 탈퇴
+	int deleteMember(MemberVO member);
 
 }
