@@ -497,8 +497,8 @@ public class CarItemController {
 		return "html/car_item/review/review_board";
 	}*/
 	
-	// 공지사항 글 목록
-	@GetMapping("review")
+	// 리뷰게시판 글 목록, 페이지 나눔
+	@GetMapping("reviewList")
 	public String reviewList(Model model, Criteria cri) {
 
 		List<ReviewVO> reviewListWithPaging = carItemService.getReviewListPaging(cri);

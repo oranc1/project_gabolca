@@ -8,7 +8,7 @@ import com.itwillbs.project_gabolcar.vo.*;
 
 @Mapper
 public interface CarItemMapper {
-	//리뷰 관련 Mapper
+	//리뷰 관련 Mapper========================================================================
 	//리뷰게시판 목록조회
 	//List<ReviewVO> selectReviewList(int startRow, int listLimit);
 	
@@ -19,13 +19,13 @@ public interface CarItemMapper {
 	
 	
 	
-	// 리뷰게시판 목록(페이징 적용)
+	//  리뷰게시판 글 목록, 페이지 나눔
 	List<ReviewVO> getReviewListPaging(Criteria cri);
 
 	// 리뷰게시판 총 갯수
 	int getTotal();
 	
-	
+	//=========================================================================================
 	
 	
 	

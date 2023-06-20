@@ -122,12 +122,7 @@
 								
 								<!-- 예약 내역(반납 시간 후)이 있는 사람만 출력 -->
 						
-		
-		
-		
-		
-
-								<div class="list_pager_wrap">
+								<!--<div class="list_pager_wrap">-->
 <!-- 									<nav class="pg_wrap"> -->
 <!-- 										<span class="pg"> -->
 <!-- 											<strong class="pg_current">1</strong> -->
@@ -136,83 +131,28 @@
 <!-- 											<a href="" class="pg_page pg_end">맨끝</a> -->
 <!-- 										</span> -->
 <!-- 									</nav> -->
-								<%--
-		현재 페이지 번호(pageNum)가 1보다 클 경우에만 [이전] 버튼 동작
-		=> 클릭 시 BoardList 서블릿 요청(파라미터 : 현재 페이지번호 - 1)
-		--%>
-		<c:choose>
-			<c:when test="${pageNum > 1 }">
-				<input type="button" value="이전" onclick="location.href='review?pageNum=${pageNum - 1}'">
-			</c:when>
-			<c:otherwise>
-				<input type="button" value="이전" disabled="disabled">
-			</c:otherwise>
-		</c:choose>
-
-		<%-- 위의 문장을 간소화할 경우(조건에 따라 onclick 속성을 추가) --%>
-<%-- 		<input type="button" value="이전" <c:if test="${pageNum > 1 }">onclick="location.href='BoardList.bo?pageNum=${pageNum - 1}'"</c:if>> --%>
-		<%-- ===================================================================== --%>
-		<%-- 페이지번호 목록은 시작페이지(startPage) 부터 끝페이지(endPage) 까지 표시 --%>
-		<c:forEach var="i" begin="${pageInfo.startPage }" end="${pageInfo.endPage }">
-			<%-- 각 페이지마다 하이퍼링크 설정(단, 현재 페이지는 하이퍼링크 제거) --%>
-			<c:choose>
-				<c:when test="${pageNum eq i }">
-					<b>${i }</b>
-				</c:when>
-				<c:otherwise>
-					<a href="review?pageNum=${i }">${i }</a>
-				</c:otherwise>
-			</c:choose>
-		</c:forEach>		
-		<%-- ===================================================================== --%>
-		<%--
-		현재 페이지 번호(pageNum)가 최대 페이지 번호(maxPage) 보다 작을 경우에만 [다음] 버튼 동작
-		=> 클릭 시 BoardList.bo 서블릿 요청(파라미터 : 현재 페이지번호 + 1)
-		--%>
-		<c:choose>
-			<c:when test="${pageNum < pageInfo.maxPage }">
-				<input type="button" value="다음" onclick="location.href='review?pageNum=${pageNum + 1}'">
-			</c:when>
-			<c:otherwise>
-				<input type="button" value="다음" disabled="disabled">
-			</c:otherwise>
-		</c:choose>
-
-
-
-
-
-
-				
-		
-		
-		
-		
-		
-		
-		
-		<div class="list_pager_wrap">
-			<nav class="pg_wrap">
-				<span class="pg">
-					<c:if test="${pageMaker.cri.pageNum > 1 }">											
-						<a href="review?pageNum=${pageMaker.cri.pageNum - 1 }" class="pg_page pg_prev" >이전</a>
-					</c:if>
-					<c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="num">
-							<c:choose>
-								<c:when test="${pageMaker.cri.pageNum == num }">
-									<strong class="pg_current">${num}</strong>
-								</c:when>
-								<c:otherwise>
-									<a href="review?pageNum=${num }" class="pg_page">${num }</a>
-								</c:otherwise>
-							</c:choose>
-					</c:forEach>
-					<c:if test="${pageMaker.endPage < pageMaker.realEnd || pageMaker.endPage > 1 && pageMaker.cri.pageNum < pageMaker.realEnd}">											
-						<a href="review?pageNum=${pageMaker.cri.pageNum + 1 }" class="pg_page pg_next" >다음</a>
-					</c:if>
-				</span>
-			</nav>
-		</div>
+								<div class="list_pager_wrap">
+									<nav class="pg_wrap">
+										<span class="pg">
+											<c:if test="${pageMaker.cri.pageNum > 1 }">											
+												<a href="review?pageNum=${pageMaker.cri.pageNum - 1 }" class="pg_page pg_prev" >이전</a>
+											</c:if>
+										<c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="num">
+											<c:choose>
+												<c:when test="${pageMaker.cri.pageNum == num }">
+													<strong class="pg_current">${num}</strong>
+												</c:when>
+													<c:otherwise> 
+														<a href="review?pageNum=${num }" class="pg_page">${num }</a>
+													</c:otherwise>
+											</c:choose>
+										</c:forEach>
+										<c:if test="${pageMaker.endPage < pageMaker.realEnd || pageMaker.endPage > 1 && pageMaker.cri.pageNum < pageMaker.realEnd}">											
+											<a href="review?pageNum=${pageMaker.cri.pageNum + 1 }" class="pg_page pg_next" >다음</a>
+										</c:if>
+									</span>
+								</nav>
+							</div>
 		
 		
 		

@@ -4,22 +4,22 @@
 
 	<!-- 리뷰 관련 mapper.xml -->
 	<!-- 리뷰 게시판 목록 -->
-	<select id="selectReviewList" resultType="map" parameterType="com.itwillbs.project_gabolcar.vo.ReviewVO">
-		select
-			*, date_format(rev_date, '%Y-%m-%d')AS rev_date_format
-		from
-			rev_car
-			ORDER BY rev_date desc
-			LIMIT #{startRow}, #{listLimit}
-	</select>
+<!-- 	<select id="selectReviewList" resultType="map" parameterType="com.itwillbs.project_gabolcar.vo.ReviewVO"> -->
+<!-- 		select -->
+<!-- 			*, date_format(rev_date, '%Y-%m-%d')AS rev_date_format -->
+<!-- 		from -->
+<!-- 			rev_car -->
+<!-- 			ORDER BY rev_date desc -->
+<!-- 			LIMIT #{startRow}, #{listLimit} -->
+<!-- 	</select> -->
 	
-	<select id="selectReviewListCount" resultType="int">
-		SELECT COUNT(*)  FROM rev_car
-	</select>
-	
-	
+<!-- 	<select id="selectReviewListCount" resultType="int"> -->
+<!-- 		SELECT COUNT(*)  FROM rev_car -->
+<!-- 	</select> -->
 	
 	
+	
+	<!-- 리뷰게시판 페이지 나누기 -->
 	<select id="getReviewListPaging" resultType="map" parameterType="com.itwillbs.project_gabolcar.vo.ReviewVO">
 		SELECT *
 			FROM (
@@ -30,12 +30,12 @@
         ORDER BY rev_date DESC 
 	    LIMIT #{skip}, #{amount}
 	</select>
-	
+	<!-- 리뷰 게시판 총 갯수 -->
 	<select id="getTotal" resultType="int">
 		SELECT COUNT(*)
 			FROM rev_car
 	</select>
-	
+	<!-- 리뷰게시판 끝 -->
 	
 	
 	

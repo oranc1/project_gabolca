@@ -87,19 +87,19 @@ public class CarItemService {
 	
 	
 	
-	// 공지사항 목록(페이징 적용)
+	// 리뷰게시판 글 목록, 페이지 나눔
 	public List<ReviewVO> getReviewListPaging(Criteria cri) {
 		return carItemMapper.getReviewListPaging(cri);
 	}
 
-	// 공지사항 게시판 총 갯수
+	// 리뷰 게시판 총 갯수
 	public int getTotal() {
 		return carItemMapper.getTotal();
 	}
 
 	
 	
-	
+	//==========================================================
 	
 	
 	
