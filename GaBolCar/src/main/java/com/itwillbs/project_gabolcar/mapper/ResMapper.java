@@ -16,5 +16,7 @@ public interface ResMapper {
 
 	//인기 차량 리스트 (desc 는 내림차순 관련 true 면 동작)
 	List<Map<String,Object>> selectResPopuler(@RequestParam(required = false) @Param("desc") String desc);
+
+	List<Map<String, Object>> dsbBrcMonthlyCount();
 	
 }

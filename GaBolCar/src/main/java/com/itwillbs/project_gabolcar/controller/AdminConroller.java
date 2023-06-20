@@ -27,10 +27,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.google.gson.JsonArray;
 import com.itwillbs.project_gabolcar.service.BrcService;
 import com.itwillbs.project_gabolcar.service.CarService;
 import com.itwillbs.project_gabolcar.service.MemberService;
+import com.itwillbs.project_gabolcar.service.ResService;
 import com.itwillbs.project_gabolcar.vo.CarVO;
 
 @Controller
@@ -42,6 +42,8 @@ public class AdminConroller {
 	private BrcService brc_service;
 	@Autowired
 	private MemberService mem_service;
+	@Autowired
+	private ResService res_service;
 	
 	// 대시보드 이동
 	@GetMapping("admDash")
@@ -511,8 +513,8 @@ public class AdminConroller {
     	}
     	
     	// 전달데이터 cols, rows 추가
-    	data.put("cols", cols);
     	data.put("rows", rows);
+    	data.put("cols", cols);
     	System.out.println(data.toString());
     	return data.toString();
     }
@@ -563,8 +565,8 @@ public class AdminConroller {
     	}
     	
     	// 전달데이터 cols, rows 추가
-    	data.put("cols", cols);
     	data.put("rows", rows);
+    	data.put("cols", cols);
     	System.out.println(data.toString());
     	return data.toString();
     }
@@ -580,12 +582,12 @@ public class AdminConroller {
     	JSONArray cols = new JSONArray();        //위의 두개의 JSONObject를 담을 JSONArray
     	
     	col1.put("id", "");
-    	col1.put("label", "차종");
+    	col1.put("label", "연령대");
     	col1.put("pattern", "");
     	col1.put("type", "string");
     	
     	col2.put("id", "");
-    	col2.put("label", "통계");
+    	col2.put("label", "이용통계");
     	col2.put("pattern", "");
     	col2.put("type", "number");
     	
@@ -614,8 +616,149 @@ public class AdminConroller {
     	}
     	
     	// 전달데이터 cols, rows 추가
-    	data.put("cols", cols);
     	data.put("rows", rows);
+    	data.put("cols", cols);
+    	System.out.println(data.toString());
+    	return data.toString();
+    }
+    
+    @ResponseBody
+    @RequestMapping(value = "dsbBrcHoldStatus",method = RequestMethod.GET, produces = "application/text; charset=UTF-8")
+    public String brcHoldStatus() {
+    	List<Map<String, Object>> brcHoldStatus = car_service.dsbBrcHoldStatus();
+    	// 전달데이터
+    	JSONObject data = new JSONObject();
+    	// cols 설정
+    	JSONObject col1 = new JSONObject();    //cols의 1번째 object를 담을 JSONObject
+    	JSONObject col2 = new JSONObject();    //cols의 2번째 object를 담을 JSONObject
+    	JSONArray cols = new JSONArray();        //위의 두개의 JSONObject를 담을 JSONArray
+    	
+    	col1.put("id", "");
+    	col1.put("label", "지점명");
+    	col1.put("pattern", "");
+    	col1.put("type", "string");
+    	
+    	col2.put("id", "");
+    	col2.put("label", "보유현황");
+    	col2.put("pattern", "");
+    	col2.put("type", "number");
+    	
+    	cols.put(col1);
+    	cols.put(col2);
+    	
+    	// rows 설정
+    	JSONArray rows = new JSONArray();        //row JSONObject를 담을 JSONArray
+    	for (Map<String, Object>map : brcHoldStatus){        //JSONArray의 size만큼 돌면서 형식을 만듭니다.
+    		JSONObject legend = new JSONObject();
+    		legend.put("v", map.get("brc_name"));
+//    	    legend.put("f", null);
+    		
+    		JSONObject value = new JSONObject();
+    		value.put("v", map.get("count"));
+//    	    value.put("f", null);
+    		
+    		JSONArray cValueArry = new JSONArray();
+    		cValueArry.put(legend);
+    		cValueArry.put(value);
+    		
+    		JSONObject cValueObj = new JSONObject();
+    		cValueObj.put("c", cValueArry);
+    		
+    		rows.put(cValueObj);
+    	}
+    	
+    	// 전달데이터 cols, rows 추가
+    	data.put("rows", rows);
+    	data.put("cols", cols);
+    	System.out.println(data.toString());
+    	return data.toString();
+    }
+    
+    @ResponseBody
+    @RequestMapping(value = "dsbBrcMonthlyCount",method = RequestMethod.GET, produces = "application/text; charset=UTF-8")
+    public String brcMonthlyCount() {
+    	List<Map<String, Object>> brcMonthlyCount = res_service.dsbBrcMonthlyCount();
+    	// 전달데이터
+    	JSONObject data = new JSONObject();
+    	// cols 설정
+    	JSONObject col1 = new JSONObject();    //cols의 1번째 object를 담을 JSONObject
+    	JSONObject col2 = new JSONObject();    //cols의 2번째 object를 담을 JSONObject
+    	JSONObject col3 = new JSONObject();    //cols의 3번째 object를 담을 JSONObject
+    	JSONObject col4 = new JSONObject();    //cols의 4번째 object를 담을 JSONObject
+    	JSONObject col5 = new JSONObject();    //cols의 5번째 object를 담을 JSONObject
+    	JSONArray cols = new JSONArray();        //위의 두개의 JSONObject를 담을 JSONArray
+    	
+    	col1.put("id", "");
+    	col1.put("label", "월");
+    	col1.put("pattern", "");
+    	col1.put("type", "string");
+    	
+    	col2.put("id", "");
+    	col2.put("label", "서면역점");
+    	col2.put("pattern", "");
+    	col2.put("type", "number");
+    	
+    	col3.put("id", "");
+    	col3.put("label", "해운대역점");
+    	col3.put("pattern", "");
+    	col3.put("type", "number");
+    	
+    	col4.put("id", "");
+    	col4.put("label", "광안리역점");
+    	col4.put("pattern", "");
+    	col4.put("type", "number");
+
+    	col5.put("id", "");
+    	col5.put("label", "부전역점");
+    	col5.put("pattern", "");
+    	col5.put("type", "number");
+    	
+    	cols.put(col1);
+    	cols.put(col2);
+    	cols.put(col3);
+    	cols.put(col4);
+    	cols.put(col5);
+    	
+    	// rows 설정
+    	JSONArray rows = new JSONArray();        //row JSONObject를 담을 JSONArray
+    	for (Map<String, Object>map : brcMonthlyCount){        //JSONArray의 size만큼 돌면서 형식을 만듭니다.
+    		JSONObject legend = new JSONObject();
+    		legend.put("v", map.get("MONTH"));
+//    	    legend.put("f", null);
+    		
+    		JSONObject value = new JSONObject();
+    		value.put("v", map.get("brc1"));
+//    	    value.put("f", null);
+    		
+    		JSONObject value2 = new JSONObject();
+    		value2.put("v", map.get("brc2"));
+//    	    value.put("f", null);
+
+    		JSONObject value3 = new JSONObject();
+    		value3.put("v", map.get("brc3"));
+//    	    value.put("f", null);
+    		
+    		JSONObject value4 = new JSONObject();
+    		value4.put("v", map.get("brc4"));
+//    	    value.put("f", null);
+    		
+    		JSONArray cValueArry = new JSONArray();
+    		cValueArry.put(legend);
+    		cValueArry.put(value);
+    		cValueArry.put(value2);
+    		cValueArry.put(value3);
+    		cValueArry.put(value4);
+    		
+    		JSONObject cValueObj = new JSONObject();
+    		cValueObj.put("c", cValueArry);
+    		
+    		rows.put(cValueObj);
+    	}
+    	
+    	// 전달데이터 cols, rows 추가
+    	data.put("rows", rows);
+    	data.put("cols", cols);
+    	System.out.println();
     	System.out.println(data.toString());
     	return data.toString();
     }

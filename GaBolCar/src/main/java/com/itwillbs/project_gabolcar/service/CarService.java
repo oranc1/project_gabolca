@@ -83,6 +83,10 @@ public class CarService {
 		return mapper.dsbCarType();
 	}
 
+	public List<Map<String, Object>> dsbBrcHoldStatus() {
+		return mapper.dsbBrcHoldStatus();
+	}
+
 //	// 차량수정 0619
 //	public int carUpdate(CarVO car) {
 //		return mapper.updateCar(car);
