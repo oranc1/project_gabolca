@@ -22,5 +22,10 @@ public class DummyController {
 		dummyService.resInfoMaker();
 		return "redirect:/";
 	}
+	@GetMapping("dummyCarOptionAdder")
+	public String dummyCarOptionAdder() {
+		dummyService.carOptionAdder();
+		return "redirect:/";
+	}
 	
 }

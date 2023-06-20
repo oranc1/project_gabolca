@@ -3,7 +3,9 @@ package com.itwillbs.project_gabolcar.service;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.TreeSet;
 
@@ -14,6 +16,7 @@ import com.itwillbs.project_gabolcar.mapper.BrcMapper;
 import com.itwillbs.project_gabolcar.mapper.CarMapper;
 import com.itwillbs.project_gabolcar.mapper.ResMapper;
 import com.itwillbs.project_gabolcar.vo.CarVO;
+import com.itwillbs.project_gabolcar.vo.PageInfo;
 import com.itwillbs.project_gabolcar.vo.ResInfoVO;
 
 @Service
@@ -212,8 +215,34 @@ public class DummyDbService {
 			
 			resMapper.insertResInfo(resInfo);
 		}
-
+	}
+	
+	public void carOptionAdder() {
+		// 랜덤 객체
+		Random r = new Random();
 		
+		PageInfo pageInfo = new PageInfo();
+		Map<String, Object> resFindOption= new HashMap<String, Object>() ;
+		List<Map<String, Object>> optionList = carMapper.selectOptionList();
+		List<Map<String, Object>> carList = carMapper.selectCarList(pageInfo,resFindOption);
+		
+		// 차량 옵션 랜덤 등록
+		if(optionList.size() > 0 && carList.size() > 0) {	
+			for(int i = 0; i < carList.size(); i++) {
+				Map<String,Object> m = carList.get(i);
+				CarVO car = new CarVO();
+				car.setCar_idx((int)m.get("car_idx"));
+				Integer[] option = new Integer[r.nextInt(20)+1];
+				TreeSet<Integer> tree = new TreeSet<Integer>();
+				while (tree.size() < option.length) {
+					int idx = r.nextInt(20)+1;
+					tree.add(idx);
+				}
+				option = tree.toArray(new Integer[tree.size()]);
+				car.setOption_idx(Arrays.stream(option).mapToInt(Integer::intValue).toArray());
+				carMapper.insertCarOption(car);
+			}
+		}
 	}
 	
 }

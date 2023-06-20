@@ -83,6 +83,7 @@
 				, group_concat(option_name SEPARATOR ', ') AS option_name
 			</when>
 			<otherwise>
+				select
 				*
 			</otherwise>
 		</choose>
