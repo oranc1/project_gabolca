@@ -86,7 +86,6 @@
 .ok button:hover {
 	background: #ff6600;
 }
-
 .box_wrap {
     position: relative;
     display: block;
@@ -101,8 +100,7 @@
 	margin-top: 20px;
     padding: 15px;
     border: 1px solid #ddd;
-    width: 50%;
-  
+
 }
 
 

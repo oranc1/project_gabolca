@@ -8,8 +8,9 @@
 </head>
 <body>
 <script>
-	alert("${msg}");
-	history.back();
+alert("${msg}"); 
+history.back();
 </script>
+
 </body>
 </html>

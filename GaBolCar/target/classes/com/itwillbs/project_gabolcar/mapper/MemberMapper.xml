@@ -40,4 +40,28 @@
 	</select>
 	
 	
+	<!--   내 정보 가져오기  -->
+	<select id="selectMemberinfo" resultType="com.itwillbs.project_gabolcar.vo.MemberVO"> 
+	SELECT * FROM mem_info WHERE mem_id = #{mem_id} 
+	</select>
+	
+	<!--   정보 수정하기  -->
+	<update id="updateMember">
+	UPDATE mem_info 
+		SET mem_name = #{member.mem_name}
+	<if test="newPasswd neq ''"> 
+		, mem_passwd = #{newPasswd} 
+		, mem_passwd = #{newPasswd1} 
+	</if>
+		, mem_birthday = CONCAT(#{member.mem_bir1}, '-', #{member.mem_bir2}, '-', #{member.mem_bir2}) 
+		, mem_mtel = CONCAT(#{member.phone1}, '-', #{member.phone2}, '-', #{member.phone3}) 
+		, mem_addr = CONCAT(#{member.sample6_postcode},'/',#{member.sample6_address},'/',#{member.sample6_detailAddress},'/',#{member.sample6_extraAddress})
+			 WHERE mem_id = #{member.mem_id}
+	</update>
+
+
+	<delete id="deleteMember">
+	 DELETE FROM mem_info WHERE mem_id=#{mem_id} 
+	 </delete>
+	
 </mapper>
