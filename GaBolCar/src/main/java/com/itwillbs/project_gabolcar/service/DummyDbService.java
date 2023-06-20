@@ -144,7 +144,13 @@ public class DummyDbService {
 			car.setCar_weekdays(rentPrice);
 			car.setCar_weekend((int)(rentPrice * 1.2));
 			car.setBrc_name(brcList.get(r.nextInt(brcList.size())));
-			car.setCar_file("/resources/upload/car/"+tcmf[2]+".png");
+			car.setCar_file1("/resources/upload/car/"+tcmf[2]+".png");
+			car.setCar_file1("/resources/upload/car/"+tcmf[2]+".png");
+			car.setCar_file2("/resources/upload/car/"+tcmf[2]+".png");
+			car.setCar_file3("/resources/upload/car/"+tcmf[2]+".png");
+			car.setCar_file4("/resources/upload/car/"+tcmf[2]+".png");
+			car.setCar_file5("/resources/upload/car/"+tcmf[2]+".png");
+			car.setCar_file6("/resources/upload/car/"+tcmf[2]+".png");
 			car.setCar_file_path(tcmf[2]+".png");
 			car.setCar_status(sc);
 		
