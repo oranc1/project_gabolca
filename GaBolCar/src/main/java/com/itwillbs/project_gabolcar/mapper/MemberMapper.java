@@ -36,4 +36,10 @@ public interface MemberMapper {
 	// 회원 탈퇴
 	int deleteMember(MemberVO member);
 
+	//비번찾기
+	String isExistUser(MemberVO member);
+
+	//임시비밀번호 설정
+	int changePw(MemberVO member);
+
 }

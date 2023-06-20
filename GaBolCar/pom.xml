@@ -161,6 +161,15 @@
 		    <version>4.3.0</version>
 		</dependency>
 		
+		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-email -->
+		<!-- 임시 비밀번호 발송용 이온 -->
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-email</artifactId>
+		    <version>1.5</version>
+		</dependency>
+		
+		
 		
 		<!-- AspectJ -->
 		<dependency>

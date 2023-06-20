@@ -185,11 +185,43 @@ public class OnController { //나중에 합칠거임
 			return "html/member/login/find_id";}
 //		}
 		
+
 		
-		//id 찾기 결과페이지
-		@GetMapping("findIdResult")
-		public String findIdResult() {
-			return "html/member/login/find_id";
+		@PostMapping("findPwPro")
+		public String findPwPro(MemberVO member, Model model) {
+			//아이디 이름 번호 받아와서 일치하면(DB작업1)
+			String mem_id = memberService.isExistUser(member);
+			
+			if(mem_id == null) {
+				model.addAttribute("msg", "입력하신 정보와 일치하는 아이디가 없습니다.");
+				return "html/member/login/fail_back";
+			}
+			//조회된 정보가 있으면
+			//임시 비밀번호 만들기
+			String newPwd = FindUtil.getRamdomPassword();
+			
+			//임시 비밀번호 암호화
+			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+			String securePasswd = passwordEncoder.encode(newPwd);
+			member.setMem_passwd(securePasswd);
+			
+			//파라미터가 고민이 된다 암호화 한 비밀번호를 넣어야함
+			//어쨋든 암호화한 비밀번호 DB에 수정하는 작업.
+			int updateCount = memberService.changePw(member);
+			
+			System.out.println(updateCount);
+			
+			if(updateCount>0) {
+				//메일 발송 하자구
+				String subject = "[Gabolcar] 임시 비밀번호 입니다.";
+				String msg = "회원님의 임시 비밀번호는 "+newPwd+" 입니다.\n 로그인 후 비밀번호를 변경 하세요";
+				MailUtil.sendMail(mem_id, subject, msg);
+				System.out.println("발송완료");
+			}
+			//메일로 임시 비밀번호를 발송 했습니다. 실패시 정보를 확인해주세요 등의  msg
+			//비밀번호 어떻게 발송 합니까?
+			//비밀번호 발송 하고 임시 비밀번호를 DB에 등록 해야한다(DB작업2)
+			return "html/member/login/find_pw";
 		}
 		
 		
