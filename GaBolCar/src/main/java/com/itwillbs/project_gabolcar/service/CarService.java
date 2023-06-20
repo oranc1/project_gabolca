@@ -75,10 +75,14 @@ public class CarService {
 		return mapper.updateCar(map);
 	}
 
-	public List<Map<String, Object>> carStatus() {
-		return mapper.carStatus();
+	public List<Map<String, Object>> dsbCarStatus() {
+		return mapper.dsbCarStatus();
 	}
-	
+
+	public List<Map<String, Object>> dsbCarType() {
+		return mapper.dsbCarType();
+	}
+
 //	// 차량수정 0619
 //	public int carUpdate(CarVO car) {
 //		return mapper.updateCar(car);

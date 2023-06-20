@@ -100,21 +100,18 @@ function drawChart4() {
 
 // 도넛차트(차 종별 렌트수)
 function drawChart5() {
-  var data = google.visualization.arrayToDataTable([
-    ['car_type', 'car_rent_count'],
-    ['경형',     11],
-    ['소형',     11],
-    ['준중형',      2],
-    ['중형',      2],
-    ['대형',      2],
-    ['SUV',      2],
-    ['기타',      2]
-  ]);
+ 	jsonData = $.ajax({
+		type: 'get',
+		url: 'dsbCarType',
+		dataType: 'json',
+		async: false
+	}).responseText;
 
-  var options = {
-    title: '차 종별 렌트수',
-    pieHole: 0.4,
-  };
+ 	var data = new google.visualization.DataTable(jsonData)
+    var options = {
+	    title: '차종별 렌트수',
+	    pieHole: 0.4,
+	  };
 
   var chart = new google.visualization.PieChart(document.getElementById('car_type_rent'));
   chart.draw(data, options);

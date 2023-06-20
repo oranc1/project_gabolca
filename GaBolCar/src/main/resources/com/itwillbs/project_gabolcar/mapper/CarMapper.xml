@@ -405,12 +405,24 @@
 		from
 			car_info
 	</select>
-	<select id="carStatus" resultType="map">
+	<select id="dsbCarStatus" resultType="map">
 		SELECT
 			car_status,
 			count(car_status) state_total
 		FROM
 			car_info
 		GROUP BY car_status
+	</select>
+	<select id="dsbCarType" resultType="map">
+		SELECT
+			car_type,
+			count(car_type) AS count
+		FROM 
+			res_info ri
+			JOIN car_info ci ON ri.car_idx = ci.car_idx
+		WHERE 
+			datediff(res_time,now()) &lt; 365
+		GROUP BY
+			car_type
 	</select>
 </mapper>
