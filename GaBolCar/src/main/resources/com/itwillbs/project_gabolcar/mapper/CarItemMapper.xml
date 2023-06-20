@@ -51,9 +51,17 @@
 	</insert>
 	
 	
-	
-	
-	
+	<!-- 차량 idx 에 해당하는 옵션들 불러오기 -->
+	<select id="selectCarOptions" resultType="map">
+		SELECT * FROM option_list ol 
+		WHERE 
+		option_idx in
+		(
+			SELECT option_idx 
+			FROM car_options co 
+			WHERE car_idx = #{car_idx}
+		)
+	</select>	
 	
 	
 	<!-- 차량 소개 mapper.xml -->

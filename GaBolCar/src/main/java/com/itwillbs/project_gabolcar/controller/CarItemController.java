@@ -440,11 +440,37 @@ public class CarItemController {
 		
 		return new ModelAndView("html/car_item/res/car_res","map",resultMap) ;
 	}
+	
+	//=================================================
 	// 예약 차량 상세 정보
 	@GetMapping("carRes/carResInfo")
-	public String carIntroduce() {
-		return "html/car_item/res/car_res_info";
+	public ModelAndView carIntroduce(Map<String,Object> map,Model model ) {
+		
+		// 페이지로 보낼 map
+		Map<String,Object> resultMap = new HashMap<String,Object>();
+		
+		// 차량 검색을 위한 CarVO
+		CarVO car = new CarVO();
+		
+		try {			
+			car.setCar_idx((int)map.get("car_idx"));
+		}
+		catch(Exception e) {
+			model.addAttribute("msg","유효하지않은 값입니다!");
+			return new ModelAndView("fail_back","map",resultMap);
+		}
+		
+		resultMap.put("car_info", carService.carSelect(car));
+		resultMap.put("res_rental_date", map.get("res_rental_date"));
+		resultMap.put("res_return_date", map.get("res_return_date"));
+		resultMap.put("brc_rent_name", map.get("brc_rent_name"));
+		resultMap.put("brc_return_name", map.get("brc_return_name"));
+		
+		System.out.println(map.get("res_rental_date").toString().replace("%",""));
+		
+		return new ModelAndView("html/car_item/res/car_res_info","map",resultMap);
 	}
+	//=================================================
 
 	//차량 소개
 	@GetMapping("carInfoList")

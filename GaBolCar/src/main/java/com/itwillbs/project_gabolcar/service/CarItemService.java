@@ -63,6 +63,13 @@ public class CarItemService {
 	}
 	//==============================================
 	
+	// ====== 차량 옵션 리스트 ======
+	public List<Map<String,Object>> getCarOptionList(String car_idx){
+		return carItemMapper.selectCarOptions(car_idx);
+	}
+	//===============================
+	
+	
 	public List<Integer> getCarIndexList(){
 		return carMapper.selectCarIdxList();
 	}
