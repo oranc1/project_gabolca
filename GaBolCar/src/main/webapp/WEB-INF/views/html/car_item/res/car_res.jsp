@@ -142,7 +142,7 @@
 			</div><!-- div row 끝 -->
 			<div class="row inq_container">
 				<div class="col-2 res_addCar_btn">
-					<a href="javascript:">
+					<a href="">
 						<p class="res_btn">더보기</p>
 					</a>
 				</div>
@@ -166,15 +166,6 @@
 			$(this).addClass("on");
 			$(this).siblings("button").removeClass("on");
 		});
-		
-		// ======== ajax 구현 ==========
-		 
-		const httpRequest = new XMLHttpRequest();
-		function carListAdd(){
-					if(httpRequest.ready)
-		}
-		
-		httpRequest.onreadystatechange = carListAdd;
 	</script>
 
 	<footer>
