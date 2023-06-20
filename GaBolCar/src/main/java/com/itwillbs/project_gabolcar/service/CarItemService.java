@@ -73,16 +73,11 @@ public class CarItemService {
 		
 		return carItemMapper.selectReviewList(startRow, listLimit);
 	}
-	//==========getReviewList() 끝=======
-	
-	
-	
+
 	public int getReviewListCount() {
 		// TODO Auto-generated method stub
 		return carItemMapper.selectReviewListCount();
 	}
-	//=================getReviewListCount()끝
-	
 	*/
 	
 	
@@ -97,6 +92,9 @@ public class CarItemService {
 		return carItemMapper.getTotal();
 	}
 
+	public int insertReview(ReviewVO review) {
+		return carItemMapper.insertReview(review);
+	}
 	
 	
 	//==========================================================
@@ -116,6 +114,8 @@ public class CarItemService {
 	public List<Map<String, Object>> carInfoList() {
 		return carItemMapper.selectCarInfoList();
 	}
+
+	
 
 	
 }

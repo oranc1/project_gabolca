@@ -33,10 +33,13 @@
 				mem_id = #{mem_id}
 	</select>
 	
-		<select id="selectId" resultType="string">
-		SELECT mem_id
+
+	<select id="getId" resultType="string">
+	SELECT mem_id
 			FROM mem_info
-			WHERE mem_name = #{mem_name} AND mem_mtel = #{mem_mtel}
+			WHERE
+				mem_name = #{mem_name}
+				and mem_mtel = #{mem_mtel}
 	</select>
 	
 	

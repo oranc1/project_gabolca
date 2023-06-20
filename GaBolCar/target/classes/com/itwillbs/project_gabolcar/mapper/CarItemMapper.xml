@@ -36,7 +36,19 @@
 			FROM rev_car
 	</select>
 	<!-- 리뷰게시판 끝 -->
-	
+	<insert id="insertReview">
+		INSERT
+			INTO rev_car
+			VALUES (
+				null,
+				#{res_idx},
+				#{rev_name},
+				#{rev_subject},
+				#{rev_content},
+				#{rev_star},
+				now()
+				)
+	</insert>
 	
 	
 	

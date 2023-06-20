@@ -28,19 +28,10 @@
 			<section id="board_wrap">
 				<section id="board_list" class="notice">
 					<form name="fboardlist" id="fboardlist" action="" method="post">
-						<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum }">
-						<input type="hidden" name="amount" value="${pageMaker.cri.amount }">
+						<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum }"/>
+						<input type="hidden" name="amount" value="${pageMaker.cri.amount }"/>
 						<div class="wrapper">
 							<div class="list_wrap">
-	<!-- 순서정렬버튼-->
-<!-- 								<select class="dropdown-menu"> -->
-<%--     <option class="dropdown-item" href="/?page=${param.page}&sort=id,DESC&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}">일자순</option> --%>
-<%--     <option class="dropdown-item" href="/?page=${param.page}&sort=count,DESC&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}">별점순</option> --%>
-<%--     <option class="dropdown-item" href="/?page=${param.page}&sort=recommendCount,DESC&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}">차종순</option> --%>
-<!-- 								</select> -->
-	<!-- id=idx, count=rev_star, recomendCount=car_model로 변경예정-->							
-<!-- https://daegwonkim.tistory.com/363 참고 https://velog.io/@areum0921/%EC%A0%95%EB%A0%AC-%EA%B8%B0%EB%8A%A5-%EC%B6%94%EA%B0%80%ED%95%98%EA%B8%B0-->
-	<!-- 순서정렬버튼 -->
 								<ul class="list">
 									<li class="list_head">
 										<p class="list_num">번호</p>
@@ -122,9 +113,6 @@
 									</c:forEach>
 								</ul>
 								
-								<!-- 예약 내역(반납 시간 후)이 있는 사람만 출력 -->
-						
-								
 								<div class="list_pager_wrap">
 									<nav class="pg_wrap">
 										<span class="pg">
@@ -145,36 +133,15 @@
 											<a href="reviewList?pageNum=${pageMaker.cri.pageNum + 1 }" class="pg_page pg_next" >다음</a>
 										</c:if>
 									</span>
-								</nav>
-							</div>
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-								
+									</nav>
+									</div>
 								</div>
 							</div>
-						</div>
-					</form>
+						</form>
+					</section>
 				</section>
 			</section>
-		</section>
-	</div>
+		</div>
 	<footer>
 		<jsp:include page="../../../inc/footer.jsp"></jsp:include>
 	</footer>

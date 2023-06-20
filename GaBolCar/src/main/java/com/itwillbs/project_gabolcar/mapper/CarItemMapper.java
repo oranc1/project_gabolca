@@ -35,6 +35,8 @@ public interface CarItemMapper {
 	
 	// 차량 소개 Mapper
 	List<Map<String, Object>> selectCarInfoList();
+
+	int insertReview(ReviewVO review);
 	
 	
 
