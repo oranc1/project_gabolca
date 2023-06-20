@@ -27,7 +27,7 @@ public class CarVO {
 	private int car_weekend;
 	private String brc_name;
 	private int[] option_idx;
-	private String car_file; // 파일명
+	//private String car_file; // 파일명
 	private String car_status;
 	private String car_file_path; // 파일 업로드 경로
 	private Timestamp car_date;

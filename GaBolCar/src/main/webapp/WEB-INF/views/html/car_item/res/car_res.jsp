@@ -100,7 +100,7 @@
 									&brc_rent_name=${map.brc_rent_name}&brc_return_name=${map.brc_rent_name}">
 										<div class="res_list_img">
 											<img
-												src="${pageContext.request.contextPath }${car.car_file }"
+												src="${pageContext.request.contextPath }${car.car_file1 }"
 												alt="${car.car_model}">
 										</div>
 										<div class="res_list_txt">

@@ -8,6 +8,12 @@ import com.itwillbs.project_gabolcar.vo.*;
 
 @Mapper
 public interface CarItemMapper {
+	
+	// =========================
+	//차량 옵션 리스트 받아오기
+	List<Map<String,Object>> selectCarOptions(String car_idx);
+	//=======================
+	
 	//리뷰 관련 Mapper========================================================================
 	//리뷰게시판 목록조회
 	//List<ReviewVO> selectReviewList(int startRow, int listLimit);
