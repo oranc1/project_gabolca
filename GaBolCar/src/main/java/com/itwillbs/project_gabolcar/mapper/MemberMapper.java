@@ -1,5 +1,8 @@
 package com.itwillbs.project_gabolcar.mapper;
 
+import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -41,5 +44,8 @@ public interface MemberMapper {
 
 	//임시비밀번호 설정
 	int changePw(MemberVO member);
+
+	// 대시보드 연령대별 사용자 조회
+	List<Map<String, Object>> dsbUserAges();
 
 }

@@ -119,21 +119,17 @@ function drawChart5() {
 
 // 도넛차트(연령별 인기차량) // 차량 모델은 원형으로 표현 불가
 function drawChart6() {
-  var data = google.visualization.arrayToDataTable([
-    ['age', 'car_rent_count'],
-    ['10',     11],
-    ['20',      2],
-    ['30',      2],
-    ['40',      2],
-    ['50',      2],
-    ['60',      2],
-    ['기타',      2]
-  ]);
-
-  var options = {
-    title: '이용자 연령대',
-    pieHole: 0.4,
-  };
+ 	jsonData = $.ajax({
+		type: 'get',
+		url: 'dsbUserAges',
+		dataType: 'json',
+		async: false
+	}).responseText;
+	var data = new google.visualization.DataTable(jsonData)
+	var options = {
+		title: '연령대별 이용자',
+		pieHole: 0.4,
+	};
 
   var chart = new google.visualization.PieChart(document.getElementById('age_popular_model'));
   chart.draw(data, options);
