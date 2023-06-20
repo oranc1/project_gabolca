@@ -35,4 +35,38 @@
 		DESC
 		</if>
 	</select>
+	
+	<select id="dsbBrcMonthlyCount" resultType="map">
+		SELECT
+			CASE
+				MONTH(res_time)
+				WHEN 1 THEN '1월'
+				WHEN 2 THEN '2월'
+				WHEN 3 THEN '3월'
+				WHEN 4 THEN '4월'
+				WHEN 5 THEN '5월'
+				WHEN 6 THEN '6월'
+				WHEN 7 THEN '7월'
+				WHEN 8 THEN '8월'
+				WHEN 9 THEN '9월'
+				WHEN 10 THEN '10월'
+				WHEN 11 THEN '11월'
+				WHEN 12 THEN '12월'
+			END AS MONTH
+			, count(CASE WHEN brc_rent_name='서면역점' THEN 1 END) AS brc1 -- selectKey 변경필요
+			, count(CASE WHEN brc_rent_name='해운대역점' THEN 1 END) AS brc2
+			, count(CASE WHEN brc_rent_name='광안리역점' THEN 1 END) AS brc3
+			, count(CASE WHEN brc_rent_name='부전역점' THEN 1 END) AS brc4
+		FROM
+			res_info ri
+			JOIN brc_info bi ON ri.brc_rent_name = bi.brc_name
+		WHERE
+			MONTH(res_time) BETWEEN MONTH(date_sub(now(), INTERVAL 3 MONTH)) AND MONTH(now())
+			AND YEAR(res_time) = YEAR(now())
+		GROUP BY
+			MONTH
+		ORDER BY
+			MONTH
+	</select>
+	
 </mapper>

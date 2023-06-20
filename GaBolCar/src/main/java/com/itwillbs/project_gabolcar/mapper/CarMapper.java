@@ -59,6 +59,8 @@ public interface CarMapper {
 	List<Map<String, Object>> dsbCarStatus();
 
 	List<Map<String, Object>> dsbCarType();
+
+	List<Map<String, Object>> dsbBrcHoldStatus();
 	
 //	// 차량 수정 0619
 //	int updateCar(CarVO car);

@@ -416,8 +416,8 @@
 	</select>
 	<select id="dsbCarType" resultType="map">
 		SELECT
-			car_type,
-			count(car_type) AS count
+			car_type
+			, count(car_type) AS count
 		FROM 
 			res_info ri
 			JOIN car_info ci ON ri.car_idx = ci.car_idx
@@ -425,5 +425,14 @@
 			datediff(res_time,now()) &lt; 365
 		GROUP BY
 			car_type
+	</select>
+	<select id="dsbBrcHoldStatus" resultType="map">
+		SELECT
+			brc_name 
+			, count(brc_name) AS count
+		FROM
+			car_info
+		GROUP BY 
+			brc_name
 	</select>
 </mapper>

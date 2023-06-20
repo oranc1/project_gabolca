@@ -31,7 +31,7 @@ function drawChart() {
     ['4월', 66000000, 112000000, 30000000],
     ['5월', 103000000, 54000000, 35000000]
   ]);
-
+//	console.log(data.toJSON());
   var options = {
     chart: {
       title: '지점별 월 매출액' }
@@ -43,46 +43,43 @@ function drawChart() {
 
 // 열차트(지점별 인기차량) // 지점별 인기차량 열차트 표현불가
 function drawChart2() {
-  var data = google.visualization.arrayToDataTable([
-    ['지점', 'model1', 'model2', 'model3'],
-    ['서면점', 3, 5, 1],
-    ['부산역점', 6, 8, 1],
-    ['해운대점', 9, 2, 1],
-    ['범내골점', 3, 5, 1]
- ]);
-
-  var options = {
-    chart: {
-      title: '지점별 인기 차량'
-   }
-  };
-  var chart = new google.charts.Bar(document.getElementById('brc_popular_model'));
-  chart.draw(data, google.charts.Bar.convertOptions(options));
+	let jsonData = $.ajax({
+		type: 'get',
+		url: 'dsbBrcMonthlyCount',
+		dataType: 'json',
+		async: false
+	}).responseText;
+	var data = new google.visualization.DataTable(jsonData);
+	var options = {
+		chart: {
+			title: '지점별 월별 렌트수'
+		}
+	};
+	var chart = new google.charts.Bar(document.getElementById('brc_popular_model'));
+	chart.draw(data, google.charts.Bar.convertOptions(options));
 };
 
 // 열차트(월별 렌트수)
 function drawChart3() {
-  var data = google.visualization.arrayToDataTable([
-    ['월', '렌트 수'],
-    ['1월', 100],
-    ['2월', 200],
-    ['3월', 300],
-    ['4월', 400]
- ]);
-
-  var options = {
-    chart: {
-      title: '월별 렌트량'
-   }
-  };
+ 	let jsonData = $.ajax({
+		type: 'get',
+		url: 'dsbBrcHoldStatus',
+		dataType: 'json',
+		async: false
+	}).responseText;
+	var data = new google.visualization.DataTable(jsonData);
+	var options = {
+		chart: {
+			title: '월별 렌트량'
+		}
+	};
   var chart = new google.charts.Bar(document.getElementById('month_rental_count'));
   chart.draw(data, google.charts.Bar.convertOptions(options));
 };
 
-let jsonData;
 // 도넛차트(차량 상태)
 function drawChart4() {
-	jsonData = $.ajax({
+	let jsonData = $.ajax({
 		type: 'get',
 		url: 'dsbCarStatus',
 		dataType: 'json',
@@ -100,7 +97,7 @@ function drawChart4() {
 
 // 도넛차트(차 종별 렌트수)
 function drawChart5() {
- 	jsonData = $.ajax({
+ 	let jsonData = $.ajax({
 		type: 'get',
 		url: 'dsbCarType',
 		dataType: 'json',
@@ -119,7 +116,7 @@ function drawChart5() {
 
 // 도넛차트(연령별 인기차량) // 차량 모델은 원형으로 표현 불가
 function drawChart6() {
- 	jsonData = $.ajax({
+ 	let jsonData = $.ajax({
 		type: 'get',
 		url: 'dsbUserAges',
 		dataType: 'json',
