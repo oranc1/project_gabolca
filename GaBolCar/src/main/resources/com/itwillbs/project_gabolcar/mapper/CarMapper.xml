@@ -404,4 +404,12 @@
 		from
 			car_info
 	</select>
+	<select id="carStatus" resultType="map">
+		SELECT
+			car_status,
+			count(car_status) state_total
+		FROM
+			car_info
+		GROUP BY car_status
+	</select>
 </mapper>

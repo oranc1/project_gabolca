@@ -6,9 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -16,6 +14,7 @@ import java.util.UUID;
 import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.JsonArray;
 import com.itwillbs.project_gabolcar.service.BrcService;
 import com.itwillbs.project_gabolcar.service.CarService;
 import com.itwillbs.project_gabolcar.vo.CarVO;
@@ -460,6 +460,60 @@ public class AdminConroller {
     		return "inc/fail_back";
     	}
     	return "redirect:/optionList";
+    }
+    
+    @ResponseBody
+    @RequestMapping(value = "dsbCarStatus",method = RequestMethod.GET, produces = "application/text; charset=UTF-8")
+    public String CarStatus() {
+    	List<Map<String, Object>> carStatus = car_service.carStatus();
+    	JSONArray jsonArray = new JSONArray(carStatus);
+    	
+    	// 전달데이터
+    	JSONObject data = new JSONObject();
+    	// cols 설정
+    	JSONObject col1 = new JSONObject();    //cols의 1번째 object를 담을 JSONObject
+    	JSONObject col2 = new JSONObject();    //cols의 2번째 object를 담을 JSONObject
+    	JSONArray cols = new JSONArray();        //위의 두개의 JSONObject를 담을 JSONArray
+    	
+    	col1.put("id", "");
+    	col1.put("label", "차량상태");
+    	col1.put("pattern", "");
+    	col1.put("type", "string");
+    	 
+    	col2.put("id", "");
+    	col2.put("label", "통계");
+    	col2.put("pattern", "");
+    	col2.put("type", "number");
+
+    	cols.put(col1);
+    	cols.put(col2);
+
+    	// rows 설정
+    	JSONArray rows = new JSONArray();        //row JSONObject를 담을 JSONArray
+    	System.out.println(jsonArray); 
+    	for (Map<String, Object>map : carStatus){        //JSONArray의 size만큼 돌면서 형식을 만듭니다.
+    	    JSONObject legend = new JSONObject();
+    	    legend.put("v", map.get("car_status"));
+//    	    legend.put("f", null);
+    	    
+    	    JSONObject value = new JSONObject();
+    	    value.put("v", map.get("state_total"));
+//    	    value.put("f", null);
+    	 
+    	    JSONArray cValueArry = new JSONArray();
+    	    cValueArry.put(legend);
+    	    cValueArry.put(value);
+    	 
+    	    JSONObject cValueObj = new JSONObject();
+    	    cValueObj.put("c", cValueArry);
+    	 
+    	    rows.put(cValueObj);
+    	}
+    	
+    	// 전달데이터 cols, rows 추가
+    	data.put("cols", cols);
+    	data.put("rows", rows);
+    	return data.toString();
     }
     
 }

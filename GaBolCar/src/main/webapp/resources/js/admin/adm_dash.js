@@ -1,7 +1,28 @@
-// 열차트(지점별 매출액)
-google.charts.load('current', {'packages':['bar'],'language': 'ko'});
-google.charts.setOnLoadCallback(drawChart);
+	// 열차트(지점별 매출액)
+	google.charts.load('current', {'packages':['bar'],'language': 'ko'});
+	google.charts.setOnLoadCallback(drawChart);
+	
+	// 열차트(지점별 인기차량) // 지점별 인기차량 열차트 표현불가
+	google.charts.load('current', {'packages':['bar'],'language': 'ko'});
+	google.charts.setOnLoadCallback(drawChart2);
+	
+	// 열차트(월별 렌트수)
+	google.charts.load('current', {'packages':['bar'],'language': 'ko'});
+	google.charts.setOnLoadCallback(drawChart3);
+	
+	// 도넛차트(차량 상태)
+	google.charts.load("current", {packages:["corechart"],'language': 'ko'});
+	google.charts.setOnLoadCallback(drawChart4);
+	
+	// 도넛차트(차 종별 렌트수)
+	google.charts.load("current", {packages:["corechart"],'language': 'ko'});
+	google.charts.setOnLoadCallback(drawChart5);
+	
+	// 도넛차트(연령별 인기차량) // 차량 모델은 원형으로 표현 불가
+	google.charts.load("current", {packages:["corechart"],'language': 'ko'});
+	google.charts.setOnLoadCallback(drawChart6);
 
+// 열차트(지점별 매출액)
 function drawChart() {
   var data = google.visualization.arrayToDataTable([
     ['월', '서면점', '부산역점', '해운대점'],
@@ -21,9 +42,6 @@ function drawChart() {
 };
 
 // 열차트(지점별 인기차량) // 지점별 인기차량 열차트 표현불가
-google.charts.load('current', {'packages':['bar'],'language': 'ko'});
-google.charts.setOnLoadCallback(drawChart2);
-
 function drawChart2() {
   var data = google.visualization.arrayToDataTable([
     ['지점', 'model1', 'model2', 'model3'],
@@ -43,9 +61,6 @@ function drawChart2() {
 };
 
 // 열차트(월별 렌트수)
-google.charts.load('current', {'packages':['bar'],'language': 'ko'});
-google.charts.setOnLoadCallback(drawChart3);
-
 function drawChart3() {
   var data = google.visualization.arrayToDataTable([
     ['월', '렌트 수'],
@@ -64,29 +79,26 @@ function drawChart3() {
   chart.draw(data, google.charts.Bar.convertOptions(options));
 };
 
+let jsonData;
 // 도넛차트(차량 상태)
-google.charts.load("current", {packages:["corechart"],'language': 'ko'});
-google.charts.setOnLoadCallback(drawChart4);
 function drawChart4() {
-  var data = google.visualization.arrayToDataTable([
-    ['car_status', 'car_status'],
-    ['대여중',     11],
-    ['대여가능',      2],
-    ['정비중',  2]
-  ]);
-
-  var options = {
-    title: '차량 상태',
-    pieHole: 0.4,
-  };
-
-  var chart = new google.visualization.PieChart(document.getElementById('car_status'));
-  chart.draw(data, options);
+	jsonData = $.ajax({
+		type: 'get',
+		url: 'dsbCarStatus',
+		dataType: 'json',
+		async: false
+	}).responseText;
+	
+	var data = new google.visualization.DataTable(jsonData)
+    var options = {
+	    title: '차량 상태',
+	    pieHole: 0.4,
+	  };
+	var chart = new google.visualization.PieChart(document.getElementById('car_status'));
+	chart.draw(data, options);
 }
 
 // 도넛차트(차 종별 렌트수)
-google.charts.load("current", {packages:["corechart"],'language': 'ko'});
-google.charts.setOnLoadCallback(drawChart5);
 function drawChart5() {
   var data = google.visualization.arrayToDataTable([
     ['car_type', 'car_rent_count'],
@@ -109,8 +121,6 @@ function drawChart5() {
 }
 
 // 도넛차트(연령별 인기차량) // 차량 모델은 원형으로 표현 불가
-google.charts.load("current", {packages:["corechart"],'language': 'ko'});
-google.charts.setOnLoadCallback(drawChart6);
 function drawChart6() {
   var data = google.visualization.arrayToDataTable([
     ['age', 'car_rent_count'],

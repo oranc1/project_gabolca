@@ -55,6 +55,8 @@ public interface CarMapper {
 
 //	 차량 수정
 	int updateCar(Map<String, String> map);
+
+	List<Map<String, Object>> carStatus();
 	
 //	// 차량 수정 0619
 //	int updateCar(CarVO car);

@@ -74,6 +74,10 @@ public class CarService {
 	public int carUpdate(Map<String, String> map) {
 		return mapper.updateCar(map);
 	}
+
+	public List<Map<String, Object>> carStatus() {
+		return mapper.carStatus();
+	}
 	
 //	// 차량수정 0619
 //	public int carUpdate(CarVO car) {
