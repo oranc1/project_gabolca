@@ -103,4 +103,12 @@
 		GROUP BY
 			ages
 	</select>
+	
+	<select id="selectMemQuestionList" resultType="map">
+		SELECT
+			*
+		FROM
+			mem_info
+	</select>
+	
 </mapper>

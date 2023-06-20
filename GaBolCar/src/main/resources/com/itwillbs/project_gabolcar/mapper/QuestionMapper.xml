@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.itwillbs.project_gabolcar.mapper.QuestionMapper">
+	<insert id="insertQuestionBoard">
+		<selectKey keyProperty="qst_idx" resultType="int" order="BEFORE">
+			SELECT IFNULL(MAX(qst_idx), 0) FROM qst_board
+		</selectKey>
+			INSERT 
+				INTO qst_board
+				VALUES (
+					#{qst_idx} + 1
+					, #{mem_idx}
+					, #{mem_name}
+					, #{qst_pass}
+					, #{qst_subject}
+					, #{qst_content}
+					, 0
+					, 0
+					, 0
+					, now()
+					, #{qst_type}		
+				)
+	</insert>
+	
+	<!-- 나중에 작성자 이름에 mem_name을 불러올때 쓰이는 구문 -->
+<!-- SELECT qst_board.qst_idx, qst_board.mem_name, qst_board.qst_pass, qst_board.qst_subject, qst_board.qst_content, qst_board.qst_date, qst_board.qst_type, mem_info.mem_name  -->
+<!-- FROM qst_board  -->
+<!-- JOIN mem_info  -->
+<!-- ON qst_board.mem_idx = mem_info.mem_idx; -->
+	
+	
+</mapper>

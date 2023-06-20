@@ -1,5 +1,7 @@
 package com.itwillbs.project_gabolcar.controller;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import javax.servlet.http.Cookie;
@@ -16,8 +18,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.itwillbs.project_gabolcar.service.MemberService;
+import com.itwillbs.project_gabolcar.service.QuestionService;
 import com.itwillbs.project_gabolcar.vo.*;
 
 import net.nurigo.sdk.NurigoApp;
@@ -199,11 +203,40 @@ public class MemberController {
 
 	// =============== 상담게시판 ================
 	// 사이트 1:1 상담 게시판
+	@Autowired
+	private QuestionService qst_service;
+	
+	
+	
 	@GetMapping("question")
 	public String questionBoard() {
 		return "html/member/question/question_board";
 	}
-
+	
+	// 1:1 상담 게시판 작성 폼
+	@GetMapping("QuestionWrietForm")
+	public ModelAndView quetionWriteForm() {
+		List<Map<String, Object>> memQuestionList = memberService.memQuestionList();
+		return new ModelAndView("html/member/question/question_write_form","memQuestionList",memQuestionList);
+//		return "html/member/question/question_write_form";
+	}
+	
+	// 1:1 상담 게시판 작성
+	@PostMapping("QuestionWritePro")
+	public String quetionWritePro(QuestionVO question, Model model) {
+		int insertCount = qst_service.questionBoard(question);
+		if(insertCount > 0) {
+			System.out.println("QuestionWrite 성공");
+			return "html/member/question/question_board";
+		} else {
+			model.addAttribute("msg", "1:1 문의 쓰기 실패!");
+			return "fail_back";
+		}
+	}
+	
+	
+	
+	
 	@GetMapping("question/detail")
 	public String questionDetail() {
 		return "html/member/question/question_detail";

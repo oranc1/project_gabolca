@@ -47,5 +47,8 @@ public interface MemberMapper {
 
 	// 대시보드 연령대별 사용자 조회
 	List<Map<String, Object>> dsbUserAges();
+	
+	// 1:1 문의게시판에 회원 DB 값 보내기는 List
+	List<Map<String, Object>> selectMemQuestionList();
 
 }

@@ -86,6 +86,11 @@ public class MemberService{
 			return mapper.dsbUserAges();
 		}
 		
+		// 1:1 문의 게시판 DB 값 넘겨주기
+		public List<Map<String, Object>> memQuestionList() {
+			return mapper.selectMemQuestionList();
+		}
+		
 
 
 }
