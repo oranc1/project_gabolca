@@ -10,19 +10,30 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.itwillbs.project_gabolcar.service.*;
-import com.itwillbs.project_gabolcar.vo.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.itwillbs.project_gabolcar.service.CarItemService;
+import com.itwillbs.project_gabolcar.service.CarService;
+import com.itwillbs.project_gabolcar.vo.CarVO;
+import com.itwillbs.project_gabolcar.vo.Criteria;
+import com.itwillbs.project_gabolcar.vo.PageDTO;
+import com.itwillbs.project_gabolcar.vo.PageInfo;
+import com.itwillbs.project_gabolcar.vo.ReviewVO;
 
 @Controller
 public class CarItemController {
@@ -32,8 +43,7 @@ public class CarItemController {
 
 	@Autowired
 	CarService carService;
-	
-	
+
 	
 	// db 검색 없이 더미 데이터를 사용시
 	static final boolean DUMMY_DATA_FLAG = false;
@@ -473,10 +483,32 @@ public class CarItemController {
 		
 		resultMap.put("DUMMY_DATA_FLAG", DUMMY_DATA_FLAG);
 		
+		
+		try {
+			ObjectMapper objMapper = new ObjectMapper();
+			resultMap.put("car_res_JSON", objMapper.writeValueAsString(resultMap));
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		return new ModelAndView("html/car_item/res/car_res_info","map",resultMap);
 	}
 	//=================================================
 
+	// 차량예약 더보기 버튼 누를 시 비동기(ajax) 동작
+	
+	@ResponseBody
+	@PostMapping("carResListLoad")
+	public boolean carResListLoad(@RequestParam Map<String,Object> map, Model model) {
+		
+		System.out.println(map.get("data")); 
+		
+		System.out.println();
+		return true;
+	}
+	
+	//=================================================
 	//차량 소개
 	@GetMapping("carInfoList")
 	public ModelAndView carInfo() {
