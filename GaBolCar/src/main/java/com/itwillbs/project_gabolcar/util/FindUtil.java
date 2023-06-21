@@ -1,7 +1,8 @@
-package com.itwillbs.project_gabolcar.controller;
+package com.itwillbs.project_gabolcar.util;
 
 import java.security.SecureRandom;
 import java.util.Date;
+import java.util.Random;
 
 public class FindUtil {
 
@@ -26,4 +27,16 @@ public static String getRamdomPassword() {
 	
 	return key.toString();
 }
+
+public static String getRandomNum() {
+	
+	Random rand = new Random(); 
+	String randomNumber = "";
+	for(int i=0; i<4; i++) {
+		String ran = Integer.toString(rand.nextInt(10)); 
+		randomNumber += ran;
+	}
+	return randomNumber;
+}
+
 }
