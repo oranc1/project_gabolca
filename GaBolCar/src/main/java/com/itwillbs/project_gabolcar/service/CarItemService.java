@@ -76,34 +76,57 @@ public class CarItemService {
 	
 //==============리뷰 서비스=============================
 	/*public List<ReviewVO> getReviewList(int startRow, int listLimit){
-		
-		
-		return carItemMapper.selectReviewList(startRow, listLimit);
-	}
+	
+	
+	return carItemMapper.selectReviewList(startRow, listLimit);
+}
 
-	public int getReviewListCount() {
-		// TODO Auto-generated method stub
-		return carItemMapper.selectReviewListCount();
-	}
-	*/
-	
-	
-	
-	// 리뷰게시판 글 목록, 페이지 나눔
-	public List<ReviewVO> getReviewListPaging(Criteria cri) {
-		return carItemMapper.getReviewListPaging(cri);
-	}
+public int getReviewListCount() {
+	// TODO Auto-generated method stub
+	return carItemMapper.selectReviewListCount();
+}
+*/
 
-	// 리뷰 게시판 총 갯수
-	public int getTotal() {
-		return carItemMapper.getTotal();
-	}
 
-	public int insertReview(ReviewVO review) {
-		return carItemMapper.insertReview(review);
-	}
-	
-	
+
+// 리뷰게시판 글 목록, 페이지 나눔
+public List<ReviewVO> getReviewListPaging(Criteria cri) {
+	return carItemMapper.getReviewListPaging(cri);
+}
+
+// 리뷰 게시판 총 갯수
+public int getTotal() {
+	return carItemMapper.getTotal();
+}
+
+// 리뷰 글 상세보기
+public ReviewVO reviewDetail(ReviewVO review) {
+	return carItemMapper.reviewDetail(review);
+}
+
+// 리뷰 글 수정
+public int modifyReview(ReviewVO review) {
+	return carItemMapper.modifyReview(review);
+}
+
+// 리뷰 글 삭제
+public int deleteReview(ReviewVO review) {
+	return carItemMapper.deleteReview(review);
+}
+
+// 리뷰 글 삭제 시 글 번호 업데이트
+public int updateIdx(ReviewVO review) {
+	return carItemMapper.updateIdx(review);
+}
+
+
+// 리뷰 글 작성
+public int insertReview(ReviewVO review) {
+	// 최대 글번호 선택
+	//int maxIdx = carItemMapper.selectMaxIdx();
+	//review.setRev_idx(maxIdx);
+	return carItemMapper.insertReview(review);
+}
 	//==========================================================
 	
 	

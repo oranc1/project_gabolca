@@ -1,6 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>       
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>       
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,6 +10,15 @@
 	<link href="${pageContext.request.contextPath }/resources/css/inc/footer.css" rel="styleSheet">
 	<script src="${pageContext.request.contextPath }/resources/js/inc/jquery-3.7.0.js"></script>
 <title>Insert title here</title>
+<script type="text/javascript">
+	function deleteConfirm() {
+		if(!confirm("게시글을 삭제 하시겠습니까?")) {
+			return false;
+		} else {
+			location.href="/project_gabolcar/reviewDelete?rev_idx=${reviewDetail.rev_idx }";
+		}
+	}
+</script>
 </head>
 <body>
 	<header>
@@ -27,18 +35,18 @@
 								<ul class="list">
 									<li>
 										<div class="subject">
-											리뷰입니다.
+											${reviewDetail.rev_subject}
 										</div>
 									</li>
 									
 									<li class="write_info">
 										<div class="write_box">
 											<span class="write_t">작성자명</span>
-											<span class="write_c">최*진</span>
+											<span class="write_c">${reviewDetail.rev_name}</span>
 										</div>
 										<div class="write_box">
 											<span class="write_t">등록일</span>
-											<span class="write_c">2023-06-02</span>
+											<span class="write_c">${reviewDetail.rev_date}</span>
 										</div>
 										<div class="write_box">
 											<span class="write_t">첨부파일</span>
@@ -54,7 +62,7 @@
 											</div>
 											<span class="write_s">
 												<!-- 별점 구현 초보, 새로운 거 알면 바꾸기-->
-											<c:set var="starLank" value="2"/>
+											<c:set var="starLank" value="${reviewDetail.rev_star}"/>
 											 <c:choose>
     											<c:when test="${starLank eq 0 }">
   													<span>★</span>
@@ -110,15 +118,18 @@
 									<img src="../img/casper.jpg" alt="">
 									<!-- 작성글 출력 -->
 									<p>
-										내용입니다 내용입니다 내용입니다 내용입니다 내용입니다 내용입니다 내용입니다<br>
-										내용입니다 내용입니다 내용입니다 내용입니다 내용입니다 내용입니다 내용입니다
+										${reviewDetail.rev_content}
 									</p>
 								</div>
 								
 								<div class="mod_box">
-									<a class="modify_btn">수정</a>
-									<a class="modify_delete">삭제</a>
+									<a class="list_btn" href="/project_gabolcar/reviewList?pageNum=${cri.pageNum }">목록</a>
+									<a class="modify_btn" href="/project_gabolcar/reviewModify?pageNum=${cri.pageNum }&rev_idx=${reviewDetail.rev_idx }">수정</a>
+									<a class="modify_delete" href="#" onclick="deleteConfirm()">삭제</a>
 								</div>
+								
+							
+								
 							</div>
 						</div>
 					</section>

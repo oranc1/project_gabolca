@@ -542,40 +542,110 @@ public class CarItemController {
 		
 	}
 	
-	// 리뷰 글 자세히 보기
-	@GetMapping("review/detail")
-	public String reviewDetail() {
+	
+	// 리뷰 상세 글 보기
+	@GetMapping("reviewDetail")
+	public String reviewDetail(ReviewVO review, Model model, HttpServletRequest request, HttpServletResponse response, Criteria cri) {
+		
+		// 파라미터에 request 없애고 HttpSession 으로 
+		ReviewVO reviewResult = carItemService.reviewDetail(review);
+		model.addAttribute("reviewDetail", reviewResult);
+		model.addAttribute("cri", cri);
+
+		
 		return "html/car_item/review/review_detail";
 	}
 	
-	// 리뷰 쓰기 폼
+	
 	@GetMapping("reviewWriteForm")
-	public String reviewWriteForm() {
+	public String reviewWriteForm(HttpSession session, Model model) {
+		String sId = (String)session.getAttribute("sId");
+		/*if(sId == null || !sId.equals("admin")) {
+			model.addAttribute("msg", "잘못된 접근입니다");
+			return "html/car_item/review/fail_back";
+		}*/
+
 		return "html/car_item/review/review_write_form";
 	}
 	
-	//리뷰 작성 프로
+	// 리뷰게시판 글 작성
 	@PostMapping("reviewWritePro")
 	public String reviewWritePro(HttpSession session, ReviewVO review, Model model) {
 		String sId = (String)session.getAttribute("sId");
+		/*if(sId == null || !sId.equals("admin")) {
+			model.addAttribute("msg", "잘못된 접근입니다");
+			return "html/car_item/review/fail_back";
+		}*/
 		
-		if(sId == null) {//세션아이디 없을 때
-			model.addAttribute("msg", "잘못된 접근입니다.");
-			return "html/car_item/review/review_board";
-		}
-		String rev_name = sId;
 		int insertCount = carItemService.insertReview(review);
 		
-		System.out.println("일단");
+		if(insertCount == 0) {
+			model.addAttribute("msg", "등록 실패");
+			return "html/car_item/review/fail_back";
+		}
+		
 		return "redirect:/reviewList";
 	}
 	
-	// 리뷰 수정 폼 
-	@GetMapping("review/modify")
-	public String reviewModify() {
+	// 리뷰 글 삭제
+	@GetMapping("reviewDelete")
+	public String reviewDelete(HttpSession session, ReviewVO review, Model model) {
+//		String sId = (String)session.getAttribute("sId");
+//		if(sId == null || !sId.equals("admin")) {
+//			model.addAttribute("msg", "잘못된 접근입니다");
+//			return "html/member/review/fail_back";
+//		}
+		
+		int deleteReviewCount = carItemService.deleteReview(review);
+		
+		if(deleteReviewCount < 0) {
+			model.addAttribute("msg", "삭제 실패");
+			return "html/car_item/review/fail_back";
+		}
+		
+		int updateCount = carItemService.updateIdx(review);
+		if(updateCount < 0) {
+			model.addAttribute("msg", "업데이트 실패");
+			return "html/car_item/review/fail_back";
+		}
+		
+		return "redirect:/reviewList";
+	}
+	
+	//리뷰게시판 글 수정 폼
+	@GetMapping("reviewModify")
+	public String reviewModify(HttpSession session, ReviewVO review, Model model, Criteria cri) {
+		String sId = (String)session.getAttribute("sId");
+		/*if(sId == null || !sId.equals("admin")) {
+			model.addAttribute("msg", "잘못된 접근입니다");
+			return "html/car_item/review/fail_back";
+		}*/
+		
+		ReviewVO reviewResult = carItemService.reviewDetail(review);
+		model.addAttribute("reviewDetail", reviewResult);
+		model.addAttribute("cri", cri);
+		
 		return "html/car_item/review/review_modify_form";
 	}
 	
+	// 리뷰게시판 글 수정
+	@PostMapping("reviewModifyPro")
+	public String reviewModifyPro(HttpSession session, ReviewVO review, Model model, Criteria cri) {
+		String sId = (String)session.getAttribute("sId");
+		/*if(sId == null || !sId.equals("admin")) {
+			model.addAttribute("msg", "잘못된 접근입니다");
+			return "html/car_item/review/fail_back";
+		}*/
+		
+		int ModifySuccess = carItemService.modifyReview(review);
+		if(ModifySuccess < 0) {
+			model.addAttribute("msg", "수정 실패");
+			return "html/car_item/review/fail_back";
+		}
+		
+		
+		return "redirect:/reviewDetail?pageNum=" + cri.getPageNum() + "&rev_idx=" + review.getRev_idx();
+	}
 	
 	//=================================
 	// 지점, 차량 타입, 연료 체크용 내부메서드

@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>   
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,7 +18,7 @@
 	<div id="notice_cont">
 		<section id="sec_con" class="inr">
 			<h1 class="con_title">리뷰 작성</h1>
-			<form action="reviewWritePro" method="post" enctype="multipart/form-data">
+			<form action="/project_gabolcar/reviewWritePro" method="post" enctype="multipart/form-data">
 				<input type="hidden" name="rev_name" value="${sessionScope.sId }"/>
 				<input type="hidden" name="res_idx" value="${sessionScope.res_idx }"/>
 				<section id="board_wrap">

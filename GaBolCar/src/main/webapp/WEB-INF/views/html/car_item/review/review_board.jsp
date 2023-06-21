@@ -1,6 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>   
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>      
 <!DOCTYPE html>
 <html>
@@ -47,7 +46,7 @@
 									</li>
 									<c:forEach var="reviewList" items="${reviewListP }">
 									<li class="list_cont">
-										<a href="/review/detail?pageNum=${pageMaker.cri.pageNum}&rev_idx=${reviewList.rev_idx}">
+										<a href="/project_gabolcar/reviewDetail?pageNum=${pageMaker.cri.pageNum}&rev_idx=${reviewList.rev_idx}">
 											<p class="list_num">${reviewList.rev_idx }</p>
 											<p class="list_scope">
 											<!-- 별점 구현 초보, 새로운 거 알면 바꾸기-->
@@ -112,6 +111,10 @@
 									</li>
 									</c:forEach>
 								</ul>
+								
+								<div class="write_btn">
+									<a href="/project_gabolcar/reviewWriteForm">글쓰기</a>
+								</div>
 								
 								<div class="list_pager_wrap">
 									<nav class="pg_wrap">

@@ -3,6 +3,7 @@
 <mapper namespace="com.itwillbs.project_gabolcar.mapper.CarItemMapper">
 
 	<!-- 리뷰 관련 mapper.xml -->
+	<!-- 리뷰 관련 mapper.xml -->
 	<!-- 리뷰 게시판 목록 -->
 <!-- 	<select id="selectReviewList" resultType="map" parameterType="com.itwillbs.project_gabolcar.vo.ReviewVO"> -->
 <!-- 		select -->
@@ -19,7 +20,7 @@
 	
 	
 	
-	<!-- 리뷰게시판 페이지 나누기 -->
+	<!-- 리뷰게시판 목록 페이지 나누기 -->
 	<select id="getReviewListPaging" resultType="map" parameterType="com.itwillbs.project_gabolcar.vo.ReviewVO">
 		SELECT *
 			FROM (
@@ -30,25 +31,62 @@
         ORDER BY rev_date DESC 
 	    LIMIT #{skip}, #{amount}
 	</select>
+	
 	<!-- 리뷰 게시판 총 갯수 -->
 	<select id="getTotal" resultType="int">
 		SELECT COUNT(*)
 			FROM rev_car
 	</select>
-	<!-- 리뷰게시판 끝 -->
+	
+	<!-- 리뷰 게시판 뷰 -->
+	<select id="reviewDetail" resultType="com.itwillbs.project_gabolcar.vo.ReviewVO">
+		SELECT *
+			FROM rev_car
+				WHERE rev_idx = #{rev_idx}
+	</select>
+	
+	<delete id="deleteReview">
+		DELETE
+			FROM rev_car
+				WHERE rev_idx = #{rev_idx}
+	</delete>
+	
+	
+
 	<insert id="insertReview">
 		INSERT
 			INTO rev_car
 			VALUES (
 				null,
-				#{res_idx},
-				#{rev_name},
+				21,
+				'노용석',
 				#{rev_subject},
 				#{rev_content},
 				#{rev_star},
 				now()
-				)
+			)
 	</insert>
+	
+	<update id="modifyReview">
+		UPDATE rev_car
+			SET rev_subject = #{rev_subject},
+				rev_content = #{rev_content},
+				rev_star = #{rev_star}
+					WHERE rev_idx = #{rev_idx}
+	</update>
+	
+	
+	
+	<update id="updateIdx">
+		UPDATE rev_car
+			SET rev_idx = rev_idx - 1
+			WHERE rev_idx > #{rev_idx}
+	</update>
+	
+	
+	<!-- 리뷰 게시판 끝 -->
+	
+	
 	
 	
 	<!-- 차량 idx 에 해당하는 옵션들 불러오기 -->
