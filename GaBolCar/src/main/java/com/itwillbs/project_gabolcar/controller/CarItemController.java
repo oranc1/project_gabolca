@@ -527,8 +527,25 @@ public class CarItemController {
 	
 		return "html/car_item/review/review_board";
 	}*/
+	//car_res_info에서 리뷰리스트 3개 가져오기
+	
+	
+	@GetMapping("reviewListSmall")
+	public String reviewListSmall(ReviewVO review, Model model, String car_model) {
+
+		List<ReviewVO> reviewListSmall = carItemService.getReviewListSmall(car_model);
+		model.addAttribute("reviewListS", reviewListSmall);
+
+	
+		return "html/car_item/res/car_res_info";
+		
+	}
+	
 	
 	// 리뷰게시판 글 목록, 페이지 나눔
+	
+	
+	
 	@GetMapping("reviewList")
 	public String reviewList(Model model, Criteria cri) {
 

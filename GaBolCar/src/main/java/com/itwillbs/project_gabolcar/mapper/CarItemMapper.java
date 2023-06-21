@@ -23,6 +23,9 @@ public interface CarItemMapper {
 	//int selectReviewListCount();
 	//리뷰게시판 메퍼 종료
 	
+	//car_res_info 작은 리뷰창	
+	List<ReviewVO> getReviewListSmall(String car_model);
+	
 	// 최대 글번호 선택
 	int selectMaxIdx();
 
