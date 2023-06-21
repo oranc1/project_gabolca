@@ -70,7 +70,7 @@ function drawChart3() {
 	var data = new google.visualization.DataTable(jsonData);
 	var options = {
 		chart: {
-			title: '월별 렌트량'
+			title: '지점별 보유차량'
 		}
 	};
   var chart = new google.charts.Bar(document.getElementById('month_rental_count'));

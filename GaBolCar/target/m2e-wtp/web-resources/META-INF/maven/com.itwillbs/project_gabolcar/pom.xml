@@ -115,6 +115,13 @@
 		    <artifactId>gson</artifactId>
 		    <version>2.10.1</version>
 		</dependency>
+
+		<!-- ajax 이온-->
+		<dependency>
+		    <groupId>com.fasterxml.jackson.core</groupId>
+		    <artifactId>jackson-databind</artifactId>
+		    <version>2.9.4</version>
+		</dependency>
 		
 		<!-- 암호화 이온 https://mvnrepository.com/artifact/org.springframework.security/spring-security-web -->
 		<dependency>
@@ -125,13 +132,7 @@
 
 		
 
-		<!-- ajax 이온-->
-		
-		<dependency>
-		    <groupId>com.fasterxml.jackson.core</groupId>
-		    <artifactId>jackson-databind</artifactId>
-		    <version>2.9.4</version>
-		</dependency>
+
 
 <!-- 		<dependency> -->
 <!-- 		    <groupId>com.fasterxml.jackson.dataformat</groupId> -->
