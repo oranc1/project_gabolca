@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.itwillbs.project_gabolcar.service.PaymentService;
+import com.itwillbs.project_gabolcar.vo.CarVO;
 import com.itwillbs.project_gabolcar.vo.DriverVO;
 import com.itwillbs.project_gabolcar.vo.MemberVO;
 import com.itwillbs.project_gabolcar.vo.ResInfoVO;
@@ -31,6 +32,9 @@ public class PaymentController {
 		
 		model.addAttribute("map", map);
 		
+		CarVO carInfo = service.getCarName(map.get("car_idx"));
+		model.addAttribute("carInfo", carInfo);
+		
 		return "html/payment/res_info_form";
 	}
 	
@@ -38,13 +42,21 @@ public class PaymentController {
 	
 	// 결제 완료 시
 	@PostMapping("carRes/resInfoPro")
-	public String resInfoPro(@RequestParam String lic_info, DriverVO driver, Model model, HttpSession session) {
+	public String resInfoPro(ResInfoVO res, DriverVO driver, Model model, HttpSession session) {
+		
+		String id = (String)session.getAttribute("sId");
+		System.out.println("id" + id);
 		
 		int insertCount = service.insertDriver(driver);
 		if(insertCount < 0) {
 			model.addAttribute("msg", "운전자 정보 insert 실패");
 			return "html/notice/fail_back";
 		}
+
+		
+		res.setMem_idx(service.getIdx(id));
+		int resInsertCount = service.insertResInfo(res);
+		
 		
 		
 		
