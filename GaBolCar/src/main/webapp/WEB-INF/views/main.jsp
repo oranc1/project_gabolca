@@ -119,7 +119,7 @@
 						</a>
 						<div>
 							<img class="car_recom_img" alt=""
-								src="${populer_car.car_file1}">
+								src="${pageContext.request.contextPath}/resources/upload/car/${car.car_file_path}/${car.car_file1}" >
 							<div class="car_recom_info_wrap">
 								<p class="car_recom_info_model">${populer_car.car_model}(${populer_car.car_company})</p>
 								<div class="car_recom_info_list">

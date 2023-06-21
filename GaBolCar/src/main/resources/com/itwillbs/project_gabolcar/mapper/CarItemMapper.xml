@@ -18,7 +18,24 @@
 <!-- 		SELECT COUNT(*)  FROM rev_car -->
 <!-- 	</select> -->
 	
-	
+		<!-- 리뷰게시판 작은거 3개 -->
+	<select id="getReviewListSmall" resultType="map" parameterType="com.itwillbs.project_gabolcar.vo.ReviewVO">
+	select * from rev_car rc 
+	where res_idx IN(
+	select res_idx from res_info ri
+	where car_idx in ( 
+	select car_idx from car_info ci
+	where car_model= #{car_model}
+		)
+	)
+	LIMIT 3
+	</select>
+
+
+<!-- 	SELECT car_model FROM car_info -->
+<!-- 	WHERE car_idx = (SELECT car_idx FROM res_info WHERE res_idx = #{rev_idx}) -->
+<!-- 	LIMIT 3 -->
+
 	
 	<!-- 리뷰게시판 목록 페이지 나누기 -->
 	<select id="getReviewListPaging" resultType="map" parameterType="com.itwillbs.project_gabolcar.vo.ReviewVO">
