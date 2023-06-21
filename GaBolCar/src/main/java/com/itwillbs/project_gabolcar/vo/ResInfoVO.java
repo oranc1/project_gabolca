@@ -15,5 +15,9 @@ public class ResInfoVO {
 	private int car_idx;//차량코드
 	private String car_insurance;//자동차 보험
 	private String lic_num;//면허증 번호
+	private String lic_num1;//면허증 번호
+	private String lic_num2;//면허증 번호
+	private String lic_num3;//면허증 번호
+	private String lic_num4;//면허증 번호
 	private int mem_idx;//회원 번호
 }

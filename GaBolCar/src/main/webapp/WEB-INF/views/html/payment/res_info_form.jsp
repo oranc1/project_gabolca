@@ -65,8 +65,9 @@
 	</header>
 	<section id="sec_con" class="inr res_page">
 		<form action="resInfoPro" method="post">
-			<input type="hidden" name="res_rental_date" value="">
-			<input type="hidden" name="res_return_date" value="">
+			<input type="hidden" name="res_rental_date" value="${map.res_rental_date }">
+			<input type="hidden" name="res_return_date" value="${map.res_return_date }">
+			<input type="hidden" name="car_idx" value="${map.car_idx }">
 			<ul class="res_page_wrap">
 				<li class="res_info_p res-com">
 					<div class="menu_tit res_info">
@@ -80,8 +81,8 @@
 						</li>
 						<li>
 							<label for="rental_area">대여 지점</label>
-							<select id="rental_area2" disabled="disabled" name="brc_rent_name" class="drv_80">
-									<option value="${map.brc_rent_name }">${map.brc_rent_name }</option>
+							<select id="rental_area2" name="brc_rent_name" class="drv_80">
+									<option selected="selected" value="${map.brc_rent_name }">${map.brc_rent_name }</option>
 <!-- 									<option selected="selected">범일점(본점)</option> -->
 <!-- 									<option>부산역점</option> -->
 <!-- 									<option>해운대점</option> -->
@@ -94,7 +95,7 @@
 						</li>
 						<li>
 							<label for="rental_area">반납 지점</label>
-							<select id="rental_area2" disabled="disabled" name="brc_return_name" class="drv_80">
+							<select id="rental_area2" name="brc_return_name" class="drv_80">
 									<option selected="selected" value="${map.brc_return_name }">${map.brc_return_name }</option>
 <!-- 									<option>부산역점</option> -->
 <!-- 									<option>해운대점</option> -->
@@ -143,7 +144,7 @@
 						<li>
 							<label for="licenseType">면허 종류</label>
 							<select name="lic_info" class="id_type">
-								<option na value="1종">1종</option>
+								<option value="1종">1종</option>
 								<option value="2종">2종</option>
 							</select>
 						</li>
@@ -173,13 +174,13 @@
 									<th class="title">고객부담금</th>
 								</tr>
 								<tr class="tr1">
-									<th><input type="radio" name="ins" value="0" onclick="getIns(event)">선택안함</th>
+									<th><input type="radio" name="car_insurance" value="선택안함" onclick="getIns(event)">선택안함</th>
 									<td>없음</td>
 									<td>없음</td>
 									<td>전액부담</td>
 								</tr>
 								<tr class="tr1">
-									<th><input type="radio" name="ins" value="10,000" onclick="getIns(event)">일반자차</th>
+									<th><input type="radio" name="car_insurance" value="일반자차" onclick="getIns(event)">일반자차</th>
 									<td>1만원</td>
 									<td>300만원</td>
 									<td>30만원</td>
@@ -419,7 +420,7 @@
 				<div class="txt_sec_p">
 					<p>
 						<span>차종</span>
-						<span><b>캐스퍼(현대)</b></span>
+						<span><b>${carInfo.car_model}(${carInfo.car_company})</b></span>
 					</p>
 					<p>
 						<span>대여금액</span>

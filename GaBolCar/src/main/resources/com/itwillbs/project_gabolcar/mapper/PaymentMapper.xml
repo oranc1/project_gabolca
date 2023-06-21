@@ -20,7 +20,34 @@
 			, #{lic_expiration_date}
 			, #{lic_num1}
 		)
-		
 	</insert>
+	
+	<select id="getIdx" resultType="Integer">
+		SELECT mem_idx
+			FROM mem_info
+				WHERE mem_id = #{id}
+	</select>
+	
+	<insert id="insertResInfo">
+		INSERT INTO res_info
+		VALUES (
+			null
+			, now()
+			, #{res_rental_date}
+			, #{res_return_date}
+			, #{brc_rent_name}
+			, #{brc_return_name}
+			, #{car_idx}
+			, #{car_insurance}
+			, CONCAT(#{lic_num1}, '-', #{lic_num2}, '-', #{lic_num3}, '-', #{lic_num4})
+			, #{mem_idx}
+		)
+	</insert>
+	
+	<select id="getCarName" resultType="com.itwillbs.project_gabolcar.vo.CarVO">
+		SELECT *
+			FROM car_info
+				WHERE car_idx = #{car_idx}
+	</select>
 
 </mapper>
