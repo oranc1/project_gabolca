@@ -677,88 +677,56 @@ public class AdminConroller {
     @ResponseBody
     @RequestMapping(value = "dsbBrcMonthlyCount",method = RequestMethod.GET, produces = "application/text; charset=UTF-8")
     public String brcMonthlyCount() {
-    	List<Map<String, Object>> brcMonthlyCount = res_service.dsbBrcMonthlyCount();
+    	List<Map<String, Object>> brcList = brc_service.brcList();
+    	List<Map<String, Object>> brcMonthlyCount = res_service.dsbBrcMonthlyCount(brcList);
     	// 전달데이터
     	JSONObject data = new JSONObject();
     	// cols 설정
-    	JSONObject col1 = new JSONObject();    //cols의 1번째 object를 담을 JSONObject
-    	JSONObject col2 = new JSONObject();    //cols의 2번째 object를 담을 JSONObject
-    	JSONObject col3 = new JSONObject();    //cols의 3번째 object를 담을 JSONObject
-    	JSONObject col4 = new JSONObject();    //cols의 4번째 object를 담을 JSONObject
-    	JSONObject col5 = new JSONObject();    //cols의 5번째 object를 담을 JSONObject
+    	JSONObject colt = new JSONObject();    //cols의 1번째 object를 담을 JSONObject
     	JSONArray cols = new JSONArray();        //위의 두개의 JSONObject를 담을 JSONArray
-    	
-    	col1.put("id", "");
-    	col1.put("label", "월");
-    	col1.put("pattern", "");
-    	col1.put("type", "string");
-    	
-    	col2.put("id", "");
-    	col2.put("label", "서면역점");
-    	col2.put("pattern", "");
-    	col2.put("type", "number");
-    	
-    	col3.put("id", "");
-    	col3.put("label", "해운대역점");
-    	col3.put("pattern", "");
-    	col3.put("type", "number");
-    	
-    	col4.put("id", "");
-    	col4.put("label", "광안리역점");
-    	col4.put("pattern", "");
-    	col4.put("type", "number");
-
-    	col5.put("id", "");
-    	col5.put("label", "부전역점");
-    	col5.put("pattern", "");
-    	col5.put("type", "number");
-    	
-    	cols.put(col1);
-    	cols.put(col2);
-    	cols.put(col3);
-    	cols.put(col4);
-    	cols.put(col5);
+    	// colt 설정
+    	colt.put("id", "");
+    	colt.put("label", "월");
+    	colt.put("pattern", "");
+    	colt.put("type", "string");
+    	cols.put(colt);
+    	// 아래 for문이 돌면서 column 지점명컬럼 자동생성 및 B
+    	String[] brcName = new String[brcList.size()];
+    	for (int i=0; i < brcList.size(); i++) {
+    		Map<String,Object> brc = brcList.get(i);
+    		JSONObject col = new JSONObject();    //cols에 담을 JSONObject
+    		col.put("id", "");
+    		col.put("label", brc.get("brc_name"));
+    		col.put("pattern", "");
+    		col.put("type", "number");
+    		cols.put(col);
+    		brcName[i] = (String) brc.get("brc_name");
+    	}
     	
     	// rows 설정
     	JSONArray rows = new JSONArray();        //row JSONObject를 담을 JSONArray
-    	for (Map<String, Object>map : brcMonthlyCount){        //JSONArray의 size만큼 돌면서 형식을 만듭니다.
+    	for (int i=0; i < brcMonthlyCount.size(); i++){        //brcMonthlyCount의 size만큼 실행
+    		Map<String, Object> map = brcMonthlyCount.get(i);
     		JSONObject legend = new JSONObject();
-    		legend.put("v", map.get("MONTH"));
-//    	    legend.put("f", null);
-    		
-    		JSONObject value = new JSONObject();
-    		value.put("v", map.get("brc1"));
-//    	    value.put("f", null);
-    		
-    		JSONObject value2 = new JSONObject();
-    		value2.put("v", map.get("brc2"));
-//    	    value.put("f", null);
-
-    		JSONObject value3 = new JSONObject();
-    		value3.put("v", map.get("brc3"));
-//    	    value.put("f", null);
-    		
-    		JSONObject value4 = new JSONObject();
-    		value4.put("v", map.get("brc4"));
-//    	    value.put("f", null);
+    		legend.put("v", map.get("월"));
     		
     		JSONArray cValueArry = new JSONArray();
     		cValueArry.put(legend);
-    		cValueArry.put(value);
-    		cValueArry.put(value2);
-    		cValueArry.put(value3);
-    		cValueArry.put(value4);
+    		
+    		for (int j=0; j < brcList.size(); j++) { // brcList 만큼 실행
+    			JSONObject value = new JSONObject();
+    			value.put("v", map.get(brcName[j]));
+        		cValueArry.put(value);
+    		}
     		
     		JSONObject cValueObj = new JSONObject();
     		cValueObj.put("c", cValueArry);
-    		
     		rows.put(cValueObj);
     	}
     	
     	// 전달데이터 cols, rows 추가
     	data.put("rows", rows);
     	data.put("cols", cols);
-    	System.out.println();
     	System.out.println(data.toString());
     	return data.toString();
     }

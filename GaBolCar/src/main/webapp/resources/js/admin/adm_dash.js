@@ -124,7 +124,7 @@ function drawChart6() {
 	}).responseText;
 	var data = new google.visualization.DataTable(jsonData)
 	var options = {
-		title: '연령대별 이용자',
+		title: '연령대별 이용건수',
 		pieHole: 0.4,
 	};
 

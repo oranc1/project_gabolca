@@ -6,11 +6,10 @@ import lombok.Data;
 
 @Data
 public class ResInfoVO {
-	private int res_idx; //
-	private Timestamp res_time;//예약 일시
-	private Timestamp res_rental_date;// 대여 일시 
+	private int res_idx; // 예약 고유 번호, null
+	private Timestamp res_time;//예약 일시,  now()
+	private Timestamp res_rental_date;// 대여 일시,  
 	private Timestamp res_return_date;//반납 일시
-	//총 대여 시간 
 	private String brc_rent_name;//대여 장소
 	private String brc_return_name;//반납 장소
 	private int car_idx;//차량코드

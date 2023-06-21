@@ -468,6 +468,7 @@ public class CarItemController {
 			resultMap.put("brc_rent_name", map.get("brc_rent_name"));
 			resultMap.put("brc_return_name", map.get("brc_return_name"));
 			resultMap.put("car_option", carItemService.getCarOptionList((String)map.get("car_idx")));
+			resultMap.put("car_idx", map.get("car_idx"));
 		}
 		
 		resultMap.put("DUMMY_DATA_FLAG", DUMMY_DATA_FLAG);

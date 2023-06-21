@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>  
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 
 <!DOCTYPE html>
@@ -125,7 +127,9 @@
 					<p class="view_amount">
 						<b>100,000</b>원
 					</p>
-					<a href="#" class="view_res_btn">예약하러 가기</a>
+					<a href="resPayment?car_idx=${map.car_idx }
+									&res_rental_date=${map.res_rental_date}&res_return_date=${map.res_return_date}
+									&brc_rent_name=${map.brc_rent_name}&brc_return_name=${map.brc_rent_name}" class="view_res_btn">예약하러 가기</a>
 				</div>
 			</div>
 		</div>

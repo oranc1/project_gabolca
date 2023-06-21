@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.itwillbs.project_gabolcar.mapper.PaymentMapper">
+	<select id="selectMemberInfo" resultType="com.itwillbs.project_gabolcar.vo.MemberVO">
+		SELECT *
+			FROM mem_info
+				WHERE mem_id = #{id}
+	</select>
+	
+	<insert id="insertDriver">
+		INSERT INTO drivers_info
+		VALUES (
+			null
+			, #{dri_name}
+			, CONCAT(#{dri_tel1}, '-', #{dri_tel2}, '-', #{dri_tel3})
+			, #{dri_birthday}
+			, CONCAT(#{lic_num1}, '-', #{lic_num2}, '-', #{lic_num3}, '-', #{lic_num4})
+			, #{lic_info}
+			, #{lic_issue_date}
+			, #{lic_expiration_date}
+			, #{lic_num1}
+		)
+		
+	</insert>
+
+</mapper>

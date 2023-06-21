@@ -14,8 +14,8 @@ public class ResService {
 	@Autowired
 	private ResMapper mapper;
 	
-	public List<Map<String, Object>> dsbBrcMonthlyCount() {
-		return mapper.dsbBrcMonthlyCount();
+	public List<Map<String, Object>> dsbBrcMonthlyCount(List<Map<String, Object>> brcList) {
+		return mapper.dsbBrcMonthlyCount(brcList);
 	}
 
 }
