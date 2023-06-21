@@ -224,8 +224,15 @@ public class MemberController {
 	
 	// 1:1 상담 게시판 작성
 	@PostMapping("QuestionWritePro")
-	public String quetionWritePro(QuestionVO question, Model model) {
+	public String quetionWritePro(@RequestParam String mem_name, QuestionVO question, Model model) {
+		  // 로그인한 사용자의 mem_idx를 가져오기
+	    int mem_idx = memberService.getCurrentUserMemIdx(mem_name);
+
+	    // 가져온 mem_idx를 QuestionVO의 mem_idx에 설정
+	    question.setMem_idx(mem_idx);
+		
 		int insertCount = qst_service.questionBoard(question);
+		
 		if(insertCount > 0) {
 			System.out.println("QuestionWrite 성공");
 			return "html/member/question/question_board";
