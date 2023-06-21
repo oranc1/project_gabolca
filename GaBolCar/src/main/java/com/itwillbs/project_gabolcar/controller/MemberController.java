@@ -34,6 +34,10 @@ import net.nurigo.sdk.message.service.DefaultMessageService;
 public class MemberController {
 	@Autowired
 	private MemberService memberService;
+	// 1:1 문의 게시판 서비스
+	@Autowired
+	private QuestionService qst_service;
+	
 
 	// =============== 멤버 페이지, 멤버 정보 관련 ================
 	// 회원 정보 수정
@@ -203,9 +207,6 @@ public class MemberController {
 
 	// =============== 상담게시판 ================
 	// 사이트 1:1 상담 게시판
-	@Autowired
-	private QuestionService qst_service;
-	
 	
 	
 	@GetMapping("question")

@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
 <!-- 원본 파일 이름 4-3 -->
 <!DOCTYPE html>
@@ -9,13 +8,55 @@
 <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>4p</title>
+<title>예약하기</title>
 <link href="${pageContext.request.contextPath }/resources/css/common.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath }/resources/css/payment/res_info_form.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath }/resources/css/inc/top.css" rel="styleSheet">
 <link href="${pageContext.request.contextPath }/resources/css/inc/footer.css" rel="styleSheet">
+<!-- jQuery -->
+<%-- <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script> --%>
 
-<script src="${pageContext.request.contextPath }/resources/js/inc/jquery-3.7.0.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+
+<script>
+
+	var IMP = window.IMP;
+	IMP.init('imp31006863'); 
+
+	function requestPay() {
+		// IMP.request_pay(param, callback) 결제창 호출
+		IMP.request_pay({ // param
+			pg : "html5_inicis", // 
+			pay_method : "card", // 결제방법
+			merchant_uid : "${member.mem_idx}" + new Date().getTime(), // 가맹점에서 구별할 수 있는 고유 id
+			name : "의자", // 주문명
+			amount : 100, // 가격
+			buyer_email : "${member.mem_id}", // 구매자 이메일
+			buyer_name : "${member.mem_name}", // 구매자 이름
+			buyer_tel : "${member.mem_mtel}", // 구매자 번호
+		}, function(data) {
+			if(data.success){
+				var msg = "결제 완료";
+	            msg += '고유ID : ' + data.imp_uid;                //아임포트 uid는 실제 결제 시 결제 고유번호를 서버와 비교해서 결제처리하는데 필요없긴함.
+	            msg += '// 상점 거래ID : ' + data.merchant_uid;
+	            msg += '// 결제 금액 : ' + data.paid_amount;
+	            msg += '// 카드 승인번호 : ' + data.apply_num;
+	            $.ajax({
+	            	type : 'post',
+	            	url : 'resInfoPro',
+// 	            	data : {"pay_idx" : data.merchant_uid, "pay_total" : data.paid_amount, ""},
+	            });
+			} else {
+				var msg = "결제 실패"
+				msg += "에러 내용" + rsp.error_msg;
+			}
+			alert(msg);
+// 			document.location.href="resCom";
+		});
+	}
+</script>
+
 
 </head>
 <body>
@@ -23,7 +64,10 @@
 		<jsp:include page="../../inc/top1.jsp"></jsp:include>
 	</header>
 	<section id="sec_con" class="inr res_page">
-		<form>
+		<form action="resInfoPro" method="post">
+			<input type="hidden" name="res_rental_date" value="${map.res_rental_date }">
+			<input type="hidden" name="res_return_date" value="${map.res_return_date }">
+			<input type="hidden" name="car_idx" value="${map.car_idx }">
 			<ul class="res_page_wrap">
 				<li class="res_info_p res-com">
 					<div class="menu_tit res_info">
@@ -32,34 +76,36 @@
 					<ul class="side_sub">
 						<li>
 							<label for="rentdate">대여 날짜</label>
-							<span class="drv_80">2023. 05.28(일) 13:00</span>
+							<span class="drv_80">${map.res_rental_date }</span>
+<!-- 							<span class="drv_80">2023. 05.28(일) 13:00</span> -->
 						</li>
 						<li>
-							<label for="rental_area">대여 지역</label>
-							<select id="rental_area2" disabled="disabled" class="drv_80">
-									<option selected="selected">범일점(본점)</option>
-									<option>부산역점</option>
-									<option>해운대점</option>
+							<label for="rental_area">대여 지점</label>
+							<select id="rental_area2" name="brc_rent_name" class="drv_80">
+									<option selected="selected" value="${map.brc_rent_name }">${map.brc_rent_name }</option>
+<!-- 									<option selected="selected">범일점(본점)</option> -->
+<!-- 									<option>부산역점</option> -->
+<!-- 									<option>해운대점</option> -->
 							</select>
 						</li>
 						<li>
 							<label for="returndate">반납 날짜</label>
-							<span class="drv_80">2023. 05. 28(일) 13:30</span>
+							<span class="drv_80">${map.res_return_date }</span>
+<!-- 							<span class="drv_80">2023. 05. 28(일) 13:30</span> -->
 						</li>
 						<li>
-							<label for="rental_area">반납 지역</label>
-							<select id="rental_area2" disabled="disabled" class="drv_80">
-									<option selected="selected">범일점(본점)</option>
-									<option>부산역점</option>
-									<option>해운대점</option>
+							<label for="rental_area">반납 지점</label>
+							<select id="rental_area2" name="brc_return_name" class="drv_80">
+									<option selected="selected" value="${map.brc_return_name }">${map.brc_return_name }</option>
+<!-- 									<option>부산역점</option> -->
+<!-- 									<option>해운대점</option> -->
 							</select>
 						</li>
 						<li>
 							<label for="totalhour">총 대여시간</label>
-							<span class="drv_80">1일 2시간</span>
+							<span class="drv_80"></span>
 						</li>
 					</ul>
-				</li>
 				<li class="drv_per_p res-com">
 					<div class="menu_tit driver_info">
 						<span>운전자 정보(필수입력)</span>
@@ -67,59 +113,48 @@
 					<ul class="side_sub">
 						<li class="drv_input">
 							<label for="name">운전자명</label>
-							<input type="text" name=" " placeholder="운전자명을 입력해 주세요" class="drv_80">
+							<input type="text" name="dri_name" placeholder="운전자명을 입력해 주세요" class="drv_80">
 						</li>
 						<li class="drv_input">
 							<label for="birthDate">생년월일</label>
-							<input type="text" name=" " placeholder="생년월일을 8자리를 입력해 주세요"  maxlength="8" class="drv_80">
+							<input type="text" name="dri_birthday" placeholder="생년월일을 8자리를 입력해 주세요"  maxlength="8" class="drv_80">
 						</li>
 						<li class="drv_phone">
 							<label for="phoneNum">휴대폰 번호</label>
 							<div>
-								<input type="text" size="1" maxlength="3">-
-								<input type="text" size="3" maxlength="4">-
-								<input type="text" size="3" maxlength="4">
+								<input type="text" size="1" maxlength="3" name="dri_tel1">-
+								<input type="text" size="3" maxlength="4" name="dri_tel2">-
+								<input type="text" size="3" maxlength="4" name="dri_tel3">
 							</div>
 						</li>
 						<li class="lic_num_inp">
 							<label for="licenseNo">면허증 번호</label>
 							<div>							
-								<select name="id_type2">
-									<option value="">11</option>
-									<option value="">12</option>
-									<option value="">13</option>
-									<option value="">14</option>
-									<option value="">15</option>
-									<option value="">16</option>
-									<option value="">17</option>
-									<option value="">18</option>
-									<option value="">19</option>
-									<option value="">20</option>
-									<option value="">21</option>
-									<option value="">22</option>
-									<option value="">23</option>
-									<option value="">24</option>
+								<select name="lic_num1">
+									<c:forEach begin="11" end="24" var="i">
+										<option value="${i }">${i }</option>
+									</c:forEach>
 								</select>
 								-
-								<input type="text" name=" " placeholder="번호 입력" maxlength="2">-
-								<input type="text" name=" " placeholder="번호 입력" maxlength="6">-
-								<input type="text" name=" " placeholder="번호 입력" maxlength="2">
+								<input type="text" placeholder="번호 입력" maxlength="2" name="lic_num2">-
+								<input type="text" placeholder="번호 입력" maxlength="6" name="lic_num3">-
+								<input type="text" placeholder="번호 입력" maxlength="2" name="lic_num4">
 							</div>
 						</li>
 						<li>
 							<label for="licenseType">면허 종류</label>
-							<select name="id_type" class="id_type">
-								<option value="">1종</option>
-								<option value="">2종</option>
+							<select name="lic_info" class="id_type">
+								<option value="1종">1종</option>
+								<option value="2종">2종</option>
 							</select>
 						</li>
 						<li class="drv_input">
 							<label for="issueDate">발급일자</label>
-							<input type="text" name=" " placeholder="발급일자 8자리를 입력해 주세요"  maxlength="8" class="drv_80">
+							<input type="text" name="lic_issue_date" placeholder="발급일자 8자리를 입력해 주세요"  maxlength="8" class="drv_80">
 						</li>
 						<li class="drv_input">
 							<label for="expiredDate">만료일자</label>
-							<input type="text" name=" " placeholder="만료일자 8자리를 입력해 주세요"  maxlength="8"class="drv_80">
+							<input type="text" name="lic_expiration_date" placeholder="만료일자 8자리를 입력해 주세요"  maxlength="8"class="drv_80">
 						</li>
 					</ul>
 				</li>
@@ -139,13 +174,13 @@
 									<th class="title">고객부담금</th>
 								</tr>
 								<tr class="tr1">
-									<th><input type="radio" name="ins" value="0" onclick="getIns(event)">선택안함</th>
+									<th><input type="radio" name="car_insurance" value="선택안함" onclick="getIns(event)">선택안함</th>
 									<td>없음</td>
 									<td>없음</td>
 									<td>전액부담</td>
 								</tr>
 								<tr class="tr1">
-									<th><input type="radio" name="ins" value="10,000" onclick="getIns(event)">일반자차</th>
+									<th><input type="radio" name="car_insurance" value="일반자차" onclick="getIns(event)">일반자차</th>
 									<td>1만원</td>
 									<td>300만원</td>
 									<td>30만원</td>
@@ -154,25 +189,32 @@
 						</li>
 					</ul>
 				</li>
-				<li >
-
+				<li>
 					<div class="menu_tit ">
 						<span>결제수단 선택</span>
 					</div>
 					<ul class="side_sub">
 						<li class="payment_wrap">
-							<div class="payment_p" id="box1">
-								<input type="radio" name="payment" id="card">신용/체크카드
+							<div class="payment_p active" id="box1" style="cursor : pointer;">
+								<input type="radio" name="payment" id="card" >신용/체크카드
 							</div>
-							<div class="payment_p" id="box2">
+							<div class="payment_p" id="box2" style="cursor : pointer;">
 								<input type="radio" name="payment" id="virtual_account">가상계좌이체
 							</div>
-							<div class="payment_p" id="box3">
+							<div class="payment_p" id="box3" style="cursor : pointer;">
 								<input type="radio" name="payment" id="transfer">무통장입금
 							</div>
 						</li>
 					</ul>
+					<script>
+							$('.payment_p').click(function() {
+								$(this).addClass('active');
+								$(this).siblings('.payment_p').removeClass('active'); 
+							});
+					</script>
 				</li>
+				
+				
 				<li class="agreement_p">
 					<div class="menu_tit">
 						<span>이용약관</span>
@@ -364,7 +406,7 @@
                            		<tr>
                             </table>
                                <p class="terms_p">
-	                               <input type="checkbox" id="agree" required  >환불규정에 동의합니다.<br>
+	                               <input type="checkbox" id="agree" required >환불규정에 동의합니다.<br>
                                </p>
 							</li>
 					</ul>
@@ -373,12 +415,12 @@
 
 			<fieldset class="img_sec_wrap">
 				<div class="img_sec_p">
-					<img src="${pageContext.request.contextPath }/resources/img/car_img_storage/test_img/casper.jpg" alt="">
+					<img src="${pageContext.request.contextPath }${car.car_file1 }" alt="">
 				</div>
 				<div class="txt_sec_p">
 					<p>
 						<span>차종</span>
-						<span><b>캐스퍼(현대)</b></span>
+						<span><b>${carInfo.car_model}(${carInfo.car_company})</b></span>
 					</p>
 					<p>
 						<span>대여금액</span>
@@ -394,7 +436,8 @@
 					</p>
 				</div>
 			</fieldset>
-			<a href="${pageContext.request.contextPath }/resCom" class="res_p">예약하기</a>
+<!-- 			<button class="res_p" onclick="requestPay();">결제하기</button> -->
+			<button class="res_p" onclick="">결제하기</button>
 		</form>
 	</section>
 	
@@ -408,13 +451,6 @@
 				$(this).siblings('.side_sub').slideUp();
 			}
 		});
-	</script>
-	
-	<script>
-	function getIns(event) {
-	  document.getElementById("ins_result").innerText = 
-	    event.target.value;
-	}
 	</script>
 
 	<!-- footer 추가 -->

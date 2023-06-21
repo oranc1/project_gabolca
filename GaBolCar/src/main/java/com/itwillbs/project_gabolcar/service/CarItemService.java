@@ -87,7 +87,10 @@ public int getReviewListCount() {
 }
 */
 
-
+//car_res_info 안에 작은 리뷰창
+public List<ReviewVO> getReviewListSmall(String car_model) {
+	return carItemMapper.getReviewListSmall(car_model);
+}
 
 // 리뷰게시판 글 목록, 페이지 나눔
 public List<ReviewVO> getReviewListPaging(Criteria cri) {

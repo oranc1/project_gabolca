@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>  
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>   
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>  
 
 <!DOCTYPE html>
 <html>
@@ -17,33 +18,34 @@
 	<header>
 		<jsp:include page="../../../inc/top1.jsp"></jsp:include>
 	</header>
-	<section id="sec_con" class="inr car_view">
+		<input type="hidden" name="car_model" value="${map.car_info.car_model}"/>
+		<section id="sec_con" class="inr car_view">
 		<div class="upperContainner">
 			<div class="slide_wrap">
 				<div class="slide_container">
 					<div class="mySlides">
 						<div class="numbertext">1&nbsp;&nbsp;/&nbsp;&nbsp;5</div>
-						<img src="${pageContext.request.contextPath }/resources/img/car_img_storage/test_img/코나1.jpg">
+						<img src="${pageContext.request.contextPath }${map.car_info.car_file1}">
 					</div>
 
 					<div class="mySlides">
 						<div class="numbertext">2&nbsp;&nbsp;/&nbsp;&nbsp;5</div>
-						<img src="${pageContext.request.contextPath }/resources/img/car_img_storage/test_img/코나2.jpg">
+						<img src="${pageContext.request.contextPath }${map.car_info.car_file2}">
 					</div>
 
 					<div class="mySlides">
 						<div class="numbertext">3&nbsp;&nbsp;/&nbsp;&nbsp;5</div>
-						<img src="${pageContext.request.contextPath }/resources/img/car_img_storage/test_img/코나3.jpg">
+						<img src="${pageContext.request.contextPath }${map.car_info.car_file3}">
 					</div>
 
 					<div class="mySlides">
 						<div class="numbertext">4&nbsp;&nbsp;/&nbsp;&nbsp;5</div>
-						<img src="${pageContext.request.contextPath }/resources/img/car_img_storage/test_img/코나4.jpg"">
+						<img src="${pageContext.request.contextPath }${map.car_info.car_file4}">
 					</div>
 
 					<div class="mySlides">
 						<div class="numbertext">5&nbsp;&nbsp;/&nbsp;&nbsp;5</div>
-						<img src="${pageContext.request.contextPath }/resources/img/car_img_storage/test_img/코나5.jpg">
+						<img src="${pageContext.request.contextPath }${map.car_info.car_file5}">
 					</div>
 
 					<a class="prev" onclick="plusSlides(-1)">❮</a> <a class="next"
@@ -52,23 +54,23 @@
 
 				<div class="row">
 					<div class="column">
-						<img class="demo cursor" src="${pageContext.request.contextPath }/resources/img/car_img_storage/test_img/코나1.jpg"
+						<img class="demo cursor" src="${pageContext.request.contextPath }${map.car_info.car_file1}"
 							onclick="currentSlide(1)">
 					</div>
 					<div class="column">
-						<img class="demo cursor" src="${pageContext.request.contextPath }/resources/img/car_img_storage/test_img/코나2.jpg"
+						<img class="demo cursor" src="${pageContext.request.contextPath }${map.car_info.car_file2}"
 							onclick="currentSlide(2)">
 					</div>
 					<div class="column">
-						<img class="demo cursor" src="${pageContext.request.contextPath }/resources/img/car_img_storage/test_img/코나3.jpg"
+						<img class="demo cursor" src="${pageContext.request.contextPath }${map.car_info.car_file3}"
 							onclick="currentSlide(3)">
 					</div>
 					<div class="column">
-						<img class="demo cursor" src="${pageContext.request.contextPath }/resources/img/car_img_storage/test_img/코나4.jpg"
+						<img class="demo cursor" src="${pageContext.request.contextPath }${map.car_info.car_file4}"
 							onclick="currentSlide(4)">
 					</div>
 					<div class="column">
-						<img class="demo cursor" src="${pageContext.request.contextPath }/resources/img/car_img_storage/test_img/코나5.jpg"
+						<img class="demo cursor" src="${pageContext.request.contextPath }${map.car_info.car_file5}"
 							onclick="currentSlide(5)">
 					</div>
 				</div>
@@ -76,20 +78,16 @@
 
 			<div class="view_info">
 				<div class="view_cont">
-					<p class="car_comp">현대자동차</p>
+					<p class="car_comp">${map.car_info.car_company}</p>
 					<div class="car_name">
-						<h4>캐스퍼</h4>
-						<p>경형</p>
+						<h4>${map.car_info.car_model}</h4>
+						<p>${map.car_info.car_type}</p>
 					</div>
 					<div class="res_loca">
 						<div class="rent_loca loca_comm">
 							<p>대여할 곳</p>
 							<p>
-								<span class="rt_ico"></span> <span> <select>
-										<option disabled="disabled" selected="selected">부산진구점(본점)</option>
-										<option disabled="disabled">부산역점</option>
-										<option disabled="disabled">해운대점</option>
-								</select>
+								<span class="rt_ico"></span>${map.brc_rent_name}<span> 
 								</span>
 							</p>
 						</div>
@@ -99,33 +97,28 @@
 						<div class="retn_loca loca_comm">
 							<p>반납할 곳</p>
 							<p>
-								<span class="rt_ico"></span> <span> <select>
-										<option disabled="disabled" selected="selected">부산진구점(본점)</option>
-										<option disabled="disabled">부산역점</option>
-										<option disabled="disabled">해운대점</option>
-								</select>
-								</span>
+								<span class="rt_ico"></span> <span>${map.brc_return_name}</span>
 							</p>
 						</div>
 					</div>
 					<div class="res_date">
 						<div class="rent_date_txt date_comm">
 							<p>대여일</p>
-							<span>23. 05. 28 15:00</span>
+							<span>${map.res_rental_date}</span>
 						</div>
 						<div class="rent_date_total">
 							<p>총 대여시간</p>
-							<span>1일 2시간</span>
+							<span>계산식필요</span>
 						</div>
 						<div class="ret_date date_comm">
 							<p>반납일</p>
-							<span>23. 05. 28 15:00</span>
+							<span>${map.res_return_date}</span>
 						</div>
 					</div>
 					<p class="view_amount">
-						<b>100,000</b>원
+						<b>계산식필요</b>원
 					</p>
-					<a href="#" class="view_res_btn">예약하러 가기</a>
+					<a href="" class="view_res_btn">예약하러 가기</a>
 				</div>
 			</div>
 		</div>
@@ -173,32 +166,32 @@
 					<div>
 						<p class="more_icon"></p>
 						<p class="opt_name">차량번호</p>
-						<span>02호6584</span>
+						<span>${map.car_info.car_number}</span>
 					</div>
 					<div>
 						<p class="more_icon"></p>
 						<p class="opt_name">모델</p>	
-						<span>코나</span>
+						<span>${map.car_info.car_model}</span>
 					</div>
 					<div>
 						<p class="more_icon"></p>
 						<p class="opt_name">연식</p>
-						<span>2022년식</span>
+						<span>${map.car_info.car_old}</span>
 					</div>
 					<div>
 						<p class="more_icon"></p>
 						<p class="opt_name">변속타입</p>
-						<span>자동</span>
+						<span>${map.car_info.car_shift_type}</span>
 					</div>
 					<div>
 						<p class="more_icon"></p>
 						<p class="opt_name">연료</p>
-						<span>디젤</span>
+						<span>${map.car_info.car_fuel_type}</span>
 					</div>
 					<div>
 						<p class="more_icon"></p>
 						<p class="opt_name">정원</p>
-						<span>7인승</span>
+						<span>${map.car_info.car_riding}인</span>
 					</div>
 				</div>
 			</div>
@@ -208,82 +201,17 @@
 			<p class="view_tit">옵션 정보</p>
 			<div class="more_cont">
 				<div class="opt_list">
+					<c:forEach var="car_option" items="${map.car_option}">
 					<div>
-						<img alt="" src="${pageContext.request.contextPath }/resources/img/car_img_storage/car_option/option_linsece.png">
-						<p>국제운전면허증가능</p>
+						<img alt="" src="${pageContext.request.contextPath }/resources/img/car_img_storage/car_option/${car_option.option_image_url}"/>
+						<p>${car_option.option_name}</p>
 					</div>
-					<div>
-						<img alt="" src="${pageContext.request.contextPath }/resources/img/car_img_storage/car_option/option_sos.png">
-						<p>긴급출동무료</p>
-					</div>
-					<div>
-						<img alt="" src="${pageContext.request.contextPath }/resources/img/car_img_storage/car_option/option_charger.png">
-						<p>충전기제공</p>
-					</div>
-					<div>
-						<img alt="" src="${pageContext.request.contextPath }/resources/img/car_img_storage/car_option/option_aux_cable.png">
-						<p>AUX선 제공</p>
-					</div>
-					<div>
-						<img alt="" src="${pageContext.request.contextPath }/resources/img/car_img_storage/car_option/option_seat.png">
-						<p>카시트무료(수량한정)</p>
-					</div>
-					<div>
-						<img alt="" src="${pageContext.request.contextPath }/resources/img/car_img_storage/car_option/option_nosmoking.png">
-						<p>금연</p>
-					</div>
-					<div>
-						<img alt="" src="${pageContext.request.contextPath }/resources/img/car_img_storage/car_option/option_heatseat.png">
-						<p>열선시트</p>
-					</div>
-					<div>
-						<img alt="" src="${pageContext.request.contextPath }/resources/img/car_img_storage/car_option/option_heathandle.png">
-						<p>핸들열선</p>
-					</div>
-					<div>
-						<img alt="" src="${pageContext.request.contextPath }/resources/img/car_img_storage/car_option/option_sunloof.png">
-						<p>썬루프</p>
-					</div>
-					<div>
-						<img alt="" src="${pageContext.request.contextPath }/resources/img/car_img_storage/car_option/option_smartkey.png">
-						<p>스마트키</p>
-					</div>
-					<div>
-						<img alt="" src="${pageContext.request.contextPath }/resources/img/car_img_storage/car_option/option_navigation.png">
-						<p>네비게이션</p>
-					</div>
-					<div>
-						<img alt="" src="${pageContext.request.contextPath }/resources/img/car_img_storage/car_option/option_backcamera.png">
-						<p>후방카메라</p>
-					</div>
-					<div>
-						<img alt="" src="${pageContext.request.contextPath }/resources/img/car_img_storage/car_option/option_blackbox.png">
-						<p>블랙박스</p>
-					</div>
-					<div>
-						<img alt="" src="${pageContext.request.contextPath }/resources/img/car_img_storage/car_option/option_highpass.png">
-						<p>하이패스</p>
-					</div>
-					<div>
-						<img alt="" src="${pageContext.request.contextPath }/resources/img/car_img_storage/car_option/option_bluetooth.png">
-						<p>블루투스</p>
-					</div>
-					<div>
-						<img alt="" src="${pageContext.request.contextPath }/resources/img/car_img_storage/car_option/option_babyseat.png">
-						<p>유아용 카시트</p>
-					</div>
-					<div>
-						<img alt="" src="${pageContext.request.contextPath }/resources/img/car_img_storage/car_option/option_usb.png">
-						<p>USB</p>
-					</div>
-					<div>
-						<img alt="" src="${pageContext.request.contextPath }/resources/img/car_img_storage/car_option/option_cd.png">
-						<p>CD</p>
-					</div>
+					</c:forEach>
 				</div>
 			</div>
 		</div>
 		
+	
 		<div class="review_wrap more_wrap_box">
 			<div class="view_tit_sec">
 				<p class="view_tit">고객 리뷰</p>
@@ -291,26 +219,19 @@
 			</div>
 			<div class="more_cont">
 				<div class="rev_cont">
-					<ul>
+					<ul class=""> 
+					<c:forEach var="reviewListS" items="${reviewListS }">
 						<li class="">
-							<span class="rev_scp">★★★★★</span>
-							<span class="rev_name">홍길동</span>
-							<span class="rev_txt">솔직후기 일단 차상태는 외관 내관 모두 정말 깨끗합니다 에어컨틀어을때도 냄새가 안납니다 진짜좋은건 차연비입니다 고속도로 탔는데 23까지 오르더군요(차관리 진짜잘해주신거같습니다) 서비스부분에서도 만족스러웠습니다</span>
+							<span class="rev_scp">${reviewListS.rev_star }</span>
+							<span class="rev_name">${reviewListS.rev_name }</span>
+							<span class="rev_txt">${reviewListS.rev_content }</span>
 						</li>
-						<li class="">
-							<span class="rev_scp">★★★★★</span>
-							<span class="rev_name">홍길동</span>
-							<span class="rev_txt">솔직후기 일단 차상태는 외관 내관 모두 정말 깨끗합니다 에어컨틀어을때도 냄새가 안납니다 진짜좋은건 차연비입니다 고속도로 탔는데 23까지 오르더군요(차관리 진짜잘해주신거같습니다) 서비스부분에서도 만족스러웠습니다</span>
-						</li>
-						<li class="">
-							<span class="rev_scp">★★★★★</span>
-							<span class="rev_name">홍길동</span>
-							<span class="rev_txt">솔직후기 일단 차상태는 외관 내관 모두 정말 깨끗합니다 에어컨틀어을때도 냄새가 안납니다 진짜좋은건 차연비입니다 고속도로 탔는데 23까지 오르더군요(차관리 진짜잘해주신거같습니다) 서비스부분에서도 만족스러웠습니다</span>
-						</li>
+						</c:forEach>
 					</ul>
 				</div>
 			</div>
 		</div>
+		
 		
 		<div class="ins_wrap more_wrap_box">
 			<p class="view_tit">보험 안내</p>
@@ -336,7 +257,6 @@
 			</div>
 		</div>
 	</section>
-
 	<footer>
 		<jsp:include page="../../../inc/footer.jsp"></jsp:include>
 	</footer>
