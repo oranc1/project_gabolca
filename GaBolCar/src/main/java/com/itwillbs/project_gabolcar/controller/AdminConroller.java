@@ -62,7 +62,15 @@ public class AdminConroller {
     @RequestMapping(value= "carList.ajax", method = RequestMethod.GET, produces = "application/text; charset=UTF-8")
     public String carSearch(@RequestParam Map<String, Object> map, Model model) {
 		System.out.println(map);
+		
+		int listLimit = 15;
+		int pageNum = Integer.parseInt(String.valueOf(map.get("pageNum")));
+		int startRow = (pageNum -1) * listLimit;
+		
+		map.put("startRow", startRow);
+		map.put("listLimit", listLimit);
 		List<Map<String, Object>> carList = car_service.carList(map);
+		
 		JSONArray jsonArray = new JSONArray(carList);
     	return jsonArray.toString();
     }

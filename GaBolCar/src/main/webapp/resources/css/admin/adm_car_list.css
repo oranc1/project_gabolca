@@ -9,15 +9,10 @@
 }
 
 #adm_car_list,#adm_car_list td,#adm_car_list th {
-/* 	border: 1px solid rgba(255, 102, 0, 0.5); */
 	border-collapse: collapse;
 	width: auto;
 	font-size: 13px;
 	text-align: center;
-}
-
-table,td,th {
-	border-collapse: collapse;
 }
 
 #adm_car {
@@ -25,9 +20,10 @@ table,td,th {
 }
 
 #adm_car_bottom {
-	width: inherit;
-	display: flex;
-	justify-content: center;
+	display: inherit;
+	position: absolute;
+	right: 0;
+	bottom: 10px;
 }
 
 .adm_car_button {
@@ -43,13 +39,24 @@ table,td,th {
     border-radius: 5px;
 }
 
+#pageList {
+    display: flex;
+    justify-content: center;
+}
+
 #adm_car_top {
 	min-width: 450px;
+	display: inherit;
+	left: 0;
+}
+
+#adm_search {
+	min-width: 330;
 }
 
 #adm_car_top input[type="checkbox"] {
 	display: none;
-      }
+}
 
 #adm_car_top label {
 	font-weight: bold;
@@ -109,16 +116,16 @@ table,td,th {
     background: rgba(28, 28, 80, 0);
 }
 
-#pageList {
-	display: flex;
-	justify-content: center;
-}
-
 #adm_car_title {
 	font-weight: 400;
 	font-size: 1.5em;
 	margin: 1em auto;
 	display: block;
+}
+
+#ctbox {
+	display: flex;
+	position: relative;
 }
 
 #search_cate,#search_box {
