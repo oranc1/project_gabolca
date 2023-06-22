@@ -73,7 +73,7 @@
 						OR qst_content LIKE CONCAT('%', #{searchKeyword} ,'%') 
 					</when>
 					<when test="searchType.equals('name')">
-						qst_name LIKE CONCAT('%', #{searchKeyword} ,'%')
+						mem_name LIKE CONCAT('%', #{searchKeyword} ,'%')
 					</when>
 				</choose>
 			</if>

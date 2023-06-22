@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.itwillbs.mvc_board.vo.BoardVO;
 import com.itwillbs.project_gabolcar.service.MemberService;
 import com.itwillbs.project_gabolcar.service.QuestionService;
 import com.itwillbs.project_gabolcar.service.ResService;
@@ -275,6 +276,7 @@ public class MemberController {
 		}
 	}
 	
+	// 1:1 상담 게시판 리스트
 	@GetMapping("QuestionList")
 	public String questionBoard(
 			@RequestParam(defaultValue = "") String searchType, 
@@ -308,16 +310,25 @@ public class MemberController {
 		
 		model.addAttribute("qstBoardList", qstBoardList);
 		model.addAttribute("pageInfo", qstPageInfo);
+		
 		System.out.println(" qstBoardList : " + qstBoardList);
 		return "html/member/question/question_board";
 	}
 	
-	
-	
-	@GetMapping("question/detail")
-	public String questionDetail() {
+	// "BoardDetail" 서블릿 요청에 대한 글 상세정보 조회 요청
+	@GetMapping("QuestionDetail")
+	public String detail(@RequestParam int qst_idx, Model model) {
+		// BoardService - getBoard() 메서드 호출하여 글 상세정보 조회 요청
+		// => 파라미터 : 글번호   리턴타입 : BoardVO 객체(board)
+		QuestionVO question = qst_service.getQuestionBoard(qst_idx);
+		
+		// 상세정보 조회 결과 저장
+		model.addAttribute("question", question);
+		
 		return "html/member/question/question_detail";
 	}
+	
+	
 
 	
 	//============= etc ==============

@@ -26,4 +26,10 @@ public class QuestionService {
 	public int getQstBoardListCount(String searchType, String searchKeyword) {
 		return mapper.selectQstBoardListCount(searchType, searchKeyword);
 	}
+	
+	
+	public QuestionVO getQuestionBoard(int qst_idx) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
