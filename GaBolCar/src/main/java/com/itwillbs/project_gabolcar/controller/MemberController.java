@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.itwillbs.mvc_board.vo.BoardVO;
 import com.itwillbs.project_gabolcar.service.MemberService;
 import com.itwillbs.project_gabolcar.service.QuestionService;
 import com.itwillbs.project_gabolcar.service.ResService;
@@ -250,10 +249,18 @@ public class MemberController {
 	
 	// 1:1 상담 게시판 작성 폼
 	@GetMapping("QuestionWrietForm")
-	public ModelAndView quetionWriteForm() {
-		List<Map<String, Object>> memQuestionList = memberService.memQuestionList();
-		return new ModelAndView("html/member/question/question_write_form","memQuestionList",memQuestionList);
-//		return "html/member/question/question_write_form";
+	public String quetionWriteForm(HttpSession session, Model model) {
+		
+		String sId = (String) session.getAttribute("sId");
+		
+		if (sId == null) {
+			model.addAttribute("msg", "로그인이 필요합니다!");
+			return "inc/fail_back";
+		}
+		
+	    List<Map<String, Object>> memQuestionList = memberService.memQuestionList();
+	    model.addAttribute("memQuestionList", memQuestionList);
+	    return "html/member/question/question_write_form";
 	}
 	
 	// 1:1 상담 게시판 작성
@@ -315,7 +322,7 @@ public class MemberController {
 		return "html/member/question/question_board";
 	}
 	
-	// "BoardDetail" 서블릿 요청에 대한 글 상세정보 조회 요청
+	// "QuestionDetail" 서블릿 요청에 대한 글 상세정보 조회 요청
 	@GetMapping("QuestionDetail")
 	public String detail(@RequestParam int qst_idx, Model model) {
 		// BoardService - getBoard() 메서드 호출하여 글 상세정보 조회 요청
@@ -328,6 +335,41 @@ public class MemberController {
 		return "html/member/question/question_detail";
 	}
 	
+	// "QuestionDelete" 서블릿 요청에 대한 글 삭제 요청
+	@GetMapping("QuestionDelete")
+	public String qstDelet(
+			@RequestParam int qst_idx,
+			@RequestParam(defaultValue = "1") int pageNum,
+			HttpSession session, 
+			Model model) {
+		
+		String sId = (String)session.getAttribute("sId");
+		if(sId == null) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			return "inc/fail_back";
+		}
+		
+		if(!sId.equals("admin")) {
+			boolean isBoardWriter = qst_service.isBoardWriter(qst_idx, sId);
+			
+			if(!isBoardWriter) {
+				model.addAttribute("msg", "권한이 없습니다!");
+				return "inc/fail_back";
+			}
+		}
+		
+		int deleteCount = qst_service.removeBoard(qst_idx);
+	
+		if(deleteCount == 0) {
+			model.addAttribute("msg", "삭제 실패!");
+			return "fail_back";
+		}
+	
+		return "redirect:/QuestionList?pageNum=" + pageNum;
+	}
+	
+//	@GetMapping("QuestionModifyForm")
+//	public String 
 	
 
 	
