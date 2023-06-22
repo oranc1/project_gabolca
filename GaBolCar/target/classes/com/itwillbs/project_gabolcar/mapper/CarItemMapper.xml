@@ -41,11 +41,14 @@
 	<select id="getReviewListPaging" resultType="map" parameterType="com.itwillbs.project_gabolcar.vo.ReviewVO">
 		SELECT *
 			FROM (
-                SELECT
-                	*, date_format(rev_date, '%Y-%m-%d')AS rev_date_format 
-              	FROM rev_car
+	                SELECT rc.rev_date, rc.rev_idx,rc.rev_star,rc.rev_subject,rc.rev_name,ci.car_model, date_format(rev_date, '%Y-%m-%d')AS rev_date_format 
+	              	FROM rev_car rc
+	              	JOIN res_info ri
+	              	ON rc.res_idx = ri.res_idx 
+	              	JOIN car_info ci
+	              	ON ri.car_idx = ci.car_idx 
               	) AS n1
-        ORDER BY rev_date DESC 
+        ORDER BY rev_idx DESC 
 	    LIMIT #{skip}, #{amount}
 	</select>
 	
@@ -57,9 +60,13 @@
 	
 	<!-- 리뷰 게시판 뷰 -->
 	<select id="reviewDetail" resultType="com.itwillbs.project_gabolcar.vo.ReviewVO">
-		SELECT *
-			FROM rev_car
-				WHERE rev_idx = #{rev_idx}
+		SELECT rc.rev_date, rc.rev_idx,rc.rev_star,rc.rev_subject,rc.rev_name,ci.car_model, rc.rev_content, date_format(rev_date, '%Y-%m-%d')AS rev_date_format 
+       	FROM rev_car rc
+       	JOIN res_info ri
+       	ON rc.res_idx = ri.res_idx 
+       	JOIN car_info ci
+       	ON ri.car_idx = ci.car_idx 
+		WHERE rev_idx = #{rev_idx}
 	</select>
 	
 	<delete id="deleteReview">
@@ -75,7 +82,7 @@
 			INTO rev_car
 			VALUES (
 				null,
-				21,
+				5,
 				'노용석',
 				#{rev_subject},
 				#{rev_content},

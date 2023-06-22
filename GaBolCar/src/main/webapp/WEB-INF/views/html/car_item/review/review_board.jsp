@@ -97,7 +97,7 @@
 											</c:choose>
 											<!-- 별점 구현 초보 -->
 											</p>
-											<p class="list_car">차종</p>
+											<p class="list_car">${reviewList.car_model}</p>
 									<%-- 제목 클릭을 위한 하이퍼링크 설정(BoardDetail) --%>
 									<%-- 파라미터 : 글번호(board_num), 페이지번호(pageNum) --%>
 											<div class="txt_prev">

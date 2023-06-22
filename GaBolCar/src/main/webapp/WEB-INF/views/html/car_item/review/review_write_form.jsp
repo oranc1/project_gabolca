@@ -36,7 +36,7 @@
 										<div id="myform">
 											<!-- DB에서 예약차 이름 가져오기 -->
 											<div class="car_name" name="car_model">
-											캐스퍼
+											
 											</div>
 											<fieldset>
 													<input type="radio" name="rev_star" value="5" id="rate1">
