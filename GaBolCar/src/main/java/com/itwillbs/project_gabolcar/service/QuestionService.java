@@ -10,6 +10,7 @@ import com.itwillbs.project_gabolcar.vo.QuestionVO;
 
 @Service
 public class QuestionService {
+	
 	@Autowired
 	private QuestionMapper mapper;
 	
@@ -25,5 +26,28 @@ public class QuestionService {
 	// 1:1 게시판 전체 글 목록 갯수 조회 요청
 	public int getQstBoardListCount(String searchType, String searchKeyword) {
 		return mapper.selectQstBoardListCount(searchType, searchKeyword);
+	}
+	
+	// 글 상세정보 조회 요청
+	// => 조회 성공 시 조회수 증가
+	public QuestionVO getQuestionBoard(int qst_idx) {
+		
+		QuestionVO question = mapper.selectQuestionBoard(qst_idx);
+		
+		if(question != null) {
+			mapper.updateReadcount(question);
+			
+		}
+		return question;
+	}
+	// 작성자 확인
+	public boolean isBoardWriter(int qst_idx, String mem_id) {
+		
+		QuestionVO question = mapper.selectQuestionBoard(qst_idx);
+		return mem_id.equals(question.getMem_name());
+	}
+	// 글 삭제
+	public int removeBoard(int qst_idx) {
+		return mapper.qstDeleteBoard(qst_idx);
 	}
 }

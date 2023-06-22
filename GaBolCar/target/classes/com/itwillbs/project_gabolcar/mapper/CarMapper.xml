@@ -41,6 +41,26 @@
 	</insert>
 	
 	
+	<!-- 	06/20 차량에등록된 옵션 셀렉트 -->
+	<select id="selectOptionCar" resultType="map">
+	    SELECT 
+	        ci.car_idx, 
+	        co.option_idx
+	    FROM
+	        car_options co
+	    JOIN
+	        car_info ci ON ci.car_idx = co.car_idx
+	</select>
+	
+<!-- 		<select id="selectCarList" resultType="map"> -->
+<!-- 		select -->
+<!-- 			* -->
+<!-- 		from -->
+<!-- 			car_info -->
+<!-- 	</select> -->
+	
+	
+	
 	<!-- pageInfo 와 map 을 받아  찾고싶은 차량의 조건들을 확인하여 리스트를 반환
 		만약 pageInfo이 없으면 전체 차량 리스트를 불러옴
 		map의 속성값에 따라서 차량 찾기 만약 map이 아예 없으면 조건선택 X -->
@@ -180,7 +200,16 @@
 							brc_name like concat('%',#{map.search_keyword},'%')
 						</when>
 						<when test="map.search_type.equals('option_name')">
-							option_name like concat('%',#{map.search_keyword},'%')
+<!-- 							option_name like concat('%',#{map.search_keyword},'%') -->
+								ci.car_idx in (
+									select
+										ci2.car_idx
+									from 
+										car_info ci2 
+										JOIN car_options co ON ci.car_idx = co.car_idx
+										JOIN option_list ol ON co.option_idx = ol.option_idx
+									where
+										option_name like concat('%',#{map.search_keyword},'%'))
 						</when>
 					</choose>
 				</if>
@@ -290,25 +319,32 @@
 			</choose>
 	</select>
 	
-	<update id="updateCar" parameterType="map">
+	<update id="updateCar" parameterType="com.itwillbs.project_gabolcar.vo.CarVO">
 		update
 			car_info
 		set
-			car_type = #{car_type},
-			car_number = #{car_number},
-			car_company = #{car_company},
-			car_model = #{car_model},
-			car_old = #{car_old},
-			car_shift_type = #{car_shift_type},
-			car_fuel_type = #{car_fuel_type},
-			car_riding = #{car_riding},
-			car_age = #{car_age},
-			car_career = #{car_career},
-			car_license = #{car_license},
-			car_weekdays = #{car_weekdays},
-			car_weekend = #{car_weekend},
-			brc_name = #{brc_name},
- 			car_image_url = #{car_image_url}, 
+	        car_type = #{car_type},
+	        car_number = #{car_number},
+	        car_company = #{car_company},
+	        car_model = #{car_model},
+	        car_old = #{car_old},
+	        car_shift_type = #{car_shift_type},
+	        car_fuel_type = #{car_fuel_type},
+	        car_riding = #{car_riding},
+	        car_age = #{car_age},
+	        car_career = #{car_career},
+	        car_license = #{car_license},
+	        car_weekdays = #{car_weekdays},
+	        car_weekend = #{car_weekend},
+	        brc_name = #{brc_name},
+     		car_file1 = #{car_file1},
+			car_file2 = #{car_file2},
+			car_file3 = #{car_file3},
+			car_file4 = #{car_file4},
+			car_file5 = #{car_file5},
+			car_file6 = #{car_file6},
+	        car_file_path = #{car_file_path},
+<!-- 			car_image_url = #{car_image_url}, -->
 			car_status = #{car_status}
 		where
 			car_idx=#{car_idx}

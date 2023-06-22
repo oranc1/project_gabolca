@@ -19,7 +19,6 @@ $(function() {
 			carAjax();	
 		}
 	})
-	
 	// 스크롤 바
 //	$(window).scroll(function() {
 //		let scrollTop = $(window).scrollTop();
@@ -33,6 +32,7 @@ $(function() {
 	
 	// 차량리스트 조회 func
 	function carAjax() {
+		$("#nowPage").empty().html("<b>"+pageNum+"</b>");
 		search_type = $("#search_cate").val();
 		search_keyword = $("#search_box").val();
 		

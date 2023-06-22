@@ -15,6 +15,7 @@
 	<script src="${pageContext.request.contextPath }/resources/js/inc/jquery-3.7.0.js"></script>
 	<script src="${pageContext.request.contextPath }/resources/js/member/login/signup.js"></script>
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	
 </head>
 
 <body>
@@ -69,7 +70,7 @@
 				        <div class="addr">
 				        	<p>주소</p>
 				        	<span class="sign_mark">*</span><br>
-				            <input id="sample6_postcode" name="sample6_postcode" type="text" placeholder="우편번호">
+				            <input id="sample6_postcode" name="sample6_postcode" type="text" placeholder="우편번호" required="required">
 				            <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
 				            <input type="text" id="sample6_address" name="sample6_address" placeholder="주소"><br>
 							<input type="text" id="sample6_detailAddress" name="sample6_detailAddress" placeholder="상세주소">
@@ -88,7 +89,7 @@
 				            <input id="phone3" name="phone3" type="text" size="3" maxlength="4" oninput="changePhone3()" required="required">
 <!-- 				        </div> -->
 				            <button type="button" disabled id="sendMessage" >인증번호 전송</button>
-				        <div class="auth">
+<!-- 				        <div class="auth"> -->
 				        
 <!-- 				        <div class="phone" > -->
 <!-- 				            <input id="phone1"  name="phone1" type="text" size="1" maxlength="3" oninput="changePhone1()" required="required"> - -->
@@ -97,16 +98,18 @@
 <!-- <!-- 				        </div> --> 
 <!-- 				            <button type="button" disabled id="sendMessage"  onclick="sendMsg()">인증번호 전송</button> -->
 <!-- 				        <div class="auth"> -->
-				        </div>
+<!-- 				        </div> -->
 				       			        
 				       </div>
 <!-- 				        <div class="timer ph_cert">  -->
 <!-- 				        여기 수정 해야함 ㅡㅡ -->
 <!-- 				            <div id="timeLimit"> -->
 						<div class="confirm">
-				            <input type="text" id="cert" name="memberPhoneCertify" placeholder="인증번호를 입력 해주세요"></div>
+				            <input type="text" id="cert" name="memberPhoneCertify" maxlength="4"  required disabled placeholder="인증번호를 입력 해주세요">
+				         
 				            <button type="button" disabled id="certifyCheck" >인증확인</button>
-<!-- 				        </div> -->
+				        </div>
+				        
 				        </div>
 				        
 				        <div class="line">
@@ -115,11 +118,11 @@
 				        <div class="signUp">
 				           <button id="signUpButton">가입하기</button>
 				        </div>
-				    </div>
 			 	</div>
 			</section>
 		</form>
-	</div>
+				    </div>
+<!-- 	</div> -->
 	<footer>
 		<jsp:include page="../../../inc/footer.jsp"></jsp:include>
 	</footer>

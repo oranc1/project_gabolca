@@ -8,9 +8,9 @@
 		<div class="user_profile">
 			<dl class="user_info">
 				<dt>
-					<b>홍길동</b> 님
+					<b>${sessionScope.sId }</b> 님
 				</dt>
-				<dd>abcd1234@naver.com</dd>
+				<dd>${sessionScope.sId }</dd>
 			</dl>
 			<button class="info_manage">내 정보 관리</button>
 		</div>
@@ -21,7 +21,7 @@
 					<span>MY 예약</span>
 				</div>
 				<ul class="side_sub">
-					<li>예약 정보 조회</li>
+					<li><a href="MemberRes">예약 정보 조회</a></li>
 				</ul>
 			</li>
 			<li>

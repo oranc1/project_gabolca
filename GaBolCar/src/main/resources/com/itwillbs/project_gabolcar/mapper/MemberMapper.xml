@@ -75,6 +75,7 @@
 	<delete id="deleteMember">
 	 DELETE FROM mem_info WHERE mem_id=#{mem_id} 
 	 </delete>
+	 
 	
 	<update id="changePw">
 		update mem_info

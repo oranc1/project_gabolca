@@ -1,5 +1,6 @@
 package com.itwillbs.project_gabolcar.controller;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,11 +23,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.itwillbs.project_gabolcar.service.CarItemService;
 import com.itwillbs.project_gabolcar.service.CarService;
@@ -403,7 +409,7 @@ public class CarItemController {
 		
 
 		//페이지 정보 현황 초기화
-		pageInfo.setEndPage(returnMinute);
+		pageInfo.setEndPage(1);
 		pageInfo.setListCount(1);
 		pageInfo.setPageListLimit(8);
 		pageInfo.setStartPage(0); // sql limit 문의 시작 번호는 배열처럼 0 이 시작
@@ -422,8 +428,9 @@ public class CarItemController {
 		if(!DUMMY_DATA_FLAG) {
 			try {				
 				//차량을 일부분씩만 불러오기 때문에 최대 페이지 설정 해주기
-				pageInfo.setMaxPage((carItemService.getCarCount()/pageInfo.getPageListLimit())+1);
-				
+				// 최대 차량 대수
+				pageInfo.setListCount(carItemService.getCarCount());
+				pageInfo.setMaxPage((pageInfo.getListCount() / pageInfo.getPageListLimit()) + 1);
 				if(resultMap.get("car_order_by").equals("populer")) {					
 					//차량 인기순위 검색후 넣기
 					resultMap.put("car_populer_list", carItemService.getCarPopuler());
@@ -448,6 +455,47 @@ public class CarItemController {
 			resultMap.put("pageInfo", pageInfo);
 		}
 		
+		// ======== JSON 정보 넣기
+		
+		//JSONObject 객체로 차 검색에 필요한 정보들 만 넣어 보내기
+		JSONObject jsonObj = new JSONObject();
+		
+		if(!DUMMY_DATA_FLAG) {			
+			// sql 문으로 날짜,시간 보낼땐 Timestamp로 꼭 변환해서 넣어야함!!
+			jsonObj.put("res_rental_date",Timestamp.valueOf( res_rental_date) );
+			jsonObj.put("res_return_date", Timestamp.valueOf(res_return_date));
+			
+			jsonObj.put("brc_rent_name", brc_rent_name);
+			jsonObj.put("brc_return_name", brc_return_name);
+			
+			// 차량 타입 연료 값 넣기
+			// String[] 배열 형식으로 넣으면 제대로 된 값이 넘어가지 않으므로
+			// new ArrayList(Arrays.asList()) 로 변환해서 넣기
+			jsonObj.put("car_type", new ArrayList(Arrays.asList(car_type)));
+			jsonObj.put("car_fuel_type", new ArrayList(Arrays.asList(car_fuel_type)));
+			
+			// 페이지 정보 현황 넣기
+			jsonObj.put("pageInfo", pageInfo);			
+			// 차량 검색 정렬 조건 셋팅
+			jsonObj.put("car_order_by",map.get("car_order_by"));
+			// 현재 car_res 페이지에서 차량을 찾는다는 확인 문구를 넣기
+			jsonObj.put("carRes", "true");
+			// 차량 종류를 정해서 찾는다는 확인 문구 보내기
+			jsonObj.put("search", "carRes");			
+			
+			// json 타입 객체 전달위해 map에 넣기
+			resultMap.put("car_res_JSON", jsonObj);
+		}
+		
+//		//json 변환
+//		try {
+//			ObjectMapper objMapper = new ObjectMapper();
+//			resultMap.put("car_res_JSON", objMapper.writeValueAsString(resultMap));
+//		} catch (JsonProcessingException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		
 		return new ModelAndView("html/car_item/res/car_res","map",resultMap) ;
 	}
 	
@@ -470,8 +518,10 @@ public class CarItemController {
 				return new ModelAndView("inc/fail_back","map",resultMap);
 			}
 			
+			Map<String, Object> carInfo = carService.carSelect(car);
+			
 			//데이터 넣기
-			resultMap.put("car_info", carService.carSelect(car));
+			resultMap.put("car_info", carInfo);
 			// 콤마( , ) 로 날짜 분리해서 넣기
 			resultMap.put("res_rental_date", map.get("res_rental_date").toString().replace("%",","));
 			resultMap.put("res_return_date", map.get("res_return_date").toString().replace("%",","));
@@ -481,7 +531,7 @@ public class CarItemController {
 			resultMap.put("car_idx", map.get("car_idx"));
 			
 			// 노용석 START
-			String car_model = carService.carSelect(car).get("car_model").toString();
+			String car_model = carInfo.get("car_model").toString();
 			List<ReviewVO> reviewListSmall = carItemService.getReviewListSmall(car_model);
 			resultMap.put("reviewListS", reviewListSmall);
 			// 노용석 END
@@ -491,22 +541,9 @@ public class CarItemController {
 		resultMap.put("DUMMY_DATA_FLAG", DUMMY_DATA_FLAG);
 		//=================================================
 		
-		
-		
+
 		//List<ReviewVO> reviewListSmall = carItemService.getReviewListSmall(car_model);
 		//model.addAttribute("reviewListS", reviewListSmall);
-		
-		
-		
-		
-		
-		try {
-			ObjectMapper objMapper = new ObjectMapper();
-			resultMap.put("car_res_JSON", objMapper.writeValueAsString(resultMap));
-		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
 		return new ModelAndView("html/car_item/res/car_res_info","map",resultMap);
 	}
@@ -514,14 +551,48 @@ public class CarItemController {
 
 	// 차량예약 더보기 버튼 누를 시 비동기(ajax) 동작
 	
+	@RequestMapping(
+			value = "carResListLoad.ajax",
+			method = RequestMethod.POST,
+			produces = "application/text; charset=UTF-8"
+			)	
 	@ResponseBody
-	@PostMapping("carResListLoad")
-	public boolean carResListLoad(@RequestParam Map<String,Object> map, Model model) {
+	public String carResListLoad(@RequestParam Map<String,Object> map, Model model) {
 		
-		System.out.println(map.get("data")); 
+		System.out.println(map);
 		
-		System.out.println();
-		return true;
+		//JSON 데이터 형태로 담는 객체
+		JSONObject jsonObj = new JSONObject();	
+		
+		
+		
+//		if(!DUMMY_DATA_FLAG) {			
+//			// sql 문으로 날짜,시간 보낼땐 Timestamp로 꼭 변환해서 넣어야함!!
+//			jsonObj.put("res_rental_date",Timestamp.valueOf( res_rental_date) );
+//			jsonObj.put("res_return_date", Timestamp.valueOf(res_return_date));
+//			
+//			jsonObj.put("brc_rent_name", brc_rent_name);
+//			jsonObj.put("brc_return_name", brc_return_name);
+//			
+//			// 차량 타입 연료 값 넣기
+//			// String[] 배열 형식으로 넣으면 제대로 된 값이 넘어가지 않으므로
+//			// new ArrayList(Arrays.asList()) 로 변환해서 넣기
+//			jsonObj.put("car_type", new ArrayList(Arrays.asList(car_type)));
+//			jsonObj.put("car_fuel_type", new ArrayList(Arrays.asList(car_fuel_type)));
+//			
+//			// 페이지 정보 현황 넣기
+//			jsonObj.put("pageInfo", pageInfo);			
+//			// 차량 검색 정렬 조건 셋팅
+//			jsonObj.put("car_order_by",map.get("car_order_by"));
+//			// 현재 car_res 페이지에서 차량을 찾는다는 확인 문구를 넣기
+//			jsonObj.put("carRes", "true");
+//			// 차량 종류를 정해서 찾는다는 확인 문구 보내기
+//			jsonObj.put("search", "carRes");			
+//			
+//		}
+				
+		jsonObj.put("test", "ddd11");
+		return jsonObj.toString();
 	}
 	
 	//=================================================

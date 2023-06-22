@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,19 +31,23 @@
 				<ul>
 					<li>
 						<em>예약 번호</em>
-						<span>ADKE-51531564</span>
+						<span>${resInfoCom.res_idx }</span>
 					</li>
 					<li>
 						<em>예약 일자</em>
-						<span>2023. 05. 17 ~ 2023. 05. 18</span>
+						<span>
+							<fmt:formatDate value="${resInfoCom.res_rental_date }" pattern="yyyy-MM-dd HH:mm" />
+						 	~
+							<fmt:formatDate value="${resInfoCom.res_return_date }" pattern="yyyy-MM-dd HH:mm" />
+						</span>
 					</li>
 					<li>
 						<em>차종</em>
-						<span>캐스퍼(현대)</span>
+						<span>${resCarInfo.car_model}(${resCarInfo.car_company})</span>
 					</li> 
 					<li>
 						<em>총 결제 금액</em>
-						<span><b>100,000</b>원</span>
+						<span><b>${resPayInfo.pay_total }</b>원</span>
 					</li> 
 					
 				</ul>
@@ -67,7 +72,7 @@
 	
 			<div class="finish_btn" align="center">
 				<a href="./"><button>메인으로</button></a>
-				<a href="resDetail"><button>예약내역조회</button></a>
+				<a href="${pageContext.request.contextPath }/MemberRes"><button>예약내역조회</button></a>
 			</div>
 			
 		</div>

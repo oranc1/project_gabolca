@@ -23,5 +23,17 @@ public interface QuestionMapper {
 	int selectQstBoardListCount(
 			@Param("searchType") String searchType, 
 			@Param("searchKeyword") String searchKeyword);
+	
+	// 1:1 게시판 글 상세정보 조회
+	QuestionVO selectQuestionBoard(int qst_idx);
+	
+	// 1:1 게시판 조회수 증가
+	void updateReadcount(QuestionVO question);
+	
+	// 작성자 조회
+	QuestionVO isBoardWriter(@Param("qst_idx") int qst_idx, @Param("mem_id") String mem_id);
+	
+	// 글삭제
+	int qstDeleteBoard(int qst_idx);
 
 }
