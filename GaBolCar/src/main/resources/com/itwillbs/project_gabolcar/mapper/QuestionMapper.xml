@@ -22,6 +22,65 @@
 				)
 	</insert>
 	
+	<select id="selectQstBoardList" resultType="com.itwillbs.project_gabolcar.vo.QuestionVO">
+			SELECT *
+			FROM qst_board -- FROM 절 이후 작업 분기 일어남(= 동적 SQL문 작성 필요)
+			
+			<if test="!searchKeyword.equals('')">
+						WHERE
+						<!-- 2. 검색타입(searchType)에 따른 WHERE 절 조건 대상 변경 -->
+						<choose>
+							<when test="searchType.equals('subject')">
+								qst_subject LIKE '%${searchKeyword}%'
+							</when>
+							<when test="searchType.equals('content')">
+								qst_content LIKE '%${searchKeyword}%'
+							</when>
+							<when test="searchType.equals('subject_content')">
+								qst_subject LIKE '%${searchKeyword}%'
+								OR qst_content LIKE '%${searchKeyword}%'
+							</when>
+							<when test="searchType.equals('name')">
+								mem_name LIKE '%${searchKeyword}%'
+							</when>
+						</choose>
+					</if>
+					
+					ORDER BY 
+						qst_board_re_ref DESC
+						, qst_board_re_seq ASC
+					LIMIT
+						#{startRow}
+						, #{listLimit}
+	</select>
+	
+	<select id="selectQstBoardListCount" resultType="int">
+		SELECT COUNT(*)
+			FROM qst_board -- FROM 절 이후 작업 분기 일어남(= 동적 SQL문 작성 필요)
+			<!-- 1. 검색어(searchKeyword)가 널스트링이 아닐 때 검색어 추가할 WHERE 절 수행, 아니면 생략 -->
+			<if test="!searchKeyword.equals('')">
+				WHERE
+				<!-- 2. 검색타입(searchType)에 따른 WHERE 절 조건 대상 변경 -->
+				<choose>
+					<when test="searchType.equals('subject')">
+						qst_subject LIKE CONCAT('%', #{searchKeyword} ,'%')
+					</when>
+					<when test="searchType.equals('content')">
+						qst_content LIKE CONCAT('%', #{searchKeyword} ,'%')
+					</when>
+					<when test="searchType.equals('subject_content')">
+						qst_subject LIKE CONCAT('%', #{searchKeyword} ,'%') 
+						OR qst_content LIKE CONCAT('%', #{searchKeyword} ,'%') 
+					</when>
+					<when test="searchType.equals('name')">
+						qst_name LIKE CONCAT('%', #{searchKeyword} ,'%')
+					</when>
+				</choose>
+			</if>
+	</select>
+	
+	
+	
 	<!-- 나중에 작성자 이름에 mem_name을 불러올때 쓰이는 구문 -->
 <!-- SELECT qst_board.qst_idx, qst_board.mem_name, qst_board.qst_pass, qst_board.qst_subject, qst_board.qst_content, qst_board.qst_date, qst_board.qst_type, mem_info.mem_name  -->
 <!-- FROM qst_board  -->

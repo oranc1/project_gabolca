@@ -111,4 +111,9 @@
 			mem_info
 	</select>
 	
+		<!--  // 1:1 문의게시판 로그인 상태 이름 넘겨주기 -->
+	<select id="getMemIdxByMemName" resultType="int">
+    	SELECT mem_idx FROM mem_info WHERE mem_name = #{mem_name}
+	</select>
+	
 </mapper>

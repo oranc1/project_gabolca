@@ -1,5 +1,6 @@
 package com.itwillbs.project_gabolcar.controller;
 
+import java.time.LocalDate;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -34,6 +35,8 @@ public class PaymentController {
 		
 		CarVO carInfo = service.getCarName(map.get("car_idx"));
 		model.addAttribute("carInfo", carInfo);
+		
+		System.out.println(map);
 		
 		return "html/payment/res_info_form";
 	}

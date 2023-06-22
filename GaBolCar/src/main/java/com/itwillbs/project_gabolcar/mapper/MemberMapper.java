@@ -50,5 +50,8 @@ public interface MemberMapper {
 	
 	// 1:1 문의게시판에 회원 DB 값 보내기는 List
 	List<Map<String, Object>> selectMemQuestionList();
+	
+	// 1:1 문의게시판 로그인 상태 이름 넘겨주기
+	int getMemIdxByMemName(String mem_name);
 
 }
