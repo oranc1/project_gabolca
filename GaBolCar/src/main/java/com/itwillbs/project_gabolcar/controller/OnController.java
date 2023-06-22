@@ -52,14 +52,14 @@ public class OnController { //나중에 합칠거임
 		
 		
 		
-		//문자인증 작업중 6/19
-		@PostMapping("send-one")
+		//문자인증 작업중 6/21
+		@GetMapping("send-one")
 		@ResponseBody
-	    public String sendOne(@RequestParam(value="to") String to) {
+	    public String sendOne(@RequestParam("phone") String userPhoneNumber) {
 //			public String sendOne(HttpServletRequest request,@RequestParam(value = "phone1", required=true) String phone1,@RequestParam(value = "phone2", required=true) String phone2,@RequestParam(value = "phone3", required=true) String phone3) {
 			//인증번호 필요하고
 			System.out.println("여기까지옴ㅇㅇ");
-			System.out.println(to);
+//			System.out.println(to);
 			String randomNum = FindUtil.getRandomNum();
 			//메세지 보낼 번호 필요함 (폼에서 받아 와야한다)
 			//폰 번호랑 인증번호 저장 해야하고
@@ -68,16 +68,20 @@ public class OnController { //나중에 합칠거임
 //			String phone = phone1+"-"+phone2+"-"+phone3;
 //			System.out.println(phone);
 			String msg = "[가볼카 회원가입] 인증번호 ["+randomNum+"]를 입렵해 주세요.";
-			SendUtil.sendMsg(to, msg);
-			System.out.println("전송완료?");
-//			
-//			Map<String, String> map = new HashMap<String, String>();
-//			map.put(phone, phone);
-//			map.put(randomNum, randomNum);
-			//입력받은값이 인증번호랑 일치하면 핸드폰 번호가 인증 되었습니다. 하고 회원가입 버튼 활성화
+			SendUtil.sendMsg(userPhoneNumber, msg);
+			
+			System.out.println("전송완료");
+			
+			//폰번호, 인증번호 저장
+			Map<String, String> checkNums = new HashMap<String, String>();
+			checkNums.put("userPhoneNumber", userPhoneNumber);
+			checkNums.put("randomNum", randomNum);
+			
+			
+			
 			
 			//로그인 화면
-	        return "html/member/login/login";
+	        return "";
 	    }
 	   
 	   

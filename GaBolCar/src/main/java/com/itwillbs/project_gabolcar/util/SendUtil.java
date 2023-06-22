@@ -51,12 +51,11 @@ public class SendUtil {
 		final DefaultMessageService messageService;
 		messageService = NurigoApp.INSTANCE.initialize("NCSSWYB7WLC6MPMX", "G8IIRAISGJ20DGUJ6WN2YGYWOZ9KMIGK", "https://api.coolsms.co.kr");
 		Message message = new Message();
-		message.setFrom("010-2658-2568");
+		message.setFrom("01026582568");
         message.setTo(to);
         message.setText(msg);
         System.out.println("여긴???");
         SingleMessageSentResponse response = messageService.sendOne(new SingleMessageSendingRequest(message));
-        System.out.println(response);
 
         return response;
 		
