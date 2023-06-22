@@ -18,7 +18,7 @@
 							<li><a href="${pageContext.request.contextPath }/QuestionList">1:1 문의</a></li>
 							<li><a href="${pageContext.request.contextPath }/branchLocation">찾아오는길</a></li>
 						</ul></li>
-					<li class="gnb_cont"><a href="resInq">예약확인</a></li>
+					<li class="gnb_cont"><a href="${pageContext.request.contextPath }/MemberRes">예약확인</a></li>
 				</ul>
 				
 				<%-- 0531 추가 
@@ -36,7 +36,7 @@
 						</c:when>
 						<c:otherwise>
 						<li>
-							<a href="${pageContext.request.contextPath }/resInq"> <i class="xi-user"></i> ${sessionScope.sId } 님
+							<a href="${pageContext.request.contextPath }/MemberUpdatePro"> <i class="xi-user"></i> ${sessionScope.sId } 님
 							</a>
 						</li>
 						<li>
@@ -77,7 +77,7 @@
 							<li><a href="${pageContext.request.contextPath }/question">1:1 문의</a></li>
 							<li><a href="${pageContext.request.contextPath }/branchLocation">찾아오는길</a></li>
 						</ul></li>
-					<li class="gnb_cont"><a href="resInq">예약확인</a></li>
+					<li class="gnb_cont"><a href="${pageContext.request.contextPath }/MemberRes">예약확인</a></li>
 					<%-- 0531 추가 
 						로그인 현황 체크하여 항목 띄우기--%>
 					

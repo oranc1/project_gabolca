@@ -18,5 +18,7 @@ public interface ResMapper {
 	List<Map<String,Object>> selectResPopuler(@RequestParam(required = false) @Param("desc") String desc);
 
 	List<Map<String, Object>> dsbBrcMonthlyCount(List<Map<String, Object>> brcList);
+
+	List<ResInfoVO> selectResInfo(String sId);
 	
 }
