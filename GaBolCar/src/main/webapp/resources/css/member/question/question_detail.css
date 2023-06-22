@@ -1,5 +1,14 @@
 @charset "UTF-8";
 
+ 
+
+.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+
+
 #notice_cont {
 	background: #f5f5f5;
 }

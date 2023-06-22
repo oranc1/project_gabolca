@@ -6,52 +6,23 @@
 <html>
 <head>
 	<style>
-    section#buttonArea {
-        float: right;
-    }
+.list_head,
+.list_cont {
+  display: flex;
+  align-items: center;
+}
 
-    .search-form {
-        margin-top: 40px;
-        padding-right: 70px;
-    }
-
-    .list_head,
-    .list_cont {
-        display: table;
-        table-layout: fixed;
-        width: 100%;
-    }
-
-    .list_num,
-    .list_car,
-    .txt_prev,
-    .writter,
-    .date {
-        display: table-cell;
-        padding: 10px;
-        vertical-align: middle; 
-        text-align: center; 
-    }
-
-    .list_num,
-    .date {
-        width: 15%;
-    }
-
-    .list_car {
-        width: 10%;
-    }
-
-    .txt_prev {
-        width: 40%;
-    }
-
-    .writter {
-        width: 20%;
-    }
-	
+.list_num,
+.list_car,
+.txt_prev,
+.writter_name,
+.writter,
+.readcount,
+.date {
+  flex: 1;
+  text-align: center;
+}
 	</style>
-
     <meta charset="UTF-8">
     <title>Insert title here</title>
     <link href="${pageContext.request.contextPath}/resources/css/inc/top.css" rel="styleSheet">
@@ -94,7 +65,8 @@
                                     </div>
                                     <p class="writter">
                                         <span class="writter_name">글쓴이</span>
-                                    </p>
+                                    </p>     
+                                    <p class="writter">조회수</p>
                                     <p class="date">날짜</p>
                                 </li>
                                 
@@ -108,6 +80,9 @@
                                     <p class="writter">
                                         <span class="writter_name">${question.mem_name}</span>
                                     </p>
+									<p class="readcount">
+									    <span class="readcount">0</span>
+									</p>
                                     <p class="date">
                                         <fmt:formatDate value="${question.qst_date}" pattern="yy-MM-dd HH:mm" />
                                     </p>
