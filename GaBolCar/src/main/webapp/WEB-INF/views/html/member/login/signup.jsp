@@ -82,36 +82,48 @@
 				        	<p>휴대폰번호</p>
 				        	<span class="sign_mark">*</span><br>
 				       <div class ="phoneAuth">
+				        
 				        <div class="phone" >
 				            <input id="phone1"  name="phone1" type="text" size="1" maxlength="3" oninput="changePhone1()" required="required"> -
 				            <input id="phone2" name="phone2" type="text" size="3" maxlength="4" oninput="changePhone2()" required="required"> -
 				            <input id="phone3" name="phone3" type="text" size="3" maxlength="4" oninput="changePhone3()" required="required">
 <!-- 				        </div> -->
-				            <button disabled id="sendMessage"  onclick="sendMsg()">인증번호 전송</button>
-				        <div class="auth">
-				        </div>
+<!-- 				            <button type="button" disabled id="sendMessage" >인증번호 전송</button> -->
+<!-- 				            <button type="button"  id="sendMessage" >인증번호 전송</button> -->
+<!-- 				        <div class="auth"> -->
+				        
+<!-- 				        <div class="phone" > -->
+<!-- 				            <input id="phone1"  name="phone1" type="text" size="1" maxlength="3" oninput="changePhone1()" required="required"> - -->
+<!-- 				            <input id="phone2" name="phone2" type="text" size="3" maxlength="4" oninput="changePhone2()" required="required"> - -->
+<!-- 				            <input id="phone3" name="phone3" type="text" size="3" maxlength="4" oninput="changePhone3()" required="required"> -->
+<!-- <!-- 				        </div> --> 
+<!-- 				            <button type="button" disabled id="sendMessage"  onclick="sendMsg()">인증번호 전송</button> -->
+<!-- 				        <div class="auth"> -->
+<!-- 				        </div> -->
+				       			        
 				       </div>
-				
 <!-- 				        <div class="timer ph_cert">  -->
 <!-- 				        여기 수정 해야함 ㅡㅡ -->
 <!-- 				            <div id="timeLimit"> -->
-						<div class="confirm">
-				            <input type="text" id="cert" name="memberPhoneCertify" placeholder="인증번호를 입력 해주세요"></div>
-				            <button disabled id="completion" >인증확인</button>
+<!-- 						<div class="confirm"> -->
+<!-- 				            <input type="text" id="cert" name="memberPhoneCertify" maxlength="4"  required disabled placeholder="인증번호를 입력 해주세요"> -->
+				         
+<!-- 				            <button type="button" disabled id="certifyCheck" >인증확인</button> -->
 <!-- 				        </div> -->
+				        
 				        </div>
 				        
 				        <div class="line">
 				            <hr>
 				        </div>
 				        <div class="signUp">
-				            <button id="signUpButton"  >가입하기</button>
+				           <button id="signUpButton">가입하기</button>
 				        </div>
-				    </div>
 			 	</div>
 			</section>
 		</form>
-	</div>
+				    </div>
+<!-- 	</div> -->
 	<footer>
 		<jsp:include page="../../../inc/footer.jsp"></jsp:include>
 	</footer>

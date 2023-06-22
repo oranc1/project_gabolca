@@ -1,5 +1,7 @@
 package com.itwillbs.project_gabolcar.controller;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import javax.servlet.http.Cookie;
@@ -18,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.itwillbs.project_gabolcar.service.MemberService;
+import com.itwillbs.project_gabolcar.util.FindUtil;
+import com.itwillbs.project_gabolcar.util.SendUtil;
 import com.itwillbs.project_gabolcar.vo.MemberVO;
 
 import net.nurigo.sdk.NurigoApp;
@@ -48,37 +52,36 @@ public class OnController { //나중에 합칠거임
 		
 		
 		
-		//문자인증 작업중 6/19
-		@PostMapping("send-one")
-	    public SingleMessageSentResponse sendOne(HttpServletRequest request,@RequestParam String phone1,@RequestParam String phone2,@RequestParam String phone3) {
-	    	final DefaultMessageService messageService;
-	    	 messageService = NurigoApp.INSTANCE.initialize("NCSSWYB7WLC6MPMX", "G8IIRAISGJ20DGUJ6WN2YGYWOZ9KMIGK", "https://api.coolsms.co.kr");
-		   
-	    	 //인증번호 만들기(4자리)
-//		   	SecureRandom secureRandom = new SecureRandom(); //securerandom 임시 비밀번호 생성시 사용해보기
-//		   	final int randomNumber=	secureRandom.nextInt();
-		   	
-			Random rand = new Random(); 
-			String randomNumber = "";
-			for(int i=0; i<4; i++) {
-				String ran = Integer.toString(rand.nextInt(10)); 
-				randomNumber += ran;
-			}
-		   	
-		   	
-	        Message message = new Message();
-	        // 발신번호 및 수신번호는 반드시 01012345678 형태로 입력되어야 합니다.
-	        message.setFrom("010-2658-2568");
-	        message.setTo(phone1+"-"+phone2+"-"+phone3); //번호 어떻게 - 형태로 만들건지 생각
-	        message.setText("Gabolcar 회원가입 인증 번호는 ["+randomNumber+"] 입니다.");
-	        //randomNumber 여기에 걍 써도 됩니까? 생각을 해보자 - 일단 해보자 6/19
-	        //보낸 randomNumber 저장을 해야 비교후 인증 성공여부 따질수있음 어디에 저장함?
-	        //
-
-	        SingleMessageSentResponse response = messageService.sendOne(new SingleMessageSendingRequest(message));
-	        System.out.println(response);
-	        
-	        return response;
+		//문자인증 작업중 6/21
+		@GetMapping("send-one")
+		@ResponseBody
+	    public String sendOne(@RequestParam("phone") String userPhoneNumber) {
+//			public String sendOne(HttpServletRequest request,@RequestParam(value = "phone1", required=true) String phone1,@RequestParam(value = "phone2", required=true) String phone2,@RequestParam(value = "phone3", required=true) String phone3) {
+			//인증번호 필요하고
+			System.out.println("여기까지옴ㅇㅇ");
+//			System.out.println(to);
+			String randomNum = FindUtil.getRandomNum();
+			//메세지 보낼 번호 필요함 (폼에서 받아 와야한다)
+			//폰 번호랑 인증번호 저장 해야하고
+			//그리고 sendMsg 불러와서 메세지 전송
+//			System.out.println(phone1);
+//			String phone = phone1+"-"+phone2+"-"+phone3;
+//			System.out.println(phone);
+			String msg = "[가볼카 회원가입] 인증번호 ["+randomNum+"]를 입렵해 주세요.";
+			SendUtil.sendMsg(userPhoneNumber, msg);
+			
+			System.out.println("전송완료");
+			
+			//폰번호, 인증번호 저장
+			Map<String, String> checkNums = new HashMap<String, String>();
+			checkNums.put("userPhoneNumber", userPhoneNumber);
+			checkNums.put("randomNum", randomNum);
+			
+			
+			
+			
+			//로그인 화면
+	        return "";
 	    }
 	   
 	   
@@ -87,7 +90,6 @@ public class OnController { //나중에 합칠거임
 		@PostMapping("MemberJoinPro")
 		public String memberJoin(MemberVO member, Model model) {
 			
-			System.out.println(member);
 			
 			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		
@@ -215,12 +217,14 @@ public class OnController { //나중에 합칠거임
 				//메일 발송 하자구
 				String subject = "[Gabolcar] 임시 비밀번호 입니다.";
 				String msg = "회원님의 임시 비밀번호는 "+newPwd+" 입니다.\n 로그인 후 비밀번호를 변경 하세요";
-				MailUtil.sendMail(mem_id, subject, msg);
+				SendUtil.sendMail(mem_id, subject, msg);
 				System.out.println("발송완료");
 			}
 			//메일로 임시 비밀번호를 발송 했습니다. 실패시 정보를 확인해주세요 등의  msg
 			//비밀번호 어떻게 발송 합니까?
 			//비밀번호 발송 하고 임시 비밀번호를 DB에 등록 해야한다(DB작업2)
+			model.addAttribute("mem_id",mem_id);
+			
 			return "html/member/login/find_pw";
 		}
 		

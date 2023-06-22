@@ -36,9 +36,16 @@ import net.nurigo.sdk.message.service.DefaultMessageService;
 public class MemberController {
 	@Autowired
 	private MemberService memberService;
+
 	
 	@Autowired
 	private ResService resService;
+
+	// 1:1 문의 게시판 서비스
+	@Autowired
+	private QuestionService qst_service;
+	
+
 
 	// =============== 멤버 페이지, 멤버 정보 관련 ================
 	// 회원 정보 수정
@@ -237,15 +244,8 @@ public class MemberController {
 
 	// =============== 상담게시판 ================
 	// 사이트 1:1 상담 게시판
-	@Autowired
-	private QuestionService qst_service;
 	
 	
-	
-	@GetMapping("question")
-	public String questionBoard() {
-		return "html/member/question/question_board";
-	}
 	
 	// 1:1 상담 게시판 작성 폼
 	@GetMapping("QuestionWrietForm")
@@ -257,17 +257,60 @@ public class MemberController {
 	
 	// 1:1 상담 게시판 작성
 	@PostMapping("QuestionWritePro")
-	public String quetionWritePro(QuestionVO question, Model model) {
+	public String quetionWritePro(@RequestParam String mem_name, QuestionVO question, Model model) {
+		  // 로그인한 사용자의 mem_idx를 가져오기
+	    int mem_idx = memberService.getCurrentUserMemIdx(mem_name);
+
+	    // 가져온 mem_idx를 QuestionVO의 mem_idx에 설정
+	    question.setMem_idx(mem_idx);
+		
 		int insertCount = qst_service.questionBoard(question);
+		
 		if(insertCount > 0) {
 			System.out.println("QuestionWrite 성공");
-			return "html/member/question/question_board";
+			return "redirect:/QuestionList";
 		} else {
 			model.addAttribute("msg", "1:1 문의 쓰기 실패!");
 			return "fail_back";
 		}
 	}
 	
+	@GetMapping("QuestionList")
+	public String questionBoard(
+			@RequestParam(defaultValue = "") String searchType, 
+			@RequestParam(defaultValue = "") String searchKeyword, 
+			@RequestParam(defaultValue = "1") int pageNum, 
+			Model model) {
+		
+		System.out.println("검색타입 : " + searchType);
+		System.out.println("검색어 : " + searchKeyword);
+		
+		int listLimit = 10; // 한 페이지에서 표시할 목록 갯수 지정
+		int startRow = (pageNum - 1) * listLimit; // 조회 시작 행(레코드) 번호
+		
+		List<QuestionVO> qstBoardList = qst_service.getQstBoardList(searchType, searchKeyword, startRow, listLimit);
+		
+		int listCount = qst_service.getQstBoardListCount(searchType, searchKeyword);
+		
+		int pageListLimit = 2;
+		
+		int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0);		
+		
+		int startPage = (pageNum - 1) / pageListLimit * pageListLimit + 1;
+		
+		int endPage = startPage + pageListLimit - 1;
+		
+		if(endPage > maxPage) {
+			endPage = maxPage;
+		}
+		
+		QstPageInfoVO qstPageInfo = new QstPageInfoVO(listCount, pageListLimit, maxPage, startPage, endPage);
+		
+		model.addAttribute("qstBoardList", qstBoardList);
+		model.addAttribute("pageInfo", qstPageInfo);
+		System.out.println(" qstBoardList : " + qstBoardList);
+		return "html/member/question/question_board";
+	}
 	
 	
 	
@@ -276,10 +319,6 @@ public class MemberController {
 		return "html/member/question/question_detail";
 	}
 
-	@GetMapping("question/write")
-	public String questionWrite() {
-		return "html/member/question/question_write_form";
-	}
 	
 	//============= etc ==============
 	// 찾아 오는 길

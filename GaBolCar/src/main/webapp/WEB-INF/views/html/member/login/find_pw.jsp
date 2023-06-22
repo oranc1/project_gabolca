@@ -26,8 +26,8 @@
 							<h4>비밀번호 찾기 결과</h4>
 						</div>
 						<div class="id_result">
-							<p id="result">회원님의 <span class="result_c">임시 비밀번호</span>
-							가 메일로 전송되었습니다.</p>
+							<p id="result">회원님의 임시 비밀번호가<br><span class="result_c">${mem_id }</span><br>
+							로 전송되었습니다.</p>
 						</div>
 						<div class="btn-wrap">
 							<input type="button" class="move_main" value="로그인 페이지로 이동" onclick="location.href='login'">

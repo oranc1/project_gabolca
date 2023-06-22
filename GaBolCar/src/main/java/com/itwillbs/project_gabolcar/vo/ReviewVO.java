@@ -20,6 +20,7 @@ public class ReviewVO {
 	private String rev_content;
 	private int rev_star;
 	private Timestamp rev_date;
+	private String rev_date_format;
 	private int car_idx;
 	private String car_model;
 	

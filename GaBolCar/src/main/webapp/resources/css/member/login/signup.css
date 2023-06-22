@@ -49,6 +49,13 @@
     line-height: 35px;
     align-items: center;
 }
+.sign_wrapper .confirm {
+    display: flex;
+    justify-content: space-between;
+    line-height: 35px;
+    align-items: center;
+}
+
 
 #phone1 {
     width: 18%;
@@ -61,7 +68,12 @@
 #phone3 {
     width: 20%;
 }
-#sendMessage, #completion {
+
+#cert{
+	width:75.5%;
+/* 	margin-right:10px; */
+}
+#sendMessage, #certifyCheck {
     width: 20%;
     margin-left: 30px;
     margin:13px 0 0;
@@ -72,12 +84,12 @@
     border: 1px solid #ddd;
 }
 
-#completion, #cert{
-	display: inline-block;
-    justify-content: space-between;
-    line-height: 35px;
-    align-items: center;
-}
+/* #completion, #cert{ */
+/* 	display: inline-block; */
+/*     justify-content: space-between; */
+/*     line-height: 35px; */
+/*     align-items: center; */
+/* } */
 
 
 .ph_cert {

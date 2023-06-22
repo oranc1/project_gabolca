@@ -1,8 +1,14 @@
-package com.itwillbs.project_gabolcar.controller;
+package com.itwillbs.project_gabolcar.util;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
 
-public class MailUtil {
+import net.nurigo.sdk.NurigoApp;
+import net.nurigo.sdk.message.model.Message;
+import net.nurigo.sdk.message.request.SingleMessageSendingRequest;
+import net.nurigo.sdk.message.response.SingleMessageSentResponse;
+import net.nurigo.sdk.message.service.DefaultMessageService;
+
+public class SendUtil {
 	
 	public static void sendMail(String email, String subject, String msg) {
 		
@@ -37,6 +43,21 @@ public class MailUtil {
 		}
 		
 		
+		
+		
+	}
+	
+	public static SingleMessageSentResponse sendMsg(String to,String msg) {
+		final DefaultMessageService messageService;
+		messageService = NurigoApp.INSTANCE.initialize("NCSSWYB7WLC6MPMX", "G8IIRAISGJ20DGUJ6WN2YGYWOZ9KMIGK", "https://api.coolsms.co.kr");
+		Message message = new Message();
+		message.setFrom("01026582568");
+        message.setTo(to);
+        message.setText(msg);
+        System.out.println("여긴???");
+        SingleMessageSentResponse response = messageService.sendOne(new SingleMessageSendingRequest(message));
+
+        return response;
 		
 		
 	}

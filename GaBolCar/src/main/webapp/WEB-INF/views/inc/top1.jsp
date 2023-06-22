@@ -15,7 +15,7 @@
 						<ul class="sub_menu shadow" style="display: none;">
 							<li><a href="${pageContext.request.contextPath }/noticeList">공지사항</a></li>
 							<li><a href="${pageContext.request.contextPath }/siteFAQ">FAQ</a></li>
-							<li><a href="${pageContext.request.contextPath }/question">1:1 문의</a></li>
+							<li><a href="${pageContext.request.contextPath }/QuestionList">1:1 문의</a></li>
 						</ul></li>
 					<li class="gnb_cont"><a href="${pageContext.request.contextPath }/MemberRes">예약확인</a></li>
 				</ul>

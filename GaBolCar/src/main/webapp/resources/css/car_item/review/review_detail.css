@@ -135,16 +135,16 @@
 	padding: 0 15px;
 }
 
-.write_s {
+.rev_scp {
 }
 
-.write_s span {
+.rev_scp span {
 	font-size: 24px;
     color: transparent;
     text-shadow: 0 0 0 #f0f0f0;
 }
 
-.write_s span.fill {
+.rev_scp span.fill {
 	text-shadow: 0 0 0 #FFA500;
 }
 
