@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.itwillbs.project_gabolcar.service.BrcService;
-import com.itwillbs.mvc_board.vo.BoardVO;
 import com.itwillbs.project_gabolcar.service.MemberService;
 import com.itwillbs.project_gabolcar.service.QuestionService;
 import com.itwillbs.project_gabolcar.service.ResService;
