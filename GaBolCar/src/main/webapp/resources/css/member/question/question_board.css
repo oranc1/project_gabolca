@@ -2,6 +2,11 @@
 
 
 
+.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
 #notice_cont {
 	background: #f5f5f5;
 }
@@ -537,7 +542,3 @@ section#buttonArea {
   float: right;
 }
 
-.search-form {
-  margin-top: 40px;
-  padding-right: 70px;
-}
