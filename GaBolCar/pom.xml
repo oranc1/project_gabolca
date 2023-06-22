@@ -170,7 +170,18 @@
 		    <version>1.5</version>
 		</dependency>
 		
-		
+<!-- WARNING: An illegal reflective access operation has occurred -->
+<!-- WARNING: Illegal reflective access by retrofit2.Platform (file:/C:/Users/user/Documents/workspace_spring5/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/GaBolCar/WEB-INF/lib/retrofit-2.9.0.jar) to constructor java.lang.invoke.MethodHandles$Lookup(java.lang.Class,int) -->
+<!-- WARNING: Please consider reporting this to the maintainers of retrofit2.Platform -->
+<!-- ..egal-access=warn to enable warnings of further illegal reflective access operations -->
+<!-- WARNING: All illegal access operations will be denied in a future release -->
+<!-- 	상단 오류	해결용 이온-->
+		<dependency>
+		    <groupId>com.squareup.retrofit2</groupId>
+		    <artifactId>retrofit</artifactId>
+		    <version>2.7.2</version>
+		</dependency>
+			
 		
 		<!-- AspectJ -->
 		<dependency>

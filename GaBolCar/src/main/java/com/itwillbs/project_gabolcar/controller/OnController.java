@@ -67,21 +67,20 @@ public class OnController { //나중에 합칠거임
 //			System.out.println(phone1);
 //			String phone = phone1+"-"+phone2+"-"+phone3;
 //			System.out.println(phone);
-			String msg = "[가볼카 회원가입] 인증번호 ["+randomNum+"]를 입렵해 주세요.";
+			String msg = "[가볼카 회원가입] 인증번호 ["+randomNum+"]를 입력해 주세요.";
 			SendUtil.sendMsg(userPhoneNumber, msg);
 			
 			System.out.println("전송완료");
 			
-			//폰번호, 인증번호 저장
-			Map<String, String> checkNums = new HashMap<String, String>();
-			checkNums.put("userPhoneNumber", userPhoneNumber);
-			checkNums.put("randomNum", randomNum);
+			//폰번호, 인증번호 저장->안해도 댐?
+//			Map<String, String> checkNums = new HashMap<String, String>();
+//			checkNums.put("userPhoneNumber", userPhoneNumber);
+//			checkNums.put("randomNum", randomNum);
+//			
 			
 			
 			
-			
-			//로그인 화면
-	        return "";
+	        return randomNum;
 	    }
 	   
 	   
