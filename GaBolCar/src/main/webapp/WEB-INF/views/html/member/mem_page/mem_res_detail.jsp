@@ -17,6 +17,7 @@
 	<header>
 		<jsp:include page="../../../inc/top1.jsp" />
 	</header>
+	
 	<section id="sec_con" class="inr detail_p">
 		<h1 class="con_title">예약 상세 정보</h1>
 		<div class="inq_container">
@@ -131,6 +132,7 @@
 			</div>
 		</div>
 	</section>
+	
     <footer>
 		<jsp:include page="../../../inc/footer.jsp" />
 	</footer>

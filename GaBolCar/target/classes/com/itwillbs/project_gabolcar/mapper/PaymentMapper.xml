@@ -31,7 +31,7 @@
 	<insert id="insertResInfo">
 		INSERT INTO res_info
 		VALUES (
-			null
+			null -- idx
 			, now()
 			, #{res_rental_date}
 			, #{res_return_date}
@@ -48,6 +48,45 @@
 		SELECT *
 			FROM car_info
 				WHERE car_idx = #{car_idx}
+	</select>
+	
+	<select id="getResIdx" resultType="int">
+		SELECT MAX(res_idx)
+			FROM res_info
+	</select>
+	
+	<insert id="insertPayment">
+		INSERT INTO pay_info
+		VALUES (
+			null
+			, #{res_idx}
+			, #{payment.pay_method}
+			, #{payment.pay_total}
+			, #{payment.pay_status}
+			, now()
+		)
+	</insert>
+	
+	<select id="selectResInfo" resultType="com.itwillbs.project_gabolcar.vo.ResInfoVO">
+		SELECT *
+			FROM res_info
+				WHERE res_idx = #{res_idx}
+	</select>
+	
+	<select id="selectCarName" resultType="com.itwillbs.project_gabolcar.vo.CarVO">
+		SELECT *
+			FROM res_info AS r
+			JOIN car_info AS c
+				ON r.car_idx = c.car_idx
+					WHERE res_idx = #{res_idx}
+	</select>
+	
+	<select id="selectPayInfo" resultType="com.itwillbs.project_gabolcar.vo.PaymentVO">
+		SELECT *
+			FROM res_info AS r
+			JOIN pay_info AS p
+				ON r.res_idx = p.res_idx
+					WHERE r.res_idx = #{res_idx}
 	</select>
 
 </mapper>

@@ -68,4 +68,26 @@
 			월
 	</select>
 	
+	<!--  예약 내역 조회 -->
+	<select id="selectResInfo">
+	 	SELECT
+			*
+			FROM(
+				SELECT
+					mem_idx
+					, res_rental_date
+					, res_return_date 
+					, res_idx
+					, brc_rent_name
+					, brc_return_name
+					FROM res_info)
+					AS n1
+					WHERE mem_idx=(select mem_idx 
+									from mem_info 
+									where mem_id = #{sId})
+					
+			ORDER BY res_rental_date DESC
+			
+		
+	</select>
 </mapper>

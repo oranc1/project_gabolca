@@ -68,6 +68,8 @@
 			<input type="hidden" name="res_return_date" value="${map.res_return_date }">
 			<input type="hidden" name="car_idx" value="${map.car_idx }">
 			<input type="hidden" name="pay_total" class="pay_total">
+			<!-- 결제 상태 임시지정 -->
+			<input type="hidden" name="pay_status" class="pay_status" value="결제완료">
 			<ul class="res_page_wrap">
 				<li class="res_info_p res-com">
 					<div class="menu_tit res_info">
@@ -200,13 +202,13 @@
 					<ul class="side_sub">
 						<li class="payment_wrap">
 							<div class="payment_p active" id="box1" style="cursor : pointer;">
-								<input type="radio" name="payment" id="card" >신용/체크카드
+								<input type="radio" name="pay_method" id="card" value="0">신용/체크카드
 							</div>
 							<div class="payment_p" id="box2" style="cursor : pointer;">
-								<input type="radio" name="payment" id="virtual_account">가상계좌이체
+								<input type="radio" name="pay_method" id="virtual_account" value="1">가상계좌이체
 							</div>
 							<div class="payment_p" id="box3" style="cursor : pointer;">
-								<input type="radio" name="payment" id="transfer">무통장입금
+								<input type="radio" name="pay_method" id="transfer" value="2">무통장입금
 							</div>
 						</li>
 					</ul>
@@ -464,8 +466,6 @@
 				console.log(totalAmount);
 				
 				document.addEventListener('DOMContentLoaded', function() {
-					  // 코드 실행
-					  document.querySelector('.pay_total').value = totalAmount;
 					  
 					  var formattedTotalAmount = addCommas(totalAmount);
 					  document.querySelector('.resAmount b').innerText = formattedTotalAmount;
@@ -473,23 +473,27 @@
 				
 				 function getIns(event) {
 					    var selectedValue = event.target.value;
+					    var notSelect = 0;
+					    var insuSelect = 10000;
 					    
+					    var plusTotalAmount;
 					    if(selectedValue == '선택안함') {
-					    	 document.querySelector('#ins_result').innerText = 0;
+						     plusTotalAmount = totalAmount + 0;
+					    	 document.querySelector('#ins_result').innerText = addCommas(notSelect);
 					    } else {
-					    	 document.querySelector('#ins_result').innerText = 10000;
+					    	 plusTotalAmount = totalAmount + 10000;
+					    	 document.querySelector('#ins_result').innerText = addCommas(insuSelect);
 					    }
 					    
 // 					    console.log(totalAmount + document.querySelector('#ins_result').innerText);
 					    
-					    var plusTotalAmount = totalAmount + parseInt(document.querySelector('#ins_result').innerText);
 					    var formattedTotalAmount = addCommas(plusTotalAmount);
 					    
 						document.querySelector('.resTotalAmount').innerText = formattedTotalAmount;
+						
+						// 최종 결제 금액 value 히든으로 넘기기
+						document.querySelector('.pay_total').value = totalAmount;
 				 }
-				 
-				 
-				 
 				 
 				
 			</script>

@@ -1,84 +1,85 @@
 @charset "UTF-8";
 
-#notice_cont {
-	background: #f5f5f5;
-}
 
-#board_list {
-	padding: 0;
-}
+  #notice_cont {
+    background: #f5f5f5;
+  }
 
-#board_list .wrapper {
-	display: block;
-}
+  #board_list {
+    padding: 0;
+  }
 
-#board_list .list_wrap {
-	background-color: #fff;
-	border-radius: 15px;
-	padding: 70px;
-}
+  #board_list .wrapper {
+    display: block;
+  }
 
-#board_list .list {
-	display: flex;
-	flex-direction: column;
-	border-top: 2px solid #222;
-	border-bottom: 2px solid #222;
-}
+  #board_list .list_wrap {
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 70px;
+  }
 
-#board_list .list li:not(:last-of-type) {
-	border-bottom: 1px solid #ddd;
-}
+  #board_list .list {
+    display: flex;
+    flex-direction: column;
+    border-top: 2px solid #222;
+    border-bottom: 2px solid #222;
+  }
 
-#board_list .list .list_head {
-	display: flex;
-	gap: 35px;
-	align-items: center;
-	font-size: 1.125rem;
-	font-weight: 600;
-	text-align: center;
-	padding: 20px 0;
-}
+  #board_list .list li:not(:last-of-type) {
+    border-bottom: 1px solid #ddd;
+  }
 
-#board_list .list .list_head .list_num {
-	width: 5%;
-	font-size: inherit;
-	font-weight: inherit;
-	color: inherit;
-}
+  #board_list .list .list_head {
+    display: flex;
+    gap: 35px;
+    align-items: center;
+    font-size: 1.125rem;
+    font-weight: 600;
+    text-align: center;
+    padding: 20px 0;
+  }
 
-#board_list .list .list_head .list_check {
-	width: 5%;
-}
+  #board_list .list .list_head .list_num {
+    width: 5%;
+    font-size: inherit;
+    font-weight: inherit;
+    color: inherit;
+  }
 
-#board_list .list .list_head .list_scope {
-	font-size: 18px;
-	width: 10%;
-}
+  #board_list .list .list_head .list_check {
+    width: 5%;
+  }
 
-#board_list .list .list_head .list_car {
-	width: 10%;
-	font-size: 18px;
-}
+  #board_list .list .list_head .list_scope {
+    font-size: 18px;
+    width: 10%;
+  }
 
-#board_list .list .list_head .txt_prev {
-	width: 60%;
-	font-size: inherit;
-	font-weight: inherit;
-	color: inherit;
-}
+  #board_list .list .list_head .list_car {
+    width: 10%;
+    font-size: 18px;
+  }
 
-#board_list .list .list_head .txt_prev h4 {
-	font-size: inherit;
-	font-weight: inherit;
-	color: inherit;
-	width: 100%;
-}
+  #board_list .list .list_head .txt_prev {
+    width: 60%;
+    font-size: inherit;
+    font-weight: inherit;
+    color: inherit;
+  }
 
-#board_list .list .list_head  .writter {
-	width: 8%;
-	font-size: inherit;
-	font-weight: inherit;
-}
+  #board_list .list .list_head .txt_prev h4 {
+    font-size: inherit;
+    font-weight: inherit;
+    color: inherit;
+    width: 100%;
+  }
+
+  #board_list .list .list_head  .writter {
+    width: 8%;
+    font-size: inherit;
+    font-weight: inherit;
+  }
 
 #board_list .list .list_head  .writter span {
 	font-size: inherit;
@@ -529,3 +530,15 @@
 .write_btn a:hover {
 	background: #ff6600;
 }
+
+
+section#buttonArea {
+  float: right;
+}
+
+
+
+
+
+
+

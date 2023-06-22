@@ -20,9 +20,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.itwillbs.project_gabolcar.service.BrcService;
 import com.itwillbs.project_gabolcar.service.MemberService;
 import com.itwillbs.project_gabolcar.service.QuestionService;
+import com.itwillbs.project_gabolcar.service.ResService;
 import com.itwillbs.project_gabolcar.vo.*;
+import com.mysql.cj.Session;
 
 import net.nurigo.sdk.NurigoApp;
 import net.nurigo.sdk.message.model.Message;
@@ -34,10 +37,18 @@ import net.nurigo.sdk.message.service.DefaultMessageService;
 public class MemberController {
 	@Autowired
 	private MemberService memberService;
+
+	
+	@Autowired
+	private ResService resService;
+
 	// 1:1 문의 게시판 서비스
 	@Autowired
 	private QuestionService qst_service;
+	@Autowired
+	private BrcService brc_service;
 	
+
 
 	// =============== 멤버 페이지, 멤버 정보 관련 ================
 	// 회원 정보 수정
@@ -123,15 +134,44 @@ public class MemberController {
 
 
 	// 멤버) 차량 예약 조회
-	@GetMapping("resInq")
-	public String resInq() {
+	@GetMapping("MemberRes")
+	public String resInq(HttpSession session, Model model) {
+		
+		String sId = (String) session.getAttribute("sId");
+		
+		if (sId == null) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			return "inc/fail_back";
+		}
+	
+		List<ResInfoVO> resinfo;
+		try {
+			resinfo = resService.getResInfo(sId);
+			 if (resinfo.isEmpty()) {
+		            model.addAttribute("msg", "예약 내역이 없습니다!");
+		            return "inc/fail_back";
+		        }
+		} catch (Exception e) {
+			model.addAttribute("msg", "예약 내역을 가져오는 중에 오류가 발생했습니다!");
+			return "inc/fail_back";
+		}
+		
+		System.out.println(resinfo);
+		
+	
+		model.addAttribute("resinfo", resinfo);
+		
 		return "html/member/mem_page/mem_res_inq";
 	}
 
+
+	
+	
 	//예약 상세 정보
-	@GetMapping("member/resDetail")
+	@GetMapping("resDetail")
 	public String resDetail() {
 		return "html/member/mem_page/mem_res_detail";
+	
 	}
 
 	// 회원 탈퇴
@@ -238,6 +278,7 @@ public class MemberController {
 		}
 	}
 	
+	// 1:1 상담 게시판 리스트
 	@GetMapping("QuestionList")
 	public String questionBoard(
 			@RequestParam(defaultValue = "") String searchType, 
@@ -271,23 +312,33 @@ public class MemberController {
 		
 		model.addAttribute("qstBoardList", qstBoardList);
 		model.addAttribute("pageInfo", qstPageInfo);
+		
 		System.out.println(" qstBoardList : " + qstBoardList);
 		return "html/member/question/question_board";
 	}
 	
-	
-	
-	@GetMapping("question/detail")
-	public String questionDetail() {
+	// "BoardDetail" 서블릿 요청에 대한 글 상세정보 조회 요청
+	@GetMapping("QuestionDetail")
+	public String detail(@RequestParam int qst_idx, Model model) {
+		// BoardService - getBoard() 메서드 호출하여 글 상세정보 조회 요청
+		// => 파라미터 : 글번호   리턴타입 : BoardVO 객체(board)
+		QuestionVO question = qst_service.getQuestionBoard(qst_idx);
+		
+		// 상세정보 조회 결과 저장
+		model.addAttribute("question", question);
+		
 		return "html/member/question/question_detail";
 	}
+	
+	
 
 	
 	//============= etc ==============
 	// 찾아 오는 길
 	@GetMapping("branchLocation")
-	public String branchLocation() {
-		return "html/member/etc/branch_location";
+	public ModelAndView branchLocation() {
+		List<Map<String, Object>> brcList = brc_service.brcList();
+		return new ModelAndView("html/member/etc/branch_location","brcList",brcList);
 	}
 
 	// 사이트 이용 안내

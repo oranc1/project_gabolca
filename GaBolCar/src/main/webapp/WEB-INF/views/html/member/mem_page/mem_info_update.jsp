@@ -18,7 +18,9 @@
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script src="${pageContext.request.contextPath }/resources/js/inc/jquery-3.7.0.js"></script>
+
 </head>
+
 
 <body>
 	<header>
@@ -47,20 +49,23 @@
 					<li>
 						<label for="name">현재 비밀번호</label>
 						<div class="form-input">
+						
 							<input type="password" name="mem_passwd" id="passwd" class="form-control" >
 						</div>
 					</li>
 					<li>
 						<label for="name">비밀번호 변경</label>
 						<div class="form-input">
-							<input type="password" name="newPasswd" id="passwd2" class="form-control" oninput='validatePassword()' placeholder="비밀변호 변경 시 입력하세요" >
+							<input type="password" name="newPasswd" id="passwd2" class="form-control"  placeholder="비밀변호 변경 시 입력하세요" oninput="checkPassword()">
+						 
 						</div>
 					
 					</li>
 					<li>
 						<label for="name">비밀번호 변경 확인</label>
 						<div class="form-input">
-							<input type="password" name="newPasswd1" id="passwd2" class="form-control" placeholder="비밀변호 변경 시 입력하세요" >
+							<input type="password" name="newPasswd1"  id="passwd2" class="form-control" placeholder="비밀변호 변경 시 입력하세요" >
+					
 						</div>
 					
 					</li>
