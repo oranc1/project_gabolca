@@ -479,9 +479,25 @@ public class CarItemController {
 			resultMap.put("brc_return_name", map.get("brc_return_name"));
 			resultMap.put("car_option", carItemService.getCarOptionList((String)map.get("car_idx")));
 			resultMap.put("car_idx", map.get("car_idx"));
+			
+			// 노용석 START
+			String car_model = carService.carSelect(car).get("car_model").toString();
+			List<ReviewVO> reviewListSmall = carItemService.getReviewListSmall(car_model);
+			resultMap.put("reviewListS", reviewListSmall);
+			// 노용석 END
+			
 		}
 		
 		resultMap.put("DUMMY_DATA_FLAG", DUMMY_DATA_FLAG);
+		//=================================================
+		
+		
+		
+		//List<ReviewVO> reviewListSmall = carItemService.getReviewListSmall(car_model);
+		//model.addAttribute("reviewListS", reviewListSmall);
+		
+		
+		
 		
 		
 		try {
@@ -620,13 +636,13 @@ public class CarItemController {
 	
 	// 리뷰게시판 글 작성
 	@PostMapping("reviewWritePro")
-	public String reviewWritePro(HttpSession session, ReviewVO review, Model model) {
+	public String reviewWritePro(HttpSession session, ReviewVO review, Model model, @RequestParam Map<String,Object> map) {
 		String sId = (String)session.getAttribute("sId");
 		/*if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다");
 			return "html/car_item/review/fail_back";
 		}*/
-		
+	
 		int insertCount = carItemService.insertReview(review);
 		
 		if(insertCount == 0) {

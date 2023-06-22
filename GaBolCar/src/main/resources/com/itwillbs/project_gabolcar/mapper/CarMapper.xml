@@ -72,15 +72,15 @@
 				, car_company
 				, car_model
 				, car_old
-			-- 	, car_shift_type
-			-- 	, car_fuel_type
-			-- 	, car_riding
+<!-- 			 	, car_shift_type -->
+<!-- 			 	, car_fuel_type -->
+<!-- 			 	, car_riding -->
 				, brc_name
 				, car_status
-			-- 	, car_riding
-			-- 	, car_weekend
-			-- 	, car_age
-			-- 	, car_weekdays
+<!-- 			 	, car_riding -->
+<!-- 			 	, car_weekend -->
+<!-- 			 	, car_age -->
+<!-- 			 	, car_weekdays -->
 				, group_concat(option_name SEPARATOR ', ') AS option_name
 			</when>
 			<otherwise>
@@ -160,30 +160,42 @@
 				</if>
 			</when>
 			<!-- 관리자 where -->
-			<when test="map.admin != null and map.search_type != null">
-				<choose>
-					<when test="map.search_keyword == null">
-						where car_type = #{map.search_type}
-					</when>
-					<when test="map.search_type.equals('car_idx')">
-						where ci.car_idx = #{map.search_keyword}
-					</when>
-					<when test="map.search_type.equals('car_company')">
-						where car_company like concat('%',#{map.search_keyword},'%')
-					</when>
-					<when test="map.search_type.equals('car_model')">
-						where car_model like concat('%',#{map.search_keyword},'%')
-					</when>
-					<when test="map.search_type.equals('car_old')">
-						where car_old = #{map.search_keyword}
-					</when>
-					<when test="map.search_type.equals('brc_name')">
-						where brc_name like concat('%',#{map.search_keyword},'%')
-					</when>
-					<when test="map.search_type.equals('option_name')">
-						where option_name like concat('%',#{map.search_keyword},'%')
-					</when>
-				</choose>
+			<when test="map.admin != null">
+				<if test="!map.search_keyword.equals('')">
+					where
+					<choose>
+						<when test="map.search_type.equals('car_idx')">
+							ci.car_idx = #{map.search_keyword}
+						</when>
+						<when test="map.search_type.equals('car_company')">
+							car_company like concat('%',#{map.search_keyword},'%')
+						</when>
+						<when test="map.search_type.equals('car_model')">
+							car_model like concat('%',#{map.search_keyword},'%')
+						</when>
+						<when test="map.search_type.equals('car_old')">
+							car_old = #{map.search_keyword}
+						</when>
+						<when test="map.search_type.equals('brc_name')">
+							brc_name like concat('%',#{map.search_keyword},'%')
+						</when>
+						<when test="map.search_type.equals('option_name')">
+<!-- 							option_name like concat('%',#{map.search_keyword},'%') -->
+								ci.car_idx in (
+									select
+										ci2.car_idx
+									from 
+										car_info ci2 
+										JOIN car_options co ON ci.car_idx = co.car_idx
+										JOIN option_list ol ON co.option_idx = ol.option_idx
+									where
+										option_name like concat('%',#{map.search_keyword},'%'))
+						</when>
+					</choose>
+				</if>
+				<if test="!map.chk_type.equals('')">
+					where car_type = #{map.chk_type}
+				</if>
 			</when>
 			<otherwise></otherwise>
 		</choose>
@@ -202,7 +214,8 @@
 			</when>
 			<!-- 관리자 group by -->
 			<when test="map.admin != null">
-				GROUP BY ci.car_idx
+				GROUP BY
+					ci.car_idx
 			</when>
 			<otherwise></otherwise>
 		</choose>

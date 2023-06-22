@@ -108,7 +108,7 @@
 						</div>
 						<div class="rent_date_total">
 							<p>총 대여시간</p>
-							<span>계산식필요</span>
+							<span id="rental_time"></span>
 						</div>
 						<div class="ret_date date_comm">
 							<p>반납일</p>
@@ -116,13 +116,30 @@
 						</div>
 					</div>
 					<p class="view_amount">
-						<b>계산식필요</b>원
+						<b id="total_money"></b>원
 					</p>
 					<a href="" class="view_res_btn">예약하러 가기</a>
 				</div>
 			</div>
 		</div>
-
+		<script type="text/javascript">							
+		$(document).ready(function () {
+		    timediff();
+		});
+		function timediff()
+		{
+			const dateA = new Date('${map.res_return_date}');
+			const dateB = new Date('${map.res_rental_date}');
+			const diffMSec = dateA.getTime() - dateB.getTime();
+			
+			var diffTime = (dateA.getTime() - dateB.getTime()) / (1000*60*60);
+			$("#rental_time").html(diffTime);
+			 
+			
+			var total_money = parseInt(diffTime * (${map.car_info.car_weekdays}/24)); <%--${map.car_info.car_weekend}--%>
+			$("#total_money").html(total_money);
+		}
+		</script>
 		<script>
 			let slideIndex = 1;
 			showSlides(slideIndex);
@@ -139,7 +156,6 @@
 				let i;
 				let slides = document.getElementsByClassName("mySlides");
 				let dots = document.getElementsByClassName("demo");
-				let captionText = document.getElementById("caption");
 				if (n > slides.length) {
 					slideIndex = 1
 				}
@@ -155,8 +171,7 @@
 				}
 				slides[slideIndex - 1].style.display = "block";
 				dots[slideIndex - 1].className += " active";
-				captionText.innerHTML = dots[slideIndex - 1].alt;
-			}
+				}
 		</script>
 
 		<div class="view_more_info more_wrap_box">
@@ -220,9 +235,57 @@
 			<div class="more_cont">
 				<div class="rev_cont">
 					<ul class=""> 
-					<c:forEach var="reviewListS" items="${reviewListS }">
+					<c:forEach var="reviewListS" items="${map.reviewListS }">
 						<li class="">
-							<span class="rev_scp">${reviewListS.rev_star }</span>
+							<span class="write_s"><span>
+												<!-- 별점 구현 초보, 새로운 거 알면 바꾸기-->
+											<c:set var="starLank" value="${reviewListS.rev_star}"/>
+											 <c:choose>
+    											<c:when test="${starLank eq 0 }">
+  													<span>★</span>
+													<span>★</span>
+													<span>★</span>
+													<span>★</span>
+													<span>★</span>
+    											</c:when>
+    											<c:when test="${starLank eq 1 }">
+  													<span class="fill">★</span>
+													<span>★</span>
+													<span>★</span>
+													<span>★</span>
+													<span>★</span>
+    											</c:when>
+    											<c:when test="${starLank eq 2 }">
+  													<span class="fill">★</span>
+													<span class="fill">★</span>
+													<span>★</span>
+													<span>★</span>
+													<span>★</span>
+    											</c:when>
+    											<c:when test="${starLank eq 3 }">
+  													<span class="fill">★</span>
+													<span class="fill">★</span>
+													<span class="fill">★</span>
+													<span>★</span>
+													<span>★</span>
+    											</c:when>
+    											<c:when test="${starLank eq 4 }">
+  													<span class="fill">★</span>
+													<span class="fill">★</span>
+													<span class="fill">★</span>
+													<span class="fill">★</span>
+													<span>★</span>
+    											</c:when>
+   												 <c:otherwise>
+    												<span class="fill">★</span>
+													<span class="fill">★</span>
+													<span class="fill">★</span>
+	   												<span class="fill">★</span>
+													<span class="fill">★</span>
+												 </c:otherwise>
+											</c:choose>
+											<!-- 별점 구현 초보 -->
+											</span></span>
 							<span class="rev_name">${reviewListS.rev_name }</span>
 							<span class="rev_txt">${reviewListS.rev_content }</span>
 						</li>

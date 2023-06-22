@@ -463,3 +463,15 @@
 	margin-top: 5px;
 }
 
+.write_s {
+}
+
+.write_s span {
+	font-size: 24px;
+    color: transparent;
+    text-shadow: 0 0 0 #ffffff;
+}
+
+.write_s span.fill {
+	text-shadow: 0 0 0 #FFA500;
+}

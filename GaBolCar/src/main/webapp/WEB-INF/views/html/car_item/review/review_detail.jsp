@@ -46,7 +46,7 @@
 										</div>
 										<div class="write_box">
 											<span class="write_t">등록일</span>
-											<span class="write_c">${reviewDetail.rev_date}</span>
+											<span class="write_c">${reviewDetail.rev_date_format}</span>
 										</div>
 										<div class="write_box">
 											<span class="write_t">첨부파일</span>
@@ -58,9 +58,9 @@
 								
 										<div class="write_scope_box">
 											<div class="car_name">
-												캐스퍼
+												${reviewDetail.car_model}
 											</div>
-											<span class="write_s">
+											<span class="rev_scp">
 												<!-- 별점 구현 초보, 새로운 거 알면 바꾸기-->
 											<c:set var="starLank" value="${reviewDetail.rev_star}"/>
 											 <c:choose>

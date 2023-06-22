@@ -62,7 +62,7 @@ $(document).ready(function () {
 											<div id="myform">
 												<!-- DB에서 예약차 이름 가져오기 -->
 												<div class="car_name">
-												캐스퍼
+												${reviewDetail.car_model}
 												</div>
 											
 												<fieldset>

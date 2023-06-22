@@ -57,7 +57,6 @@
 	}
 </script>
 
-
 </head>
 <body>
 	<header>
@@ -68,11 +67,13 @@
 			<input type="hidden" name="res_rental_date" value="${map.res_rental_date }">
 			<input type="hidden" name="res_return_date" value="${map.res_return_date }">
 			<input type="hidden" name="car_idx" value="${map.car_idx }">
+			<input type="hidden" name="pay_total" class="pay_total">
 			<ul class="res_page_wrap">
 				<li class="res_info_p res-com">
 					<div class="menu_tit res_info">
 						<span>예약 정보</span>
 					</div>
+					
 					<ul class="side_sub">
 						<li>
 							<label for="rentdate">대여 날짜</label>
@@ -103,9 +104,12 @@
 						</li>
 						<li>
 							<label for="totalhour">총 대여시간</label>
-							<span class="drv_80"></span>
+							<span class="drv_80 toatlResTime"></span>
 						</li>
 					</ul>
+					<script>
+						
+					</script>
 				<li class="drv_per_p res-com">
 					<div class="menu_tit driver_info">
 						<span>운전자 정보(필수입력)</span>
@@ -174,13 +178,13 @@
 									<th class="title">고객부담금</th>
 								</tr>
 								<tr class="tr1">
-									<th><input type="radio" name="car_insurance" value="선택안함" onclick="getIns(event)">선택안함</th>
+									<th><input type="radio" class="car_insurance" name="car_insurance" value="선택안함" onclick="getIns(event)" required="required">선택안함</th>
 									<td>없음</td>
 									<td>없음</td>
 									<td>전액부담</td>
 								</tr>
 								<tr class="tr1">
-									<th><input type="radio" name="car_insurance" value="일반자차" onclick="getIns(event)">일반자차</th>
+									<th><input type="radio" class="car_insurance" name="car_insurance" value="일반자차" onclick="getIns(event)"  required="required">일반자차</th>
 									<td>1만원</td>
 									<td>300만원</td>
 									<td>30만원</td>
@@ -412,10 +416,87 @@
 					</ul>
 				</li>
 			</ul>
-
+			<script>
+				// 총 대여 시간 계산
+				// 두 날짜 파싱
+				var dateString1 = '${map.res_rental_date }';
+				var dateString2 = '${map.res_return_date }';
+				
+				var date1 = new Date(dateString1);
+				var date2 = new Date(dateString2);
+	
+				// 밀리초 단위로 두 날짜의 차이 계산
+				var timeDiff = Math.abs(date2 - date1);
+	
+				// 차이를 요일과 시간으로 변환
+				var days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+				var hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+				
+				document.querySelector('.toatlResTime').innerText = days + "일 " + hours + "시간";
+				
+				// 100 단위 ',' 정규식
+				function addCommas(number) {
+					return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+				}
+			
+				// 요일 계산
+				// 입력된 날짜와 시간 문자열
+				var dateRent = '${map.res_rental_date }';
+	
+				// 날짜와 시간 파싱
+				var dateTimeRent = new Date(dateRent);
+	
+				// 요일 계산
+				var weekdays = ['0', '1', '2', '3', '4', '5', '6'];
+				var weekdayRent = weekdays[dateTimeRent.getDay()];
+				
+				console.log(weekdayRent);
+				
+				// 결제 금액 계산
+				var totalAmount = 0; // 총 결제 금액 초기값
+				
+				if(weekdayRent == '0' || weekdayRent == '6') {
+					totalAmount = Math.round((${carInfo.car_weekend} * (hours / 24)) + ${carInfo.car_weekend} * days);
+				} else {
+					totalAmount = Math.round((${carInfo.car_weekdays} * (hours / 24)) + ${carInfo.car_weekdays} * days);
+				}
+				
+				console.log(totalAmount);
+				
+				document.addEventListener('DOMContentLoaded', function() {
+					  // 코드 실행
+					  document.querySelector('.pay_total').value = totalAmount;
+					  
+					  var formattedTotalAmount = addCommas(totalAmount);
+					  document.querySelector('.resAmount b').innerText = formattedTotalAmount;
+				});
+				
+				 function getIns(event) {
+					    var selectedValue = event.target.value;
+					    
+					    if(selectedValue == '선택안함') {
+					    	 document.querySelector('#ins_result').innerText = 0;
+					    } else {
+					    	 document.querySelector('#ins_result').innerText = 10000;
+					    }
+					    
+// 					    console.log(totalAmount + document.querySelector('#ins_result').innerText);
+					    
+					    var plusTotalAmount = totalAmount + parseInt(document.querySelector('#ins_result').innerText);
+					    var formattedTotalAmount = addCommas(plusTotalAmount);
+					    
+						document.querySelector('.resTotalAmount').innerText = formattedTotalAmount;
+				 }
+				 
+				 
+				 
+				 
+				
+			</script>
+			
 			<fieldset class="img_sec_wrap">
 				<div class="img_sec_p">
-					<img src="${pageContext.request.contextPath }${car.car_file1 }" alt="">
+					<img src="${pageContext.request.contextPath }${carInfo.car_file1 }" alt="">
 				</div>
 				<div class="txt_sec_p">
 					<p>
@@ -424,7 +505,7 @@
 					</p>
 					<p>
 						<span>대여금액</span>
-						<span><b>100,000</b>원</span>
+						<span class="resAmount"><b></b>원</span>
 					</p>
 					<p>
 						<span>보험금액</span>
@@ -432,7 +513,7 @@
 					</p>
 					<p class="pay_total_p">
 						<span>총 결제 금액</span>
-						<span><b>110,000</b>원</span>
+						<span><b class="resTotalAmount"></b>원</span>
 					</p>
 				</div>
 			</fieldset>
