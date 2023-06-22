@@ -2,7 +2,7 @@ package com.itwillbs.project_gabolcar.mapper;
 
 import java.util.*;
 
-import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.*;
 
 import com.itwillbs.project_gabolcar.vo.*;
 
@@ -33,10 +33,11 @@ public interface CarItemMapper {
 	int insertReview(ReviewVO review);
 	
 	//  리뷰게시판 글 목록, 페이지 나눔
-	List<ReviewVO> getReviewListPaging(Criteria cri);
+	List<ReviewVO> getReviewListPaging(@Param("searchType") String searchType, @Param("searchKeyword") String searchKeyword, Criteria cri);
 
 	// 리뷰게시판 총 갯수
-	int getTotal();
+	int getTotal(@Param("searchType") String searchType, 
+			@Param("searchKeyword") String searchKeyword, Criteria cri);
 	
 	// 글 상세보기
 	ReviewVO reviewDetail(ReviewVO review);

@@ -595,14 +595,30 @@ public class CarItemController {
 	
 	
 	@GetMapping("reviewList")
-	public String reviewList(Model model, Criteria cri) {
+	public String reviewList(
+			@RequestParam(defaultValue = "") String searchType, 
+			@RequestParam(defaultValue = "") String searchKeyword, 
+			Model model, 
+			Criteria cri) {
+		
+		System.out.println("검색타입 : " + searchType);
+		System.out.println("검색어 : " + searchKeyword);
+		System.out.println("cri" + cri);
 
-		List<ReviewVO> reviewListWithPaging = carItemService.getReviewListPaging(cri);
+		List<ReviewVO> reviewListWithPaging = carItemService.getReviewListPaging(searchType, searchKeyword, cri);
 		model.addAttribute("reviewListP", reviewListWithPaging);
 		
-		int total = carItemService.getTotal();
+		System.out.println("검색타입 : " + searchType);
+		System.out.println("검색어 : " + searchKeyword);
+		System.out.println("cri" + cri);
+		
+		int total = carItemService.getTotal(searchType, searchKeyword, cri);
 		PageDTO pageMaker = new PageDTO(cri, total);
 		model.addAttribute("pageMaker", pageMaker);		
+		
+		System.out.println("검색타입 : " + searchType);
+		System.out.println("검색어 : " + searchKeyword);
+		System.out.println("cri" + cri);
 		
 		return "html/car_item/review/review_board";
 		

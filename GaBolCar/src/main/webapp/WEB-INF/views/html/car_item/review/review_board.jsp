@@ -29,7 +29,23 @@
 					<form name="fboardlist" id="fboardlist" action="" method="post">
 						<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum }"/>
 						<input type="hidden" name="amount" value="${pageMaker.cri.amount }"/>
-						<div class="wrapper">
+						
+							<%-- 검색타입목록, 검색어입력창 추가 --%>
+									
+									<select name="searchType" id="searchType">
+										<option value="subject" <c:if test="${param.searchType eq 'subject' }">selected</c:if>>제목</option>			
+										<option value="content" <c:if test="${param.searchType eq 'content' }">selected</c:if>>내용</option>			
+										<option value="subject_content" <c:if test="${param.searchType eq 'subject_content' }">selected</c:if>>제목&내용</option>			
+										<option value="name" <c:if test="${param.searchType eq 'name' }">selected</c:if>>작성자</option>			
+									</select>
+								<input type="text" name="searchKeyword" value="${param.searchKeyword }" id="searchKeyword">
+							
+								<input type="submit" value="검색">
+							
+								
+								<%-- 검색타입목록, 검색어입력창 추가 --%>
+								
+							<div class="wrapper">
 							<div class="list_wrap">
 								<ul class="list">
 									<li class="list_head">
@@ -111,11 +127,9 @@
 									</li>
 									</c:forEach>
 								</ul>
-								
 								<div class="write_btn">
 									<a href="/project_gabolcar/reviewWriteForm">글쓰기</a>
 								</div>
-								
 								<div class="list_pager_wrap">
 									<nav class="pg_wrap">
 										<span class="pg">

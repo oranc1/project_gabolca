@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -93,13 +94,13 @@ public List<ReviewVO> getReviewListSmall(String car_model) {
 }
 
 // 리뷰게시판 글 목록, 페이지 나눔
-public List<ReviewVO> getReviewListPaging(Criteria cri) {
-	return carItemMapper.getReviewListPaging(cri);
+public List<ReviewVO> getReviewListPaging(String searchType, String searchKeyword, Criteria cri) {
+	return carItemMapper.getReviewListPaging(searchType, searchKeyword, cri);
 }
 
 // 리뷰 게시판 총 갯수
-public int getTotal() {
-	return carItemMapper.getTotal();
+public int getTotal(String searchType, String searchKeyword, Criteria cri) {
+	return carItemMapper.getTotal(searchType, searchKeyword, cri);
 }
 
 // 리뷰 글 상세보기
