@@ -87,6 +87,7 @@
 					</article>
 					<article id="pageList">
 						<input type="button" id="prvsPage"class="adm_car_button" value="이전">
+						<span id="nowPage"></span>
 						<input type="button" id="nextPage" class="adm_car_button" value="다음">
                      </article>
 				</section>
