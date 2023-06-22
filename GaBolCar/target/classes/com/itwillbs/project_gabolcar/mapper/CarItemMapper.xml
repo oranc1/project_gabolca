@@ -28,6 +28,7 @@
 	where car_model= #{car_model}
 		)
 	)
+	ORDER BY rev_star DESC
 	LIMIT 3
 	</select>
 

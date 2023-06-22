@@ -136,7 +136,7 @@
 			$("#rental_time").html(diffTime);
 			 
 			
-			var total_money = parseInt(diffTime * (${map.car_info.car_weekdays}/24)); //${map.car_info.car_weekend}
+			var total_money = parseInt(diffTime * (${map.car_info.car_weekdays}/24)); <%--${map.car_info.car_weekend}--%>
 			$("#total_money").html(total_money);
 		}
 		</script>
@@ -156,7 +156,6 @@
 				let i;
 				let slides = document.getElementsByClassName("mySlides");
 				let dots = document.getElementsByClassName("demo");
-				let captionText = document.getElementById("caption");
 				if (n > slides.length) {
 					slideIndex = 1
 				}
@@ -172,8 +171,7 @@
 				}
 				slides[slideIndex - 1].style.display = "block";
 				dots[slideIndex - 1].className += " active";
-				captionText.innerHTML = dots[slideIndex - 1].alt;
-			}
+				}
 		</script>
 
 		<div class="view_more_info more_wrap_box">
