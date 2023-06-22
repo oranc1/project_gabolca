@@ -15,6 +15,7 @@
 	<script src="${pageContext.request.contextPath }/resources/js/inc/jquery-3.7.0.js"></script>
 	<script src="${pageContext.request.contextPath }/resources/js/member/login/signup.js"></script>
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	
 </head>
 
 <body>
@@ -69,7 +70,7 @@
 				        <div class="addr">
 				        	<p>주소</p>
 				        	<span class="sign_mark">*</span><br>
-				            <input id="sample6_postcode" name="sample6_postcode" type="text" placeholder="우편번호">
+				            <input id="sample6_postcode" name="sample6_postcode" type="text" placeholder="우편번호" required="required">
 				            <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
 				            <input type="text" id="sample6_address" name="sample6_address" placeholder="주소"><br>
 							<input type="text" id="sample6_detailAddress" name="sample6_detailAddress" placeholder="상세주소">

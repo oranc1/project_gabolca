@@ -22,7 +22,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.itwillbs.project_gabolcar.service.MemberService;
 import com.itwillbs.project_gabolcar.service.QuestionService;
+import com.itwillbs.project_gabolcar.service.ResService;
 import com.itwillbs.project_gabolcar.vo.*;
+import com.mysql.cj.Session;
 
 import net.nurigo.sdk.NurigoApp;
 import net.nurigo.sdk.message.model.Message;
@@ -34,6 +36,9 @@ import net.nurigo.sdk.message.service.DefaultMessageService;
 public class MemberController {
 	@Autowired
 	private MemberService memberService;
+	
+	@Autowired
+	private ResService resService;
 
 	// =============== 멤버 페이지, 멤버 정보 관련 ================
 	// 회원 정보 수정
@@ -119,15 +124,44 @@ public class MemberController {
 
 
 	// 멤버) 차량 예약 조회
-	@GetMapping("resInq")
-	public String resInq() {
+	@GetMapping("MemberRes")
+	public String resInq(HttpSession session, Model model) {
+		
+		String sId = (String) session.getAttribute("sId");
+		
+		if (sId == null) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			return "inc/fail_back";
+		}
+	
+		List<ResInfoVO> resinfo;
+		try {
+			resinfo = resService.getResInfo(sId);
+			 if (resinfo.isEmpty()) {
+		            model.addAttribute("msg", "예약 내역이 없습니다!");
+		            return "inc/fail_back";
+		        }
+		} catch (Exception e) {
+			model.addAttribute("msg", "예약 내역을 가져오는 중에 오류가 발생했습니다!");
+			return "inc/fail_back";
+		}
+		
+		System.out.println(resinfo);
+		
+	
+		model.addAttribute("resinfo", resinfo);
+		
 		return "html/member/mem_page/mem_res_inq";
 	}
 
+
+	
+	
 	//예약 상세 정보
-	@GetMapping("member/resDetail")
+	@GetMapping("resDetail")
 	public String resDetail() {
 		return "html/member/mem_page/mem_res_detail";
+	
 	}
 
 	// 회원 탈퇴

@@ -103,3 +103,10 @@
 	border-radius: 5px;
 	cursor: pointer;
 }
+
+.error{
+    font-size: 1px;
+    height: 20px;
+    color:red;
+    font-weight: 700;
+}

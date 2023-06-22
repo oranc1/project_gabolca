@@ -1,5 +1,9 @@
 @charset "UTF-8";
 
+#sec_con.out_con {
+	max-width: 100%;
+	background: #f5f5f5;
+}
 
 #out_wrapper {
 	max-width: 1200px;
