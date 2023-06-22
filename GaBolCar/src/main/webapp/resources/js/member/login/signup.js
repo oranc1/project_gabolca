@@ -168,7 +168,44 @@ function changePhone3(){
 //}
 
 //휴대폰번호 인증번호 보내기 버튼 클릭 이벤트
-//$(function(){
+$(document).ready(function() {
+  var code2 = "";
+
+  $("#sendMessage").on("click", function() {
+	console.log("phoneChk 버튼 클릭"); // 디버깅용 로그 출력
+    alert("인증번호 발송이 완료되었습니다.\n휴대폰에서 인증번호 확인을 해주십시오.");
+    var phone = $("#phone1").val() + $("#phone2").val() + $("#phone3").val();
+    $.ajax({
+      type: "GET",
+      url: "send-one?phone=" + phone,
+      cache: false,
+      success: function(data) {
+        if (data == "error") {
+          alert("휴대폰 번호가 올바르지 않습니다. \n유효한 번호를 입력해주세요.");
+          $("#phone").attr("autofocus", true);
+        } else {
+          $("#cert").attr("disabled", false);
+          $("#certifyCheck").attr("disabled", false);
+          $("#phone1").attr("readonly", true);
+          $("#phone2").attr("readonly", true);
+          $("#phone3").attr("readonly", true);
+          code2 = data;
+        }
+      }
+    });
+  });
+
+  $("#certifyCheck").on("click", function() {
+    if ($("#cert").val() == code2) {
+      alert("인증이 완료 되었습니다.");
+      $("#cert").attr("disabled", true);
+    } else {
+      alert("인증번호가 일치하지 않습니다. \n다시 확인해주시기 바랍니다.");
+      $("#cert").attr("autofocus", true);
+    }
+  });
+});
+
 //var code2 = "";
 //$("#phoneChk").on("click",function(){
 //	alert("인증번호 발송이 완료되었습니다.\n휴대폰에서 인증번호 확인을 해주십시오.");
@@ -196,10 +233,10 @@ function changePhone3(){
 //        }
 //    });
 //});
-//})
+
 
 //휴대폰 인증번호 대조
-//$(function(){
+
 //$("#certifyCheck").on("click",function(){
 //	if($("#cert").val() == code2){
 //		alert("인증이 완료 되었습니다.")
@@ -215,7 +252,7 @@ function changePhone3(){
 //		$("#cert").attr("autofocus",true);
 //	}
 //});
-//})
+
 
 //$(function(){
 //	$('#sendMessage').on("click",function(){

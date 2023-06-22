@@ -88,8 +88,7 @@
 				            <input id="phone2" name="phone2" type="text" size="3" maxlength="4" oninput="changePhone2()" required="required"> -
 				            <input id="phone3" name="phone3" type="text" size="3" maxlength="4" oninput="changePhone3()" required="required">
 <!-- 				        </div> -->
-<!-- 				            <button type="button" disabled id="sendMessage" >인증번호 전송</button> -->
-<!-- 				            <button type="button"  id="sendMessage" >인증번호 전송</button> -->
+				            <button type="button" disabled id="sendMessage" >인증번호 전송</button>
 <!-- 				        <div class="auth"> -->
 				        
 <!-- 				        <div class="phone" > -->
@@ -105,11 +104,11 @@
 <!-- 				        <div class="timer ph_cert">  -->
 <!-- 				        여기 수정 해야함 ㅡㅡ -->
 <!-- 				            <div id="timeLimit"> -->
-<!-- 						<div class="confirm"> -->
-<!-- 				            <input type="text" id="cert" name="memberPhoneCertify" maxlength="4"  required disabled placeholder="인증번호를 입력 해주세요"> -->
+						<div class="confirm">
+				            <input type="text" id="cert" name="memberPhoneCertify" maxlength="4"  required disabled placeholder="인증번호를 입력 해주세요">
 				         
-<!-- 				            <button type="button" disabled id="certifyCheck" >인증확인</button> -->
-<!-- 				        </div> -->
+				            <button type="button" disabled id="certifyCheck" >인증확인</button>
+				        </div>
 				        
 				        </div>
 				        

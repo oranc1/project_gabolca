@@ -28,77 +28,27 @@
 		</article>
 		<article class="branch_bottom">
 			<!-- 지점 배열로 받아 출력 -->
-			<div class="branch_location_instan">
-				<div class="branch_location_title">부산진구 본점</div>
-				<ul class="branch_location_info">
-					<li>
-						<span class="li_tit">ADDRESS</span>
-						<span class="li_txt">location_addr</span>
-					</li>
-					<li>
-						<span class="li_tit">TEL</span>
-						<span class="li_txt">location_tel</span>
-					</li>
-					<li>
-						<span class="li_tit">E-MAIL</span>
-						<span class="li_txt">location_email</span>
-					</li>
-				</ul>
-			</div>
-			<!-- 지점 배열 출력 종료 -->
-			<div class="branch_location_instan">
-				<div class="branch_location_title">부산진구 본점</div>
-				<ul class="branch_location_info">
-					<li>
-						<span class="li_tit">ADDRESS</span>
-						<span class="li_txt">location_addr</span>
-					</li>
-					<li>
-						<span class="li_tit">TEL</span>
-						<span class="li_txt">location_tel</span>
-					</li>
-					<li>
-						<span class="li_tit">E-MAIL</span>
-						<span class="li_txt">location_email</span>
-					</li>
-				</ul>
-			</div>
-			
-			<div class="branch_location_instan">
-				<div class="branch_location_title">부산진구 본점</div>
-				<ul class="branch_location_info">
-					<li>
-						<span class="li_tit">ADDRESS</span>
-						<span class="li_txt">location_addr</span>
-					</li>
-					<li>
-						<span class="li_tit">TEL</span>
-						<span class="li_txt">location_tel</span>
-					</li>
-					<li>
-						<span class="li_tit">E-MAIL</span>
-						<span class="li_txt">location_email</span>
-					</li>
-				</ul>
-			</div>
-			
-			<div class="branch_location_instan">
-				<div class="branch_location_title">부산진구 본점</div>
-				<ul class="branch_location_info">
-					<li>
-						<span class="li_tit">ADDRESS</span>
-						<span class="li_txt">location_addr</span>
-					</li>
-					<li>
-						<span class="li_tit">TEL</span>
-						<span class="li_txt">location_tel</span>
-					</li>
-					<li>
-						<span class="li_tit">E-MAIL</span>
-						<span class="li_txt">location_email</span>
-					</li>
-				</ul>
-			</div>
+			<c:forEach var="brc" items="${brcList }" >
+				<div class="branch_location_instan">
+					<div class="branch_location_title">${brc.brc_name }</div>
+					<input type="hidden" value="${brc.map_y }">
+					<input type="hidden" value="${brc.map_x }">
+					<ul class="branch_location_info">
+						<li>
+							<span class="li_tit">ADDRESS</span>
+							<span class="li_txt">${brc.brc_addr }</span>
+						</li>
+						<li>
+							<span class="li_tit">TEL</span>
+							<span class="li_txt">${brc.brc_tel }</span>
+						</li>
+						<li>
+							<span class="li_tit">E-MAIL</span>
+							<span class="li_txt">location_email</span>
+						</li>
+					</ul>
+				</div>
+			</c:forEach>
 		</article>
 	</section>
     <footer>

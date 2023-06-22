@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.itwillbs.project_gabolcar.service.BrcService;
 import com.itwillbs.project_gabolcar.service.MemberService;
 import com.itwillbs.project_gabolcar.service.QuestionService;
 import com.itwillbs.project_gabolcar.service.ResService;
@@ -44,6 +45,8 @@ public class MemberController {
 	// 1:1 문의 게시판 서비스
 	@Autowired
 	private QuestionService qst_service;
+	@Autowired
+	private BrcService brc_service;
 	
 
 
@@ -376,8 +379,9 @@ public class MemberController {
 	//============= etc ==============
 	// 찾아 오는 길
 	@GetMapping("branchLocation")
-	public String branchLocation() {
-		return "html/member/etc/branch_location";
+	public ModelAndView branchLocation() {
+		List<Map<String, Object>> brcList = brc_service.brcList();
+		return new ModelAndView("html/member/etc/branch_location","brcList",brcList);
 	}
 
 	// 사이트 이용 안내
