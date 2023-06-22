@@ -60,6 +60,7 @@
 				, car_fuel_type
 				, car_age
 				, car_file1
+				, car_file_path
 				,group_concat(car_idx) 'car_idx_list'
 			</when>
 			<!-- 관리자 select -->
@@ -107,7 +108,7 @@
 			<when test="map.carRes != null">
 				<!-- 차량 예약에서 차량 찾을때 쓰는 문구 -->
 					WHERE 
-				    car_status not in ("점검") -- 차량 상태
+				    car_status not in ("점검", "대여") -- 차량 상태
 				    <if test="map.car_type != null">
 						AND car_type in  -- 차종
 						(
@@ -197,6 +198,7 @@
    				, car_old,car_company,car_weekdays,car_weekend
   				,car_riding, car_shift_type, car_fuel_type
   				,car_age,car_file1
+				, car_file_path
 			</when>
 			<!-- 관리자 group by -->
 			<when test="map.admin != null">
