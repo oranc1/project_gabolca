@@ -1,5 +1,7 @@
 @charset "UTF-8";
 
+
+
 #notice_cont {
 	background: #f5f5f5;
 }
@@ -528,4 +530,14 @@
 
 .write_btn a:hover {
 	background: #ff6600;
+}
+
+
+section#buttonArea {
+  float: right;
+}
+
+.search-form {
+  margin-top: 40px;
+  padding-right: 70px;
 }

@@ -238,6 +238,7 @@ public class MemberController {
 		}
 	}
 	
+	// 1:1 상담 게시판 리스트
 	@GetMapping("QuestionList")
 	public String questionBoard(
 			@RequestParam(defaultValue = "") String searchType, 
@@ -271,6 +272,7 @@ public class MemberController {
 		
 		model.addAttribute("qstBoardList", qstBoardList);
 		model.addAttribute("pageInfo", qstPageInfo);
+		
 		System.out.println(" qstBoardList : " + qstBoardList);
 		return "html/member/question/question_board";
 	}
