@@ -180,7 +180,16 @@
 							brc_name like concat('%',#{map.search_keyword},'%')
 						</when>
 						<when test="map.search_type.equals('option_name')">
-							option_name like concat('%',#{map.search_keyword},'%')
+<!-- 							option_name like concat('%',#{map.search_keyword},'%') -->
+								ci.car_idx in (
+									select
+										ci2.car_idx
+									from 
+										car_info ci2 
+										JOIN car_options co ON ci.car_idx = co.car_idx
+										JOIN option_list ol ON co.option_idx = ol.option_idx
+									where
+										option_name like concat('%',#{map.search_keyword},'%'))
 						</when>
 					</choose>
 				</if>
