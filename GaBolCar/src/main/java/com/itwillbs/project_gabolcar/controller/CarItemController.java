@@ -455,14 +455,46 @@ public class CarItemController {
 			resultMap.put("pageInfo", pageInfo);
 		}
 		
-		//json 변환
-		try {
-			ObjectMapper objMapper = new ObjectMapper();
-			resultMap.put("car_res_JSON", objMapper.writeValueAsString(resultMap));
-		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		// ======== JSON 정보 넣기
+		
+		//JSONObject 객체로 차 검색에 필요한 정보들 만 넣어 보내기
+		JSONObject jsonObj = new JSONObject();
+		
+		if(!DUMMY_DATA_FLAG) {			
+			// sql 문으로 날짜,시간 보낼땐 Timestamp로 꼭 변환해서 넣어야함!!
+			jsonObj.put("res_rental_date",Timestamp.valueOf( res_rental_date) );
+			jsonObj.put("res_return_date", Timestamp.valueOf(res_return_date));
+			
+			jsonObj.put("brc_rent_name", brc_rent_name);
+			jsonObj.put("brc_return_name", brc_return_name);
+			
+			// 차량 타입 연료 값 넣기
+			// String[] 배열 형식으로 넣으면 제대로 된 값이 넘어가지 않으므로
+			// new ArrayList(Arrays.asList()) 로 변환해서 넣기
+			jsonObj.put("car_type", new ArrayList(Arrays.asList(car_type)));
+			jsonObj.put("car_fuel_type", new ArrayList(Arrays.asList(car_fuel_type)));
+			
+			// 페이지 정보 현황 넣기
+			jsonObj.put("pageInfo", pageInfo);			
+			// 차량 검색 정렬 조건 셋팅
+			jsonObj.put("car_order_by",map.get("car_order_by"));
+			// 현재 car_res 페이지에서 차량을 찾는다는 확인 문구를 넣기
+			jsonObj.put("carRes", "true");
+			// 차량 종류를 정해서 찾는다는 확인 문구 보내기
+			jsonObj.put("search", "carRes");			
+			
+			// json 타입 객체 전달위해 map에 넣기
+			resultMap.put("car_res_JSON", jsonObj);
 		}
+		
+//		//json 변환
+//		try {
+//			ObjectMapper objMapper = new ObjectMapper();
+//			resultMap.put("car_res_JSON", objMapper.writeValueAsString(resultMap));
+//		} catch (JsonProcessingException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		
 		return new ModelAndView("html/car_item/res/car_res","map",resultMap) ;
 	}
@@ -525,91 +557,42 @@ public class CarItemController {
 			produces = "application/text; charset=UTF-8"
 			)	
 	@ResponseBody
-	public String carResListLoad(@RequestParam HashMap<String,Object> map, Model model) {
+	public String carResListLoad(@RequestParam Map<String,Object> map, Model model) {
 		
 		System.out.println(map);
 		
-//		// json map 변환 관련
-//		ObjectMapper objMapper = new ObjectMapper();
-//		
-//		
-//		//JSON 데이터 형태로 담는 객체
-//		JSONObject jsonObj = new JSONObject();	
-//				
-//		// JSON 을 Map 으로 변환
-//		TypeReference<Map<String,Object>> tr = new TypeReference<Map<String,Object>>() {};
-//		
-//		// JSON 형태로 보내 온 데이터를 Map 형식으로 바꿔담는 객체
-//		//여기에 위의 데이터를 담기
-//		
-//		Map<String, Object> resultMap = null;
-//		try {
-//			resultMap = objMapper.readValue((String)map.get("json"), tr);
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//			return "";
-//		}
-//		
-//		PageInfo pageInfo = (PageInfo)map.get("pageInfo");
-//		System.out.println(map);
+		//JSON 데이터 형태로 담는 객체
+		JSONObject jsonObj = new JSONObject();	
 		
-//		//페이지 정보 현황 업데이트
-//		pageInfo.setPageListLimit(8);
-//		pageInfo.setNowPage(pageInfo.getNowPage() + 1);
-//		if(pageInfo.getNowPage() >= pageInfo.getMaxPage()) {
-//			pageInfo.setNowPage(pageInfo.getMaxPage());
-//		}
-//		
-//		
+		
+		
+//		if(!DUMMY_DATA_FLAG) {			
+//			// sql 문으로 날짜,시간 보낼땐 Timestamp로 꼭 변환해서 넣어야함!!
+//			jsonObj.put("res_rental_date",Timestamp.valueOf( res_rental_date) );
+//			jsonObj.put("res_return_date", Timestamp.valueOf(res_return_date));
 //			
-//		// 차량 검색 정렬 조건 셋팅
-//		resultMap.put("car_order_by",map.get("car_order_by"));
-//		
-//		// 만약 셋팅 조건이 없을 시 가격순 셋팅
-//		if(resultMap.get("car_order_by") == null)		
-//			resultMap.put("car_order_by","price");
-//
-//		
-//		//차량 검색 시작
-//		if(!DUMMY_DATA_FLAG) {
-//			try {				
-//				//차량을 일부분씩만 불러오기 때문에 최대 페이지 설정 해주기
-//				pageInfo.setMaxPage((carItemService.getCarCount()/pageInfo.getPageListLimit())+1);
-//				
-//				if(resultMap.get("car_order_by").equals("populer")) {					
-//					//차량 인기순위 검색후 넣기
-//					resultMap.put("car_populer_list", carItemService.getCarPopuler());
-//				}
-//				
-//				// 페이지 정보 현황 넣기
-//				resultMap.put("pageInfo", pageInfo);			
-//				// 현재 car_res 페이지에서 차량을 찾는다는 확인 문구를 넣기
-//				resultMap.put("carRes", "true");
-//				// 차량 종류를 정해서 찾는다는 확인 문구 보내기
-//				resultMap.put("search", "carRes");			
-//				resultMap.put("car_search_list", carService.carList(resultMap));
-//				
-//			}
-//			catch(Exception e) {
-//				e.printStackTrace();
-//			}
+//			jsonObj.put("brc_rent_name", brc_rent_name);
+//			jsonObj.put("brc_return_name", brc_return_name);
+//			
+//			// 차량 타입 연료 값 넣기
+//			// String[] 배열 형식으로 넣으면 제대로 된 값이 넘어가지 않으므로
+//			// new ArrayList(Arrays.asList()) 로 변환해서 넣기
+//			jsonObj.put("car_type", new ArrayList(Arrays.asList(car_type)));
+//			jsonObj.put("car_fuel_type", new ArrayList(Arrays.asList(car_fuel_type)));
+//			
+//			// 페이지 정보 현황 넣기
+//			jsonObj.put("pageInfo", pageInfo);			
+//			// 차량 검색 정렬 조건 셋팅
+//			jsonObj.put("car_order_by",map.get("car_order_by"));
+//			// 현재 car_res 페이지에서 차량을 찾는다는 확인 문구를 넣기
+//			jsonObj.put("carRes", "true");
+//			// 차량 종류를 정해서 찾는다는 확인 문구 보내기
+//			jsonObj.put("search", "carRes");			
 //			
 //		}
-//		else {
-//			// 페이지 정보 현황 넣기(더미)
-//			resultMap.put("pageInfo", pageInfo);
-//		}
-//		
-//		//json 변환
-//		try {
-//			resultMap.put("car_res_JSON", objMapper.writeValueAsString(resultMap));
-//		} catch (JsonProcessingException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		
-		return map.toString();
+				
+		jsonObj.put("test", "ddd11");
+		return jsonObj.toString();
 	}
 	
 	//=================================================
