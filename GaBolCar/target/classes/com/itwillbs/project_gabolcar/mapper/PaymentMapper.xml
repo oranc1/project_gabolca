@@ -64,6 +64,7 @@
 			, #{payment.pay_total}
 			, #{payment.pay_status}
 			, now()
+			, #{payment.merchant_uid}
 		)
 	</insert>
 	

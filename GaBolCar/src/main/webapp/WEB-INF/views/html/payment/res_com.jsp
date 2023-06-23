@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
@@ -23,6 +24,7 @@
 	  		<h1>예약이 완료 되었습니다.</h1>
 	  		<p>예약한 내용을 확인해주세요.</p>
 		</div>
+		
 			
 		<div class="res_info_wrapper">
 		
@@ -47,7 +49,7 @@
 					</li> 
 					<li>
 						<em>총 결제 금액</em>
-						<span><b>${resPayInfo.pay_total }</b>원</span>
+						<span><b class="pay_total"></b>원</span>
 					</li> 
 					
 				</ul>
@@ -60,15 +62,28 @@
 				<ul>
 					<li>
 						<em>결제 수단</em>
-						<span>신용/체크카드</span>
+						<span>
+							<c:if test="${resPayInfo.pay_method eq '0' }">
+								신용/체크카드
+							</c:if>
+						</span>
 					</li>
 					<li>
 						<em>결제 금액</em>
-						<span><b>100,000</b>원</span>
+						<span><b class="pay_total2"></b>원</span>
 					</li>
 				</ul>
 			</div>
-		
+			<script>
+				function addCommas(number) {
+					return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+				}
+				
+				var paytotal = "${resPayInfo.pay_total }";
+				
+				document.querySelector('.pay_total').innerText = addCommas(paytotal);
+				document.querySelector('.pay_total2').innerText = addCommas(paytotal);
+			</script>
 	
 			<div class="finish_btn" align="center">
 				<a href="./"><button>메인으로</button></a>
