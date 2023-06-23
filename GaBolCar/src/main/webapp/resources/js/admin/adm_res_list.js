@@ -42,9 +42,15 @@ $(function() {
 			+ "<td>" + res.car_idx + "</td>"
 			+ "<td>" + res.mem_idx + "</td>"
 			+ "<td>" + res.res_rental_date + "</td>"
-			+ "<td>" + res.res_return_date + "</td></tr>";			
+			+ "<td>" + res.res_return_date + "</td>"
+			+ "<td><button name=res_detail class=adm_car_button value=" + res.res_idx +">상세</button></td></tr>";
+						
 		$("#adm_res_list").append(result);
-		}			
+		}
+		
+		$("button[name=item_delete]").on("click", function() {
+			location.href="carDeletePro?res_idx="+$(this).val() 
+		});			
 	}
 
 	// ajax 실패 함수
@@ -60,5 +66,6 @@ $(function() {
 	$("button[name=item_search]").on("click", function() {
 		carAjax("carList.ajax?search_type="+$("#search_cate").val()+"&search_keyword="+$("#search_box").val());
 	});
+	
 
 });

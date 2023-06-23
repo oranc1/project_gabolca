@@ -56,6 +56,7 @@
 								<td>회원번호</td>
 								<td>대여일시</td>
 								<td>반납일시</td>
+								<td>상세보기</td>						
 							</tr>		
 						</table>
 					</article>
