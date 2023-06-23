@@ -66,9 +66,19 @@ public class QuestionService {
 		return mapper.qstDeleteBoard(qst_idx);
 	}
 	
-	// asd
+	// 작성자 조회
 	public String getMemNameByIdx(int mem_idx) {
 		// TODO Auto-generated method stub
 		return mapper.getMemNameByIdx(mem_idx);
+	}
+	
+	// 답글 등록
+	public int registReplyQstBoard(QuestionVO question) {
+		
+		mapper.updateQstBoardReSeq(question);
+		
+		int insertCount = mapper.insertQstReplyBoard(question);
+		
+		return 0;
 	}
 }

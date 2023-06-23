@@ -457,8 +457,29 @@ public class MemberController {
 		return "html/member/question/question_reply_form";
 	}
 	
-	
-	
+	@PostMapping("QuestionReplyFormPro")
+	public String replyPro(
+			QuestionVO question, 
+			@RequestParam(defaultValue = "1") int pageNum,
+			HttpSession session, Model model, HttpServletRequest request) {
+		
+		String sId = (String)session.getAttribute("sId");
+		if(sId == null) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			return "fail_back";
+		}
+		
+		int insertCount = qst_service.registReplyQstBoard(question);
+		
+		if(insertCount > 0) {
+			System.out.println("QuestionWrite 성공");
+			return "redirect:/QuestionList";
+		} else {
+			model.addAttribute("msg", "1:1 문의 쓰기 실패!");
+			return "fail_back";
+		}
+		
+	}
 
 	
 	//============= etc ==============

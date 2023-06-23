@@ -129,5 +129,36 @@
 <!-- JOIN mem_info  -->
 <!-- ON qst_board.mem_idx = mem_info.mem_idx; -->
 	
+	<update id="updateQstBoardReSeq">
+		UPDATE qst_board
+			SET
+				qst_board_re_seq = qst_board_re_seq + 1
+			WHERE
+				qst_board_re_ref = #{qst_board_re_ref}
+				AND qst_board_re_seq > #{qst_board_re_seq}
+	</update>
+	
+		<insert id="insertQstReplyBoard">
+		<selectKey keyProperty="qst_idx" resultType="int" order="BEFORE">
+			SELECT IFNULL(MAX(qst_idx), 0) FROM qst_board
+		</selectKey>
+			INSERT 
+				INTO qst_board
+				VALUES (
+					#{qst_idx} + 1
+					, #{mem_idx}
+					, #{mem_name}
+					, #{qst_pass}
+					, #{qst_subject}
+					, #{qst_content}
+					, #{qst_board_re_ref} + 1 -- qst_re_ref
+					, #{qst_board_re_lev} + 1 -- qst_board_re_lev
+					, #{qst_board_re_seq} + 1 -- qst_board_re_seq
+					, 0 			 -- qst_readcount
+					, now()
+					, #{qst_type}		
+				)
+	</insert>	
+	
 	
 </mapper>

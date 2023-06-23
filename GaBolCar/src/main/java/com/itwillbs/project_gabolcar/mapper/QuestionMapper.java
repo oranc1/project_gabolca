@@ -41,5 +41,11 @@ public interface QuestionMapper {
 	
 	//  작성자가 맞는 지 확인
 	String getMemNameById(String mem_id);
+	
+	// 답글 등록 전 순서번호 증가
+	void updateQstBoardReSeq(QuestionVO question);
+	
+	// 답글 등록
+	int insertQstReplyBoard(QuestionVO question);
 
 }
