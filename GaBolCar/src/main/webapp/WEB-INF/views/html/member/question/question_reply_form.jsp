@@ -33,7 +33,7 @@
     <div id="notice_cont">
         <section id="sec_con" class="inr">
             <h1 class="con_title">1:1 문의 게시판 상세보기</h1>
-            <form action="" method="get">
+            <form action="QuestionReplyForm" name="boardForm" method="post">
                 <section id="board_wrap">
                     <section id="board_list" class="notice">
                         <div class="wrapper">
@@ -68,11 +68,12 @@
                                 </div>
 
                                 <div class="mod_box">
-                                    <a href="QuestionReplyForm?qst_idx=${question.qst_idx}&pageNum=${pageNum}" class="modify_btn">답변</a>
+                                    
+                                    
+                                    <a class="modify_btn">답글등록</a>
                                     <a href="QuestionListForm?qst_idx=${question.qst_idx}&pageNum=${pageNum}" class="modify_btn">목록</a>&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <a href="QuestionModifyForm?qst_idx=${question.qst_idx}&pageNum=${pageNum}" class="modify_btn">수정</a>&nbsp;&nbsp;&nbsp;&nbsp;
-<%--                                     <a href="QuestionDelete?qst_idx=${question.qst_idx}&pageNum=${pageNum}" class="modify_delete">삭제</a> --%>
-                                    <a class="modify_delete" onclick="confirmDelete()">삭제</a>
+                                    <a class="modify_btn">다시쓰기</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <a href="QuestionDetail?qst_idx=${question.qst_idx}&pageNum=${pageNum}" class="modify_btn">취소</a>
                                 </div>
 
                             </div>

@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>     
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,7 +29,7 @@
                                 <ul class="list">
                                     <li>
                                         <div class="category"><label for="qst_type">분류</label>  
-                                            <select name="qst_type" id="qst_type">
+                                            <select name="qst_type" id="qst_type" required="required">
                                                 <option value="" selected>선택하세요</option>
                                                 <option value="예약">예약</option>
                                                 <option value="예약 취소">예약 취소</option>
@@ -35,10 +37,9 @@
                                                 <option value="기타">기타</option>
                                             </select>
                                         </div>
-                                        <div class="writer">
-                                            <input type="text" name="mem_name" id="mem_name" placeholder="작성자" class="inputBox">
-                                        	<!-- 작성자 명은 DB로 불러오기 -->
-                                        </div>
+										<div class="writer">
+										    <input type="text" name="mem_name" id="mem_name" class="inputBox" value="${member.mem_name}" readonly >
+										</div>
                                     </li>
                                     <li>
                                         <div class="password">

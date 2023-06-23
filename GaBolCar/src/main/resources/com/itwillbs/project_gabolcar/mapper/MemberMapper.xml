@@ -105,7 +105,7 @@
 			ages
 	</select>
 	
-	<select id="selectMemQuestionList" resultType="map">
+	<select id="selectMemQuestionList" resultType="com.itwillbs.project_gabolcar.vo.MemberVO">
 		SELECT
 			*
 		FROM
@@ -117,4 +117,10 @@
     	SELECT mem_idx FROM mem_info WHERE mem_name = #{mem_name}
 	</select>
 	
+	<select id="getMemNameByMemIdx" parameterType="int" resultType="string">
+	    SELECT mem_name
+	    FROM mem_info
+	    WHERE mem_idx = #{mem_idx}
+	</select>
+
 </mapper>

@@ -36,4 +36,10 @@ public interface QuestionMapper {
 	// 글삭제
 	int qstDeleteBoard(int qst_idx);
 
+	//  작성자가 맞는 지 확인
+	String getMemNameByIdx(int mem_idx);
+	
+	//  작성자가 맞는 지 확인
+	String getMemNameById(String mem_id);
+
 }

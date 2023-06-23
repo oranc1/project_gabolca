@@ -113,6 +113,16 @@
 				qst_idx = #{qst_idx}
 	</delete>
 	
+	<!-- 작성자가 맞는 지 확인 -->
+    <select id="getMemNameByIdx" resultType="String" parameterType="int">
+        SELECT mem_name FROM mem_info WHERE mem_idx=#{mem_idx}
+    </select>
+    
+    <!-- 작성자가 맞는 지 확인 -->
+    <select id="getMemNameById" resultType="String" parameterType="String">
+    	SELECT mem_name FROM mem_info WHERE mem_id=#{mem_id}
+	</select>
+    
 	<!-- 나중에 작성자 이름에 mem_name을 불러올때 쓰이는 구문 -->
 <!-- SELECT qst_board.qst_idx, qst_board.mem_name, qst_board.qst_pass, qst_board.qst_subject, qst_board.qst_content, qst_board.qst_date, qst_board.qst_type, mem_info.mem_name  -->
 <!-- FROM qst_board  -->
