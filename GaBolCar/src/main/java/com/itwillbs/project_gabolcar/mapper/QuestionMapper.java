@@ -47,5 +47,9 @@ public interface QuestionMapper {
 	
 	// 답글 등록
 	int insertQstReplyBoard(QuestionVO question);
+	
+	
+	// 글 수정
+	int updateQstBoard(QuestionVO question);
 
 }

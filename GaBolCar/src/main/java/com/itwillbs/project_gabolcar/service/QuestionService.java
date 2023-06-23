@@ -77,8 +77,12 @@ public class QuestionService {
 		
 		mapper.updateQstBoardReSeq(question);
 		
-		int insertCount = mapper.insertQstReplyBoard(question);
+		return mapper.insertQstReplyBoard(question);
 		
-		return 0;
+	}
+	
+	// 수정
+	public int qstModifyBoard(QuestionVO question) {
+		return mapper.updateQstBoard(question);
 	}
 }

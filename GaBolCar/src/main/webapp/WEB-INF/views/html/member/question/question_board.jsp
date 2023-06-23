@@ -21,7 +21,17 @@
 .date {
   flex: 1;
   text-align: center;
+ 
 }
+.txt_prev {
+		text-align: left;
+		margin-left: 20px;
+}
+
+.subject-align {
+    display: inline;
+}
+
 	</style>
     <meta charset="UTF-8">
     <title>Insert title here</title>
@@ -33,6 +43,12 @@
     <script src="${pageContext.request.contextPath}/resources/js/inc/jquery-3.7.0.js"></script>
 </head>
 <body>
+
+	<c:set var="pageNum" value="1" />
+	<c:if test="${not empty param.pageNum }">
+		<c:set var="pageNum" value="${param.pageNum }" />
+	</c:if>
+
     <header>
         <jsp:include page="../../../inc/top1.jsp"></jsp:include>
     </header>
@@ -69,24 +85,30 @@
                                     <p class="writter">조회수</p>
                                     <p class="date">날짜</p>
                                 </li>     
-                                <c:forEach var="question" items="${qstBoardList}">
-                                <li class="list_cont">
-                                    <p class="list_num">${question.qst_idx}</p>
-                                    <p class="list_car">${question.qst_type}</p>
-                                    <div class="txt_prev">
-                                        <h4><a href="QuestionDetail?qst_idx=${question.qst_idx}&pageNum=${pageNum}">${question.qst_subject}</a></h4> <!-- 링크를 제목으로 이동 -->
-                                    </div>
-                                    <p class="writter">
-                                        <span class="writter_name">${question.mem_name}</span>
-                                    </p>
-									<p class="readcount">
-									    <span class="readcount">${question.qst_readcount}</span>
-									</p>
-                                    <p class="date">
-                                        <fmt:formatDate value="${question.qst_date}" pattern="yy-MM-dd HH:mm" />
-                                    </p>
-                                </li>
-                                </c:forEach>
+								<c:forEach var="question" items="${qstBoardList}">
+								<li class="list_cont">
+								    <p class="list_num">${question.qst_idx}</p>
+								    <p class="list_car">${question.qst_type}</p>
+								    <div class="txt_prev">
+								        <c:if test="${question.qst_board_re_lev > 0 }">
+								            <c:forEach var="i" begin="1" end="${question.qst_board_re_lev }">
+								                &nbsp;
+								            </c:forEach>
+								            <img class="subject-align" src="${pageContext.request.contextPath }/resources/img/re.gif">
+								        </c:if>
+								        <h4 class="subject-align"><a href="QuestionDetail?qst_idx=${question.qst_idx}&pageNum=${pageNum}">${question.qst_subject}</a></h4>
+								    </div>
+								    <p class="writter">
+								        <span class="writter_name">${question.mem_name}</span>
+								    </p>
+								    <p class="readcount">
+								        <span class="readcount">${question.qst_readcount}</span>
+								    </p>
+								    <p class="date">
+								        <fmt:formatDate value="${question.qst_date}" pattern="yyyy-MM-dd HH:mm" />
+								    </p>
+								</li>
+							</c:forEach>
                             </ul>
                         </div>
                         <div class="write_btn">

@@ -341,7 +341,7 @@ public class MemberController {
 			return "redirect:/QuestionList";
 		} else {
 			model.addAttribute("msg", "1:1 문의 쓰기 실패!");
-			return "fail_back";
+			return "inc/fail_back";
 		}
 	}
 	
@@ -431,7 +431,7 @@ public class MemberController {
 	
 		if(deleteCount == 0) {
 			model.addAttribute("msg", "삭제 실패!");
-			return "fail_back";
+			return "inc/fail_back";
 		}
 	
 		return "redirect:/QuestionList?pageNum=" + pageNum;
@@ -447,7 +447,7 @@ public class MemberController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			return "fail_back";
+			return "inc/fail_back";
 		}
 		
 		QuestionVO question = qst_service.getQuestionBoard(qst_idx);
@@ -457,8 +457,10 @@ public class MemberController {
 		return "html/member/question/question_reply_form";
 	}
 	
-	@PostMapping("QuestionReplyFormPro")
-	public String replyPro(
+	// 1:1 문의 게시판 답변 
+	@PostMapping("QuestionReplyPro")
+	public String qstReplyPro(
+			@RequestParam String mem_name,
 			QuestionVO question, 
 			@RequestParam(defaultValue = "1") int pageNum,
 			HttpSession session, Model model, HttpServletRequest request) {
@@ -468,19 +470,65 @@ public class MemberController {
 			model.addAttribute("msg", "잘못된 접근입니다!");
 			return "fail_back";
 		}
+		//
+		int mem_idx = memberService.getCurrentUserMemIdx(mem_name);
+	    //
+	    question.setMem_idx(mem_idx);
 		
 		int insertCount = qst_service.registReplyQstBoard(question);
 		
 		if(insertCount > 0) {
-			System.out.println("QuestionWrite 성공");
+			System.out.println("답변 성공");
 			return "redirect:/QuestionList";
 		} else {
-			model.addAttribute("msg", "1:1 문의 쓰기 실패!");
-			return "fail_back";
+			model.addAttribute("msg", "답변 실패!");
+			return "inc/fail_back";
 		}
 		
 	}
+		@GetMapping("QuestionModifyForm")
+		public String qstModiyForm(
+				@RequestParam int qst_idx, 
+				@RequestParam(defaultValue = "1") int pageNum, 
+				HttpSession session, Model model) {
+			
+			
+			String sId = (String)session.getAttribute("sId");
+			if(sId == null) {
+				model.addAttribute("msg", "잘못된 접근입니다!");
+				return "fail_back";
+			}
+			
+			QuestionVO question = qst_service.getQuestionBoard(qst_idx);
+			
+			model.addAttribute("question", question);
+			
+			
+			return "html/member/question/question_modify";
+		}
+	
+		@PostMapping("QuestionModifyPro")
+		public String qstModiyPro(
+		        @RequestParam String mem_name,
+		        @RequestParam int qst_idx,
+		        QuestionVO question,
+		        @RequestParam(defaultValue = "1") int pageNum,
+		        HttpSession session, 
+		        Model model) {
+		    int mem_idx = memberService.getCurrentUserMemIdx(mem_name);
+		    question.setMem_idx(mem_idx);
+		    question.setQst_idx(qst_idx);
 
+		    int updateCount = qst_service.qstModifyBoard(question);
+		    
+		    if(updateCount > 0) {
+		        System.out.println("수정 성공");
+		        return "redirect:/QuestionList?qst_idx=" + question.getQst_idx() + "&pageNum=" + pageNum;
+		    } else {
+		        model.addAttribute("msg", "수정 실패!");
+		        return "inc/fail_back";
+		    }
+		}
 	
 	//============= etc ==============
 	// 찾아 오는 길

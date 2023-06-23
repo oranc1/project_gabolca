@@ -21,12 +21,9 @@
     <div id="notice_cont">
         <section id="sec_con" class="inr">
             <h1 class="con_title">1:1 문의 게시판</h1>
-            <form action="QuestionReplyPro" name="QuestionReplyFormPro" method="post" >
-            <input type="hidden" name="qst_idx" value="${param.qst_idx }">
-			<input type="hidden" name="pageNum" value="${param.pageNum }">
-			<input type="hidden" name="board_re_ref" value="${board.qst_board_re_ref }">
-			<input type="hidden" name="board_re_lev" value="${board.qst_board_re_lev }">
-			<input type="hidden" name="board_re_seq" value="${board.qst_board_re_seq }">
+            <form action="QuestionModifyPro" name="QuestionModifyPro" method="post" >
+            	<input type="hidden" name="qst_idx" value="${question.qst_idx}">
+            	<input type="hidden" name="pageNum" value="${param.pageNum }">
                 <section id="board_wrap">
                     <section id="board_list" class="notice">
                         <div class="wrapper">
@@ -51,17 +48,17 @@
                                             <input type="password" name="qst_pass" id="qst_pass" placeholder="비밀번호를 입력해주세요" class="inputBox">
                                         </div>
                                         <div class="title">
-                                            <input type="text" name="qst_subject" id="qst_subject" placeholder="제목을 입력해주세요" value="${question.qst_subject}" class="inputBox">
+                                            <input type="text" name="qst_subject" id="qst_subject" placeholder="제목을 입력해주세요" value="${question.qst_subject }" class="inputBox">
                                         </div>
                                     </li>
                                 </ul>
                                 <div class="write_cont">
                                     <p>
-                                        <textarea name="qst_content" id="qst_content" rows="" cols="" class="inputBox" placeholder="내용을 입력해주세요">${question.qst_content}</textarea>
+                                         <textarea name="qst_content" id="qst_content" rows="" cols="" class="inputBox" placeholder="내용을 입력해주세요">${question.qst_content}</textarea>
                                     </p>
                                 </div>
                                 <div class="mod_box">
-                                    <input type="submit" class="delete_btn" value="답글등록">&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <input type="submit" class="delete_btn" value="수정">&nbsp;&nbsp;&nbsp;&nbsp;
                                     <input type="reset" class="delete_btn" value="다시쓰기">&nbsp;&nbsp;&nbsp;&nbsp;
                                     <input type="button" value="취소" onclick="history.back()">
                                 </div>
