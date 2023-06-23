@@ -33,87 +33,72 @@
 	</select>
 
 
+
 <!-- 	SELECT car_model FROM car_info -->
 <!-- 	WHERE car_idx = (SELECT car_idx FROM res_info WHERE res_idx = #{rev_idx}) -->
 <!-- 	LIMIT 3 -->
 
 	
 	<!-- 리뷰게시판 목록 페이지 나누기 -->
-	<select id="getReviewListPaging" resultType="map" parameterType="com.itwillbs.project_gabolcar.vo.ReviewVO">
+	<select id="getReviewListPaging" resultType="com.itwillbs.project_gabolcar.vo.ReviewVO">
 		SELECT *
 			FROM (
-	                SELECT rc.rev_date, rc.rev_idx,rc.rev_star,rc.rev_subject,rc.rev_name,ci.car_model, date_format(rev_date, '%Y-%m-%d')AS rev_date_format 
+	                SELECT rc.rev_date,rc.rev_content,rc.rev_name,rc.rev_idx,rc.rev_star,rc.rev_subject,ci.car_model, date_format(rev_date, '%Y-%m-%d')AS rev_date_format 
 	              	FROM rev_car rc
 	              	JOIN res_info ri
 	              	ON rc.res_idx = ri.res_idx 
 	              	JOIN car_info ci
 	              	ON ri.car_idx = ci.car_idx 
               	) AS n1
-         <!-- 
-			조건1) 검색어(searchKeyword)가 널스트링이 아닐 때 WHERE 절 추가 => if 태그 필요
-			조건2) 검색어가 있을 경우 검색타입(searchType)에 따라 컬럼명 다르게 검색
-			       => 복수개의 조건에 따른 동적 SQL문을 작성하기 위해 choose, when, otherwise 태그 필요 
-			
-			< 주의 사항 >
-			MySQL 의 경우 WHERE 에 LIKE 절 조합하여 검색 데이터를 포함하는 레코드 검색 시
-			LIKE '%검색데이터%' 형식으로 지정해야한다.
-			이 때, 마이바티스에서 표현 시 LIKE '%#{검색데이터}%' 형식으로 지정할 경우 오류 발생
-			=> 마이바티스에서 #{데이터} 형식은 자동으로 해당 데이터타입을 감지하여 후처리 수행
-			   ex) 문자열일 경우 자동으로 해당 데이터에 '' 기호를 붙여서 문자열 파라미터로 표기
-			   따라서, '%#{검색데이터}%' 형식으로 지정 시 '%'검색데이터'%' 형태로 변경되어 오류 발생함
-			=> 이런 경우 데이터타입을 감지하지 않도록 #{} 대신 ${} 로 파라미터 지정 가능
-			   ${} 사용 시 전달받은 데이터 형태 그대로 SQL 문장에 전달함
-			   단, 데이터타입 검증이 수행되지 않으므로 SQL 삽입 공격 등 보안 취약점이 발생할 수 있으므로
-			   사용자 입력 데이터는 가급적 ${} 보다 #{} 사용하도록 권장됨!
-			=> 결론> 테이블명, LIKE 절 등에 전달되는 데이터는 ${} 사용하고
-			         외부로부터 입력받는 대부분의 데이터는 #{} 사용하자!
-			-->
-              	<!-- 1. 검색어(searchKeyword)가 널스트링이 아닐 때 검색어 추가할 WHERE 절 수행, 아니면 생략 -->
-			<if test="!searchKeyword.equals('')">
+        <if test="!searchKeyword.equals('')">
 				WHERE
 				<!-- 2. 검색타입(searchType)에 따른 WHERE 절 조건 대상 변경 -->
 				<choose>
 					<when test="searchType.equals('subject')">
-						board_subject LIKE '%${searchKeyword}%'
+						rev_subject LIKE '%${searchKeyword}%'
 					</when>
 					<when test="searchType.equals('content')">
-						board_content LIKE '%${searchKeyword}%'
+						rev_content LIKE '%${searchKeyword}%'
 					</when>
 					<when test="searchType.equals('subject_content')">
-						board_subject LIKE '%${searchKeyword}%'
-						OR board_content LIKE '%${searchKeyword}%'
+						rev_subject LIKE '%${searchKeyword}%'
+						OR rev_content LIKE '%${searchKeyword}%'
 					</when>
 					<when test="searchType.equals('name')">
-						board_name LIKE '%${searchKeyword}%'
+						rev_name LIKE '%${searchKeyword}%'
+					</when>
+					<when test="searchType.equals('star')">
+						rev_star LIKE '%${searchKeyword}%'
 					</when>
 				</choose>
 			</if>
-              	
-        ORDER BY rev_idx DESC 
-	    LIMIT #{skip}, #{amount}
+			order by rev_idx desc
+	    LIMIT 	#{startRow}, #{listLimit}
 	</select>
 	
 	<!-- 리뷰 게시판 총 갯수 -->
 	<select id="getTotal" resultType="int">
 		SELECT COUNT(*)
-			FROM rev_car  -- FROM 절 이후 작업 분기 일어남(= 동적 SQL문 작성 필요)
-			<!-- 1. 검색어(searchKeyword)가 널스트링이 아닐 때 검색어 추가할 WHERE 절 수행, 아니면 생략 -->
+			FROM rev_car
 			<if test="!searchKeyword.equals('')">
 				WHERE
 				<!-- 2. 검색타입(searchType)에 따른 WHERE 절 조건 대상 변경 -->
 				<choose>
 					<when test="searchType.equals('subject')">
-						board_subject LIKE CONCAT('%', #{searchKeyword} ,'%')
+						rev_subject LIKE '%${searchKeyword}%'
 					</when>
 					<when test="searchType.equals('content')">
-						board_content LIKE CONCAT('%', #{searchKeyword} ,'%')
+						rev_content LIKE '%${searchKeyword}%'
 					</when>
 					<when test="searchType.equals('subject_content')">
-						board_subject LIKE CONCAT('%', #{searchKeyword} ,'%') 
-						OR board_content LIKE CONCAT('%', #{searchKeyword} ,'%') 
+						rev_subject LIKE '%${searchKeyword}%'
+						OR rev_content LIKE '%${searchKeyword}%'
 					</when>
 					<when test="searchType.equals('name')">
-						board_name LIKE CONCAT('%', #{searchKeyword} ,'%')
+						rev_name LIKE '%${searchKeyword}%'
+					</when>
+					<when test="searchType.equals('star')">
+						rev_star LIKE '%${searchKeyword}%'
 					</when>
 				</choose>
 			</if>
