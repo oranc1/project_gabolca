@@ -42,7 +42,7 @@
 							</select>
 							<input type="text" name="searchKeyword" value="${param.searchKeyword }" id="searchKeyword">
 						
-							<input type="submit" value="검색">
+							<input type="submit" name="searchButton" value="검색">
 						
 							
 							<%-- 검색타입목록, 검색어입력창 추가 --%>

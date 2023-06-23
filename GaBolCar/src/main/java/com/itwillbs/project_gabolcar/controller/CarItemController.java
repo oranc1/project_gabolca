@@ -671,9 +671,6 @@ public class CarItemController {
 			@RequestParam(defaultValue = "") String searchKeyword, 
 			@RequestParam(defaultValue = "1") int pageNum, 
 			Model model) {
-		
-		System.out.println("검색타입 : " + searchType);
-		System.out.println("검색어 : " + searchKeyword);
 		// -------------------------------------------------------------------------
 		// 페이징 처리를 위해 조회 목록 갯수 조절 시 사용될 변수 선언
 		int listLimit = 10; // 한 페이지에서 표시할 목록 갯수 지정
@@ -730,12 +727,38 @@ public class CarItemController {
 	
 	// 리뷰 상세 글 보기
 	@GetMapping("reviewDetail")
-	public String reviewDetail(ReviewVO review, Model model, HttpServletRequest request, HttpServletResponse response, Criteria cri) {
+	public String reviewDetail(ReviewVO review, 
+			Model model, HttpServletRequest request, 
+			HttpServletResponse response, 
+			@RequestParam(defaultValue = "") String searchType, 
+			@RequestParam(defaultValue = "") String searchKeyword, 
+			@RequestParam(defaultValue = "1") int pageNum) {
 		
-		// 파라미터에 request 없애고 HttpSession 으로 
+		int listLimit = 10;
+		int startRow = (pageNum - 1) * listLimit; 
+ 
 		ReviewVO reviewResult = carItemService.reviewDetail(review);
+		
+		int listCount = carItemService.getTotal(searchType, searchKeyword);
+
+		int pageListLimit = 10;
+		
+		int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0);
+		
+		int startPage = (pageNum - 1) / pageListLimit * pageListLimit + 1;
+		
+		int endPage = startPage + pageListLimit - 1;
+		
+		if(endPage > maxPage) {
+			endPage = maxPage;
+		}
+		
+		int nowPage = 0;                                        // nowPage 꼭 있어야 되어 사용(변수 선언용 노용석) 
+		
+		PageInfo pageInfo = new PageInfo(listCount, pageListLimit, maxPage, startPage, endPage, nowPage);
+		
 		model.addAttribute("reviewDetail", reviewResult);
-		model.addAttribute("cri", cri);
+		model.addAttribute("pageInfo", pageInfo);
 
 		
 		return "html/car_item/review/review_detail";
@@ -799,7 +822,7 @@ public class CarItemController {
 	
 	//리뷰게시판 글 수정 폼
 	@GetMapping("reviewModify")
-	public String reviewModify(HttpSession session, ReviewVO review, Model model, Criteria cri) {
+	public String reviewModify(HttpSession session, ReviewVO review, Model model) {
 		String sId = (String)session.getAttribute("sId");
 		/*if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다");
@@ -808,28 +831,59 @@ public class CarItemController {
 		
 		ReviewVO reviewResult = carItemService.reviewDetail(review);
 		model.addAttribute("reviewDetail", reviewResult);
-		model.addAttribute("cri", cri);
 		
 		return "html/car_item/review/review_modify_form";
 	}
 	
 	// 리뷰게시판 글 수정
 	@PostMapping("reviewModifyPro")
-	public String reviewModifyPro(HttpSession session, ReviewVO review, Model model, Criteria cri) {
+	public String reviewModifyPro(HttpSession session, ReviewVO review, 
+			Model model, HttpServletRequest request, 
+			HttpServletResponse response, 
+			@RequestParam(defaultValue = "") String searchType, 
+			@RequestParam(defaultValue = "") String searchKeyword, 
+			@RequestParam(defaultValue = "1") int pageNum) {
+		
 		String sId = (String)session.getAttribute("sId");
 		/*if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다");
 			return "html/car_item/review/fail_back";
 		}*/
 		
+
+		int listLimit = 10;
+		int startRow = (pageNum - 1) * listLimit;
+		
 		int ModifySuccess = carItemService.modifyReview(review);
+		
+		int listCount = carItemService.getTotal(searchType, searchKeyword);
+
+		int pageListLimit = 10;
+		
+		int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0);
+		
+		int startPage = (pageNum - 1) / pageListLimit * pageListLimit + 1;
+		
+		int endPage = startPage + pageListLimit - 1;
+		
+		if(endPage > maxPage) {
+			endPage = maxPage;
+		}
+		
+		int nowPage = 0;                                        // nowPage 꼭 있어야 되어 사용(변수 선언용 노용석) 
+		
+		PageInfo pageInfo = new PageInfo(listCount, pageListLimit, maxPage, startPage, endPage, nowPage);
+		
+		model.addAttribute("pageInfo", pageInfo);
+		int rev_star = review.getRev_star();
 		if(ModifySuccess < 0) {
 			model.addAttribute("msg", "수정 실패");
 			return "html/car_item/review/fail_back";
-		}
-		
-		
-		return "redirect:/reviewDetail?pageNum=" + cri.getPageNum() + "&rev_idx=" + review.getRev_idx();
+		} else if (rev_star <= 0) {
+			model.addAttribute("msg", "별점을 입력해주세요");
+			return "html/car_item/review/fail_back";
+		}				
+			return "redirect:/reviewDetail?pageNum=" + pageInfo.getNowPage() + "&rev_idx=" + review.getRev_idx();
 	}
 	
 	//=================================
