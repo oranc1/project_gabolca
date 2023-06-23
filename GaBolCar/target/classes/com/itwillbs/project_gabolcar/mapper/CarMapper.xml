@@ -138,6 +138,7 @@
 							#{carType}
 						</foreach>
 						)
+					</if>
 				    <if test="map.car_fuel_type != null
 				    		and map.car_fuel_type.size() > 0">
 					    AND car_fuel_type in  -- 연료
@@ -179,7 +180,6 @@
 				        			
 				        GROUP by car_idx
 				    )
-				</if>
 			</when>
 			<!-- 관리자 where -->
 			<when test="map.admin != null">
@@ -318,6 +318,31 @@
 			count(car_idx)
 		from
 			car_info
+		WHERE 
+		    car_status not in ("점검", "대여") -- 차량 상태
+		    <if test="car_type != null
+		    		and car_type.size() > 0">
+				AND car_type in  -- 차종
+				(
+				<foreach collection="car_type" item="carType" 
+						separator=",">
+					#{carType}
+				</foreach>
+				)
+			</if>
+		    <if test="car_fuel_type != null
+		    		and car_fuel_type.size() > 0">
+			    AND car_fuel_type in  -- 연료
+			    (
+				<foreach collection="car_fuel_type" item="carFuelType" 
+						 separator=",">
+					#{carFuelType}
+				</foreach>
+			    )
+		    </if>
+		    <if test="brc_rent_name != null">
+			AND brc_name = #{brc_rent_name} -- 차량 지점 코드
+		    </if>
 	</select>
 	<select id="selectCar" resultType="map" parameterType="com.itwillbs.project_gabolcar.vo.CarVO">
 		select

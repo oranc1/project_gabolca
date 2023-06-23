@@ -38,3 +38,23 @@ function onClickAjax(obj) {
 
 }
  
+// ajax 로 받아온 데이터 페이지에 적용
+function addItems(carList){
+	let resListUl = document.querySelector("res_list_ul");
+	
+	for(let car of carList){
+		let li = document.createAttribute("li");
+		
+		let a = document.createAttribute("a");
+		
+		let	div1 = document.createAttribute("div");
+		let img = document.createAttribute("img");
+		let div2 = document.createAttribute("div");
+		
+	
+		
+	}
+}
+
+
+

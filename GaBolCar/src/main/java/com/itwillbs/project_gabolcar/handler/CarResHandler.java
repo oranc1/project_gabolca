@@ -15,7 +15,7 @@ public class CarResHandler {
 		jsonObj.put("pageListLimit", pageInfo.getPageListLimit());			
 		jsonObj.put("startPage", pageInfo.getStartPage());			
 		jsonObj.put("maxPage", pageInfo.getMaxPage());			
-		jsonObj.put("pageInfo", pageInfo.getNowPage());	
+		jsonObj.put("nowPage", pageInfo.getNowPage());	
 		
 		return true;
 	}
@@ -26,7 +26,7 @@ public class CarResHandler {
 		pageInfo.setPageListLimit(Integer.parseInt((String)jsonMap.get("pageListLimit")));
 		pageInfo.setStartPage(Integer.parseInt((String)jsonMap.get("startPage"))); 
 		pageInfo.setMaxPage(Integer.parseInt((String)jsonMap.get("maxPage")));
-		pageInfo.setNowPage(Integer.parseInt((String)jsonMap.get("pageInfo")));
+		pageInfo.setNowPage(Integer.parseInt((String)jsonMap.get("nowPage")));
 		
 		return true;
 	}

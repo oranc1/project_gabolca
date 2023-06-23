@@ -59,8 +59,9 @@ public class CarItemService {
 	//==================================================
 	
 	// 최대 페이지 등 페이지 관련에쓸 차량 총 댓수
-	public int getCarCount() {
-		return carMapper.selectCarListCount();
+	// map에 차량 검색 조건 넣어서 보내기
+	public int getCarCount(Map<String,Object> map) {
+		return carMapper.selectCarListCount(map);
 	}
 	//==============================================
 	

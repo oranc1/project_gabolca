@@ -429,7 +429,8 @@ public class CarItemController {
 			try {				
 				//차량을 일부분씩만 불러오기 때문에 최대 페이지 설정 해주기
 				// 최대 차량 대수
-				pageInfo.setListCount(carItemService.getCarCount());
+				// 차량 검색 조건 적용하여 찾기
+				pageInfo.setListCount(carItemService.getCarCount(resultMap));
 				pageInfo.setMaxPage((pageInfo.getListCount() / pageInfo.getPageListLimit()) + 1);
 				if(resultMap.get("car_order_by").equals("populer")) {					
 					//차량 인기순위 검색후 넣기
@@ -582,6 +583,8 @@ public class CarItemController {
 			List<String> carTypeList = new ArrayList();
 			List<String> carFuelTypeList = new ArrayList();
 			
+			PageInfo pageInfo = new PageInfo();
+
 			while(map.get(carType + count) != null) {
 				carTypeList.add((String)map.get(carType + count));
 				count++;
@@ -607,7 +610,6 @@ public class CarItemController {
 				}
 				
 				// 페이지 정보 현황 업데이트
-				PageInfo pageInfo = new PageInfo();
 				carResHandler.jsonMap2PageInfo(map, pageInfo);
 				
 				pageInfo.setPageListLimit(CAR_RES_ITEM_LIMIT);
@@ -634,17 +636,18 @@ public class CarItemController {
 				e.printStackTrace();
 			}
 			
-		}
-		
-		// for 문 활용하여 jsonObj에 값 넣어주기
-		if(!DUMMY_DATA_FLAG) {			
+			// for 문 활용하여 jsonObj에 값 넣어주기
+				
 			for(Map.Entry<String,Object> et : map.entrySet()) {
 				String key = et.getKey();
 				Object value = et.getValue();
 				jsonObj.put(key, value);
 			}		
+			
+			carResHandler.pageInfo2JsonObj(jsonObj,pageInfo);
 		}
-				
+		
+		System.out.println(jsonObj);
 		return jsonObj.toString();
 	}
 	
