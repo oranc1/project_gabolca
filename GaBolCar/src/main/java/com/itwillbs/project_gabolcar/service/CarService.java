@@ -79,8 +79,8 @@ public class CarService {
 		return mapper.dsbCarType();
 	}
 
-	public List<Map<String, Object>> dsbBrcHoldStatus() {
-		return mapper.dsbBrcHoldStatus();
+	public List<Map<String, Object>> dsbBrcHoldStatus(List<Map<String, Object>> brcList) {
+		return mapper.dsbBrcHoldStatus(brcList);
 	}
 
 	public List<Map<String, Object>> carOptionList(CarVO car) {
