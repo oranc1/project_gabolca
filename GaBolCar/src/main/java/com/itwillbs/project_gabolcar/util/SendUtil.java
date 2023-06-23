@@ -47,7 +47,7 @@ public class SendUtil {
 		
 	}
 	
-	public static SingleMessageSentResponse sendMsg(String phone,String msg) {
+	public static String sendMsg(String phone,String msg) {
 		final DefaultMessageService messageService;
 		messageService = NurigoApp.INSTANCE.initialize("NCSVZ0RSEVVVJEQH", "1MNJD6QGWRQZNQ8QVXLSAUBOD4J93S8C", "https://api.coolsms.co.kr");
 		Message message = new Message();
@@ -55,11 +55,12 @@ public class SendUtil {
         message.setTo(phone);
         message.setText(msg);
         System.out.println("여긴???");
-        SingleMessageSentResponse response = messageService.sendOne(new SingleMessageSendingRequest(message));
+        messageService.sendOne(new SingleMessageSendingRequest(message));
+        System.out.println(message.getStatus());
 
-        return response;
+//        return message.getStatus();
 		
-		
+	return "";	
 	}
 	
 

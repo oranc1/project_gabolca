@@ -9,6 +9,7 @@ $(function(){
       validateMessage.textContent = '';
     } else {
       validateMessage.textContent = '메일 주소를 정확히 입력하세요.';
+      email.value=null;
     }
   });
   
@@ -163,10 +164,9 @@ function sendMsg(){
      url:'./send-phone-authentication', //Controller에서 요청 받을 주소
      type:'post', //POST 방식으로 전달
      data:{phone:phone},
-     // 실제 count가 아니고 다른 형태의 data가 넘어오니, 구분을 위해 이름을 변경함
-     success:function(data){ //컨트롤러에서 넘어온 cnt값을 받는다 
-         console.log("서버 응답 데이터:", data); // 디버깅용 로그 출력
-        if (data.code === "error") {
+     success:function(phone){ 
+         console.log("서버 응답 데이터:", phone); // 디버깅용 로그 출력
+        if (phone !== 0) { //이부분 작동 안되는데 왜그럴까 - 해결 한거같음
           alert("휴대폰 번호가 올바르지 않습니다. \n유효한 번호를 입력해주세요.");
           $("#phone").attr("autofocus", true);
         } else {
@@ -190,8 +190,7 @@ function verifyCode(){
      url:'./verify-phone-authentication', //Controller에서 요청 받을 주소
      type:'post', //POST 방식으로 전달
      data:{newCode:newCode},
-     // 실제 count가 아니고 다른 형태의 data가 넘어오니, 구분을 위해 이름을 변경함
-     success:function(data){ //컨트롤러에서 넘어온 cnt값을 받는다 
+     success:function(data){ 
    	  const isCorrectCode = data;	
    	  if(isCorrectCode == true){
          alert("인증되었습니다.");
