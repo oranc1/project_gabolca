@@ -181,26 +181,43 @@
 			</when>
 			<!-- 관리자 where -->
 			<when test="map.admin != null">
+				<if test="!map.chk_type.equals('') and map.search_keyword.equals('')">
+					where car_type = #{map.chk_type}
+				</if>
 				<if test="!map.search_keyword.equals('')">
 					where
 					<choose>
 						<when test="map.search_type.equals('car_idx')">
 							ci.car_idx = #{map.search_keyword}
+							<if test="!map.chk_type.equals('')">
+								AND car_type = #{map.chk_type}
+							</if>
 						</when>
 						<when test="map.search_type.equals('car_company')">
 							car_company like concat('%',#{map.search_keyword},'%')
+							<if test="!map.chk_type.equals('')">
+								AND car_type = #{map.chk_type}
+							</if>
 						</when>
 						<when test="map.search_type.equals('car_model')">
 							car_model like concat('%',#{map.search_keyword},'%')
+							<if test="!map.chk_type.equals('')">
+								AND car_type = #{map.chk_type}
+							</if>							
 						</when>
 						<when test="map.search_type.equals('car_old')">
 							car_old = #{map.search_keyword}
+							<if test="!map.chk_type.equals('')">
+								AND car_type = #{map.chk_type}
+							</if>							
 						</when>
 						<when test="map.search_type.equals('brc_name')">
 							brc_name like concat('%',#{map.search_keyword},'%')
+							<if test="!map.chk_type.equals('')">
+								AND car_type = #{map.chk_type}
+							</if>							
 						</when>
 						<when test="map.search_type.equals('option_name')">
-<!-- 							option_name like concat('%',#{map.search_keyword},'%') -->
 								ci.car_idx in (
 									select
 										ci2.car_idx
@@ -210,12 +227,13 @@
 										JOIN option_list ol ON co.option_idx = ol.option_idx
 									where
 										option_name like concat('%',#{map.search_keyword},'%'))
+									<if test="!map.chk_type.equals('')">
+										AND car_type = #{map.chk_type}
+									</if>
 						</when>
 					</choose>
 				</if>
-				<if test="!map.chk_type.equals('')">
-					where car_type = #{map.chk_type}
-				</if>
+				
 			</when>
 			<otherwise></otherwise>
 		</choose>
