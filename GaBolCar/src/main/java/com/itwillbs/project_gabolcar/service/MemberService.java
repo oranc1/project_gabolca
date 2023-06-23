@@ -98,6 +98,12 @@ public class MemberService{
 		public int getCurrentUserMemIdx(String mem_name) {
 		    return mapper.getMemIdxByMemName(mem_name);
 		}
+
+		// 회원이름 가져오기
+		public MemberVO memName(String sId) {
+			
+			return mapper.getMemName(sId);
+		}
 		
 		// 1:1 문의게시판 로그인 상태 idx 넘겨주기
 		public String getMemNameByIdx(int mem_idx) {

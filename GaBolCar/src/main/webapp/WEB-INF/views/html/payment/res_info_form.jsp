@@ -15,47 +15,10 @@
 <link href="${pageContext.request.contextPath }/resources/css/inc/footer.css" rel="styleSheet">
 <!-- jQuery -->
 <%-- <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script> --%>
-
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
-<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+<!-- 아임포트 -->
+<script src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 
-<script>
-
-	var IMP = window.IMP;
-	IMP.init('imp31006863'); 
-
-	function requestPay() {
-		// IMP.request_pay(param, callback) 결제창 호출
-		IMP.request_pay({ // param
-			pg : "html5_inicis", // 
-			pay_method : "card", // 결제방법
-			merchant_uid : "${member.mem_idx}" + new Date().getTime(), // 가맹점에서 구별할 수 있는 고유 id
-			name : "의자", // 주문명
-			amount : 100, // 가격
-			buyer_email : "${member.mem_id}", // 구매자 이메일
-			buyer_name : "${member.mem_name}", // 구매자 이름
-			buyer_tel : "${member.mem_mtel}", // 구매자 번호
-		}, function(data) {
-			if(data.success){
-				var msg = "결제 완료";
-	            msg += '고유ID : ' + data.imp_uid;                //아임포트 uid는 실제 결제 시 결제 고유번호를 서버와 비교해서 결제처리하는데 필요없긴함.
-	            msg += '// 상점 거래ID : ' + data.merchant_uid;
-	            msg += '// 결제 금액 : ' + data.paid_amount;
-	            msg += '// 카드 승인번호 : ' + data.apply_num;
-	            $.ajax({
-	            	type : 'post',
-	            	url : 'resInfoPro',
-// 	            	data : {"pay_idx" : data.merchant_uid, "pay_total" : data.paid_amount, ""},
-	            });
-			} else {
-				var msg = "결제 실패"
-				msg += "에러 내용" + rsp.error_msg;
-			}
-			alert(msg);
-// 			document.location.href="resCom";
-		});
-	}
-</script>
 
 </head>
 <body>
@@ -69,7 +32,7 @@
 			<input type="hidden" name="car_idx" value="${map.car_idx }">
 			<input type="hidden" name="pay_total" class="pay_total">
 			<!-- 결제 상태 임시지정 -->
-			<input type="hidden" name="pay_status" class="pay_status" value="결제완료">
+			<input type="hidden" name="pay_status" class="pay_status">
 			<ul class="res_page_wrap">
 				<li class="res_info_p res-com">
 					<div class="menu_tit res_info">
@@ -227,7 +190,8 @@
 					</div>
 					<ul class="side_sub">
 						<li>
-							<textarea name="tos">자동차대여 표준약관
+							<textarea name="tos">
+자동차대여 표준약관
 제1장 총칙제1조(약관의 적용)
 주식회사 타볼카는 (이하"회사"라한다) 이 약관에 따라 대여자동차(이하"렌터카"라 한다)를 임차인에게 대여하고 임차인은 이를 임차한다.
 회사는 이 약관의 취지,법령 및 일반적 관습에 반하지 않는 범위에서 특약할 수 있으며, 특약한 때에는 그 특약이 우선한다. 단, 그 특약은 반드시 기재되어야 한다.
@@ -384,10 +348,12 @@
 회사는 따로 세칙을 정한 때에는 회사의 영업소에 게시함과 동시에 회사가 시행하는 팜플렛 및 요금표에 이를 기재한 후 이 약관과 함께 임차인에게 설명 하여야 한다. 이를 변경한 경우에도 또한 같다.
 제34조(국. 영문의 해석)
 국문과 영문의 약관의 해석에 차이가 있을 시는 국문 약관에 따른다.
-                               </textarea><br>
-                               <p class="terms_p">
-	                               <input type="checkbox">이용약관에 동의합니다.<br>
-                               </p>
+                            </textarea>
+                            <br>
+                            <p class="terms_p">
+	                             <input type="checkbox">이용약관에 동의합니다.
+	                             <br>
+                            </p>
 							</li>
 					</ul>
 				</li>
@@ -492,10 +458,56 @@
 						document.querySelector('.resTotalAmount').innerText = formattedTotalAmount;
 						
 						// 최종 결제 금액 value 히든으로 넘기기
-						document.querySelector('.pay_total').value = totalAmount;
+						document.querySelector('.pay_total').value = plusTotalAmount;
 				 }
 				 
 				
+			</script>
+			
+			<script>
+				
+				const IMP = window.IMP;
+				IMP.init('imp31006863'); // 가맹점 식별코드
+			
+				function requestPay() {
+					
+					// IMP.request_pay(param, callback) 결제창 호출
+					IMP.request_pay({ // param
+						pg : "html5_inicis", // 
+						pay_method : "card", // 결제방법
+						merchant_uid : "${member.mem_idx}" + new Date().getTime(), // 가맹점에서 구별할 수 있는 고유 id
+						name : "${carInfo.car_model}(${carInfo.car_company})", // 주문명
+// 						amount : document.querySelector('.pay_total').value, // 가격
+						amount : 100, // 가격
+						buyer_email : "${member.mem_id}", // 구매자 이메일
+						buyer_name : "${member.mem_name}", // 구매자 이름
+						buyer_tel : "${member.mem_mtel}", // 구매자 번호
+					}, function (rsp) { // callback
+					      //rsp.imp_uid 값으로 결제 단건조회 API를 호출하여 결제결과를 판단합니다.
+					      if(rsp.success) {
+					    	  // 결제 성공 시 로직
+					    	  
+					    	  // ajax 로직
+// 					    	  jQuery.ajax({
+// 					    		  url: "resInfoPro",
+// 					    		  method: "POST",
+// 					    		  headers: { "Content-Type": "application/json" },
+// 					    	      data: { 
+// 					    	    	 imp_uid: rsp.imp_uid,
+// 					    	    	 merchant_uid: rsp.merchant_uid 
+// 					    	      },
+// 					    	  });
+					    	  
+							  $("form").submit();
+							  document.querySelector('.pay_status').value = "결제완료";
+					      } else {
+					    	  // 결제 실패 시 로직
+					    	  alert("결제에 실패하였습니다 : " + rsp.error_msg);
+						      return false;
+					      }
+				    });
+					
+				}
 			</script>
 			
 			<fieldset class="img_sec_wrap">
@@ -521,9 +533,10 @@
 					</p>
 				</div>
 			</fieldset>
-<!-- 			<button class="res_p" onclick="requestPay();">결제하기</button> -->
-			<button class="res_p" onclick="">결제하기</button>
+			<input type="button" class="res_p" value="결제하기" onclick="requestPay()">
+<!-- 			<button class="res_p" onclick="requestPay()">결제하기</button> -->
 		</form>
+		
 	</section>
 	
 	<script>

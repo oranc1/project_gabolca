@@ -343,6 +343,7 @@ li.lic_num_inp select, li.lic_num_inp input{
 	color: #fff;
 	border-radius: 5px;
 	font-size: 19px;
+	cursor: pointer;
 }
 
 .txt_sec_p {

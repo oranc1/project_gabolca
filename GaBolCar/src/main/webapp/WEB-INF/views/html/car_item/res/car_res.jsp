@@ -91,7 +91,7 @@
 					
 				<!-- 검색 목록 리스트 -->
 				<div class="col-md-12 col-lg-8 res_list">
-					<ul>
+					<ul class="res_list_ul">
 						<%-- 검색 결과 출력 --%>
 						<c:choose>
 							<c:when test="${!empty map.car_search_list  }">
@@ -99,7 +99,7 @@
 								<li> <%-- 0620 경인 추가 주소 설정 --%>
 									<a href="carRes/carResInfo?car_idx=${fn:split(car.car_idx_list,',')[0] }
 									&res_rental_date=${map.res_rental_date}&res_return_date=${map.res_return_date}
-									&brc_rent_name=${map.brc_rent_name}&brc_return_name=${map.brc_rent_name}">
+									&brc_rent_name=${map.brc_rent_name}&brc_return_name=${map.brc_return_name}">
 										<div class="res_list_img">
 											<img
 												src="${pageContext.request.contextPath}/resources/upload/car/${car.car_file_path}/${car.car_file1}" 
@@ -144,7 +144,7 @@
 			</div><!-- div row 끝 -->
 			<div class="row inq_container">
 				<div class="col-2 res_addCar_btn">
-					<a href="javascript:onClickAjax(dataObj)">
+					<a href="javascript:dataObj=onClickAjax(dataObj)">
 						<p class="res_btn">더보기</p>
 					</a>
 				</div>

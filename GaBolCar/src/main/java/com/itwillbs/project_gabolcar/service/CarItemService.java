@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -58,8 +59,9 @@ public class CarItemService {
 	//==================================================
 	
 	// 최대 페이지 등 페이지 관련에쓸 차량 총 댓수
-	public int getCarCount() {
-		return carMapper.selectCarListCount();
+	// map에 차량 검색 조건 넣어서 보내기
+	public int getCarCount(Map<String,Object> map) {
+		return carMapper.selectCarListCount(map);
 	}
 	//==============================================
 	
@@ -75,32 +77,21 @@ public class CarItemService {
 	}
 	
 //==============리뷰 서비스=============================
-	/*public List<ReviewVO> getReviewList(int startRow, int listLimit){
-	
-	
-	return carItemMapper.selectReviewList(startRow, listLimit);
-}
-
-public int getReviewListCount() {
-	// TODO Auto-generated method stub
-	return carItemMapper.selectReviewListCount();
-}
-*/
 
 //car_res_info 안에 작은 리뷰창
 public List<ReviewVO> getReviewListSmall(String car_model) {
 	return carItemMapper.getReviewListSmall(car_model);
 }
 
-// 리뷰게시판 글 목록, 페이지 나눔
-public List<ReviewVO> getReviewListPaging(Criteria cri) {
-	return carItemMapper.getReviewListPaging(cri);
-}
+//글 목록 조회 요청
+public List<ReviewVO> getReviewListPaging(String searchType, String searchKeyword, int startRow, int listLimit) {
+	return carItemMapper.getReviewListPaging(searchType, searchKeyword, startRow, listLimit);
+	}
 
-// 리뷰 게시판 총 갯수
-public int getTotal() {
-	return carItemMapper.getTotal();
-}
+// 전체 글 목록 갯수 조회 요청
+public int getTotal(String searchType, String searchKeyword) {
+	return carItemMapper.getTotal(searchType, searchKeyword);
+	}
 
 // 리뷰 글 상세보기
 public ReviewVO reviewDetail(ReviewVO review) {
@@ -125,9 +116,6 @@ public int updateIdx(ReviewVO review) {
 
 // 리뷰 글 작성
 public int insertReview(ReviewVO review) {
-	// 최대 글번호 선택
-	//int maxIdx = carItemMapper.selectMaxIdx();
-	//review.setRev_idx(maxIdx);
 	return carItemMapper.insertReview(review);
 }
 	//==========================================================

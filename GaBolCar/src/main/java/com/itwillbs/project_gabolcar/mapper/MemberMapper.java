@@ -54,9 +54,14 @@ public interface MemberMapper {
 	// 1:1 문의게시판 로그인 상태 이름 넘겨주기
 	int getMemIdxByMemName(String mem_name);
 
+<<<<<<< HEAD
 
 	String getMemNameByMemIdx(int mem_idx);
 	
 	//
+=======
+	//회원 이름 가져오기
+	MemberVO getMemName(String sId);
+>>>>>>> origin/main
 
 }

@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> 
+<%@ page import="java.util.Date" %>
+    
     <%-- 원본 파일 res_detail --%>
 <!DOCTYPE html>
 <html>
@@ -12,6 +16,8 @@
 <link href="${pageContext.request.contextPath }/resources/css/inc/footer.css" rel="styleSheet">
 
 <script src="${pageContext.request.contextPath }/resources/js/inc/jquery-3.7.0.js"></script>
+
+
 </head>
 <body>
 	<header>
@@ -49,17 +55,21 @@
 									<br></li>
 									<li class="res_detail_totalcost">총 결제 비용(보험포함)</li>
 								</ul>
+
 								<ul class="side_sub ss_r">
-									<li>KD123456<br>
+									<li>${resinfo.res_idx}<br><br></li>
+									<li>${resinfo.brc_rent_name }</li>
+									<li><fmt:formatDate value="${resinfo.res_rental_date}"
+													pattern="yyyy-MM-dd HH:mm" /><br>
 									<br></li>
-									<li>공항점</li>
-									<li>2023 5.19(금) 13:00<br>
+									<li>${resinfo.brc_rent_name }</li>
+									<li><fmt:formatDate value="${resinfo.res_return_date}"
+													pattern="yyyy-MM-dd HH:mm" /><br>
 									<br></li>
-									<li>연동점</li>
-									<li>2023 5.20(금) 16:00<br>
-									<br></li>
-									<li class="res_detail_totalcost">92,900 원</li>
+									<li class="res_detail_totalcost"><fmt:formatNumber value="${payment.pay_total}" pattern="###,###" /> 원</li>
+
 								</ul>
+						
 							</div>
 						</li>
 						<li>
@@ -73,19 +83,15 @@
 									<li>차종</li>
 									<li>변속기</li>
 									<li>정원</li>
-									<li>차량 옵션</li>
+									
 								</ul>
 								<ul class="side_sub ss_r">
-									<li>캐스퍼</li>
-									<li>가솔린</li>
-									<li>경차</li>
-									<li>자동</li>
-									<li>4인승</li>
-									<li>네비게이션</li>
-									<!-- 차량 옵션 -->
-									<li>후방카메라</li>
-									<li>블랙박스</li>
-									<li>통풍시트</li>
+									<li>${car.car_model}</li>
+									<li>${car.car_fuel_type }</li>
+									<li>${car.car_type }</li>
+									<li>${car.car_shift_type }</li>
+									<li>${car.car_riding } 인승</li>
+							
 								</ul>
 							</div>
 						</li>
@@ -101,10 +107,10 @@
 									<li>면허종류</li>
 								</ul>
 								<ul class="side_sub ss_r">
-									<li>홍길동</li>
-									<li>1998.10.18</li>
-									<li>010-3828-3391</li>
-									<li>1종보통</li>
+									<li>${driver.dri_name}</li>
+									<li>${driver.dri_birthday }</li>
+									<li>${driver.dri_tel }</li>
+									<li>${driver.lic_info }</li>
 								</ul>
 							</div>
 						</li>
@@ -114,17 +120,32 @@
 							</div>
 							<div id="insu_s" class="res_con_wrap">
 								<ul class="side_sub ss_t">
-									<li>보험명</li>
+									<li>선택한 보험</li>
 									<li>보험비</li>
-									<li>보험 보장 요약</li>
+									
 								</ul>
 								<ul class="side_sub ss_r">
-									<li>실속보장형(1)</li>
-									<li>32,900</li>
-									<li>자차 피해보상 500한도</li>
-									<li>자기부담금 최대 20만원</li>
+									<li>${resinfo.car_insurance }</li>
+									<li class="insuAmount"></li>
 								</ul>
 							</div>
+							<script type="text/javascript">
+
+								var selectedValue = "${resinfo.car_insurance}";
+
+								var notSelect = 0;
+								var insuSelect = 10000;
+								
+								
+								if (selectedValue == '선택안함') {
+
+									document.querySelector('.insuAmount').innerText = 0;
+								} else {
+
+									 var formattedAmount = insuSelect.toLocaleString(); 
+									 document.querySelector('.insuAmount').innerText = formattedAmount;
+								}
+							</script>
 						</li>
 					</ul>
 					<script src="${pageContext.request.contextPath }/resources/js/member/mem_page/mem_res_detail.js"></script>

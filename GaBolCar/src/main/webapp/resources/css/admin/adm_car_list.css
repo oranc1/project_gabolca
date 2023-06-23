@@ -75,17 +75,6 @@
 	margin-bottom: 1em;
 }
 
-/* 	#adm_car_top label:hover { */
-/* 		color: #ff6600; */
-/* 		transition: 0.1s; */
-/* 	      } */
-	      
-/* 	.adm_car_button:hover { */
-/* 		color: #ff6600; */
-/* 		transition: 0.1s; */
-/* 	      } */
-
-
 #car_title td:nth-child(1), #car_title td:nth-child(3), #car_title td:nth-child(8) {
 	min-width: 60px;
 }

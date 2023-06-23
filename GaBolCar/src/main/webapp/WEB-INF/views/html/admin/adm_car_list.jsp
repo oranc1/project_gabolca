@@ -26,25 +26,25 @@
 					<div id="ctbox">
 						<article id="adm_car_top">
 							<label>
-								<input type="checkbox" name="car_type" class="adm_car_chb" value="경형/소형">경형/소형
+								<input type="checkbox" name="car_type" value="경형/소형">경형/소형
 							</label>
 							<label>
-								<input type="checkbox" name="car_type" class="adm_car_chb" value="준중형">준중형
+								<input type="checkbox" name="car_type" value="준중형">준중형
 							</label>
 							<label>
-								<input type="checkbox" name="car_type" class="adm_car_chb" value="중형">중형
+								<input type="checkbox" name="car_type" value="중형">중형
 							</label>
 							<label>
-								<input type="checkbox" name="car_type" class="adm_car_chb" value="대형">대형
+								<input type="checkbox" name="car_type" value="대형">대형
 							</label>
 							<label>
-								<input type="checkbox" name="car_type" class="adm_car_chb" value="SUV">SUV
+								<input type="checkbox" name="car_type" value="SUV">SUV
 							</label>
 							<label>
-								<input type="checkbox" name="car_type" class="adm_car_chb" value="승합">승합
+								<input type="checkbox" name="car_type" value="승합">승합
 							</label>
 							<label>
-								<input type="checkbox" name="car_type" class="adm_car_chb" value="수입">수입
+								<input type="checkbox" name="car_type" value="수입">수입
 							</label>
 						</article>
 						<article id="adm_car_bottom">

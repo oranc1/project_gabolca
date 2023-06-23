@@ -49,7 +49,11 @@ $(function() {
 			dataType: "json"
 		})
 		.done(function(carList){
-			doneResult(carList);
+			if (carList.length > 0) {
+				doneResult(carList);
+			} else {
+				noSearchResult();
+			}
 		})
 		.fail(function(){
 			failResult();
@@ -86,33 +90,46 @@ $(function() {
 	
 	// ajax 실패 함수
 	function failResult() {
-		$("#adm_car_list").empty().append("<tr><td colspan='9'><h3>요청 실패!</h3></td></tr>")
+		$(".car_content").remove();
+		$("#adm_car_list").append("<tr class=car_content><th colspan='9'><h3>요청 실패</h3></th></tr>")
+	}	
+	// 검색 결과가 없을경우
+	function noSearchResult() {
+		$(".car_content").remove();
+		$("#adm_car_list").append("<tr class=car_content><th colspan='9'><h3>검색 결과가 없습니다.</h3></th></tr>")
 	}	
 	
     // 차종 선택시 체크박스 및 라벨 변경
     $("#adm_car_top > label").on("click", function() {
-        $(this).addClass("on");
+//		$(this).addClass("on");
+//		$(this).removeClass("on");
         if ($(this).children().is(":checked")) {
+			$("#adm_car_top label").css({"background": "#fff","color": "#000"})                    
+           $("input[type=checkbox]").prop('checked',false);
             $(this).css({
                 "background": "rgb(28, 28, 80)",
                 "color": "#fff"
             });
-                    
-            $(this).children().attr("checked",true);
-            $(this).removeClass("on");
+			$(this).children().prop('checked',true);
+			pageNum = 1;
             chk_type = $(this).children().val();
             carAjax();
         } else {
+//			$(this).removeClass("on");
             $(this).css({
                 "background": "#fff",
                 "color": "#000"
             });
-            $(this).children().attr("checked",false);
+            $(this).children().prop('checked',false);
+			pageNum = 1;
+            chk_type = '';
+            carAjax();
         }
 	});
 	
 	// 버튼 기능부여
 	$("button[name=item_search]").on("click", function() {
+		pageNum = 1;
 		carAjax();
 	});
 	

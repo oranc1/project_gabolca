@@ -117,10 +117,17 @@
     	SELECT mem_idx FROM mem_info WHERE mem_name = #{mem_name}
 	</select>
 	
+<<<<<<< HEAD
 	<select id="getMemNameByMemIdx" parameterType="int" resultType="string">
 	    SELECT mem_name
 	    FROM mem_info
 	    WHERE mem_idx = #{mem_idx}
 	</select>
 
+=======
+	<select id="getMemName">
+	SELECT * FROM mem_info WHERE mem_id = #{mem_id} 
+	</select>
+	
+>>>>>>> origin/main
 </mapper>

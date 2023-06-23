@@ -14,7 +14,6 @@
 <script src="${pageContext.request.contextPath }/resources/js/inc/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-<!-- 0619 수정중 -->
 	<section id="reg_section">
     	<div id="title_container">
       		<h1>차량 수정</h1>
@@ -114,27 +113,92 @@
 	              			</select>
 						</td>
 	          		</tr>
-	          		<tr>
-						<td class="td_left">
-							<label for="option_name">옵션</label>
-				        </td>
-						<td class="td_right">
-			          		<div class="row">
-			            		<div class="col-md-12">
-									<label class="checkbox-label">
-			                			<input type="checkbox" id="selectAllCheckbox">
-			                			전체 선택
-			              			</label>
-			              			<c:forEach var="option" items="${optionList }">
-										<label class="checkbox-label">
-											<input type="checkbox" name="option_idx" value="${option.option_idx }" <c:forEach var="idx" items="${car.option_idx }" ><c:if test="${idx eq option.option_idx }">checked="checked"</c:if></c:forEach>>
-			  								${option.option_name }
-										</label>
-									</c:forEach>
-			            		</div>
-							</div>
-		        		</td>
-					</tr>
+
+<!-- <tr> -->
+<!--     <td class="td_left"> -->
+<!--         <label for="option_name">옵션</label> -->
+<!--     </td> -->
+<!--     <td class="td_right"> -->
+<!--         <div class="row"> -->
+<!--             <div class="col-md-12"> -->
+<!--                 <label class="checkbox-label"> -->
+<!--                     <input type="checkbox" id="selectAllCheckbox"> -->
+<!--                     전체 선택 -->
+<!--                 </label> -->
+<%--                 <c:forEach var="option" items="${optionList}"> --%>
+<%--                     <c:set var="isChecked" value="false"/> --%>
+<%--                     <c:forEach var="idx" items="${car.option_idx}"> --%>
+<%--                         <c:if test="${idx eq option.option_idx}"> --%>
+<%--                             <c:set var="isChecked" value="true"/> --%>
+<%--                         </c:if> --%>
+<%--                     </c:forEach> --%>
+<!--                     <label class="checkbox-label"> -->
+<%--                         <input type="checkbox" name="option_idx" value="${option.option_idx}" <c:if test="${isChecked}">checked="checked"</c:if>> --%>
+<%--                         ${option.option_name} --%>
+<!--                     </label> -->
+<%--                 </c:forEach> --%>
+<!--             </div> -->
+<!--         </div> -->
+<!--     </td> -->
+<!-- </tr> -->
+
+<!-- <tr> -->
+<!--     <td class="td_left"> -->
+<!--         <label for="option_name">옵션</label> -->
+<!--     </td> -->
+<!--     <td class="td_right"> -->
+<!--         <div class="row"> -->
+<!--             <div class="col-md-12"> -->
+<!--                 <label class="checkbox-label"> -->
+<!--                     <input type="checkbox" id="selectAllCheckbox"> -->
+<!--                     전체 선택 -->
+<!--                 </label> -->
+<%--                 <c:forEach var="option" items="${optionList}"> --%>
+<%--                     <c:set var="isChecked" value="false"/> --%>
+<%--                     <c:forEach var="carOption" items="${carOptionList}"> --%>
+<%--                         <c:if test="${carOption.option_idx eq option.option_idx}"> --%>
+<%--                             <c:set var="isChecked" value="true"/> --%>
+<%--                         </c:if> --%>
+<%--                     </c:forEach> --%>
+<!--                     <label class="checkbox-label"> -->
+<%--                         <input type="checkbox" name="option_idx" value="${option.option_idx}" <c:if test="${isChecked}">checked="checked"</c:if>> --%>
+<%--                         ${option.option_name} --%>
+<!--                     </label> -->
+<%--                 </c:forEach> --%>
+<!--             </div> -->
+<!--         </div> -->
+<!--     </td> -->
+<!-- </tr> -->
+
+<tr>
+    <td class="td_left">
+        <label for="option_name">옵션</label>
+    </td>
+    <td class="td_right">
+        <div class="row">
+            <div class="col-md-12">
+                <label class="checkbox-label">
+                    <input type="checkbox" id="selectAllCheckbox">
+                    전체 선택
+                </label>
+                <c:forEach var="option" items="${optionList}">
+                    <c:set var="isChecked" value="false"/>
+                    <c:forEach var="carOption" items="${carOptionList}">
+                        <c:if test="${carOption.option_idx == option.option_idx}">
+                            <c:set var="isChecked" value="true"/>
+                        </c:if>
+                    </c:forEach>
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="option_idx" value="${option.option_idx}" <c:if test="${isChecked}">checked="checked"</c:if>>
+                        ${option.option_name}
+                    </label>
+                </c:forEach>
+            </div>
+        </div>
+    </td>
+</tr>
+
+
 		      		<tr> 
 				        <td class="td_left"><label for="file1"> 차량예약, 차량소개 이미지</label></td>
 				        <td class="td_right">

@@ -22,37 +22,37 @@
 			<div class="content_view">
 				<section id="adm_brc">
 					<span id="adm_brc_title">[관리자] 지점리스트</span>
-					<article id="adm_brc_center">
-						<c:forEach var="brc" items="${brcList }">
-							<div class="brc_info">
-								<ul class="brc_title">
-									<li>지점코드</li>
-									<li>지점명</li>
-									<li>주소</li>
-									<li>전화번호</li>
-									<li colspan="2">관리</li>
-								</ul>
-								<!-- 리스트를 불러와서 중복 출력될 라인 -->
-								<ul class="brc_content">
-									<li>${brc.brc_idx }</li>
-									<li>${brc.brc_name }</li>
-									<li>${brc.brc_addr }</li>
-									<li>${brc.brc_tel }</li>
-									<div class="brc_content_button">
-										<li>
-											<button name="brc_update" class="adm_brc_button" value="${brc.brc_idx }">
-												수정
-											</button>
-										</li>
-										<li>
-											<button name="brc_delete" class="adm_brc_button" value="${brc.brc_idx }">
-												삭제
-											</button>
-										</li>
-									</div>
+					<article class="adm_brc_center">
+						<!-- 지점 배열로 받아 출력 -->
+						<c:forEach var="brc" items="${brcList }" >
+							<div class="brc_instan">
+								<div class="brc_title">${brc.brc_name }</div>
+								<ul class="brc_info">
+									<li>
+										<span class="li_tit">번호</span>
+										<span class="li_txt">${brc.brc_idx }</span>
+									</li>
+									<li>
+										<span class="li_tit">주소</span>
+										<span class="li_txt">${brc.brc_addr }</span>
+									</li>
+									<li>
+										<span class="li_tit">전화번호</span>
+										<span class="li_txt">${brc.brc_tel }</span>
+									</li>
+<!-- 									<li> -->
+<!-- 										<span class="li_tit">메일</span> -->
+<!-- 										<span class="li_txt">location_email</span> -->
+<!-- 									</li> -->
+									<li>
+										<span>
+											<button name="brc_update" class="adm_brc_button" value="${brc.brc_idx }">수정</button>
+											<button name="brc_delete" class="adm_brc_button" value="${brc.brc_idx }">삭제</button>
+										</span>
+									</li>
 								</ul>
 							</div>
-						</c:forEach>	
+						</c:forEach>
 					</article>
 					<button name="brc_insert" class="adm_brc_button">
 						지점등록
