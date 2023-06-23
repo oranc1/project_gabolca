@@ -44,10 +44,10 @@
                 <section id="buttonArea">
                     <form action="QuestionList" class="search-form">
                         <select name="searchType" id="searchType">
-                            <option value="subject" <c:if test="${param.searchType eq 'subject' }">selected</c:if>>제목</option>        
-                            <option value="content" <c:if test="${param.searchType eq 'content' }">selected</c:if>>내용</option>        
-                            <option value="subject_content" <c:if test="${param.searchType eq 'subject_content' }">selected</c:if>> 제목&내용</option>       
-                            <option value="name" <c:if test="${param.searchType eq 'name' }">selected</c:if>>작성자</option>        
+							<option value="subject" <c:if test="${param.searchType eq 'subject' }">selected</c:if>>제목</option>			
+							<option value="content" <c:if test="${param.searchType eq 'content' }">selected</c:if>>내용</option>			
+							<option value="subject_content" <c:if test="${param.searchType eq 'subject_content' }">selected</c:if>>제목&내용</option>			
+							<option value="name" <c:if test="${param.searchType eq 'name' }">selected</c:if>>작성자</option>	       
                         </select>
                         <input type="text" name="searchKeyword" value="${param.searchKeyword }" id="searchKeyword">
                         <input type="submit" value="검색">
@@ -68,8 +68,7 @@
                                     </p>     
                                     <p class="writter">조회수</p>
                                     <p class="date">날짜</p>
-                                </li>
-                                
+                                </li>     
                                 <c:forEach var="question" items="${qstBoardList}">
                                 <li class="list_cont">
                                     <p class="list_num">${question.qst_idx}</p>
@@ -91,7 +90,7 @@
                             </ul>
                         </div>
                         <div class="write_btn">
-                            <a href="QuestionWrietForm">글쓰기</a>
+                            <a href="QuestionWriteForm">글쓰기</a>
                         </div>
 						<div class="list_pager_wrap">
 						    <nav class="pg_wrap">

@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.itwillbs.project_gabolcar.vo.PageInfo;
 import com.itwillbs.project_gabolcar.vo.ResInfoVO;
 
 @Mapper
@@ -26,5 +27,10 @@ public interface ResMapper {
 	
 	// 대시보드 지점별 월 매출액
 	List<Map<String, Object>> dsbBrcMonthlySale(List<Map<String, Object>> brcList);
+
+	//예약 목록 조회(관리자모드)
+	List<Map<String, Object>> selectResList(PageInfo pageInfo, Map<String, Object> map);
+
+
 	
 }

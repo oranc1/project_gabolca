@@ -1,3 +1,4 @@
+
 package com.itwillbs.project_gabolcar.mapper;
 
 import java.util.List;
@@ -7,6 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.itwillbs.project_gabolcar.vo.MemberVO;
+import com.itwillbs.project_gabolcar.vo.PageInfo;
 
 
 
@@ -49,12 +51,18 @@ public interface MemberMapper {
 	List<Map<String, Object>> dsbUserAges();
 	
 	// 1:1 문의게시판에 회원 DB 값 보내기는 List
-	List<Map<String, Object>> selectMemQuestionList();
+	List<MemberVO> selectMemQuestionList();
 	
 	// 1:1 문의게시판 로그인 상태 이름 넘겨주기
 	int getMemIdxByMemName(String mem_name);
 
+
+	String getMemNameByMemIdx(int mem_idx);
+	
+	//
 	//회원 이름 가져오기
 	MemberVO getMemName(String sId);
-
+	
+	//회원 목록 조회(관리자모드)
+	List<Map<String, Object>> selectMemList(PageInfo pageInfo, Map<String, Object> map);
 }

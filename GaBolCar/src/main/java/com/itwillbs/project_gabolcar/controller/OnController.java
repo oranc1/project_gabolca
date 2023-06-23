@@ -154,6 +154,7 @@ public class OnController { //나중에 합칠거임
 			} else { // 로그인 성공(= 패스워드 일치)
 				// 세션 객체에 아이디 저장(속성명 sId)
 				session.setAttribute("sId", member.getMem_id());
+				session.setAttribute("mem_idx", member.getMem_idx()); // 로그인 후 mem_idx 세션 객체에 저장
 				Cookie cookie = new Cookie("REMEMBER_ID", member.getMem_id());
 				if(rememberId) { // 아이디 저장 체크 시(쿠키 생성)
 					cookie.setMaxAge(60 * 60 * 24 * 30); // 쿠키 유효기간 1개월(30일) 설정

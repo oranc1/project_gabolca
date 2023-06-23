@@ -136,4 +136,11 @@
 
 
 <!-- </select> -->
+
+	<!-- 예약 목록 조회(관리자모드) - SELECT -->
+	<select id="selectResList" resultType="com.itwillbs.project_gabolcar.vo.ResInfoVO">
+		SELECT res_idx, res_time, car_idx, mem_idx, res_rental_date,  res_return_date
+			FROM res_info
+	</select>
+	
 </mapper>
