@@ -34,8 +34,10 @@ import net.nurigo.sdk.message.service.DefaultMessageService;
 public class OnController { //나중에 합칠거임
 	@Autowired
 	private MemberService memberService;
+	//여기에 하라고????
+	private Map<String, String> codeMap; 
 	
-	//회원가입
+		//회원가입
 		@GetMapping("signup")
 		public String signup() {
 			return "html/member/login/signup";
@@ -53,36 +55,53 @@ public class OnController { //나중에 합칠거임
 		
 		
 		//문자인증 작업중 6/21
-		@GetMapping("send-one")
+		@PostMapping("/send-phone-authentication")
 		@ResponseBody
-	    public String sendOne(@RequestParam("phone") String userPhoneNumber) {
-//			public String sendOne(HttpServletRequest request,@RequestParam(value = "phone1", required=true) String phone1,@RequestParam(value = "phone2", required=true) String phone2,@RequestParam(value = "phone3", required=true) String phone3) {
+	    public String sendOne(@RequestParam("phone") String phone) {
+//		public String sendOne(	@RequestParam(value = "phone1", required=true) String phone1,
+//								@RequestParam(value = "phone2", required=true) String phone2,
+//								@RequestParam(value = "phone3", required=true) String phone3) {
 			//인증번호 필요하고
 			System.out.println("여기까지옴ㅇㅇ");
-//			System.out.println(to);
-			String randomNum = FindUtil.getRandomNum();
 			//메세지 보낼 번호 필요함 (폼에서 받아 와야한다)
 			//폰 번호랑 인증번호 저장 해야하고
 			//그리고 sendMsg 불러와서 메세지 전송
-//			System.out.println(phone1);
 //			String phone = phone1+"-"+phone2+"-"+phone3;
-//			System.out.println(phone);
-			String msg = "[가볼카 회원가입] 인증번호 ["+randomNum+"]를 입력해 주세요.";
-			SendUtil.sendMsg(userPhoneNumber, msg);
+			String code  = FindUtil.getRandomNum();
+			String msg = "[가볼카 회원가입] 인증번호 ["+code+"]를 입력해 주세요.";
+			SendUtil.sendMsg(phone, msg);
+			//코드랑 번호 저장
+			codeMap = new HashMap<String, String>();
+			codeMap.put("phone", code);
+//			codeMap.put("code", code);
+//	
+//			SendUtil.sendMsg(phone, msg);
+			System.out.println(code);
+			
 			
 			System.out.println("전송완료");
 			
-			//폰번호, 인증번호 저장->안해도 댐?
-//			Map<String, String> checkNums = new HashMap<String, String>();
-//			checkNums.put("userPhoneNumber", userPhoneNumber);
-//			checkNums.put("randomNum", randomNum);
-//			
-			
-			
-			
-	        return randomNum;
+			return "";
 	    }
 	   
+		@PostMapping("/verify-phone-authentication")
+		@ResponseBody
+		public boolean phoneAut(@RequestParam("newCode") String newCode, HttpServletRequest request) {
+//			String phone = codeMap.get("phone");
+			String code= codeMap.get("phone");
+		
+			boolean isCorrectCode = false;
+			
+			if(code.equals(newCode)) {
+				System.out.println("인증완료");
+				isCorrectCode = true;
+			}
+			
+//			System.out.println(phone);
+//			System.out.println(code);
+//			System.out.println(newCode);
+			return isCorrectCode;
+		}
 	   
 	   
 		//회원가입 db작업
@@ -91,15 +110,14 @@ public class OnController { //나중에 합칠거임
 			
 			
 			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-		
 			String securePasswd = passwordEncoder.encode(member.getMem_passwd());
-			
 			member.setMem_passwd(securePasswd);
 			
 			
 			int insertCount = memberService.registMember(member);
 			// 등록 실패(insertCount == 0) 시 Model 객체에 "등록 실패!" 저장(속성명 msg) 후 fail_back.jsp 로 포워딩
 			if(insertCount > 0) {
+				model.addAttribute("msg", "회원 가입이 완료되었습니다.");
 				return "main";
 			} else {
 				model.addAttribute("msg", "회원 가입 실패!");
