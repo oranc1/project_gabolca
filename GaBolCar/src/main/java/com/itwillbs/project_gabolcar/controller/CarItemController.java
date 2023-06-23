@@ -669,31 +669,63 @@ public class CarItemController {
 	public String reviewList(
 			@RequestParam(defaultValue = "") String searchType, 
 			@RequestParam(defaultValue = "") String searchKeyword, 
-			Model model, 
-			Criteria cri) {
+			@RequestParam(defaultValue = "1") int pageNum, 
+			Model model) {
 		
 		System.out.println("검색타입 : " + searchType);
 		System.out.println("검색어 : " + searchKeyword);
-		System.out.println("cri" + cri);
-
-		List<ReviewVO> reviewListWithPaging = carItemService.getReviewListPaging(searchType, searchKeyword, cri);
+		// -------------------------------------------------------------------------
+		// 페이징 처리를 위해 조회 목록 갯수 조절 시 사용될 변수 선언
+		int listLimit = 10; // 한 페이지에서 표시할 목록 갯수 지정
+		int startRow = (pageNum - 1) * listLimit; // 조회 시작 행(레코드) 번호
+		// -------------------------------------------------------------------------
+		// BoardService - getBoardList() 메서드 호출하여 게시물 목록 조회 요청
+		// => 파라미터 : 검색타입, 검색어, 시작행번호, 목록갯수
+		// => 리턴타입 : List<BoardVO>(boardList)
+		List<ReviewVO> reviewListWithPaging = carItemService.getReviewListPaging(searchType, searchKeyword, startRow, listLimit);
+//		System.out.println(boardList);
+		// -------------------------------------------------------------------------
+		// 페이징 처리를 위한 계산 작업
+		// 한 페이지에서 표시할 페이지 목록(번호) 계산
+		// 1. BoardService - getBoardListCount() 메서드를 호출하여
+		//    전체 게시물 수 조회 요청(페이지 목록 계산에 활용)
+		// => 파라미터 : 검색타입, 검색어   리턴타입 : int(listCount)
+		int listCount = carItemService.getTotal(searchType, searchKeyword);
+//		System.out.println("전체 게시물 수 : " + listCount);
+		
+		// 2. 한 페이지에서 표시할 목록 갯수 설정(페이지 번호의 갯수)
+		int pageListLimit = 10;
+		
+		// 3. 전체 페이지 목록 갯수 계산
+		int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0);
+//		System.out.println("전체 페이지 목록 갯수 : " + maxPage);
+		
+		// 4. 시작 페이지 번호 계산
+		int startPage = (pageNum - 1) / pageListLimit * pageListLimit + 1;
+//		System.out.println(startPage);
+		
+		// 5. 끝 페이지 번호 계산
+		int endPage = startPage + pageListLimit - 1;
+		
+		// 6. 만약, 끝 페이지 번호(endPage)가 전체(최대) 페이지 번호(maxPage) 보다
+		//    클 경우 끝 페이지 번호를 최대 페이지 번호로 교체
+		if(endPage > maxPage) {
+			endPage = maxPage;
+		}
+		
+		int nowPage = 0;                                        // nowPage 꼭 있어야 되어 사용(변수 선언용 노용석) 
+//		System.out.println(endPage);
+		
+		// 페이징 처리 정보를 저장할 PageInfoVO 객체에 계산된 데이터 저장
+		PageInfo pageInfo = new PageInfo(listCount, pageListLimit, maxPage, startPage, endPage, nowPage);
+		// -----------------------------------------------------------------------------------------
+		// 조회된 게시물 목록 객쳬(boardList) 와 페이징 정보 객체(pageInfo) 를 Model 객체에 저장
 		model.addAttribute("reviewListP", reviewListWithPaging);
-		
-		System.out.println("검색타입 : " + searchType);
-		System.out.println("검색어 : " + searchKeyword);
-		System.out.println("cri" + cri);
-		
-		int total = carItemService.getTotal(searchType, searchKeyword, cri);
-		PageDTO pageMaker = new PageDTO(cri, total);
-		model.addAttribute("pageMaker", pageMaker);		
-		
-		System.out.println("검색타입 : " + searchType);
-		System.out.println("검색어 : " + searchKeyword);
-		System.out.println("cri" + cri);
+		model.addAttribute("pageInfo", pageInfo);
 		
 		return "html/car_item/review/review_board";
-		
 	}
+		
 	
 	
 	// 리뷰 상세 글 보기
