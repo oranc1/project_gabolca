@@ -64,6 +64,9 @@ public interface CarMapper {
 
 	List<Map<String, Object>> selectOptionCar(CarVO car);
 	
+	// 자동차 정보 조회
+	CarVO selectDriver(int res_idx);
+	
 //	// 차량 수정 0619
 //	int updateCar(CarVO car);
 	

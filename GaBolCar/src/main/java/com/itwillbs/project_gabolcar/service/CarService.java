@@ -92,5 +92,11 @@ public class CarService {
 //		return mapper.updateCar(car);
 //	}
 
-
+	
+	//차량 정보 조회
+	public CarVO carInfo(int res_idx) {
+		
+		return mapper.selectDriver(res_idx);
+	}
+	
 }
