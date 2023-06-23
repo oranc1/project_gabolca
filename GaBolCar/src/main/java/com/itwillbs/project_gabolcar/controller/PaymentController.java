@@ -33,7 +33,7 @@ public class PaymentController {
 		
 		if(id == null) {
 			model.addAttribute("msg", "로그인 후 예약 가능합니다");
-			return "html/member/notice/fail_back";
+			return "redirect:/";
 		}
 		
 		MemberVO member = service.getMemberInfo(id);
