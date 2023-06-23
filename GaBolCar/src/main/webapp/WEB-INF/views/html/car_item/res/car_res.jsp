@@ -91,7 +91,7 @@
 					
 				<!-- 검색 목록 리스트 -->
 				<div class="col-md-12 col-lg-8 res_list">
-					<ul>
+					<ul class="res_list_ul">
 						<%-- 검색 결과 출력 --%>
 						<c:choose>
 							<c:when test="${!empty map.car_search_list  }">
@@ -144,7 +144,7 @@
 			</div><!-- div row 끝 -->
 			<div class="row inq_container">
 				<div class="col-2 res_addCar_btn">
-					<a href="javascript:onClickAjax(dataObj)">
+					<a href="javascript:dataObj=onClickAjax(dataObj)">
 						<p class="res_btn">더보기</p>
 					</a>
 				</div>

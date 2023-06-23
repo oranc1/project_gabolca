@@ -3,16 +3,17 @@
     <%-- 원본 파일 이름 sidebar --%>
 
 <link  href="${pageContext.request.contextPath }/resources/css/inc/mem_sidebar.css" rel="stylesheet">
+
 	<div class="mypage_sidebar">
 		<!-- 유저 프로필 -->
 		<div class="user_profile">
 			<dl class="user_info">
 				<dt>
-					<b>${sessionScope.sId }</b> 님
+					<b>${member.mem_name }</b> 님
 				</dt>
 				<dd>${sessionScope.sId }</dd>
 			</dl>
-			<button class="info_manage">내 정보 관리</button>
+			<button class="info_manage" onclick="location.href='MemberUpdatePro'">내 정보 관리</button>
 		</div>
 
 		<ul class="side_menu">
@@ -55,3 +56,4 @@
 			});
 		</script>
 	</div>
+	

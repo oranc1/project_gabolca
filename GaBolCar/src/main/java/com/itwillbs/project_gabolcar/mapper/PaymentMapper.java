@@ -31,4 +31,7 @@ public interface PaymentMapper {
 	CarVO selectCarName(int res_idx);
 
 	PaymentVO selectPayInfo(int res_idx);
+
+	//총금액
+	PaymentVO selectTotal(int res_idx);
 }

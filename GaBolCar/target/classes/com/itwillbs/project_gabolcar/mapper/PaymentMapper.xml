@@ -89,4 +89,10 @@
 					WHERE r.res_idx = #{res_idx}
 	</select>
 
+	<select id="selectTotal" resultType="com.itwillbs.project_gabolcar.vo.PaymentVO">
+	SELECT pay_total
+		FROM pay_info
+			WHERE res_idx = #{res_idx};
+	</select>
+	
 </mapper>
