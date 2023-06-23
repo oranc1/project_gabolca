@@ -76,17 +76,6 @@ public class CarItemService {
 	}
 	
 //==============리뷰 서비스=============================
-	/*public List<ReviewVO> getReviewList(int startRow, int listLimit){
-	
-	
-	return carItemMapper.selectReviewList(startRow, listLimit);
-}
-
-public int getReviewListCount() {
-	// TODO Auto-generated method stub
-	return carItemMapper.selectReviewListCount();
-}
-*/
 
 //car_res_info 안에 작은 리뷰창
 public List<ReviewVO> getReviewListSmall(String car_model) {
@@ -126,9 +115,6 @@ public int updateIdx(ReviewVO review) {
 
 // 리뷰 글 작성
 public int insertReview(ReviewVO review) {
-	// 최대 글번호 선택
-	//int maxIdx = carItemMapper.selectMaxIdx();
-	//review.setRev_idx(maxIdx);
 	return carItemMapper.insertReview(review);
 }
 	//==========================================================

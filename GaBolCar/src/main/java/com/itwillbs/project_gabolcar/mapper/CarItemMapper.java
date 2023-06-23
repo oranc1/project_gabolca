@@ -15,13 +15,6 @@ public interface CarItemMapper {
 	//=======================
 	
 	//리뷰 관련 Mapper========================================================================
-	//리뷰게시판 목록조회
-	//List<ReviewVO> selectReviewList(int startRow, int listLimit);
-	
-	//List<ReviewVO> selectReviewList(int startRow, int listLimit);
-	//리뷰게시판 목록 수 참고위한 카운터
-	//int selectReviewListCount();
-	//리뷰게시판 메퍼 종료
 	
 	//car_res_info 작은 리뷰창	
 	List<ReviewVO> getReviewListSmall(String car_model);
@@ -31,7 +24,6 @@ public interface CarItemMapper {
 
 	// 글 작성
 	int insertReview(ReviewVO review);
-	
 	
 	// 글 목록 조회
 	// => 복수개의 파라미터 구분을 위해 @Param 어노테이션 사용

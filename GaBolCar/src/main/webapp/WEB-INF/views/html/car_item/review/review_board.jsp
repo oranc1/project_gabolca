@@ -38,7 +38,8 @@
 								<option value="content" <c:if test="${param.searchType eq 'content' }">selected</c:if>>내용</option>			
 								<option value="subject_content" <c:if test="${param.searchType eq 'subject_content' }">selected</c:if>>제목&내용</option>			
 								<option value="name" <c:if test="${param.searchType eq 'name' }">selected</c:if>>작성자</option>
-								<option value="star" <c:if test="${param.searchType eq 'star' }">selected</c:if>>별점</option>		
+								<option value="star" <c:if test="${param.searchType eq 'star' }">selected</c:if>>별점</option>
+								<option value="carModel" <c:if test="${param.searchType eq 'carModel' }">selected</c:if>>차종</option>			
 							</select>
 							<input type="text" name="searchKeyword" value="${param.searchKeyword }" id="searchKeyword">
 						

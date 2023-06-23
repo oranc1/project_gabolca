@@ -605,47 +605,6 @@ public class CarItemController {
 	
 	//============ 리뷰 =================
 	
-	// 리뷰 게시판
-	/*@GetMapping("review")
-	public String reviewBoard(@RequestParam Map<String, String> map, Model model, PageInfo pageInfo, ReviewVO review) {
-		
-		int pageNum = 1;
-		if(map.get("pageNum") != null) {
-			pageNum = Integer.parseInt(map.get("pageNum"));
-		}
-				
-		int listLimit = 10; // 한 페이지에서 표시할 목록 갯수 지정
-		int startRow = (pageNum - 1 ) * listLimit; //조회 행번호 지정
-	
-	List<ReviewVO> reviewList = carItemService.getReviewList(startRow, listLimit);
-	int listCount = carItemService.getReviewListCount();
-	System.out.println("리스트카운트"+listCount);
-		
-	int pageListLimit = 3;
-	int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0);
-	int startPage = (pageNum - 1) / pageListLimit * pageListLimit + 1;
-	int endPage = startPage + pageListLimit - 1;
-	if(endPage > maxPage) {
-		endPage = maxPage;
-	}
-	
-	
-	pageInfo.getListCount();
-	pageInfo.setPageListLimit(pageListLimit);
-	pageInfo.setMaxPage(maxPage);
-	pageInfo.setStartPage(startPage);
-	pageInfo.setEndPage(endPage);
-	
-	
-	model.addAttribute("reviewList", reviewList);
-	model.addAttribute("pageInfo", pageInfo);
-	
-	System.out.println(reviewList);
-	System.out.println("페이지 인포"+pageInfo);
-	
-	
-		return "html/car_item/review/review_board";
-	}*/
 	//car_res_info에서 리뷰리스트 3개 가져오기
 	
 	
@@ -659,11 +618,8 @@ public class CarItemController {
 		return "html/car_item/res/car_res_info";
 		
 	}
-	
-	
+		
 	// 리뷰게시판 글 목록, 페이지 나눔
-	
-	
 	
 	@GetMapping("reviewList")
 	public String reviewList(
@@ -724,7 +680,6 @@ public class CarItemController {
 	}
 		
 	
-	
 	// 리뷰 상세 글 보기
 	@GetMapping("reviewDetail")
 	public String reviewDetail(ReviewVO review, 
@@ -768,11 +723,14 @@ public class CarItemController {
 	@GetMapping("reviewWriteForm")
 	public String reviewWriteForm(HttpSession session, Model model) {
 		String sId = (String)session.getAttribute("sId");
+		//===========권한 필요(아이디가 있는지 -> 있다면 예약건수가 있는지 ->있으면 남고 없으면 나가) =====================
+		
 		/*if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다");
 			return "html/car_item/review/fail_back";
 		}*/
-
+		//=================================== 작성 페이지 이동 ============================================
+		
 		return "html/car_item/review/review_write_form";
 	}
 	
@@ -780,11 +738,13 @@ public class CarItemController {
 	@PostMapping("reviewWritePro")
 	public String reviewWritePro(HttpSession session, ReviewVO review, Model model, @RequestParam Map<String,Object> map) {
 		String sId = (String)session.getAttribute("sId");
+	//============권한 필요 (아이디가 있는지 -> 있다면 예약건수가 있는지 ->있으면 남고 없으면 나가) =======
+	
 		/*if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다");
 			return "html/car_item/review/fail_back";
 		}*/
-	
+	//============================================작성 개시====================================================
 		int insertCount = carItemService.insertReview(review);
 		
 		if(insertCount == 0) {
@@ -798,12 +758,13 @@ public class CarItemController {
 	// 리뷰 글 삭제
 	@GetMapping("reviewDelete")
 	public String reviewDelete(HttpSession session, ReviewVO review, Model model) {
-//		String sId = (String)session.getAttribute("sId");
+		String sId = (String)session.getAttribute("sId");
+	//==============권한이 있는지 (아이디가 있는지 -> 있다면 admin인지 -> 아니면 작성자랑 세션이 일치하는지, 일치하면 남고 아니면 나가)======
 //		if(sId == null || !sId.equals("admin")) {
 //			model.addAttribute("msg", "잘못된 접근입니다");
 //			return "html/member/review/fail_back";
 //		}
-		
+	//======================삭제 시작=======================================================================	
 		int deleteReviewCount = carItemService.deleteReview(review);
 		
 		if(deleteReviewCount < 0) {
@@ -824,11 +785,13 @@ public class CarItemController {
 	@GetMapping("reviewModify")
 	public String reviewModify(HttpSession session, ReviewVO review, Model model) {
 		String sId = (String)session.getAttribute("sId");
+		
+//==============권한이 있는지 (세션아이디가 있는지 -> 있다면 작성자랑 세션이 일치하는지, 일치하면 남고 아니면 나가)======
 		/*if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다");
 			return "html/car_item/review/fail_back";
 		}*/
-		
+		//======================수정게시판이동=======================================================================
 		ReviewVO reviewResult = carItemService.reviewDetail(review);
 		model.addAttribute("reviewDetail", reviewResult);
 		
@@ -845,11 +808,12 @@ public class CarItemController {
 			@RequestParam(defaultValue = "1") int pageNum) {
 		
 		String sId = (String)session.getAttribute("sId");
+//==============권한이 있는지 (세션아이디가 있는지 -> 있다면 작성자랑 세션이 일치하는지, 일치하면 남고 아니면 나가)======
 		/*if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다");
 			return "html/car_item/review/fail_back";
 		}*/
-		
+		//======================수정 개시=======================================================================
 
 		int listLimit = 10;
 		int startRow = (pageNum - 1) * listLimit;
