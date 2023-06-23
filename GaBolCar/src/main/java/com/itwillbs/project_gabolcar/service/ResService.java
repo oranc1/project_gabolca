@@ -25,4 +25,11 @@ public class ResService {
 		return mapper.selectResInfo(sId);
 	}
 
+	public ResInfoVO detail(int res_idx) {
+		// TODO Auto-generated method stub
+		return mapper.selectDetail(res_idx);
+	}
+
+
+
 }

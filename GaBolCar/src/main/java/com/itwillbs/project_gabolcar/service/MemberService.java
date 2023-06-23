@@ -95,6 +95,12 @@ public class MemberService{
 		public int getCurrentUserMemIdx(String mem_name) {
 		    return mapper.getMemIdxByMemName(mem_name);
 		}
+
+		// 회원이름 가져오기
+		public MemberVO memName(String sId) {
+			
+			return mapper.getMemName(sId);
+		}
 		
 
 

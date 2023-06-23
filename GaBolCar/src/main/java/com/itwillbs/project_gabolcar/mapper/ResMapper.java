@@ -20,5 +20,7 @@ public interface ResMapper {
 	List<Map<String, Object>> dsbBrcMonthlyCount(List<Map<String, Object>> brcList);
 
 	List<ResInfoVO> selectResInfo(String sId);
+
+	ResInfoVO selectDetail(int res_idx);
 	
 }

@@ -56,6 +56,13 @@ public class PaymentService {
 		return mapper.selectPayInfo(res_idx);
 	}
 
+	
+	//총금액
+	public PaymentVO totalPay(int res_idx) {
+		
+		return mapper.selectTotal(res_idx);
+	}
+
 
 	
 	

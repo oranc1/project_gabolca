@@ -87,7 +87,19 @@
 									where mem_id = #{sId})
 					
 			ORDER BY res_rental_date DESC
-			
-		
+	
 	</select>
+	
+	<select id="selectDetail" resultType="com.itwillbs.project_gabolcar.vo.ResInfoVO">
+  	SELECT *
+	FROM res_info
+	WHERE res_idx=#{res_idx};
+</select>
+
+<!-- <select id="selectPayment" resultType="com.itwillbs.project_gabolcar.vo.PaymentVO"> -->
+
+
+
+
+<!-- </select> -->
 </mapper>

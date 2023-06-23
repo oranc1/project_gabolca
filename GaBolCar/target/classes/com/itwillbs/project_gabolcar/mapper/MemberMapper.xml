@@ -117,4 +117,8 @@
     	SELECT mem_idx FROM mem_info WHERE mem_name = #{mem_name}
 	</select>
 	
+	<select id="getMemName">
+	SELECT * FROM mem_info WHERE mem_id = #{mem_id} 
+	</select>
+	
 </mapper>
