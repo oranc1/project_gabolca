@@ -54,13 +54,15 @@ public interface CarMapper {
 	int insertCarOption(CarVO car);
 
 //	 차량 수정
-	int updateCar(Map<String, String> map);
+	int updateCar(CarVO car);
 
 	List<Map<String, Object>> dsbCarStatus();
 
 	List<Map<String, Object>> dsbCarType();
 
 	List<Map<String, Object>> dsbBrcHoldStatus();
+
+	List<Map<String, Object>> selectOptionCar(CarVO car);
 	
 //	// 차량 수정 0619
 //	int updateCar(CarVO car);
