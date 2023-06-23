@@ -1,16 +1,13 @@
 $(function(){
 	// submit 버튼 클릭 - 부모창 새로고침 및 submit
-	$("#submitBtn").on("click",function() {
-		if($("input[name=option_name]").val() != '' && $("input[name=option_image]").val() != '') {
-			$("form").submit();
-			setTimeout(() => window.open("about:blank","_self"), 100);
-			return false;
-		}
-	});
-	
 	$("#submitBtn").css({
 		"background" : "rgb(255, 94, 0)",
 		"color" : "#FFFFFF"
+	}).on("click",function() {
+		if($("input[name=option_name]").val() != '' && $("input[name=option_image]").val() != '') {
+			$("form").submit();
+//			setTimeout(() => window.open("about:blank","_self"), 100);
+		}
 	});
     
 	$("#closeBtn").on("click", function() {

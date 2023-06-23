@@ -29,6 +29,7 @@
 						<td class="td_left"><label for="brc_addr">주소</label></td>
 					 	<td class="td_right">
 							<input type="text" size="40" name="brc_addr" id="address" class="form-control" required="required" value="${brc.brc_addr }">
+							<input type="text" size="40" name="brc_addrDetail" id="addressDetail" class="form-control" required="required" placeholder="상세주소" value="${brc.brc_addrDetail }">
 							<input type="hidden" name="map_x">
 							<input type="hidden" name="map_y">
 						</td>

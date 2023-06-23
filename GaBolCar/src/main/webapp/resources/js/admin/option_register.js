@@ -3,7 +3,7 @@ $(function(){
 	$("#submitBtn").on("click", function() {
 		if($("input[name=option_name]").val()!='' && $("input[name=option_image]").val()!='') {
 			$("form").submit();
-	        setTimeout(() => window.open("about:blank","_self"), 100);
+//	        setTimeout(() => window.open("about:blank","_self"), 100);
 		}
 	});
 	

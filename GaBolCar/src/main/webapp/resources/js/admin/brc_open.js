@@ -24,7 +24,7 @@ $(function(){
 	$("#submitBtn").on("click",function() {
 		if($("#address").val()!="" && $("input[name=brc_name]").val()!="" && $("input[name=brc_tel]").val() !="") {
 			$("form").submit
-	        setTimeout(() => window.open("about:blank","_self"), 100);
+//	        setTimeout(() => window.open("about:blank","_self"), 300);
 		}
 	});
 	

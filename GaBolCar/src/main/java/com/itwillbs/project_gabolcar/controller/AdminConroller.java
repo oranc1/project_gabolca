@@ -14,7 +14,6 @@ import java.util.UUID;
 import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,8 +32,6 @@ import com.itwillbs.project_gabolcar.service.MemberService;
 import com.itwillbs.project_gabolcar.service.ResService;
 import com.itwillbs.project_gabolcar.vo.CarOptionVO;
 import com.itwillbs.project_gabolcar.vo.CarVO;
-import com.itwillbs.project_gabolcar.vo.MemberVO;
-import com.itwillbs.project_gabolcar.vo.ResInfoVO;
 
 @Controller
 public class AdminConroller {
@@ -196,6 +193,7 @@ public class AdminConroller {
 	@PostMapping("brcRegisterPro")
 	public String brcRegisterPro(@RequestParam Map<String, String> map, Model model) {
 		int insertCount = 0;
+		map.put("brc_addr", map.get("brc_addr") +","+ map.get("brc_addrDetail"));
 		insertCount = brc_service.brcRegister(map);
 		if (insertCount == 0) {
 			model.addAttribute("msg","등록 실패");
@@ -208,13 +206,15 @@ public class AdminConroller {
 	@GetMapping("brcUpdate")
 	public ModelAndView brcUpdate(@RequestParam int brc_idx) {
 		Map<String, Object> brc = brc_service.brcSelect(brc_idx);
+		brc.put("brc_addrDetail", brc.get("brc_addr").toString().split(",")[1]);
+		brc.put("brc_addr", brc.get("brc_addr").toString().split(",")[0]);
 		return new ModelAndView("html/admin/brc_update","brc",brc);
 	}
 	
 	// 지점수정
 	@PostMapping("brcUpdatePro")
 	public String brcUpdatePro(@RequestParam Map<String, String> map,Model model) {
-		System.out.println(map);
+		map.put("brc_addr", map.get("brc_addr") +","+ map.get("brc_addrDetail"));
 		int updateCount = brc_service.brcUpdate(map);
 		if (updateCount > 0) {
 			return "inc/close";
@@ -343,15 +343,8 @@ public class AdminConroller {
             model.addAttribute("msg", "차량 수정 실패!");
             return "inc/fail_back";
         }
-
         return "redirect:/admCarList";
     }
-	
-	
-	
-	
-	
-	
 	
 	// 차량삭제
 	@GetMapping("carDeletePro")
@@ -421,13 +414,15 @@ public class AdminConroller {
     	return new ModelAndView("html/admin/option_update","option",option);
     }
     
+    
+    
     // 옵션수정
     @PostMapping("optionUpdatePro")
     public String optionUpdatePro(
-    		@RequestParam Map<String, Object> map,
-    		@RequestParam(value = "option_image", required = false) MultipartFile option_image,
-            HttpSession session, Model model) {
-    	
+    		@RequestParam Map<String, Object> map
+    		, @RequestParam(value = "option_image", required = false) MultipartFile option_image
+    		, HttpSession session
+    		, Model model) {
     	int updateCount = 0;
     	if(option_image == null) {
     		updateCount = car_service.optionUpdate(map);

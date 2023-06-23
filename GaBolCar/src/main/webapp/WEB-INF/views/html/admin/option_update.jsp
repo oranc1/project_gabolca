@@ -41,6 +41,7 @@
 				</table>
 				<div id="btnArea">
 					<button id="submitBtn" class="btn btn-warnig">수정</button>
+					<input type="reset" class="btn btn-secondary" value="초기화">
 					<button id="closeBtn" class="btn btn-secondary">닫기</button>
 				</div>
 			</div>
