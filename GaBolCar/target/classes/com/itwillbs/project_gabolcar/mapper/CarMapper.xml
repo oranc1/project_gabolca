@@ -109,7 +109,8 @@
 				<!-- 차량 예약에서 차량 찾을때 쓰는 문구 -->
 					WHERE 
 				    car_status not in ("점검", "대여") -- 차량 상태
-				    <if test="map.car_type != null">
+				    <if test="map.car_type != null
+				    		and map.car_type.size() > 0">
 						AND car_type in  -- 차종
 						(
 						<foreach collection="map.car_type" item="carType" 
@@ -117,7 +118,8 @@
 							#{carType}
 						</foreach>
 						)
-				    <if test="map.car_fuel_type != null">
+				    <if test="map.car_fuel_type != null
+				    		and map.car_fuel_type.size() > 0">
 					    AND car_fuel_type in  -- 연료
 					    (
 						<foreach collection="map.car_fuel_type" item="carFuelType" 

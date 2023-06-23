@@ -54,6 +54,10 @@ public class CarItemController {
 	// db 검색 없이 더미 데이터를 사용시
 	static final boolean DUMMY_DATA_FLAG = false;
 	
+	// carRes 페이지 검색시 limit 상수
+	static final int CAR_RES_ITEM_LIMIT = 8;
+	
+	
 	//차량 예약 검색
 	// 차 타입 하고 차 연료는 값 없는 경우 기본 값으로 받아오기
 	@RequestMapping("carRes")
@@ -411,7 +415,7 @@ public class CarItemController {
 		//페이지 정보 현황 초기화
 		pageInfo.setEndPage(1);
 		pageInfo.setListCount(1);
-		pageInfo.setPageListLimit(8);
+		pageInfo.setPageListLimit(CAR_RES_ITEM_LIMIT);
 		pageInfo.setStartPage(0); // sql limit 문의 시작 번호는 배열처럼 0 이 시작
 		pageInfo.setMaxPage(8);
 		pageInfo.setNowPage(0);// sql limit 문의 시작 번호는 배열처럼 0 이 시작
@@ -477,7 +481,7 @@ public class CarItemController {
 			// 페이지 정보 현황 넣기
 			jsonObj.put("pageInfo", pageInfo);			
 			// 차량 검색 정렬 조건 셋팅
-			jsonObj.put("car_order_by",map.get("car_order_by"));
+			jsonObj.put("car_order_by",resultMap.get("car_order_by"));
 			// 현재 car_res 페이지에서 차량을 찾는다는 확인 문구를 넣기
 			jsonObj.put("carRes", "true");
 			// 차량 종류를 정해서 찾는다는 확인 문구 보내기
@@ -564,7 +568,81 @@ public class CarItemController {
 		//JSON 데이터 형태로 담는 객체
 		JSONObject jsonObj = new JSONObject();	
 		
-		
+		//차량 검색 시작
+		if(!DUMMY_DATA_FLAG) {
+			
+			// 차량 타입 연료 값 넣기
+			// 페이지에서 json 으로 받아올때 리스트로 제대로 받지 못함
+			// 따라서 배열로 만들어 차량 찾기에 사용 될 car_type에 밀어넣기
+			int count = 0;
+			String carType = "car_type";
+			String carTypeFuel = "car_type";
+			
+			List<String> carTypeList = new ArrayList();
+			List<String> carFuelTypeList = new ArrayList();
+			
+			while(map.get(carType + count) != null) {
+				carTypeList.add((String)map.get(carType + count));
+				count++;
+			}
+			count = 0;
+			while(map.get(carTypeFuel + count) != null) {
+				carFuelTypeList.add((String)map.get(carType + count));
+				count++;
+			}
+			
+			// new ArrayList(Arrays.asList()) 로 변환해서 넣기
+			map.put("car_type", carTypeList);
+			map.put("car_fuel_type", carFuelTypeList);
+			
+			System.out.println(map.get("car_fuel_type"));
+			try {				
+				//차량을 일부분씩만 불러오기 때문에 최대 페이지 설정 해주기
+				
+				
+				// 최대 차량 대수
+				if(map.get("car_order_by").equals("populer")) {					
+					//차량 인기순위 검색후 넣기
+					map.put("car_populer_list", carItemService.getCarPopuler());
+				}
+				
+				String str = (String)map.get("pageInfo");
+				System.out.println(str);
+				
+				// 페이지 정보 현황 업데이트
+				PageInfo pageInfo = new PageInfo();
+				
+				pageInfo.setPageListLimit(CAR_RES_ITEM_LIMIT);
+				
+				if(pageInfo.getNowPage() < pageInfo.getMaxPage()) {
+					pageInfo.setNowPage(pageInfo.getNowPage() + 1);
+				}
+				else {
+					pageInfo.setNowPage(pageInfo.getMaxPage());
+					
+				}
+				
+				map.put("pageInfo", pageInfo);
+				
+				// 현재 car_res 페이지에서 차량을 찾는다는 확인 문구를 넣기
+				map.put("carRes", "true");
+				// 차량 종류를 정해서 찾는다는 확인 문구 보내기
+				map.put("search", "carRes");			
+				
+				//차량 찾기
+				map.put("car_search_list", carService.carList(map));
+				
+			}
+			catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		else {
+			// 페이지 정보 현황 넣기(더미)
+			map.put("pageInfo", map);
+		}
+		System.out.println(map);
 		
 //		if(!DUMMY_DATA_FLAG) {			
 //			// sql 문으로 날짜,시간 보낼땐 Timestamp로 꼭 변환해서 넣어야함!!

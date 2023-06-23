@@ -20,15 +20,15 @@ function onClickAjax(obj) {
 	//차선책으로 배열을 분리해 car_type1 ... 5 같은 방식으로 키 값을 정해서 보내기
 	
 	let count = 0;
-	for(let car_type of obj["car_fuel_type"]){
-		let str = "car_fuel_type" + count;
+	for(let car_type of obj["car_type"]){
+		let str = "car_type" + count;
 		obj[str] = car_type;
 		count++;
 	}
 	count = 0;
-	for(let car_type of obj["car_fuel_type"]){
+	for(let car_fuel_type of obj["car_fuel_type"]){
 		let str = "car_fuel_type" + count;
-		obj[str] = car_type;
+		obj[str] = car_fuel_type;
 		count++;
 	}
 	
