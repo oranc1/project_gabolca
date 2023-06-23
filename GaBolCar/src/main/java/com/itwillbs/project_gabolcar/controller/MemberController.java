@@ -287,10 +287,15 @@ public class MemberController {
 	// =============== 상담게시판 ================
 	// 사이트 1:1 상담 게시판
 	
+	// 1:1 문의 게시판 리스트 클릭
+	@GetMapping("QuestionList")
+	public String quetionListForm(MemberVO member, HttpSession session, Model model) {
+		
+		return "redirect:/QuestionListForm";
+	}
 	
 	
-	// 1:1 상담 게시판 작성 폼
-	@GetMapping("QuestionWrietForm")
+	@GetMapping("QuestionWriteForm")
 	public String quetionWriteForm(HttpSession session, Model model) {
 		
 		String sId = (String) session.getAttribute("sId");
@@ -300,14 +305,29 @@ public class MemberController {
 			return "inc/fail_back";
 		}
 		
-	    List<Map<String, Object>> memQuestionList = memberService.memQuestionList();
-	    model.addAttribute("memQuestionList", memQuestionList);
-	    return "html/member/question/question_write_form";
+		  MemberVO member = memberService.getMemberInfo(sId);
+		  model.addAttribute("member", member);
+		  
+	    // 매개 변수 가져 오기
+//	      int mem_idx = (int)session.getAttribute("mem_idx");
+//	      // 서비스에서 이름 가져 오기
+//	      String mem_name = memberService.getMemNameByIdx(mem_idx);
+//
+//	      // 모델에 이름 추가
+//	      model.addAttribute("mem_name", mem_name);
+//	      System.out.println("mem_name " + mem_name);
+//	      System.out.println("mem_name " + mem_name);
+	      
+	      
+	      return "html/member/question/question_write_form";
+		
 	}
+	
+	
 	
 	// 1:1 상담 게시판 작성
 	@PostMapping("QuestionWritePro")
-	public String quetionWritePro(@RequestParam String mem_name, QuestionVO question, Model model) {
+	public String quetionWritePro(@RequestParam String mem_name, QuestionVO question, HttpSession session, Model model) {
 		  // 로그인한 사용자의 mem_idx를 가져오기
 	    int mem_idx = memberService.getCurrentUserMemIdx(mem_name);
 
@@ -324,15 +344,19 @@ public class MemberController {
 			return "fail_back";
 		}
 	}
-	//
+	
+	
+	
+	
 	// 1:1 상담 게시판 리스트
-	@GetMapping("QuestionList")
+	@GetMapping("QuestionListForm")
 	public String questionBoard(
-			@RequestParam(defaultValue = "") String searchType, 
-			@RequestParam(defaultValue = "") String searchKeyword, 
+			@RequestParam(name = "searchType", defaultValue = "") String searchType, 
+			@RequestParam(name = "searchKeyword", defaultValue = "") String searchKeyword, 
 			@RequestParam(defaultValue = "1") int pageNum, 
 			Model model) {
 		
+	
 		System.out.println("검색타입 : " + searchType);
 		System.out.println("검색어 : " + searchKeyword);
 		
@@ -364,6 +388,7 @@ public class MemberController {
 		return "html/member/question/question_board";
 	}
 	
+	
 	// "QuestionDetail" 서블릿 요청에 대한 글 상세정보 조회 요청
 	@GetMapping("QuestionDetail")
 	public String detail(@RequestParam int qst_idx, Model model) {
@@ -391,10 +416,12 @@ public class MemberController {
 			return "inc/fail_back";
 		}
 		
+		 //  작성자가 맞는 지 확인
 		if(!sId.equals("admin")) {
-			boolean isBoardWriter = qst_service.isBoardWriter(qst_idx, sId);
 			
-			if(!isBoardWriter) {
+			boolean isBoardWriter = qst_service.isBoardWriter(qst_idx, sId);
+		    
+			if (!isBoardWriter) {
 				model.addAttribute("msg", "권한이 없습니다!");
 				return "inc/fail_back";
 			}
@@ -409,10 +436,50 @@ public class MemberController {
 	
 		return "redirect:/QuestionList?pageNum=" + pageNum;
 	}
+
+	// 답변 구현중
+	@GetMapping("QuestionReplyForm")
+	public String qstReplyForm(
+			@RequestParam int qst_idx, 
+			@RequestParam(defaultValue = "1") int pageNum, 
+			HttpSession session, Model model) {
+		
+		String sId = (String)session.getAttribute("sId");
+		if(sId == null) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			return "fail_back";
+		}
+		
+		QuestionVO question = qst_service.getQuestionBoard(qst_idx);
+		
+		model.addAttribute("question", question);
+
+		return "html/member/question/question_reply_form";
+	}
 	
-//	@GetMapping("QuestionModifyForm")
-//	public String 
-	
+	@PostMapping("QuestionReplyFormPro")
+	public String replyPro(
+			QuestionVO question, 
+			@RequestParam(defaultValue = "1") int pageNum,
+			HttpSession session, Model model, HttpServletRequest request) {
+		
+		String sId = (String)session.getAttribute("sId");
+		if(sId == null) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			return "fail_back";
+		}
+		
+		int insertCount = qst_service.registReplyQstBoard(question);
+		
+		if(insertCount > 0) {
+			System.out.println("QuestionWrite 성공");
+			return "redirect:/QuestionList";
+		} else {
+			model.addAttribute("msg", "1:1 문의 쓰기 실패!");
+			return "fail_back";
+		}
+		
+	}
 
 	
 	//============= etc ==============

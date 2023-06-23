@@ -18,6 +18,7 @@ public class QuestionService {
 	public int questionBoard(QuestionVO question) {
 		return mapper.insertQuestionBoard(question);
 	}
+	
 	// 1:1 게시판 글 목록 조회 요청
 	public List<QuestionVO> getQstBoardList(String searchType, String searchKeyword, int startRow, int listLimit) {
 		return mapper.selectQstBoardList(searchType, searchKeyword, startRow, listLimit);
@@ -41,13 +42,43 @@ public class QuestionService {
 		return question;
 	}
 	// 작성자 확인
-	public boolean isBoardWriter(int qst_idx, String mem_id) {
-		
+//	public boolean isBoardWriter(int qst_idx, String mem_id) {
+//		String mem_name = getMemNameById(sId);
+//		QuestionVO question = mapper.selectQuestionBoard(qst_idx);
+//		return mem_id.equals(question.getMem_name());
+//	}
+	
+	//  작성자가 맞는 지 확인
+	public boolean isBoardWriter(int qst_idx, String sId) {
+		String mem_name = getMemNameById(sId);
 		QuestionVO question = mapper.selectQuestionBoard(qst_idx);
-		return mem_id.equals(question.getMem_name());
+		return mem_name.equals(question.getMem_name());
 	}
+	
+	//  작성자가 맞는 지 확인
+	private String getMemNameById(String mem_id) {
+		return mapper.getMemNameById(mem_id);
+	}
+	
+	
 	// 글 삭제
 	public int removeBoard(int qst_idx) {
 		return mapper.qstDeleteBoard(qst_idx);
+	}
+	
+	// 작성자 조회
+	public String getMemNameByIdx(int mem_idx) {
+		// TODO Auto-generated method stub
+		return mapper.getMemNameByIdx(mem_idx);
+	}
+	
+	// 답글 등록
+	public int registReplyQstBoard(QuestionVO question) {
+		
+		mapper.updateQstBoardReSeq(question);
+		
+		int insertCount = mapper.insertQstReplyBoard(question);
+		
+		return 0;
 	}
 }

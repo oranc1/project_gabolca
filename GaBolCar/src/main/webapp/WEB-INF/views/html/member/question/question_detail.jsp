@@ -68,7 +68,9 @@
                                 </div>
 
                                 <div class="mod_box">
-                                    <a href="QuestionModifyForm?qst_idx=${question.qst_idx}&pageNum=${pageNum}" class="modify_btn">수정</a>
+                                    <a href="QuestionReplyForm?qst_idx=${question.qst_idx}&pageNum=${pageNum}" class="modify_btn">답변</a>
+                                    <a href="QuestionListForm?qst_idx=${question.qst_idx}&pageNum=${pageNum}" class="modify_btn">목록</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <a href="QuestionModifyForm?qst_idx=${question.qst_idx}&pageNum=${pageNum}" class="modify_btn">수정</a>&nbsp;&nbsp;&nbsp;&nbsp;
 <%--                                     <a href="QuestionDelete?qst_idx=${question.qst_idx}&pageNum=${pageNum}" class="modify_delete">삭제</a> --%>
                                     <a class="modify_delete" onclick="confirmDelete()">삭제</a>
                                 </div>

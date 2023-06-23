@@ -1,3 +1,4 @@
+
 package com.itwillbs.project_gabolcar.service;
 
 import java.util.List;
@@ -87,8 +88,11 @@ public class MemberService{
 			return mapper.dsbUserAges();
 		}
 		
+		
+		//-----------------------------------------------------------
+		
 		// 1:1 문의 게시판 DB 값 넘겨주기
-		public List<Map<String, Object>> memQuestionList() {
+		public List<MemberVO> memQuestionList() {
 			return mapper.selectMemQuestionList();
 		}
 
@@ -102,7 +106,14 @@ public class MemberService{
 			
 			return mapper.getMemName(sId);
 		}
-
+		
+		// 1:1 문의게시판 로그인 상태 idx 넘겨주기
+		public String getMemNameByIdx(int mem_idx) {
+			// TODO Auto-generated method stub
+			return mapper.getMemNameByMemIdx(mem_idx);
+		}
+		
+	
 		// 회원 목록 조회
 		public List<Map<String, Object>> memList(Map<String, Object> map) {
 			PageInfo pageInfo = null;
@@ -113,6 +124,7 @@ public class MemberService{
 			
 			return mapper.selectMemList(pageInfo,map);
 		}
+
 
 
 }
