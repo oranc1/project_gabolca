@@ -437,7 +437,7 @@ public class MemberController {
 		return "redirect:/QuestionList?pageNum=" + pageNum;
 	}
 
-	
+	// 답변 구현중
 	@GetMapping("QuestionReplyForm")
 	public String qstReplyForm(
 			@RequestParam int qst_idx, 
