@@ -124,7 +124,7 @@
 						</ul>
 					</div>
 					<div class="btn-wrap">
-						<input class="btn_write" type="submit" value="확인" onclick="location.href='findIdPro'">
+						<input class="btn_write" type="submit" value="확인">
 					</div>
 				</form>	
 				</div>
@@ -151,7 +151,7 @@
 						</ul>
 					</div>
 					<div class="btn-wrap">
-						<input class="btn_write" type="submit" value="확인" onclick="location.href='findPwPro'">
+						<input class="btn_write" type="submit" value="확인" >
 					</div>
 				</form>
 				</div>

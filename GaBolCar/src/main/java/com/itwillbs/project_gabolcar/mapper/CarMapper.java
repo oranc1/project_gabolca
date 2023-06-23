@@ -21,7 +21,7 @@ public interface CarMapper {
 	List<Map<String, Object>> selectCarList(@RequestParam(required = false) @Param("pageInfo") PageInfo pageInfo,@RequestParam(required = false) @Param("map") Map<String, Object> resFindOption);
 	
 	// 차량 수량 확인 (페이지 최대 항목 계산에 사용)
-	int selectCarListCount();
+	int selectCarListCount(@RequestParam(required = false) Map<String,Object> map);
 	
 	// 차량 검색
 	Map<String, Object> selectCar(CarVO car);
@@ -60,7 +60,7 @@ public interface CarMapper {
 
 	List<Map<String, Object>> dsbCarType();
 
-	List<Map<String, Object>> dsbBrcHoldStatus();
+	List<Map<String, Object>> dsbBrcHoldStatus(List<Map<String, Object>> brcList);
 
 	List<Map<String, Object>> selectOptionCar(CarVO car);
 	

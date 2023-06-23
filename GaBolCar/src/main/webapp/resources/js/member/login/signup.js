@@ -157,6 +157,54 @@ function changePhone3(){
     
 }
 
+function sendMsg(){
+	var phone = $("#phone1").val() + $("#phone2").val() + $("#phone3").val();
+	 $.ajax({
+     url:'./send-phone-authentication', //Controller에서 요청 받을 주소
+     type:'post', //POST 방식으로 전달
+     data:{phone:phone},
+     // 실제 count가 아니고 다른 형태의 data가 넘어오니, 구분을 위해 이름을 변경함
+     success:function(data){ //컨트롤러에서 넘어온 cnt값을 받는다 
+         console.log("서버 응답 데이터:", data); // 디버깅용 로그 출력
+        if (data.code === "error") {
+          alert("휴대폰 번호가 올바르지 않습니다. \n유효한 번호를 입력해주세요.");
+          $("#phone").attr("autofocus", true);
+        } else {
+          alert("인증번호가 전송되었습니다.");
+          $("#cert").attr("disabled", false);
+          $("#certifyCheck").attr("disabled", false);
+          $("#phone1").attr("readonly", true);
+          $("#phone2").attr("readonly", true);
+          $("#phone3").attr("readonly", true);
+         }
+     },
+     error:function(){
+         alert("에러입니다");
+     }
+ });
+}
+
+function verifyCode(){
+	var newCode = $("#cert").val()
+	 $.ajax({
+     url:'./verify-phone-authentication', //Controller에서 요청 받을 주소
+     type:'post', //POST 방식으로 전달
+     data:{newCode:newCode},
+     // 실제 count가 아니고 다른 형태의 data가 넘어오니, 구분을 위해 이름을 변경함
+     success:function(data){ //컨트롤러에서 넘어온 cnt값을 받는다 
+   	  const isCorrectCode = data;	
+   	  if(isCorrectCode == true){
+         alert("인증되었습니다.");
+		}else{
+		alert("인증번호가 일치하지 않습니다.")
+		}
+     },
+     error:function(){
+         alert("에러입니다");
+     }
+ });	
+}
+
 //function initButton(){
 //	const cert = document.getElementById("cert").value // 010
 //	if(cert.length === 4){
@@ -168,43 +216,54 @@ function changePhone3(){
 //}
 
 //휴대폰번호 인증번호 보내기 버튼 클릭 이벤트
-$(document).ready(function() {
-  var code2 = "";
+//$(document).ready(function() {
+//  var code2 = "";
 
-  $("#sendMessage").on("click", function() {
-	console.log("phoneChk 버튼 클릭"); // 디버깅용 로그 출력
-    alert("인증번호 발송이 완료되었습니다.\n휴대폰에서 인증번호 확인을 해주십시오.");
-    var phone = $("#phone1").val() + $("#phone2").val() + $("#phone3").val();
-    $.ajax({
-      type: "GET",
-      url: "send-one?phone=" + phone,
-      cache: false,
-      success: function(data) {
-        if (data == "error") {
-          alert("휴대폰 번호가 올바르지 않습니다. \n유효한 번호를 입력해주세요.");
-          $("#phone").attr("autofocus", true);
-        } else {
-          $("#cert").attr("disabled", false);
-          $("#certifyCheck").attr("disabled", false);
-          $("#phone1").attr("readonly", true);
-          $("#phone2").attr("readonly", true);
-          $("#phone3").attr("readonly", true);
-          code2 = data;
-        }
-      }
-    });
-  });
+//  $("#sendMessage").on("click", function() {
+//	console.log("phoneChk 버튼 클릭"); // 디버깅용 로그 출력
+//    alert("인증번호 발송이 완료되었습니다.\n휴대폰에서 인증번호 확인을 해주십시오.");
+//    var phone = $("#phone1").val() + $("#phone2").val() + $("#phone3").val();
+//    $.ajax({
+//      type: "POST",
+//      url: "./send-phone-authentication",
+//      data: JSON.stringify(phone),
+//      contentType: 'application/json',
+//      cache: false,
+//      success: function(data) {
+//			console.log("서버 응답 데이터:", data); // 디버깅용 로그 출력
+//        if (data.code === "error") {
+//          alert("휴대폰 번호가 올바르지 않습니다. \n유효한 번호를 입력해주세요.");
+//          $("#phone").attr("autofocus", true);
+//        } else {
+//          $("#cert").attr("disabled", false);
+//          $("#certifyCheck").attr("disabled", false);
+//          $("#phone1").attr("readonly", true);
+//          $("#phone2").attr("readonly", true);
+//          $("#phone3").attr("readonly", true);
+//          code2 = data.code;
+          
+//      	  console.log("받은 인증번호:", code2); // 디버깅용 로그 출력
+//            }
+//      }
+//      error: function(xhr, status, error) {
+//        console.log("에러 발생:", error); // 디버깅용 로그 출력
+//      }
+//    });
+//  });
 
-  $("#certifyCheck").on("click", function() {
-    if ($("#cert").val() == code2) {
-      alert("인증이 완료 되었습니다.");
-      $("#cert").attr("disabled", true);
-    } else {
-      alert("인증번호가 일치하지 않습니다. \n다시 확인해주시기 바랍니다.");
-      $("#cert").attr("autofocus", true);
-    }
-  });
-});
+//  $("#certifyCheck").on("click", function() {
+//	  var certValue = $("#cert").val(); // 변경: 변수로 인증번호 값 저장
+//	  console.log("입력한 인증번호:", certValue); // 디버깅용 로그 출력
+//	  
+//	  if (certValue === code2) { // 변경: 변수와 code2 비교
+//      alert("인증이 완료 되었습니다.");
+//      $("#cert").attr("disabled", true);
+//   	 } else {
+//      alert("인증번호가 일치하지 않습니다. \n다시 확인해주시기 바랍니다.");
+//      $("#cert").attr("autofocus", true);
+//    }
+//  });
+//});
 
 //var code2 = "";
 //$("#phoneChk").on("click",function(){

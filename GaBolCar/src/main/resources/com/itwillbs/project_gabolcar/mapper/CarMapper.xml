@@ -129,7 +129,8 @@
 				<!-- 차량 예약에서 차량 찾을때 쓰는 문구 -->
 					WHERE 
 				    car_status not in ("점검", "대여") -- 차량 상태
-				    <if test="map.car_type != null">
+				    <if test="map.car_type != null
+				    		and map.car_type.size() > 0">
 						AND car_type in  -- 차종
 						(
 						<foreach collection="map.car_type" item="carType" 
@@ -137,7 +138,9 @@
 							#{carType}
 						</foreach>
 						)
-				    <if test="map.car_fuel_type != null">
+					</if>
+				    <if test="map.car_fuel_type != null
+				    		and map.car_fuel_type.size() > 0">
 					    AND car_fuel_type in  -- 연료
 					    (
 						<foreach collection="map.car_fuel_type" item="carFuelType" 
@@ -177,7 +180,6 @@
 				        			
 				        GROUP by car_idx
 				    )
-				</if>
 			</when>
 			<!-- 관리자 where -->
 			<when test="map.admin != null">
@@ -316,6 +318,31 @@
 			count(car_idx)
 		from
 			car_info
+		WHERE 
+		    car_status not in ("점검", "대여") -- 차량 상태
+		    <if test="car_type != null
+		    		and car_type.size() > 0">
+				AND car_type in  -- 차종
+				(
+				<foreach collection="car_type" item="carType" 
+						separator=",">
+					#{carType}
+				</foreach>
+				)
+			</if>
+		    <if test="car_fuel_type != null
+		    		and car_fuel_type.size() > 0">
+			    AND car_fuel_type in  -- 연료
+			    (
+				<foreach collection="car_fuel_type" item="carFuelType" 
+						 separator=",">
+					#{carFuelType}
+				</foreach>
+			    )
+		    </if>
+		    <if test="brc_rent_name != null">
+			AND brc_name = #{brc_rent_name} -- 차량 지점 코드
+		    </if>
 	</select>
 	<select id="selectCar" resultType="map" parameterType="com.itwillbs.project_gabolcar.vo.CarVO">
 		select
@@ -486,13 +513,37 @@
 		GROUP BY
 			car_type
 	</select>
+	<!-- 지점 차량 보유현황 -->
+<!-- 	<select id="dsbBrcHoldStatus" resultType="map"> -->
+<!-- 		SELECT -->
+<!-- 			brc_name  -->
+<!-- 			, count(brc_name) AS count -->
+<!-- 		FROM -->
+<!-- 			car_info -->
+<!-- 		GROUP BY  -->
+<!-- 			brc_name -->
+<!-- 	</select> -->
+
+	<!-- 지점 차종별 차량 보유현황 -->
 	<select id="dsbBrcHoldStatus" resultType="map">
 		SELECT
-			brc_name 
-			, count(brc_name) AS count
+			CASE
+				car_type
+				WHEN '경형/소형' THEN '경형/소형'
+				WHEN '준중형' THEN '준중형'
+				WHEN '중형' THEN '중형'
+				WHEN '대형' THEN '대형'
+				WHEN 'SUV' THEN 'SUV'
+				WHEN '승합' THEN '승합'
+				WHEN '수입' THEN '수입'
+			END AS '차종'
+			<foreach collection="list" item="map" >
+				, count(CASE WHEN ci.brc_name=#{map.brc_name} THEN 1 END) AS #{map.brc_name}
+			</foreach>
 		FROM
-			car_info
-		GROUP BY 
-			brc_name
+			car_info ci
+			JOIN brc_info bi ON ci.brc_name = bi.brc_name 
+		GROUP BY
+			차종
 	</select>
 </mapper>
