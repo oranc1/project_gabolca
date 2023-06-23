@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.itwillbs.project_gabolcar.mapper.MemberMapper;
 import com.itwillbs.project_gabolcar.vo.MemberVO;
+import com.itwillbs.project_gabolcar.vo.PageInfo;
 
 import net.nurigo.sdk.message.request.SingleMessageSendingRequest;
 import net.nurigo.sdk.message.response.SingleMessageSentResponse;
@@ -101,7 +102,17 @@ public class MemberService{
 			
 			return mapper.getMemName(sId);
 		}
-		
+
+		// 회원 목록 조회
+		public List<Map<String, Object>> memList(Map<String, Object> map) {
+			PageInfo pageInfo = null;
+			if(map.get("pageInfo") != null) {			
+				pageInfo = (PageInfo)map.get("pageInfo");
+				map.put("pageItemStart", pageInfo.getNowPage() * pageInfo.getPageListLimit());
+			}
+			
+			return mapper.selectMemList(pageInfo,map);
+		}
 
 
 }

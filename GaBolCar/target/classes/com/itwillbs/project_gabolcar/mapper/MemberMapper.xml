@@ -121,4 +121,10 @@
 	SELECT * FROM mem_info WHERE mem_id = #{mem_id} 
 	</select>
 	
+	<!-- 회원 목록 조회(관리자모드) - SELECT -->
+	<select id="selectMemList" resultType="com.itwillbs.project_gabolcar.vo.MemberVO">
+		SELECT mem_idx, mem_id, mem_name, mem_sign_date
+			FROM mem_info
+	</select>
+	
 </mapper>

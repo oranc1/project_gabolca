@@ -39,10 +39,10 @@
            	</div>
            	<ul class="side_sub">
                 <li>
-                    <a href="#">회원 목록</a>
+                	<a href="admMemList">회원 목록</a>
                 </li>
                 <li>
-                    <a href="#">예약 목록</a>
+                	<a href="admResList">예약 목록</a>
                 </li>
             </ul>
        	</li>

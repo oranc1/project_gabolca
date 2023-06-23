@@ -1,0 +1,159 @@
+/* @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css'); */
+
+/* * { */
+/*     box-sizing: border-box; */
+/*     margin: 0; */
+/*     padding: 0; */
+/*     list-style: none; */
+/*     font-family: Pretendard, sans-serif; */
+/* } */
+
+@charset "UTF-8";
+
+#adm_car_list,#adm_car_list td,#adm_car_list th {
+	border-collapse: collapse;
+	width: auto;
+	font-size: 13px;
+	text-align: center;
+}
+
+
+table.adm_res_list {
+  border-collapse: separate;
+  border-spacing: 1px;
+  text-align: left;
+  line-height: 1.5;
+  border-top: 1px solid #ccc;
+  margin : 20px 10px;
+}
+table.adm_res_list th {
+  width: 150px;
+  padding: 10px;
+  font-weight: bold;
+  vertical-align: top;
+  border-bottom: 1px solid #ccc;
+}
+table.adm_res_list td {
+  width: 350px;
+  padding: 10px;
+  vertical-align: top;
+  border-bottom: 1px solid #ccc;
+}
+
+#buttonArea {
+		margin: auto;
+		width: 1024px;
+		text-align: right;
+	}
+
+#adm_car {
+	padding: 0;
+	width: 100%;
+}
+
+#adm_car_bottom {
+	width: inherit;
+	display: flex;
+	justify-content: center;
+}
+
+.adm_car_button {
+	color: #000;
+	background-color: #fff;
+	border: 1px solid rgb(28, 28, 80);
+	text-align: center;
+	width: 60px;
+	height: 25px;
+	font-size: 12px;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 5px;
+}
+
+#adm_car_top {
+	min-width: 450px;
+}
+
+#adm_car_top input[type="checkbox"] {
+	display: none;
+      }
+
+#adm_car_top label { /*최신순 / 오래된순 우측으로 변경해야함!*/
+	font-weight: bold;
+	text-align: center;
+	font-size: 18px;
+	color: #000;
+/* 	height: 20px; */
+	min-width: 50px;
+	padding: 2px 6px;
+	border-radius: 15px;
+	cursor: pointer;
+	background-color: #fff;
+	border: 1px solid rgb(28, 28, 80);
+	display: inline-block;
+	margin-top: 1em;
+	margin-bottom: 1em;
+}
+
+#car_title td:nth-child(1), #car_title td:nth-child(3), #car_title td:nth-child(8) {
+	min-width: 60px;
+}
+#car_title td:nth-child(2), #car_title td:nth-child(4){
+	min-width: 50px;
+}
+#car_title td:nth-child(5) {
+	min-width: 30px;
+}
+#car_title td:nth-child(6) {
+	min-width: 100px;
+}
+#car_title td:nth-child(7) {
+	min-width: 300px;
+}
+
+#car_title {
+    background: rgb(28, 28, 80);
+    color: #fff;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+#adm_res_list tr:nth-child(2n) {
+    background: rgba(28, 28, 80, 0.1);
+}
+#adm_res_list tr:nth-child(2n+1):not(#car_title) {
+    background: rgba(28, 28, 80, 0);
+}
+
+#pageList {
+	display: flex;
+	justify-content: center;
+}
+
+#adm_car_title {
+	font-weight: 400;
+	font-size: 1.5em;
+	margin: 1em auto;
+	display: block;
+}
+
+#search_cate,#search_box {
+	border-radius: 5px;
+}
+
+.inr {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+@media screen and (max-width: 1400px) {
+    .inr {
+        width: 97%;
+    }
+}
+
+/* 오른쪽 컨텐츠 */
+.content_view {
+    width: 73%;
+    margin-left: 2%;
+}

@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.itwillbs.project_gabolcar.vo.MemberVO;
+import com.itwillbs.project_gabolcar.vo.PageInfo;
 
 
 
@@ -56,5 +57,9 @@ public interface MemberMapper {
 
 	//회원 이름 가져오기
 	MemberVO getMemName(String sId);
+	
+	//회원 목록 조회(관리자모드)
+	List<Map<String, Object>> selectMemList(PageInfo pageInfo, Map<String, Object> map);
+	
 
 }

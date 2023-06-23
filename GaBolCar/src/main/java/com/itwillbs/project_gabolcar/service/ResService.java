@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.itwillbs.project_gabolcar.mapper.ResMapper;
+import com.itwillbs.project_gabolcar.vo.PageInfo;
 import com.itwillbs.project_gabolcar.vo.ResInfoVO;
 
 @Service
@@ -34,6 +35,16 @@ public class ResService {
 		return mapper.dsbBrcMonthlySale(brcList);
 	}
 
+	// 예약 목록 조회
+	public List<Map<String, Object>> resList(Map<String, Object> map) {
+		PageInfo pageInfo = null;
+		if(map.get("pageInfo") != null) {			
+			pageInfo = (PageInfo)map.get("pageInfo");
+			map.put("pageItemStart", pageInfo.getNowPage() * pageInfo.getPageListLimit());
+		}
+		
+		return mapper.selectResList(pageInfo,map);
+	}
 
 
 }

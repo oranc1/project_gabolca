@@ -33,6 +33,8 @@ import com.itwillbs.project_gabolcar.service.MemberService;
 import com.itwillbs.project_gabolcar.service.ResService;
 import com.itwillbs.project_gabolcar.vo.CarOptionVO;
 import com.itwillbs.project_gabolcar.vo.CarVO;
+import com.itwillbs.project_gabolcar.vo.MemberVO;
+import com.itwillbs.project_gabolcar.vo.ResInfoVO;
 
 @Controller
 public class AdminConroller {
@@ -41,6 +43,10 @@ public class AdminConroller {
 	private CarService car_service;
 	@Autowired
 	private BrcService brc_service;
+	@Autowired
+	private MemberService mem_service;
+	@Autowired
+	private ResService res_service;
 	
 	// 대시보드 이동
 	@GetMapping("admDash")
@@ -489,4 +495,54 @@ public class AdminConroller {
     	return "redirect:/optionList";
     }
     
+	//예약리스트 이동
+	@GetMapping("admResList")
+	public String admResList() {
+
+		return "html/admin/adm_res_list";
+	}
+
+	// 예약리스트 조회
+    @ResponseBody
+    @RequestMapping(value= "resList.ajax", method = RequestMethod.GET, produces = "application/text; charset=UTF-8")
+    public String resSearch(@RequestParam Map<String, Object> map, Model model) {
+		System.out.println(map);
+		
+		int listLimit = 15;
+		int pageNum = Integer.parseInt(String.valueOf(map.get("pageNum")));
+		int startRow = (pageNum -1) * listLimit;
+		
+		map.put("startRow", startRow);
+		map.put("listLimit", listLimit);
+		List<Map<String, Object>> resList = res_service.resList(map);
+		
+		JSONArray jsonArray = new JSONArray(resList);
+    	return jsonArray.toString();
+    }
+
+	// 회원리스트 이동
+	@GetMapping("admMemList")
+	public String admMemList() {
+		return "html/admin/adm_mem_list";    	
+	}
+
+	// 회원리스트 조회
+    @ResponseBody
+    @RequestMapping(value= "memList.ajax", method = RequestMethod.GET, produces = "application/text; charset=UTF-8")
+    public String memSearch(@RequestParam Map<String, Object> map, Model model) {
+		System.out.println(map);
+		
+		int listLimit = 15;
+		int pageNum = Integer.parseInt(String.valueOf(map.get("pageNum")));
+		int startRow = (pageNum -1) * listLimit;
+		
+		map.put("startRow", startRow);
+		map.put("listLimit", listLimit);
+		List<Map<String, Object>> memList = mem_service.memList(map);
+		
+		JSONArray jsonArray = new JSONArray(memList);
+    	return jsonArray.toString();
+    }
+    
 }
+
