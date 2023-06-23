@@ -529,3 +529,11 @@
 .write_btn a:hover {
 	background: #ff6600;
 }
+
+.searchButton {
+	padding: 6px 15px;
+	background: rgb(10, 10, 49);
+	color: #fff;
+	border-radius: 3px;
+	transition: all 0.4s;
+}

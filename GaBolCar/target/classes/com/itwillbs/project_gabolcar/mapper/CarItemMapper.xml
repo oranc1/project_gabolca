@@ -33,30 +33,75 @@
 	</select>
 
 
+
 <!-- 	SELECT car_model FROM car_info -->
 <!-- 	WHERE car_idx = (SELECT car_idx FROM res_info WHERE res_idx = #{rev_idx}) -->
 <!-- 	LIMIT 3 -->
 
 	
 	<!-- 리뷰게시판 목록 페이지 나누기 -->
-	<select id="getReviewListPaging" resultType="map" parameterType="com.itwillbs.project_gabolcar.vo.ReviewVO">
+	<select id="getReviewListPaging" resultType="com.itwillbs.project_gabolcar.vo.ReviewVO">
 		SELECT *
 			FROM (
-	                SELECT rc.rev_date, rc.rev_idx,rc.rev_star,rc.rev_subject,rc.rev_name,ci.car_model, date_format(rev_date, '%Y-%m-%d')AS rev_date_format 
+	                SELECT rc.rev_date,rc.rev_content,rc.rev_name,rc.rev_idx,rc.rev_star,rc.rev_subject,ci.car_model, date_format(rev_date, '%Y-%m-%d')AS rev_date_format 
 	              	FROM rev_car rc
 	              	JOIN res_info ri
 	              	ON rc.res_idx = ri.res_idx 
 	              	JOIN car_info ci
 	              	ON ri.car_idx = ci.car_idx 
               	) AS n1
-        ORDER BY rev_idx DESC 
-	    LIMIT #{skip}, #{amount}
+        <if test="!searchKeyword.equals('')">
+				WHERE
+				<!-- 2. 검색타입(searchType)에 따른 WHERE 절 조건 대상 변경 -->
+				<choose>
+					<when test="searchType.equals('subject')">
+						rev_subject LIKE '%${searchKeyword}%'
+					</when>
+					<when test="searchType.equals('content')">
+						rev_content LIKE '%${searchKeyword}%'
+					</when>
+					<when test="searchType.equals('subject_content')">
+						rev_subject LIKE '%${searchKeyword}%'
+						OR rev_content LIKE '%${searchKeyword}%'
+					</when>
+					<when test="searchType.equals('name')">
+						rev_name LIKE '%${searchKeyword}%'
+					</when>
+					<when test="searchType.equals('star')">
+						rev_star LIKE '%${searchKeyword}%'
+					</when>
+				</choose>
+			</if>
+			order by rev_idx desc
+	    LIMIT 	#{startRow}, #{listLimit}
 	</select>
 	
 	<!-- 리뷰 게시판 총 갯수 -->
 	<select id="getTotal" resultType="int">
 		SELECT COUNT(*)
 			FROM rev_car
+			<if test="!searchKeyword.equals('')">
+				WHERE
+				<!-- 2. 검색타입(searchType)에 따른 WHERE 절 조건 대상 변경 -->
+				<choose>
+					<when test="searchType.equals('subject')">
+						rev_subject LIKE '%${searchKeyword}%'
+					</when>
+					<when test="searchType.equals('content')">
+						rev_content LIKE '%${searchKeyword}%'
+					</when>
+					<when test="searchType.equals('subject_content')">
+						rev_subject LIKE '%${searchKeyword}%'
+						OR rev_content LIKE '%${searchKeyword}%'
+					</when>
+					<when test="searchType.equals('name')">
+						rev_name LIKE '%${searchKeyword}%'
+					</when>
+					<when test="searchType.equals('star')">
+						rev_star LIKE '%${searchKeyword}%'
+					</when>
+				</choose>
+			</if>
 	</select>
 	
 	<!-- 리뷰 게시판 뷰 -->
