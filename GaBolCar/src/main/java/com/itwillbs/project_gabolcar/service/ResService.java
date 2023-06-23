@@ -30,6 +30,10 @@ public class ResService {
 		return mapper.selectDetail(res_idx);
 	}
 
+	public List<Map<String, Object>> dsbBrcMonthlySale(List<Map<String, Object>> brcList) {
+		return mapper.dsbBrcMonthlySale(brcList);
+	}
+
 
 
 }
