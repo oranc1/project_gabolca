@@ -99,7 +99,7 @@
 								<li> <%-- 0620 경인 추가 주소 설정 --%>
 									<a href="carRes/carResInfo?car_idx=${fn:split(car.car_idx_list,',')[0] }
 									&res_rental_date=${map.res_rental_date}&res_return_date=${map.res_return_date}
-									&brc_rent_name=${map.brc_rent_name}&brc_return_name=${map.brc_rent_name}">
+									&brc_rent_name=${map.brc_rent_name}&brc_return_name=${map.brc_return_name}">
 										<div class="res_list_img">
 											<img
 												src="${pageContext.request.contextPath}/resources/upload/car/${car.car_file_path}/${car.car_file1}" 
