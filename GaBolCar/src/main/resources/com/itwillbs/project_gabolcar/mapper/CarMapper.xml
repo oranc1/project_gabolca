@@ -486,13 +486,37 @@
 		GROUP BY
 			car_type
 	</select>
+	<!-- 지점 차량 보유현황 -->
+<!-- 	<select id="dsbBrcHoldStatus" resultType="map"> -->
+<!-- 		SELECT -->
+<!-- 			brc_name  -->
+<!-- 			, count(brc_name) AS count -->
+<!-- 		FROM -->
+<!-- 			car_info -->
+<!-- 		GROUP BY  -->
+<!-- 			brc_name -->
+<!-- 	</select> -->
+
+	<!-- 지점 차종별 차량 보유현황 -->
 	<select id="dsbBrcHoldStatus" resultType="map">
 		SELECT
-			brc_name 
-			, count(brc_name) AS count
+			CASE
+				car_type
+				WHEN '경형/소형' THEN '경형/소형'
+				WHEN '준중형' THEN '준중형'
+				WHEN '중형' THEN '중형'
+				WHEN '대형' THEN '대형'
+				WHEN 'SUV' THEN 'SUV'
+				WHEN '승합' THEN '승합'
+				WHEN '수입' THEN '수입'
+			END AS '차종'
+			<foreach collection="list" item="map" >
+				, count(CASE WHEN ci.brc_name=#{map.brc_name} THEN 1 END) AS #{map.brc_name}
+			</foreach>
 		FROM
-			car_info
-		GROUP BY 
-			brc_name
+			car_info ci
+			JOIN brc_info bi ON ci.brc_name = bi.brc_name 
+		GROUP BY
+			차종
 	</select>
 </mapper>

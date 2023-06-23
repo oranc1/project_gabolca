@@ -60,7 +60,7 @@ public interface CarMapper {
 
 	List<Map<String, Object>> dsbCarType();
 
-	List<Map<String, Object>> dsbBrcHoldStatus();
+	List<Map<String, Object>> dsbBrcHoldStatus(List<Map<String, Object>> brcList);
 
 	List<Map<String, Object>> selectOptionCar(CarVO car);
 	
