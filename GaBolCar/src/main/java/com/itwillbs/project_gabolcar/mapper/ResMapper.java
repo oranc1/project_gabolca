@@ -16,9 +16,15 @@ public interface ResMapper {
 
 	//인기 차량 리스트 (desc 는 내림차순 관련 true 면 동작)
 	List<Map<String,Object>> selectResPopuler(@RequestParam(required = false) @Param("desc") String desc);
-
+	
+	// 대시보드 지점별 월 렌트수
 	List<Map<String, Object>> dsbBrcMonthlyCount(List<Map<String, Object>> brcList);
 
 	List<ResInfoVO> selectResInfo(String sId);
+
+	ResInfoVO selectDetail(int res_idx);
+	
+	// 대시보드 지점별 월 매출액
+	List<Map<String, Object>> dsbBrcMonthlySale(List<Map<String, Object>> brcList);
 	
 }

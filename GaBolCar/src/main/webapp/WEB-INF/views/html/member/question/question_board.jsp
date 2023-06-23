@@ -81,7 +81,7 @@
                                         <span class="writter_name">${question.mem_name}</span>
                                     </p>
 									<p class="readcount">
-									    <span class="readcount">0</span>
+									    <span class="readcount">${question.qst_readcount}</span>
 									</p>
                                     <p class="date">
                                         <fmt:formatDate value="${question.qst_date}" pattern="yy-MM-dd HH:mm" />

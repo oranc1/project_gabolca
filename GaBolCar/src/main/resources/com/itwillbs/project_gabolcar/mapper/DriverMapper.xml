@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.itwillbs.project_gabolcar.mapper.DriverMapper">
+
+<select id="selectDriver" parameterType="com.itwillbs.project_gabolcar.vo.DriverVO">
+select *
+from res_info r join drivers_info d
+on r.lic_num = d.lic_num 
+where r.res_idx = #{res_idx};
+</select>
+
+
+</mapper>

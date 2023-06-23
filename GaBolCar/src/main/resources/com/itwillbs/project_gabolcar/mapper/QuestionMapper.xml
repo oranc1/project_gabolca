@@ -14,9 +14,10 @@
 					, #{qst_pass}
 					, #{qst_subject}
 					, #{qst_content}
+					, #{qst_idx} + 1 -- qst_re_ref
 					, 0
 					, 0
-					, 0
+					, 0 			 -- qst_readcount
 					, now()
 					, #{qst_type}		
 				)
@@ -79,7 +80,38 @@
 			</if>
 	</select>
 	
+	<!-- 	글 상세정보 조회 - SELECT -->
+	<select id="selectQuestionBoard" resultType="com.itwillbs.project_gabolcar.vo.QuestionVO">
+		SELECT * 
+			FROM qst_board
+			WHERE
+				qst_idx = #{qst_idx}
+	</select>
 	
+	<!-- 게시물 조회수 증가 - UPDATE -->
+	<update id="updateReadcount">
+		<selectKey keyProperty="qst_readcount" resultType="int" order="AFTER">
+			SELECT qst_readcount
+				FROM qst_board
+				WHERE
+					qst_idx = #{qst_idx}
+		</selectKey>
+		UPDATE qst_board
+			SET
+				qst_readcount = qst_readcount + 1
+			WHERE
+				qst_idx = #{qst_idx}
+	
+	</update>
+	
+	<!-- 글 삭제 - DELETE -->
+	<!-- 글번호가 일치하는 레코드 삭제 -->
+	<delete id="qstDeleteBoard">
+		DELETE
+			FROM qst_board
+			WHERE
+				qst_idx = #{qst_idx}
+	</delete>
 	
 	<!-- 나중에 작성자 이름에 mem_name을 불러올때 쓰이는 구문 -->
 <!-- SELECT qst_board.qst_idx, qst_board.mem_name, qst_board.qst_pass, qst_board.qst_subject, qst_board.qst_content, qst_board.qst_date, qst_board.qst_type, mem_info.mem_name  -->

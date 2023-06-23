@@ -33,7 +33,8 @@
             <!-- 예약 조회 -->
             <div class="inq_list">
                 <ul>
-             <c:forEach items="${resinfo }" var="resinfo">
+             		<c:forEach items="${resinfo }" var="resinfo">
+
 							<li>
 								<div class="res_car_img">
 									<div>
@@ -93,7 +94,7 @@
 									
 									<div class="inq_btn">
 				
-										<button type="button" onclick="location.href='resDetail'">예약상세 조회</button>
+										<button type="button" onclick="location.href='resDetail?res_idx=${resinfo.res_idx}'">예약상세 조회</button>
 										
 										<c:set var="today" value="<%= new java.util.Date() %>" />
 										

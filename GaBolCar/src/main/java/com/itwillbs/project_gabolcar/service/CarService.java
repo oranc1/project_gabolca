@@ -67,8 +67,8 @@ public class CarService {
 		return mapper.insertCarOption(car);
 	}
 
-	public int carUpdate(Map<String, String> map) {
-		return mapper.updateCar(map);
+	public int carUpdate(CarVO car) {
+		return mapper.updateCar(car);
 	}
 
 	public List<Map<String, Object>> dsbCarStatus() {
@@ -79,8 +79,12 @@ public class CarService {
 		return mapper.dsbCarType();
 	}
 
-	public List<Map<String, Object>> dsbBrcHoldStatus() {
-		return mapper.dsbBrcHoldStatus();
+	public List<Map<String, Object>> dsbBrcHoldStatus(List<Map<String, Object>> brcList) {
+		return mapper.dsbBrcHoldStatus(brcList);
+	}
+
+	public List<Map<String, Object>> carOptionList(CarVO car) {
+		return mapper.selectOptionCar(car);
 	}
 
 //	// 차량수정 0619
@@ -88,5 +92,11 @@ public class CarService {
 //		return mapper.updateCar(car);
 //	}
 
-
+	
+	//차량 정보 조회
+	public CarVO carInfo(int res_idx) {
+		
+		return mapper.selectDriver(res_idx);
+	}
+	
 }

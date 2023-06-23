@@ -41,6 +41,26 @@
 	</insert>
 	
 	
+	<!-- 	06/20 차량에등록된 옵션 셀렉트 -->
+	<select id="selectOptionCar" resultType="map">
+	    SELECT 
+	        ci.car_idx, 
+	        co.option_idx
+	    FROM
+	        car_options co
+	    JOIN
+	        car_info ci ON ci.car_idx = co.car_idx
+	</select>
+	
+<!-- 		<select id="selectCarList" resultType="map"> -->
+<!-- 		select -->
+<!-- 			* -->
+<!-- 		from -->
+<!-- 			car_info -->
+<!-- 	</select> -->
+	
+	
+	
 	<!-- pageInfo 와 map 을 받아  찾고싶은 차량의 조건들을 확인하여 리스트를 반환
 		만약 pageInfo이 없으면 전체 차량 리스트를 불러옴
 		map의 속성값에 따라서 차량 찾기 만약 map이 아예 없으면 조건선택 X -->
@@ -109,7 +129,8 @@
 				<!-- 차량 예약에서 차량 찾을때 쓰는 문구 -->
 					WHERE 
 				    car_status not in ("점검", "대여") -- 차량 상태
-				    <if test="map.car_type != null">
+				    <if test="map.car_type != null
+				    		and map.car_type.size() > 0">
 						AND car_type in  -- 차종
 						(
 						<foreach collection="map.car_type" item="carType" 
@@ -117,7 +138,9 @@
 							#{carType}
 						</foreach>
 						)
-				    <if test="map.car_fuel_type != null">
+					</if>
+				    <if test="map.car_fuel_type != null
+				    		and map.car_fuel_type.size() > 0">
 					    AND car_fuel_type in  -- 연료
 					    (
 						<foreach collection="map.car_fuel_type" item="carFuelType" 
@@ -157,30 +180,46 @@
 				        			
 				        GROUP by car_idx
 				    )
-				</if>
 			</when>
 			<!-- 관리자 where -->
 			<when test="map.admin != null">
+				<if test="!map.chk_type.equals('') and map.search_keyword.equals('')">
+					where car_type = #{map.chk_type}
+				</if>
 				<if test="!map.search_keyword.equals('')">
 					where
 					<choose>
 						<when test="map.search_type.equals('car_idx')">
 							ci.car_idx = #{map.search_keyword}
+							<if test="!map.chk_type.equals('')">
+								AND car_type = #{map.chk_type}
+							</if>
 						</when>
 						<when test="map.search_type.equals('car_company')">
 							car_company like concat('%',#{map.search_keyword},'%')
+							<if test="!map.chk_type.equals('')">
+								AND car_type = #{map.chk_type}
+							</if>
 						</when>
 						<when test="map.search_type.equals('car_model')">
 							car_model like concat('%',#{map.search_keyword},'%')
+							<if test="!map.chk_type.equals('')">
+								AND car_type = #{map.chk_type}
+							</if>							
 						</when>
 						<when test="map.search_type.equals('car_old')">
 							car_old = #{map.search_keyword}
+							<if test="!map.chk_type.equals('')">
+								AND car_type = #{map.chk_type}
+							</if>							
 						</when>
 						<when test="map.search_type.equals('brc_name')">
 							brc_name like concat('%',#{map.search_keyword},'%')
+							<if test="!map.chk_type.equals('')">
+								AND car_type = #{map.chk_type}
+							</if>							
 						</when>
 						<when test="map.search_type.equals('option_name')">
-<!-- 							option_name like concat('%',#{map.search_keyword},'%') -->
 								ci.car_idx in (
 									select
 										ci2.car_idx
@@ -190,12 +229,13 @@
 										JOIN option_list ol ON co.option_idx = ol.option_idx
 									where
 										option_name like concat('%',#{map.search_keyword},'%'))
+									<if test="!map.chk_type.equals('')">
+										AND car_type = #{map.chk_type}
+									</if>
 						</when>
 					</choose>
 				</if>
-				<if test="!map.chk_type.equals('')">
-					where car_type = #{map.chk_type}
-				</if>
+				
 			</when>
 			<otherwise></otherwise>
 		</choose>
@@ -278,6 +318,31 @@
 			count(car_idx)
 		from
 			car_info
+		WHERE 
+		    car_status not in ("점검", "대여") -- 차량 상태
+		    <if test="car_type != null
+		    		and car_type.size() > 0">
+				AND car_type in  -- 차종
+				(
+				<foreach collection="car_type" item="carType" 
+						separator=",">
+					#{carType}
+				</foreach>
+				)
+			</if>
+		    <if test="car_fuel_type != null
+		    		and car_fuel_type.size() > 0">
+			    AND car_fuel_type in  -- 연료
+			    (
+				<foreach collection="car_fuel_type" item="carFuelType" 
+						 separator=",">
+					#{carFuelType}
+				</foreach>
+			    )
+		    </if>
+		    <if test="brc_rent_name != null">
+			AND brc_name = #{brc_rent_name} -- 차량 지점 코드
+		    </if>
 	</select>
 	<select id="selectCar" resultType="map" parameterType="com.itwillbs.project_gabolcar.vo.CarVO">
 		select
@@ -299,25 +364,32 @@
 			</choose>
 	</select>
 	
-	<update id="updateCar" parameterType="map">
+	<update id="updateCar" parameterType="com.itwillbs.project_gabolcar.vo.CarVO">
 		update
 			car_info
 		set
-			car_type = #{car_type},
-			car_number = #{car_number},
-			car_company = #{car_company},
-			car_model = #{car_model},
-			car_old = #{car_old},
-			car_shift_type = #{car_shift_type},
-			car_fuel_type = #{car_fuel_type},
-			car_riding = #{car_riding},
-			car_age = #{car_age},
-			car_career = #{car_career},
-			car_license = #{car_license},
-			car_weekdays = #{car_weekdays},
-			car_weekend = #{car_weekend},
-			brc_name = #{brc_name},
- 			car_image_url = #{car_image_url}, 
+	        car_type = #{car_type},
+	        car_number = #{car_number},
+	        car_company = #{car_company},
+	        car_model = #{car_model},
+	        car_old = #{car_old},
+	        car_shift_type = #{car_shift_type},
+	        car_fuel_type = #{car_fuel_type},
+	        car_riding = #{car_riding},
+	        car_age = #{car_age},
+	        car_career = #{car_career},
+	        car_license = #{car_license},
+	        car_weekdays = #{car_weekdays},
+	        car_weekend = #{car_weekend},
+	        brc_name = #{brc_name},
+     		car_file1 = #{car_file1},
+			car_file2 = #{car_file2},
+			car_file3 = #{car_file3},
+			car_file4 = #{car_file4},
+			car_file5 = #{car_file5},
+			car_file6 = #{car_file6},
+	        car_file_path = #{car_file_path},
+<!-- 			car_image_url = #{car_image_url}, -->
 			car_status = #{car_status}
 		where
 			car_idx=#{car_idx}
@@ -441,13 +513,37 @@
 		GROUP BY
 			car_type
 	</select>
+	<!-- 지점 차량 보유현황 -->
+<!-- 	<select id="dsbBrcHoldStatus" resultType="map"> -->
+<!-- 		SELECT -->
+<!-- 			brc_name  -->
+<!-- 			, count(brc_name) AS count -->
+<!-- 		FROM -->
+<!-- 			car_info -->
+<!-- 		GROUP BY  -->
+<!-- 			brc_name -->
+<!-- 	</select> -->
+
+	<!-- 지점 차종별 차량 보유현황 -->
 	<select id="dsbBrcHoldStatus" resultType="map">
 		SELECT
-			brc_name 
-			, count(brc_name) AS count
+			CASE
+				car_type
+				WHEN '경형/소형' THEN '경형/소형'
+				WHEN '준중형' THEN '준중형'
+				WHEN '중형' THEN '중형'
+				WHEN '대형' THEN '대형'
+				WHEN 'SUV' THEN 'SUV'
+				WHEN '승합' THEN '승합'
+				WHEN '수입' THEN '수입'
+			END AS '차종'
+			<foreach collection="list" item="map" >
+				, count(CASE WHEN ci.brc_name=#{map.brc_name} THEN 1 END) AS #{map.brc_name}
+			</foreach>
 		FROM
-			car_info
-		GROUP BY 
-			brc_name
+			car_info ci
+			JOIN brc_info bi ON ci.brc_name = bi.brc_name 
+		GROUP BY
+			차종
 	</select>
 </mapper>

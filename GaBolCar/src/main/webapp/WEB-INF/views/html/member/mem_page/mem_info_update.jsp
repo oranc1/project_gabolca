@@ -18,7 +18,28 @@
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script src="${pageContext.request.contextPath }/resources/js/inc/jquery-3.7.0.js"></script>
+<script type="text/javascript">
+$(function(){
+	  const passWd = document.getElementById("mem_passwd");
+	  const validateMessage = document.getElementById('passwordError');
 
+	  passWd.addEventListener("input", function() {
+	    const pass = passWd.value;
+	    if (validateEmail(pass)) {
+	      validateMessage.textContent = '';
+	    } else {
+	      validateMessage.textContent = '영문,숫자,특수문자 포함 8~20글자 이상 입력 해주세요.';
+	    }
+	  });
+	  
+	  function validateEmail(pass) {
+	    const re = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,20}$/;
+	    return re.test(pass);
+	  }
+	});
+	
+
+</script>
 </head>
 
 
@@ -50,22 +71,23 @@
 						<label for="name">현재 비밀번호</label>
 						<div class="form-input">
 						
-							<input type="password" name="mem_passwd" id="passwd" class="form-control" >
+							<input type="password" name="mem_passwd"  class="form-control" >
+							
 						</div>
 					</li>
 					<li>
 						<label for="name">비밀번호 변경</label>
 						<div class="form-input">
-							<input type="password" name="newPasswd" id="passwd2" class="form-control"  placeholder="비밀변호 변경 시 입력하세요" oninput="checkPassword()">
-						 
+							<input type="password"  name="newPasswd" id="mem_passwd"  autoComplete="off" class="form-control"  placeholder="비밀변호 변경 시 입력하세요" oninput="checkPassword()">
+						  <div id="passwordError" class="error"></div>
 						</div>
 					
 					</li>
 					<li>
 						<label for="name">비밀번호 변경 확인</label>
 						<div class="form-input">
-							<input type="password" name="newPasswd1"  id="passwd2" class="form-control" placeholder="비밀변호 변경 시 입력하세요" >
-					
+							<input type="password" name="newPasswd1"  id="passwordCheck" class="form-control" placeholder="비밀변호 변경 시 입력하세요" >
+					 		<div id="passwordCheckError" class="error"></div>
 						</div>
 					
 					</li>

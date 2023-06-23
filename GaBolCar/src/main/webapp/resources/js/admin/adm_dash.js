@@ -24,18 +24,18 @@
 
 // 열차트(지점별 매출액)
 function drawChart() {
-  var data = google.visualization.arrayToDataTable([
-    ['월', '서면점', '부산역점', '해운대점'],
-    ['2월', 100000000, 40000000, 20000000],
-    ['3월', 11700000, 46000000, 25000000],
-    ['4월', 66000000, 112000000, 30000000],
-    ['5월', 103000000, 54000000, 35000000]
-  ]);
-//	console.log(data.toJSON());
-  var options = {
-    chart: {
-      title: '지점별 월 매출액' }
-  };
+ let jsonData = $.ajax({
+		type: 'get',
+		url: 'dsbBrcMonthlySale',
+		dataType: 'json',
+		async: false
+	}).responseText;
+	var data = new google.visualization.DataTable(jsonData);
+	var options = {
+		chart: {
+			title: '지점별 월 매출액'
+		}
+	};
 
   var chart = new google.charts.Bar(document.getElementById('month_brc_sales'));
   chart.draw(data, google.charts.Bar.convertOptions(options));
@@ -52,7 +52,7 @@ function drawChart2() {
 	var data = new google.visualization.DataTable(jsonData);
 	var options = {
 		chart: {
-			title: '지점별 월별 렌트수'
+			title: '지점별 월 렌트'
 		}
 	};
 	var chart = new google.charts.Bar(document.getElementById('brc_popular_model'));

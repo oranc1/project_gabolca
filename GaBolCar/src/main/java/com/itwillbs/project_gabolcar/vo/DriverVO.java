@@ -20,4 +20,5 @@ public class DriverVO {
 	private String lic_issue_date;
 	private String lic_expiration_date;
 	private int lic_place;
+	
 }

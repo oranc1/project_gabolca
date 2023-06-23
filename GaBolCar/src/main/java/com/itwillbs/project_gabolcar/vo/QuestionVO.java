@@ -15,6 +15,7 @@ public class QuestionVO {
 	private int qst_board_re_ref;
 	private int qst_board_re_lev;
 	private int qst_board_re_seq;
+	private int qst_readcount; 
 	private Timestamp qst_date;
 	private String qst_type;
 }

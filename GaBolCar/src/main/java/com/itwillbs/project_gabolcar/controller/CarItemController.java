@@ -1,6 +1,6 @@
 package com.itwillbs.project_gabolcar.controller;
 
-import java.io.IOException;
+
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -21,23 +21,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.itwillbs.project_gabolcar.handler.CarResHandler;
 import com.itwillbs.project_gabolcar.service.CarItemService;
 import com.itwillbs.project_gabolcar.service.CarService;
 import com.itwillbs.project_gabolcar.vo.CarVO;
-import com.itwillbs.project_gabolcar.vo.Criteria;
-import com.itwillbs.project_gabolcar.vo.PageDTO;
 import com.itwillbs.project_gabolcar.vo.PageInfo;
 import com.itwillbs.project_gabolcar.vo.ReviewVO;
 
@@ -50,9 +44,15 @@ public class CarItemController {
 	@Autowired
 	CarService carService;
 
+	// 핸들러 객체 생성
+	CarResHandler carResHandler = new CarResHandler();
 	
 	// db 검색 없이 더미 데이터를 사용시
 	static final boolean DUMMY_DATA_FLAG = false;
+	
+	// carRes 페이지 검색시 limit 상수
+	static final int CAR_RES_ITEM_LIMIT = 8;
+	
 	
 	//차량 예약 검색
 	// 차 타입 하고 차 연료는 값 없는 경우 기본 값으로 받아오기
@@ -386,7 +386,7 @@ public class CarItemController {
 		// 시간값 넣기
 		
 		// sql 문으로 날짜,시간 보낼땐 Timestamp로 꼭 변환해서 넣어야함!!
-		resultMap.put("res_rental_date",Timestamp.valueOf( res_rental_date) );
+		resultMap.put("res_rental_date",Timestamp.valueOf( res_rental_date));
 		resultMap.put("res_return_date", Timestamp.valueOf(res_return_date));
 		
 		resultMap.put("rentHour",rentHour );
@@ -411,7 +411,7 @@ public class CarItemController {
 		//페이지 정보 현황 초기화
 		pageInfo.setEndPage(1);
 		pageInfo.setListCount(1);
-		pageInfo.setPageListLimit(8);
+		pageInfo.setPageListLimit(CAR_RES_ITEM_LIMIT);
 		pageInfo.setStartPage(0); // sql limit 문의 시작 번호는 배열처럼 0 이 시작
 		pageInfo.setMaxPage(8);
 		pageInfo.setNowPage(0);// sql limit 문의 시작 번호는 배열처럼 0 이 시작
@@ -429,7 +429,8 @@ public class CarItemController {
 			try {				
 				//차량을 일부분씩만 불러오기 때문에 최대 페이지 설정 해주기
 				// 최대 차량 대수
-				pageInfo.setListCount(carItemService.getCarCount());
+				// 차량 검색 조건 적용하여 찾기
+				pageInfo.setListCount(carItemService.getCarCount(resultMap));
 				pageInfo.setMaxPage((pageInfo.getListCount() / pageInfo.getPageListLimit()) + 1);
 				if(resultMap.get("car_order_by").equals("populer")) {					
 					//차량 인기순위 검색후 넣기
@@ -455,14 +456,52 @@ public class CarItemController {
 			resultMap.put("pageInfo", pageInfo);
 		}
 		
-		//json 변환
-		try {
-			ObjectMapper objMapper = new ObjectMapper();
-			resultMap.put("car_res_JSON", objMapper.writeValueAsString(resultMap));
-		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		// ======== JSON 정보 넣기
+		
+		//JSONObject 객체로 차 검색에 필요한 정보들 만 넣어 보내기
+		JSONObject jsonObj = new JSONObject();
+		
+		if(!DUMMY_DATA_FLAG) {			
+			// sql 문으로 날짜,시간 보낼땐 Timestamp로 꼭 변환해서 넣어야함!!
+			jsonObj.put("res_rental_date",Timestamp.valueOf( res_rental_date));
+			jsonObj.put("res_return_date", Timestamp.valueOf(res_return_date));
+			
+			jsonObj.put("brc_rent_name", brc_rent_name);
+			jsonObj.put("brc_return_name", brc_return_name);
+			
+			// 차량 타입 연료 값 넣기
+			// String[] 배열 형식으로 넣으면 제대로 된 값이 넘어가지 않으므로
+			// new ArrayList(Arrays.asList()) 로 변환해서 넣기
+			jsonObj.put("car_type", new ArrayList(Arrays.asList(car_type)));
+			jsonObj.put("car_fuel_type", new ArrayList(Arrays.asList(car_fuel_type)));
+			
+			// 페이지 정보 현황 넣기
+			// 페이지 정보 현황을 그냥 pageInfo로 넣으면 
+			// .toString() 을 쓴것같이 통짜로 들어감
+			// 따라서 map으로 바꾸던가 따로 넣어주던가 해야함
+			
+			// 따로 넣어주기로 함
+			carResHandler.pageInfo2JsonObj(jsonObj, pageInfo);
+			
+			// 차량 검색 정렬 조건 셋팅
+			jsonObj.put("car_order_by",resultMap.get("car_order_by"));
+			// 현재 car_res 페이지에서 차량을 찾는다는 확인 문구를 넣기
+			jsonObj.put("carRes", "true");
+			// 차량 종류를 정해서 찾는다는 확인 문구 보내기
+			jsonObj.put("search", "carRes");			
+			
+			// json 타입 객체 전달위해 map에 넣기
+			resultMap.put("car_res_JSON", jsonObj);
 		}
+		
+//		//json 변환
+//		try {
+//			ObjectMapper objMapper = new ObjectMapper();
+//			resultMap.put("car_res_JSON", objMapper.writeValueAsString(resultMap));
+//		} catch (JsonProcessingException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		
 		return new ModelAndView("html/car_item/res/car_res","map",resultMap) ;
 	}
@@ -525,91 +564,91 @@ public class CarItemController {
 			produces = "application/text; charset=UTF-8"
 			)	
 	@ResponseBody
-	public String carResListLoad(@RequestParam HashMap<String,Object> map, Model model) {
+	public String carResListLoad(@RequestParam Map<String,Object> map, Model model) {
 		
-		System.out.println(map);
 		
-//		// json map 변환 관련
-//		ObjectMapper objMapper = new ObjectMapper();
-//		
-//		
-//		//JSON 데이터 형태로 담는 객체
-//		JSONObject jsonObj = new JSONObject();	
-//				
-//		// JSON 을 Map 으로 변환
-//		TypeReference<Map<String,Object>> tr = new TypeReference<Map<String,Object>>() {};
-//		
-//		// JSON 형태로 보내 온 데이터를 Map 형식으로 바꿔담는 객체
-//		//여기에 위의 데이터를 담기
-//		
-//		Map<String, Object> resultMap = null;
-//		try {
-//			resultMap = objMapper.readValue((String)map.get("json"), tr);
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//			return "";
-//		}
-//		
-//		PageInfo pageInfo = (PageInfo)map.get("pageInfo");
-//		System.out.println(map);
+		//JSON 데이터 형태로 담는 객체
+		JSONObject jsonObj = new JSONObject();	
 		
-//		//페이지 정보 현황 업데이트
-//		pageInfo.setPageListLimit(8);
-//		pageInfo.setNowPage(pageInfo.getNowPage() + 1);
-//		if(pageInfo.getNowPage() >= pageInfo.getMaxPage()) {
-//			pageInfo.setNowPage(pageInfo.getMaxPage());
-//		}
-//		
-//		
-//			
-//		// 차량 검색 정렬 조건 셋팅
-//		resultMap.put("car_order_by",map.get("car_order_by"));
-//		
-//		// 만약 셋팅 조건이 없을 시 가격순 셋팅
-//		if(resultMap.get("car_order_by") == null)		
-//			resultMap.put("car_order_by","price");
-//
-//		
-//		//차량 검색 시작
-//		if(!DUMMY_DATA_FLAG) {
-//			try {				
-//				//차량을 일부분씩만 불러오기 때문에 최대 페이지 설정 해주기
-//				pageInfo.setMaxPage((carItemService.getCarCount()/pageInfo.getPageListLimit())+1);
-//				
-//				if(resultMap.get("car_order_by").equals("populer")) {					
-//					//차량 인기순위 검색후 넣기
-//					resultMap.put("car_populer_list", carItemService.getCarPopuler());
-//				}
-//				
-//				// 페이지 정보 현황 넣기
-//				resultMap.put("pageInfo", pageInfo);			
-//				// 현재 car_res 페이지에서 차량을 찾는다는 확인 문구를 넣기
-//				resultMap.put("carRes", "true");
-//				// 차량 종류를 정해서 찾는다는 확인 문구 보내기
-//				resultMap.put("search", "carRes");			
-//				resultMap.put("car_search_list", carService.carList(resultMap));
-//				
-//			}
-//			catch(Exception e) {
-//				e.printStackTrace();
-//			}
-//			
-//		}
-//		else {
-//			// 페이지 정보 현황 넣기(더미)
-//			resultMap.put("pageInfo", pageInfo);
-//		}
-//		
-//		//json 변환
-//		try {
-//			resultMap.put("car_res_JSON", objMapper.writeValueAsString(resultMap));
-//		} catch (JsonProcessingException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		
-		return map.toString();
+		//차량 검색 시작
+		if(!DUMMY_DATA_FLAG) {
+			
+			// 차량 타입 연료 값 넣기
+			// 페이지에서 json 으로 받아올때 리스트로 제대로 받지 못함
+			// 따라서 배열로 만들어 차량 찾기에 사용 될 car_type에 밀어넣기
+			int count = 0;
+			String carType = "car_type";
+			String carTypeFuel = "car_fuel_type";
+			
+			List<String> carTypeList = new ArrayList();
+			List<String> carFuelTypeList = new ArrayList();
+			
+			PageInfo pageInfo = new PageInfo();
+
+			while(map.get(carType + count) != null) {
+				carTypeList.add((String)map.get(carType + count));
+				count++;
+			}
+			count = 0;
+			while(map.get(carTypeFuel + count) != null) {
+				carFuelTypeList.add((String)map.get(carTypeFuel + count));
+				count++;
+			}
+			
+			// new ArrayList(Arrays.asList()) 로 변환해서 넣기
+			map.put("car_type", carTypeList);
+			map.put("car_fuel_type", carFuelTypeList);
+			
+			try {				
+				
+				//차량을 일부분씩만 불러오기 때문에 최대 페이지 설정 해주기		
+				// 최대 차량 대수
+				
+				if(map.get("car_order_by").equals("populer")) {					
+					//차량 인기순위 검색후 넣기
+					map.put("car_populer_list", carItemService.getCarPopuler());
+				}
+				
+				// 페이지 정보 현황 업데이트
+				carResHandler.jsonMap2PageInfo(map, pageInfo);
+				
+				pageInfo.setPageListLimit(CAR_RES_ITEM_LIMIT);
+				
+				if(pageInfo.getNowPage() < pageInfo.getMaxPage()) {
+					pageInfo.setNowPage(pageInfo.getNowPage() + 1);
+				}
+				else {
+					pageInfo.setNowPage(pageInfo.getMaxPage());		
+				}
+				
+				map.put("pageInfo", pageInfo);
+				
+				// 현재 car_res 페이지에서 차량을 찾는다는 확인 문구를 넣기
+				map.put("carRes", "true");
+				// 차량 종류를 정해서 찾는다는 확인 문구 보내기
+				map.put("search", "carRes");			
+				
+				//차량 찾기
+				map.put("car_search_list", carService.carList(map));
+				
+			}
+			catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+			// for 문 활용하여 jsonObj에 값 넣어주기
+				
+			for(Map.Entry<String,Object> et : map.entrySet()) {
+				String key = et.getKey();
+				Object value = et.getValue();
+				jsonObj.put(key, value);
+			}		
+			
+			carResHandler.pageInfo2JsonObj(jsonObj,pageInfo);
+		}
+		
+		System.out.println(jsonObj);
+		return jsonObj.toString();
 	}
 	
 	//=================================================
@@ -683,28 +722,99 @@ public class CarItemController {
 	
 	
 	@GetMapping("reviewList")
-	public String reviewList(Model model, Criteria cri) {
-
-		List<ReviewVO> reviewListWithPaging = carItemService.getReviewListPaging(cri);
-		model.addAttribute("reviewListP", reviewListWithPaging);
+	public String reviewList(
+			@RequestParam(defaultValue = "") String searchType, 
+			@RequestParam(defaultValue = "") String searchKeyword, 
+			@RequestParam(defaultValue = "1") int pageNum, 
+			Model model) {
+		// -------------------------------------------------------------------------
+		// 페이징 처리를 위해 조회 목록 갯수 조절 시 사용될 변수 선언
+		int listLimit = 10; // 한 페이지에서 표시할 목록 갯수 지정
+		int startRow = (pageNum - 1) * listLimit; // 조회 시작 행(레코드) 번호
+		// -------------------------------------------------------------------------
+		// BoardService - getBoardList() 메서드 호출하여 게시물 목록 조회 요청
+		// => 파라미터 : 검색타입, 검색어, 시작행번호, 목록갯수
+		// => 리턴타입 : List<BoardVO>(boardList)
+		List<ReviewVO> reviewListWithPaging = carItemService.getReviewListPaging(searchType, searchKeyword, startRow, listLimit);
+//		System.out.println(boardList);
+		// -------------------------------------------------------------------------
+		// 페이징 처리를 위한 계산 작업
+		// 한 페이지에서 표시할 페이지 목록(번호) 계산
+		// 1. BoardService - getBoardListCount() 메서드를 호출하여
+		//    전체 게시물 수 조회 요청(페이지 목록 계산에 활용)
+		// => 파라미터 : 검색타입, 검색어   리턴타입 : int(listCount)
+		int listCount = carItemService.getTotal(searchType, searchKeyword);
+//		System.out.println("전체 게시물 수 : " + listCount);
 		
-		int total = carItemService.getTotal();
-		PageDTO pageMaker = new PageDTO(cri, total);
-		model.addAttribute("pageMaker", pageMaker);		
+		// 2. 한 페이지에서 표시할 목록 갯수 설정(페이지 번호의 갯수)
+		int pageListLimit = 10;
+		
+		// 3. 전체 페이지 목록 갯수 계산
+		int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0);
+//		System.out.println("전체 페이지 목록 갯수 : " + maxPage);
+		
+		// 4. 시작 페이지 번호 계산
+		int startPage = (pageNum - 1) / pageListLimit * pageListLimit + 1;
+//		System.out.println(startPage);
+		
+		// 5. 끝 페이지 번호 계산
+		int endPage = startPage + pageListLimit - 1;
+		
+		// 6. 만약, 끝 페이지 번호(endPage)가 전체(최대) 페이지 번호(maxPage) 보다
+		//    클 경우 끝 페이지 번호를 최대 페이지 번호로 교체
+		if(endPage > maxPage) {
+			endPage = maxPage;
+		}
+		
+		int nowPage = 0;  // nowPage 꼭 있어야 되어 사용(변수 선언용 노용석) 
+//		System.out.println(endPage);
+		
+		// 페이징 처리 정보를 저장할 PageInfoVO 객체에 계산된 데이터 저장
+		PageInfo pageInfo = new PageInfo(listCount, pageListLimit, maxPage, startPage, endPage, nowPage);
+		// -----------------------------------------------------------------------------------------
+		// 조회된 게시물 목록 객쳬(boardList) 와 페이징 정보 객체(pageInfo) 를 Model 객체에 저장
+		model.addAttribute("reviewListP", reviewListWithPaging);
+		model.addAttribute("pageInfo", pageInfo);
 		
 		return "html/car_item/review/review_board";
-		
 	}
+		
 	
 	
 	// 리뷰 상세 글 보기
 	@GetMapping("reviewDetail")
-	public String reviewDetail(ReviewVO review, Model model, HttpServletRequest request, HttpServletResponse response, Criteria cri) {
+	public String reviewDetail(ReviewVO review, 
+			Model model, HttpServletRequest request, 
+			HttpServletResponse response, 
+			@RequestParam(defaultValue = "") String searchType, 
+			@RequestParam(defaultValue = "") String searchKeyword, 
+			@RequestParam(defaultValue = "1") int pageNum) {
 		
-		// 파라미터에 request 없애고 HttpSession 으로 
+		int listLimit = 10;
+		int startRow = (pageNum - 1) * listLimit; 
+ 
 		ReviewVO reviewResult = carItemService.reviewDetail(review);
+		
+		int listCount = carItemService.getTotal(searchType, searchKeyword);
+
+		int pageListLimit = 10;
+		
+		int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0);
+		
+		int startPage = (pageNum - 1) / pageListLimit * pageListLimit + 1;
+		
+		int endPage = startPage + pageListLimit - 1;
+		
+		if(endPage > maxPage) {
+			endPage = maxPage;
+		}
+		
+		int nowPage = 0;                                        // nowPage 꼭 있어야 되어 사용(변수 선언용 노용석) 
+		
+		PageInfo pageInfo = new PageInfo(listCount, pageListLimit, maxPage, startPage, endPage, nowPage);
+		
 		model.addAttribute("reviewDetail", reviewResult);
-		model.addAttribute("cri", cri);
+		model.addAttribute("pageInfo", pageInfo);
 
 		
 		return "html/car_item/review/review_detail";
@@ -768,7 +878,7 @@ public class CarItemController {
 	
 	//리뷰게시판 글 수정 폼
 	@GetMapping("reviewModify")
-	public String reviewModify(HttpSession session, ReviewVO review, Model model, Criteria cri) {
+	public String reviewModify(HttpSession session, ReviewVO review, Model model) {
 		String sId = (String)session.getAttribute("sId");
 		/*if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다");
@@ -777,28 +887,59 @@ public class CarItemController {
 		
 		ReviewVO reviewResult = carItemService.reviewDetail(review);
 		model.addAttribute("reviewDetail", reviewResult);
-		model.addAttribute("cri", cri);
 		
 		return "html/car_item/review/review_modify_form";
 	}
 	
 	// 리뷰게시판 글 수정
 	@PostMapping("reviewModifyPro")
-	public String reviewModifyPro(HttpSession session, ReviewVO review, Model model, Criteria cri) {
+	public String reviewModifyPro(HttpSession session, ReviewVO review, 
+			Model model, HttpServletRequest request, 
+			HttpServletResponse response, 
+			@RequestParam(defaultValue = "") String searchType, 
+			@RequestParam(defaultValue = "") String searchKeyword, 
+			@RequestParam(defaultValue = "1") int pageNum) {
+		
 		String sId = (String)session.getAttribute("sId");
 		/*if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다");
 			return "html/car_item/review/fail_back";
 		}*/
 		
+
+		int listLimit = 10;
+		int startRow = (pageNum - 1) * listLimit;
+		
 		int ModifySuccess = carItemService.modifyReview(review);
+		
+		int listCount = carItemService.getTotal(searchType, searchKeyword);
+
+		int pageListLimit = 10;
+		
+		int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0);
+		
+		int startPage = (pageNum - 1) / pageListLimit * pageListLimit + 1;
+		
+		int endPage = startPage + pageListLimit - 1;
+		
+		if(endPage > maxPage) {
+			endPage = maxPage;
+		}
+		
+		int nowPage = 0;                                        // nowPage 꼭 있어야 되어 사용(변수 선언용 노용석) 
+		
+		PageInfo pageInfo = new PageInfo(listCount, pageListLimit, maxPage, startPage, endPage, nowPage);
+		
+		model.addAttribute("pageInfo", pageInfo);
+		int rev_star = review.getRev_star();
 		if(ModifySuccess < 0) {
 			model.addAttribute("msg", "수정 실패");
 			return "html/car_item/review/fail_back";
-		}
-		
-		
-		return "redirect:/reviewDetail?pageNum=" + cri.getPageNum() + "&rev_idx=" + review.getRev_idx();
+		} else if (rev_star <= 0) {
+			model.addAttribute("msg", "별점을 입력해주세요");
+			return "html/car_item/review/fail_back";
+		}				
+			return "redirect:/reviewDetail?pageNum=" + pageInfo.getNowPage() + "&rev_idx=" + review.getRev_idx();
 	}
 	
 	//=================================
