@@ -145,7 +145,7 @@
 			<div class="row inq_container">
 				<div class="col-2 res_addCar_btn">
 					<a href="javascript:dataObj=onClickAjax(dataObj)">
-						<p class="res_btn">더보기</p>
+						<p class="res_btn res_load_btn" >더보기</p>
 					</a>
 				</div>
 			</div>
@@ -170,8 +170,11 @@
 		});
 		
 		<%-- ajax로 보낼 데이터 만들어주기 --%>
-		let dataObj = ${map.car_res_JSON}
+		let dataObj = ${map.car_res_JSON};
 		
+		<%-- ajax 데이터로 페이지 항목 추가시 사용될 contextPath 값 
+			js에 쓸수있도록 변수 지정 --%>
+		let contextPath = "${pageContext.request.contextPath}";
 	</script>
 
 	<footer>

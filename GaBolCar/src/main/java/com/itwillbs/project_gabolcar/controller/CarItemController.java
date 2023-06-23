@@ -629,6 +629,11 @@ public class CarItemController {
 				map.put("search", "carRes");			
 				
 				//차량 찾기
+				// 차량 찾기 전 현재 car_search_list 초기화
+				
+				map.put("car_search_list", "");
+				
+				System.out.println(carService.carList(map));
 				map.put("car_search_list", carService.carList(map));
 				
 			}
