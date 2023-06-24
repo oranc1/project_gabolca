@@ -6,10 +6,6 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
-import com.itwillbs.project_gabolcar.vo.CarVO;
-import com.itwillbs.project_gabolcar.vo.PageInfo;
-
 import com.itwillbs.project_gabolcar.vo.*;
 
 public interface CarMapper {
@@ -23,10 +19,23 @@ public interface CarMapper {
 	// 차량 수량 확인 (페이지 최대 항목 계산에 사용)
 	int selectCarListCount(@RequestParam(required = false) Map<String,Object> map);
 	
-	// 차량 검색
+	
+	// 옵션 선택된 차량 검색
 	Map<String, Object> selectCar(CarVO car);
 
+	
+	// 기존에 선택된 옵션을 삭제합니다
+	int deletUpdateCarOption(int car_idx);
 
+	// 옵션 수정 시 새로 옵션 추가
+	int addCarOption(int car_idx, int option_idx);
+	
+	
+	int insertUpdateCarOption(CarOptionVO carOption);
+	
+	
+	
+	
 	// 차량 삭제
 	int deleteCar(int car_idx);
 	
@@ -62,13 +71,25 @@ public interface CarMapper {
 
 	List<Map<String, Object>> dsbBrcHoldStatus(List<Map<String, Object>> brcList);
 
-	List<Map<String, Object>> selectOptionCar(CarVO car);
+	List<CarOptionVO> selectOptionCar(CarOptionVO carOption);
 	
 	// 자동차 정보 조회
 	CarVO selectDriver(int res_idx);
 	
-//	// 차량 수정 0619
-//	int updateCar(CarVO car);
+	// 차에 등록된 옵션 삭제
+	int deleteCarOption(int car_idx);
+	
+	//
+	List<Integer> selectCarOptionList(int car_idx);
+
+
+	
+
+	
+	
+	//
+//	int insertUpdateCarOption(CarOptionVO carOption);
+	
 	
 
 }

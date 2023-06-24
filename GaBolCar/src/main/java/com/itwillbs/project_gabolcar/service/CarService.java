@@ -5,8 +5,10 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.itwillbs.project_gabolcar.mapper.CarMapper;
+import com.itwillbs.project_gabolcar.vo.CarOptionVO;
 import com.itwillbs.project_gabolcar.vo.CarVO;
 import com.itwillbs.project_gabolcar.vo.PageInfo;
 
@@ -29,16 +31,36 @@ public class CarService {
 		return mapper.selectCarList(pageInfo,map);
 	}
 	
-	
-	public Map<String, Object> carSelect(CarVO car) {
-		return mapper.selectCar(car);
-	}
 
 
 	public int carDelete(int car_idx) {
 		return mapper.deleteCar(car_idx);
 	}
 
+	// 선택된 옵션이 있는 차량 검색
+	public Map<String, Object> carSelect(CarVO car) {
+		return mapper.selectCar(car);
+	}
+	
+	// 기존에 선택된 옵션을 삭제합니다
+	public int deleteCarOptionsByCarIdx(int car_idx) {
+		return mapper.deletUpdateCarOption(car_idx);
+		
+	}
+	
+	// 차량수정시 새로 옵션 넣기
+	public int addCarOption(int car_idx, int option_idx) {
+		return mapper.addCarOption(car_idx, option_idx);
+	}
+	
+	// 차량수정시 새로 옵션 넣기2
+	public int carUpdateOptionRegister(CarOptionVO carOption) {
+	    return mapper.insertUpdateCarOption(carOption);
+	}
+	
+	
+	
+	
 	public int optionRegister(String option_name, String option_image_url) {
         return mapper.registerOption(option_name, option_image_url);
 	}
@@ -83,8 +105,8 @@ public class CarService {
 		return mapper.dsbBrcHoldStatus(brcList);
 	}
 
-	public List<Map<String, Object>> carOptionList(CarVO car) {
-		return mapper.selectOptionCar(car);
+	public List<CarOptionVO> carOptionList(CarOptionVO carOption) {
+		return mapper.selectOptionCar(carOption);
 	}
 
 //	// 차량수정 0619
@@ -98,5 +120,25 @@ public class CarService {
 		
 		return mapper.selectDriver(res_idx);
 	}
+	
+	// 차량에 등록된 옵션삭제
+	public int carOptionDelete(int car_idx) {
+		return mapper.deleteCarOption(car_idx);
+	}
+	
+	//
+	public List<Integer> getSelectedOptionList(int car_idx) {
+		return mapper.selectCarOptionList(car_idx);
+	}
+
+
+
+	
+
+
+//	public int carUpdateOptionRegister(CarOptionVO carOption) {
+//		 return mapper.insertUpdateCarOption(carOption);
+//	}
+
 	
 }
