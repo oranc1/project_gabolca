@@ -351,13 +351,13 @@ public class AdminConroller {
             System.out.println("차량 수정 성공");
             car.setCar_idx((int) car_service.carSelect(car).get("car_idx"));
             System.out.println("selectcar : " + car.getCar_idx());
-            // 기존에 선택된 옵션을 삭제합니다
+            // 기존에 선택된 옵션을 삭제
             int deletOption = car_service.deleteCarOptionsByCarIdx(car.getCar_idx());
             System.out.println("deletOption : " + deletOption);
-            // 새로 선택된 옵션을 추가합니다
+            // 새로 선택된 옵션을 추가
             if (optionIdxList != null && !optionIdxList.isEmpty()) {
                 for (Integer optionIdx : optionIdxList) {
-                    CarOptionVO carOption = new CarOptionVO();
+                	CarOptionVO carOption = new CarOptionVO();
                     carOption.setCar_idx(car.getCar_idx());
                     carOption.setOption_idx(optionIdx);
                     int optionUpdateResult = car_service.carUpdateOptionRegister(carOption);

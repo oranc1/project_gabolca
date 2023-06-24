@@ -161,12 +161,21 @@
 	</select>	
 	
 	
-	<!-- 차량 소개 mapper.xml -->
+	<!-- 차량 소개 - 차량 정보 -->
 	<select id="selectCarInfoList" resultType="map">
 		select
 			*
 		from
 			car_info
 	</select>
+	
+	<!-- 차량 소개 - 각 차량에 등록된 옵션 -->
+	<select id="selectCarOptionListInfo" parameterType="int" resultType="map">
+	    SELECT ol.* FROM option_list ol
+	    	INNER JOIN car_options co ON ol.option_idx = co.option_idx
+	    	WHERE co.car_idx = #{carIdx}
+	</select>
+	
+	
 	
 </mapper>

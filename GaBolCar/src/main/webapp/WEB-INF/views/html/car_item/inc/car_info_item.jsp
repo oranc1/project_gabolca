@@ -44,12 +44,16 @@
                 </tr>
               </table>
             </div>
-            <div class="option-div">
-              <h3>옵션</h3>
-              <div class="custom-div">
-                <span>${car.option_name }</span>
-              </div>
-            </div>
+<div class="option-div">
+  <h3>옵션</h3>
+  <div class="custom-div">    
+  	<c:if test="${car.options != null}">
+      <c:forEach var="option" items="${car.options}">
+        <span>${option.option_name}</span>
+      </c:forEach>
+    </c:if>
+  </div>
+</div>
           </div>
         </div>
       </div>

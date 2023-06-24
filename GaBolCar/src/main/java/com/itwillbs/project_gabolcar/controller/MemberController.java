@@ -345,9 +345,6 @@ public class MemberController {
 		}
 	}
 	
-	
-	
-	
 	// 1:1 상담 게시판 리스트
 	@GetMapping("QuestionListForm")
 	public String questionBoard(
