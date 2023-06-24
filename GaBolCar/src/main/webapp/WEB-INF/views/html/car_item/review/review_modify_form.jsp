@@ -10,6 +10,14 @@
 	<link href="${pageContext.request.contextPath }/resources/css/inc/footer.css" rel="styleSheet">
 	<script src="${pageContext.request.contextPath }/resources/js/inc/jquery-3.7.0.js"></script>
 <title>Insert title here</title>
+
+<c:if test="${reviewDetail.mem_id != sId}">
+	<script type="text/javascript">
+		alert("권한이 없습니다.");
+		location.href="/project_gabolcar/";
+	</script>
+</c:if>
+
 <script type="text/javascript">
 $(document).ready(function () {
 
@@ -48,16 +56,15 @@ $(document).ready(function () {
 					<section id="board_list" class="notice">
 						<div class="wrapper">
 							<div class="list_wrap">
-								<form action="reviewModifyPro" method="post">
+								<form action="/project_gabolcar/reviewModifyPro?pageNum=${param.pageNum}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}" method="post">
 									<input type="hidden" name="rev_idx" value="${reviewDetail.rev_idx}">
-									<input type="hidden" name="pageNum" value="${cri.pageNum }">
 									<ul class="list">
 										<li>
 											<div class="subject">
 												<input type="text" class="inputBox" name="rev_subject" value="${reviewDetail.rev_subject}">
 											</div>
 										</li>
-	
+
 										<li class="write_scope">
 											<div id="myform">
 												<!-- DB에서 예약차 이름 가져오기 -->
@@ -95,7 +102,8 @@ $(document).ready(function () {
 									</div>
 	
 									<div class="mod_box">
-											<input type="submit" class="delete_btn" value="등록">
+										<input type="submit" class="delete_btn" value="등록">
+										<a class="list_btn" href="/project_gabolcar/reviewList?pageNum=${param.pageNum}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}">목록</a>
 									</div>
 								</form>
 							</div>

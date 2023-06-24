@@ -345,9 +345,6 @@ public class MemberController {
 		}
 	}
 	
-	
-	
-	
 	// 1:1 상담 게시판 리스트
 	@GetMapping("QuestionListForm")
 	public String questionBoard(
@@ -470,7 +467,7 @@ public class MemberController {
 	    String sId = (String)session.getAttribute("sId");
 	    if(sId == null) {
 	        model.addAttribute("msg", "잘못된 접근입니다!");
-	        return "fail_back";
+	        return "inc/fail_back";
 	    }
 	    //
 	    int mem_idx = memberService.getCurrentUserMemIdx(mem_name);
@@ -505,7 +502,7 @@ public class MemberController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			return "fail_back";
+			return "inc/fail_back";
 		}
 		
 		QuestionVO question = qst_service.getQuestionBoard(qst_idx);

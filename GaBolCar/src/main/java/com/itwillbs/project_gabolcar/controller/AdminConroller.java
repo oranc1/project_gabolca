@@ -20,6 +20,7 @@ import javax.servlet.http.HttpSession;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -220,6 +221,29 @@ public class AdminConroller {
 	    return "redirect:/admCarList";
 	}
 	
+	// 차량삭제
+	@GetMapping("carDeletePro")
+	public String carDeletePro(int car_idx, Model model) {
+	    // 차량 옵션 삭제 추가
+	    int optionDeleteCount = car_service.carOptionDelete(car_idx);
+
+	    if (optionDeleteCount > 0) {
+	        System.out.println("차량 옵션 삭제 성공");
+	    } else {
+	        System.out.println("차량 옵션 삭제 실패");
+	    }
+
+	    int deleteCount = car_service.carDelete(car_idx);
+
+	    if (deleteCount > 0) {
+	        model.addAttribute("msg", "삭제 완료");
+	        return "redirect:/admCarList";
+	    } else {
+	        model.addAttribute("msg", "삭제 실패");
+	        return "inc/fail_back";
+	    }
+	    
+	}
 	// 지점등록폼 이동
 	@GetMapping("brcRegister")
 	public String brcRegister() {
@@ -282,7 +306,7 @@ public class AdminConroller {
 	
 	// 차량수정폼 이동
 	@GetMapping("carUpdate")
-	public String carUpdate(CarVO car,Model model) {
+	public String carUpdate(CarOptionVO carOption, CarVO car,Model model) {
 		Map<String, Object> map = car_service.carSelect(car);
 		model.addAttribute("car",map);
 		List<Map<String, Object>> brcList = brc_service.brcList();
@@ -290,28 +314,25 @@ public class AdminConroller {
 		// 0620 차량수정으로 가져갈 optionList
 		List<Map<String, Object>> optionList = car_service.optionList();
 		model.addAttribute("optionList",optionList);
+		
 		// 0620 차량수정폼에 가져갈 car_options 
-		List<Map<String, Object>> carOptionList = car_service.carOptionList(car);
-		model.addAttribute("carOptionList", carOptionList);
-		return "html/admin/car_update";
+//	    List<CarOptionVO> carOptionList = car_service.carOptionList(carOption);
+//	    model.addAttribute("carOptionList", carOptionList);
+//	    System.out.println("carOptionList: " + carOptionList);
+
+	    List<Integer> selectedOptionList = car_service.getSelectedOptionList(car.getCar_idx());
+	    model.addAttribute("selectedOptionList", selectedOptionList);
+	    System.out.println("selectedOptionList: " + selectedOptionList);
+	    return "html/admin/car_update";
 	}
-	
+		
 	// 차량수정
-//	@PostMapping("carUpdatePro")
-//	public String carUpdatePro(@RequestParam Map<String, String> map, Model model) {
-//		int updateCount = car_service.carUpdate(map);
-//		if (updateCount > 0) {
-//			model.addAttribute("msg","수정 완료");
-//			return "redirect:/admCarList";
-//		} else {
-//			model.addAttribute("msg","수정 실패");
-//			return "inc/fail_back";
-//		}
-//	}
-	
-	// 차량 수정 0619
+	@Transactional
 	@PostMapping("carUpdatePro")
-    public String carUpdatePro(@RequestParam(value = "option_idx", required = false) List<Integer> optionIdxList, CarVO car, HttpSession session, Model model) {
+    public String carUpdatePro(
+    		@RequestParam(value = "option_idx", required = false) List<Integer> optionIdxList,
+    		CarVO car, HttpSession session,
+    		Model model) {
 
         String uploadDir = "/resources/upload/car"; // 서버 이미지 저장 경로
         String saveDir = session.getServletContext().getRealPath(uploadDir);
@@ -366,19 +387,19 @@ public class AdminConroller {
         if (updateCount > 0) {
             System.out.println("차량 수정 성공");
             car.setCar_idx((int) car_service.carSelect(car).get("car_idx"));
-            car_service.deleteOptionFile(car.getCar_idx());
-            
-            // 옵션 수정 부분
+            System.out.println("selectcar : " + car.getCar_idx());
+            // 기존에 선택된 옵션을 삭제
+            int deletOption = car_service.deleteCarOptionsByCarIdx(car.getCar_idx());
+            System.out.println("deletOption : " + deletOption);
+            // 새로 선택된 옵션을 추가
             if (optionIdxList != null && !optionIdxList.isEmpty()) {
                 for (Integer optionIdx : optionIdxList) {
-                    CarOptionVO carOption = new CarOptionVO();
+                	CarOptionVO carOption = new CarOptionVO();
                     carOption.setCar_idx(car.getCar_idx());
                     carOption.setOption_idx(optionIdx);
-                    int optionUpdateResult = car_service.carOptionRegister(car);
-                    
-                    if (optionUpdateResult > 0) {
-                        System.out.println("옵션 수정 성공: " + optionIdx);
-                    } else {
+                    int optionUpdateResult = car_service.carUpdateOptionRegister(carOption);
+
+                    if (optionUpdateResult <= 0) {
                         System.out.println("옵션 수정 실패: " + optionIdx);
                     }
                 }
@@ -389,19 +410,6 @@ public class AdminConroller {
         }
         return "redirect:/admCarList";
     }
-	
-	// 차량삭제
-	@GetMapping("carDeletePro")
-	public String carDeletePro(int car_idx,Model model) {
-		int deleteCount = car_service.carDelete(car_idx);
-		if (deleteCount > 0) {
-			model.addAttribute("msg","삭제 완료");
-			return "redirect:/admCarList";
-		} else {
-			model.addAttribute("msg","삭제 실패");
-			return "inc/fail_back";
-		}
-	}
 	
 	// 옵션리스트 이동 - 디자인이 어려움
 	@GetMapping("optionList")
