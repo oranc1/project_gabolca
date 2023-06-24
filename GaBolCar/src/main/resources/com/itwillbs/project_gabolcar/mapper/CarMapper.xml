@@ -42,7 +42,7 @@
 		</foreach>
 	</insert>
 	
-	<!-- 기존 옵션 삭제 -->
+	<!-- 차량수정 - 기존 옵션 삭제 -->
 	<delete id="deletUpdateCarOption" parameterType="int">
    		 DELETE FROM 
    		 	car_options 
@@ -50,16 +50,14 @@
    		 	car_idx = #{car_idx}
 	</delete>
 	
-	
+	<!--  차량수정 - 차에 옵션 등록 -->	
 	<insert id="insertUpdateCarOption" parameterType="com.itwillbs.project_gabolcar.vo.CarOptionVO">
 	    INSERT INTO car_options (car_idx, option_idx)
 	    VALUES (#{car_idx}, #{option_idx})
 	</insert>
 
-	
-	
-	
-	<!-- 	06/20 차량에등록된 옵션 셀렉트 -->
+
+	<!-- 차량에등록된 옵션 셀렉트 -->
 	<select id="selectOptionCar" resultType="com.itwillbs.project_gabolcar.vo.CarVO">
 	    SELECT 
 	        ci.car_idx, 
@@ -70,7 +68,7 @@
 	        car_info ci ON ci.car_idx = co.car_idx
 	</select>
 	
-	<!-- 06/24 선택된 차량 옵션 리스트를 가져오는 쿼리 -->
+	<!--선택된 차량 옵션 리스트를 가져오는 쿼리 -->
 	<select id="selectCarOptionList" resultType="java.lang.Integer">
 		SELECT option_idx 
 		FROM car_options 
@@ -85,19 +83,7 @@
 	    where
 	        car_idx=#{car_idx}
 	</delete>
-	
-	
-	
-	
-	
-	<!-- 	추가한것 -->
-<!-- 	<insert id="insertUpdateCarOption" parameterType="com.itwillbs.project_gabolcar.vo.CarOptionVO"> -->
-<!-- 	    INSERT INTO car_options (car_idx, option_idx) -->
-<!-- 	    VALUES (#{car_idx}, #{option_idx}) -->
-<!-- 	</insert> -->
-	
-	
-	
+
 	
 	<!-- 차량 삭제 -->
 	<delete id="deleteCar" parameterType="int">
@@ -138,13 +124,6 @@
 	where
 		car_idx=#{car_idx}
 </update>
-	
-<!-- 		<select id="selectCarList" resultType="map"> -->
-<!-- 		select -->
-<!-- 			* -->
-<!-- 		from -->
-<!-- 			car_info -->
-<!-- 	</select> -->
 	
 	
 	
@@ -452,36 +431,6 @@
 			</choose>
 	</select>
 	
-<!-- 		<update id="updateCar"> -->
-<!-- 		update -->
-<!-- 			car_info -->
-<!-- 		set -->
-<!-- 	        car_type = #{car_type}, -->
-<!-- 	        car_number = #{car_number}, -->
-<!-- 	        car_company = #{car_company}, -->
-<!-- 	        car_model = #{car_model}, -->
-<!-- 	        car_old = #{car_old}, -->
-<!-- 	        car_shift_type = #{car_shift_type}, -->
-<!-- 	        car_fuel_type = #{car_fuel_type}, -->
-<!-- 	        car_riding = #{car_riding}, -->
-<!-- 	        car_age = #{car_age}, -->
-<!-- 	        car_career = #{car_career}, -->
-<!-- 	        car_license = #{car_license}, -->
-<!-- 	        car_weekdays = #{car_weekdays}, -->
-<!-- 	        car_weekend = #{car_weekend}, -->
-<!-- 	        brc_name = #{brc_name}, -->
-<!--      		car_file1 = #{car_file1}, -->
-<!-- 			car_file2 = #{car_file2}, -->
-<!-- 			car_file3 = #{car_file3}, -->
-<!-- 			car_file4 = #{car_file4}, -->
-<!-- 			car_file5 = #{car_file5}, -->
-<!-- 			car_file6 = #{car_file6}, -->
-<!-- 	        car_file_path = #{car_file_path}, -->
-<!-- 			car_status = #{car_status} -->
-<!-- 		where -->
-<!-- 			car_idx=#{car_idx} -->
-<!-- 	</update> -->
-	
 
     <insert id="registerOption" parameterType="String">
         insert into
@@ -565,6 +514,7 @@
 		GROUP BY
 			car_type
 	</select>
+	
 	<!-- 지점 차량 보유현황 -->
 <!-- 	<select id="dsbBrcHoldStatus" resultType="map"> -->
 <!-- 		SELECT -->
