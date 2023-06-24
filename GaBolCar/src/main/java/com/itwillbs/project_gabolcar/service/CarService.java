@@ -35,10 +35,15 @@ public class CarService {
 		return mapper.deleteCar(car_idx);
 	}
 	
-	// 차량수정 폼 - 선택된 옵션이 있는 차량 검색
+	// 차량등록 - 선택된 옵션이 있는 차량 검색
 	public Map<String, Object> carSelect(CarVO car) {
 		return mapper.selectCar(car);
 	}
+	
+//	// 차량수정 폼 - 선택된 옵션이 있는 차량 검색
+//	public Map<String, Object> carSelect(CarVO car) {
+//		return mapper.selectCar(car);
+//	}
 	
 	// 차량수정 폼
 	public List<Integer> getSelectedOptionList(int car_idx) {

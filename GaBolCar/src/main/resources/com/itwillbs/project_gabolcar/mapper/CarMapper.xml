@@ -33,14 +33,13 @@
 	</insert>
 	
 	<!-- 차량 등록 - 차에 옵션 등록 -->
-	<insert id="insertCarOption" parameterType="com.itwillbs.project_gabolcar.vo.CarVO">
-		insert into
-			car_options
-		values
-		<foreach collection="option_idx" item="option" separator=",">
-			(#{car_idx}, #{option})
-		</foreach>
-	</insert>
+<insert id="insertCarOption" parameterType="com.itwillbs.project_gabolcar.vo.CarVO">
+    <foreach collection="option_idx" item="option" open="INSERT INTO car_options (car_idx, option_idx) VALUES " separator=",">
+        (#{car_idx}, #{option})
+    </foreach>
+    ON DUPLICATE KEY UPDATE
+        option_idx = option_idx;
+</insert>
 	
 	<!-- 차량수정 - 기존 옵션 삭제 -->
 	<delete id="deletUpdateCarOption" parameterType="int">
