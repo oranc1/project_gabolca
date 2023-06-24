@@ -56,7 +56,6 @@
 	    VALUES (#{car_idx}, #{option_idx})
 	</insert>
 
-
 	<!-- 차량에등록된 옵션 셀렉트 -->
 	<select id="selectOptionCar" resultType="com.itwillbs.project_gabolcar.vo.CarVO">
 	    SELECT 
@@ -71,7 +70,7 @@
 	<!--선택된 차량 옵션 리스트를 가져오는 쿼리 -->
 	<select id="selectCarOptionList" resultType="java.lang.Integer">
 		SELECT option_idx 
-		FROM car_options 
+			FROM car_options 
 		WHERE car_idx = #{car_idx}
 	</select>
 	

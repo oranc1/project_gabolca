@@ -74,12 +74,16 @@ public interface CarMapper {
 	List<Map<String, Object>> dsbCarType();
 
 	List<Map<String, Object>> dsbBrcHoldStatus(List<Map<String, Object>> brcList);
-
+	
+	// 차에 등록된 옵션 셀렉 
 	List<CarOptionVO> selectOptionCar(CarOptionVO carOption);
 	
 	// 자동차 정보 조회
-
 	int selectOptCheck(Map<String, String> map);
+	
+	
+	// 차량 예약 - 
+	CarVO selectDriver(int res_idx);
 	
 
 
