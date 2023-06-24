@@ -47,6 +47,6 @@
 			</div>
 		</form>
 	</section>
-	<script src="${pageContext.request.contextPath }/resources/js/admin/brc_open.js"></script>
+	<script src="${pageContext.request.contextPath }/resources/js/admin/brc_update.js"></script>
 </body>
 </html>

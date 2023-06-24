@@ -29,8 +29,8 @@
 					<tr>
 						<c:choose>
 							<c:when test="${empty option.option_image_url }">
-								<td class='td_left'><label for='option_image'>옵션 이미지</label></td>
-								<td class='td_right'><input type='file' accept="image/*" name='option_image' required='required' class='form-control'/></td>
+								<td class='td_left' id="opth_1"><label for='option_image'>옵션 이미지</label></td>
+								<td class='td_right' id="opth_2"><input type='file' accept="image/*" name='option_image' required='required' class='form-control'/></td>
 							</c:when>
 							<c:otherwise>
 								<td class="td_left" id="opth_1"><img src="${pageContext.request.contextPath }/resources/upload/car_options/${option.option_image_url }"></td>

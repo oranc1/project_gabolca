@@ -75,6 +75,8 @@ public interface CarMapper {
 	
 	// 자동차 정보 조회
 	CarVO selectDriver(int res_idx);
+
+	int selectOptCheck(Map<String, String> map);
 	
 	// 차에 등록된 옵션 삭제
 	int deleteCarOption(int car_idx);

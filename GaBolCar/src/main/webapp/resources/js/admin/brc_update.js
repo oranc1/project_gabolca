@@ -1,8 +1,15 @@
 
 $(function(){
+	const width = 504;
+	const height = 443;
+	let left = (document.body.offsetWidth / 2) - (width / 2);
+	let tops = (document.body.offsetHeight / 2) - (height / 2);
+	left += window.screenLeft;
 	let geocoder = new kakao.maps.services.Geocoder();
-	$("#address").on("click",function(){
+	$("#address").on("click focus",function(){
 	    new daum.Postcode({
+			width: width,
+			height: height,
 	        oncomplete: function(data) {
 	            $("#address").val(data.address);
 	            $("#address").prop("readonly",true);
@@ -10,7 +17,14 @@ $(function(){
 	            var juso =  $("#address").val();
 	        	geocoder.addressSearch(juso, callback);  
 	        }
-	    }).open()
+	    }).open({
+			left: left,
+			top: tops,
+			popupKey: 'brcJuso',
+			popupTitle: '지점등록 주소검색'
+		});
+		
+		$("input[name=brc_addrDetail]").focus();
 	});
 	
     let callback = function(result, status) {
@@ -20,23 +34,41 @@ $(function(){
 		}
 	};
 	
-	// submit 창이동 및 지연
-	$("#submitBtn").on("click",function() {
-		if($("#address").val()!="" && $("input[name=brc_name]").val()!="" && $("input[name=brc_tel]").val() !="") {
-			$("form").submit
-//	        setTimeout(() => window.open("about:blank","_self"), 300);
-		}
-	});
-	
-	// submit 버튼 색상
+	// submit 색상변경, 클릭이벤트
 	$("#submitBtn").css({
 		"background" : "rgb(255, 94, 0)",
 		"color" : "#FFFFFF"
-	})
-    
+	}).on("click",function() {
+		if($("#address").val()!="" && $("input[name=brc_name]").val()!="" && $("input[name=brc_tel]").val() !="") {
+			$("form").submit
+		}
+	});
+	
 	$("#closeBtn").on("click", function() {
 		window.close();
-	})
+	});
+	
+	let brcNmChk = $("input[name=brc_name]").val();
+	$("input[name=brc_name]").on("blur",function() {
+		if (brcNmChk != $(this).val() && $(this).val() != '') {
+			$.ajax({
+				type: "get",
+				url: "brcCheckRdndn",
+				data: {
+					'brc_name': $(this).val()
+				}
+			}).done(function(result) {
+				if (result == '1') {
+					$("input[name=brc_name]").attr("placeholder",$("input[name=brc_name]").val()+"은 등록되어있는 지점명입니다.");
+					$("input[name=brc_name]").val('').focus();
+				}
+			});
+		};
+	});
+	
+	$("input[type=reset]").on("click",function(){
+		location.reload();
+	});
 	
 	$("input[name=brc_tel]").on("change",function() {
 		let brcTel = $(this).val();

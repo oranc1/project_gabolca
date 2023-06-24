@@ -6,8 +6,29 @@ $(function(){
 	}).on("click",function() {
 		if($("input[name=option_name]").val() != '' && $("input[name=option_image]").val() != '') {
 			$("form").submit();
-//			setTimeout(() => window.open("about:blank","_self"), 100);
 		}
+	});
+	
+	let optionNmChk = $("input[name=option_name]").val();
+	$("input[name=option_name]").on("blur",function() {
+		if (optionNmChk != $(this).val() && $(this).val() != '') {
+			$.ajax({
+				type: "get",
+				url: "optCheckRdndn",
+				data: {
+					'option_name': $(this).val()
+				}
+			}).done(function(result) {
+				if (result == '1') {
+					$("input[name=option_name]").attr("placeholder",$("input[name=option_name]").val()+"은 중복되는 옵션명입니다.");
+					$("input[name=option_name]").val('').focus();
+				}
+			});
+		}
+	});
+	
+	$("input[type=reset]").on("click",function(){
+		location.reload();
 	});
     
 	$("#closeBtn").on("click", function() {
@@ -16,8 +37,8 @@ $(function(){
     
     // 파일등록 태그 생성
     $("#imageDelete").on("click",function() {
-		$("#opth_1").empty().html("<td class='td_left'><label for='option_image'>옵션 이미지</label></td>");
-		$("#opth_2").empty().html("<td class='td_right'><input type='file' accept='image/*' name='option_image' required='required' class='form-control'/></td>");
+		$("#opth_1").empty().html("<td class='td_left' id='opth_1'><label for='option_image'>옵션 이미지</label></td>");
+		$("#opth_2").empty().html("<td class='td_right' id='opth_1'><input type='file' accept='image/*' name='option_image' required='required' class='form-control'/></td>");
 	});
 	
 	$("input[type=file]").on("change",function() {
