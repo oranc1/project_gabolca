@@ -184,7 +184,6 @@ public class AdminConroller {
 	    return "redirect:/admCarList";
 	}
 	
-<<<<<<< HEAD
 	// 차량삭제
 	@GetMapping("carDeletePro")
 	public String carDeletePro(int car_idx, Model model) {
@@ -206,7 +205,8 @@ public class AdminConroller {
 	        model.addAttribute("msg", "삭제 실패");
 	        return "inc/fail_back";
 	    }
-=======
+	    
+	}
 	// 지점등록폼 이동
 	@GetMapping("brcRegister")
 	public String brcRegister() {
@@ -265,7 +265,6 @@ public class AdminConroller {
 			model.addAttribute("msg","삭제 실패");
 			return "inc/fail_back";
 		}
->>>>>>> origin/main
 	}
 	
 	// 차량수정폼 이동
@@ -472,59 +471,6 @@ public class AdminConroller {
 	
 	
 	
-	
-	// 지점등록폼 이동
-	@GetMapping("brcRegister")
-	public String brcRegister() {
-		return "html/admin/brc_register";
-	}
-	
-	// 지점등록
-	@PostMapping("brcRegisterPro")
-	public String brcRegisterPro(@RequestParam Map<String, String> map, Model model) {
-		int insertCount = 0;
-		map.put("brc_addr", map.get("brc_addr") +","+ map.get("brc_addrDetail"));
-		insertCount = brc_service.brcRegister(map);
-		if (insertCount == 0) {
-			model.addAttribute("msg","등록 실패");
-			return "inc/fail_back";
-		}
-		return "inc/close";
-	}
-	
-	// 지점수정폼 이동
-	@GetMapping("brcUpdate")
-	public ModelAndView brcUpdate(@RequestParam int brc_idx) {
-		Map<String, Object> brc = brc_service.brcSelect(brc_idx);
-		brc.put("brc_addrDetail", brc.get("brc_addr").toString().split(",")[1]);
-		brc.put("brc_addr", brc.get("brc_addr").toString().split(",")[0]);
-		return new ModelAndView("html/admin/brc_update","brc",brc);
-	}
-	
-	// 지점수정
-	@PostMapping("brcUpdatePro")
-	public String brcUpdatePro(@RequestParam Map<String, String> map,Model model) {
-		map.put("brc_addr", map.get("brc_addr") +","+ map.get("brc_addrDetail"));
-		int updateCount = brc_service.brcUpdate(map);
-		if (updateCount > 0) {
-			return "inc/close";
-		} else {
-			model.addAttribute("msg","수정 실패");
-			return "inc/fail_back";
-		}
-	}
-	
-	// 지점삭제
-	@GetMapping("brcDeletePro")
-	public String brcDeletePro(int brc_idx,Model model) {
-		int deleteCount = brc_service.brcDelete(brc_idx);
-		if (deleteCount > 0) {
-			return "redirect:/admBrcList";
-		} else {
-			model.addAttribute("msg","삭제 실패");
-			return "inc/fail_back";
-		}
-	}
 	
 
 	
