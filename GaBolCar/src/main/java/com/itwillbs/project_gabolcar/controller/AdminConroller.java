@@ -6,7 +6,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -32,6 +36,7 @@ import com.itwillbs.project_gabolcar.service.MemberService;
 import com.itwillbs.project_gabolcar.service.ResService;
 import com.itwillbs.project_gabolcar.vo.CarOptionVO;
 import com.itwillbs.project_gabolcar.vo.CarVO;
+import com.itwillbs.project_gabolcar.vo.PageInfo;
 
 @Controller
 public class AdminConroller {
@@ -60,16 +65,48 @@ public class AdminConroller {
 	// 차량리스트 조회
     @ResponseBody
     @RequestMapping(value= "carList.ajax", method = RequestMethod.GET, produces = "application/text; charset=UTF-8")
-    public String carSearch(@RequestParam Map<String, Object> map, Model model) {
-		System.out.println(map);
-		
+    public String carSearch(@RequestParam Map<String, Object> map) {
 		int listLimit = 15;
 		int pageNum = Integer.parseInt(String.valueOf(map.get("pageNum")));
 		int startRow = (pageNum -1) * listLimit;
 		
+		// 출력할 데이터 가져오기
 		map.put("startRow", startRow);
 		map.put("listLimit", listLimit);
 		List<Map<String, Object>> carList = car_service.carList(map);
+		
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		// 출력할 데이터 사이즈
+		map.remove("startRow");
+		map.remove("listLimit");
+		int listCount = car_service.carList(map).size();
+		
+		//한 페이지에서 표시할 페이지 목록 갯수 설정
+		int pageListLimit = 5;
+		// 3. 전체 페이지 목록 수 계산
+		int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0);
+		// 4. 시작 페이지 번호 계산
+		int startPage = (pageNum - 1) / pageListLimit * pageListLimit + 1;
+		// 5. 끝 페이지 번호 계산
+		int endPage = startPage + pageListLimit - 1;
+		if(endPage > maxPage) {
+			endPage = maxPage;
+		}
+		
+		Map<String, Object> pageInfo = new HashMap<String, Object>();
+		pageInfo.put("listCount", listCount);
+		pageInfo.put("pageListLimit", pageListLimit);
+		pageInfo.put("maxPage", maxPage);
+		pageInfo.put("startPage", startPage);
+		pageInfo.put("endPage", endPage);
+		pageInfo.put("pageNum", pageNum);
+		
+		carList.add(pageInfo);
 		
 		JSONArray jsonArray = new JSONArray(carList);
     	return jsonArray.toString();

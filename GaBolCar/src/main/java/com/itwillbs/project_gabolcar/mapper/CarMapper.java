@@ -68,7 +68,7 @@ public interface CarMapper {
 	CarVO selectDriver(int res_idx);
 
 	int selectOptCheck(Map<String, String> map);
-	
+
 //	// 차량 수정 0619
 //	int updateCar(CarVO car);
 	

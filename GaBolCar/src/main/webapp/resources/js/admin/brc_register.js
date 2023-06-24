@@ -1,31 +1,32 @@
 
 $(function(){
+	// 팝업창 크기 조절
 	const width = 504;
 	const height = 443;
 	let left = (document.body.offsetWidth / 2) - (width / 2);
 	let tops = (document.body.offsetHeight / 2) - (height / 2);
 	left += window.screenLeft;
 	let geocoder = new kakao.maps.services.Geocoder();
+	// 주소창 클릭이나 포커스가 될경우 실행
 	$("#address").on("click focus",function(){
 	    new daum.Postcode({
 			width: width,
 			height: height,
 	        oncomplete: function(data) {
-	            $("#address").val(data.address);
-	            $("#address").prop("readonly",true);
-	            $("input[name=place]").val(data.sido);
+	            $("#address").val(data.address); // 주소값 저장
+	            $("#address").prop("readonly",true); // 주소값 읽기전용 변경
+//	            $("input[name=place]").val(data.sido); // 시,도 값 저장
 	            var juso =  $("#address").val();
-	        	geocoder.addressSearch(juso, callback);  
+	        	geocoder.addressSearch(juso, callback); //위경도 변환 메서드호출
 	        }
 	    }).open({
 			left: left,
 			top: tops,
 			popupKey: 'brcJuso',
 			popupTitle: '지점등록 주소검색'
-			
 		});
 		
-		$("input[name=brc_addrDetail]").focus();
+		$("input[name=brc_addrDetail]").focus(); // 입력완료후 상세주소로 포커스 이동
 	});
 	
     let callback = function(result, status) {
@@ -35,20 +36,23 @@ $(function(){
 		}
 	};
 	
-	// submit 색상변경, 클릭이벤트
+	let isChecked = false;
+	// submit버튼 색상변경 및 클릭
 	$("#submitBtn").css({
 		"background" : "rgb(255, 94, 0)",
 		"color" : "#FFFFFF"
 	}).on("click",function() {
 		if($("#address").val()!="" && $("input[name=brc_name]").val()!="" && $("input[name=brc_tel]").val() !="") {
-			$("form").submit
+			if(isChecked) $("form").submit;
 		}
 	});
 	
+	// 닫기 버튼
 	$("#closeBtn").on("click", function() {
 		window.close();
 	})
 	
+	// 기존지점명 중복검사
 	$("input[name=brc_name]").on("blur",function() {
 		let brcName = $(this).val();
 		if (brcName != '') {
@@ -62,6 +66,8 @@ $(function(){
 				if (result == '1') {
 					$("input[name=brc_name]").attr("placeholder",brcName+"은 중복되는 지점명입니다.");
 					$("input[name=brc_name]").val('').focus();
+				} else {
+					isChecked = true;
 				}
 			});
 		}

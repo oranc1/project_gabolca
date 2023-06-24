@@ -25,7 +25,6 @@ public class CarService {
 			pageInfo = (PageInfo)map.get("pageInfo");
 			map.put("pageItemStart", pageInfo.getNowPage() * pageInfo.getPageListLimit());
 		}
-		
 		return mapper.selectCarList(pageInfo,map);
 	}
 	
@@ -101,5 +100,4 @@ public class CarService {
 	public int isOptNameCheck(Map<String, String> map) {
 		return mapper.selectOptCheck(map);
 	}
-	
 }

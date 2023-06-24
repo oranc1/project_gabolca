@@ -52,15 +52,6 @@
 	        car_info ci ON ci.car_idx = co.car_idx
 	</select>
 	
-<!-- 		<select id="selectCarList" resultType="map"> -->
-<!-- 		select -->
-<!-- 			* -->
-<!-- 		from -->
-<!-- 			car_info -->
-<!-- 	</select> -->
-	
-	
-	
 	<!-- pageInfo 와 map 을 받아  찾고싶은 차량의 조건들을 확인하여 리스트를 반환
 		만약 pageInfo이 없으면 전체 차량 리스트를 불러옴
 		map의 속성값에 따라서 차량 찾기 만약 map이 아예 없으면 조건선택 X -->
@@ -513,17 +504,6 @@
 		GROUP BY
 			car_type
 	</select>
-	<!-- 지점 차량 보유현황 -->
-<!-- 	<select id="dsbBrcHoldStatus" resultType="map"> -->
-<!-- 		SELECT -->
-<!-- 			brc_name  -->
-<!-- 			, count(brc_name) AS count -->
-<!-- 		FROM -->
-<!-- 			car_info -->
-<!-- 		GROUP BY  -->
-<!-- 			brc_name -->
-<!-- 	</select> -->
-
 	<!-- 지점 차종별 차량 보유현황 -->
 	<select id="dsbBrcHoldStatus" resultType="map">
 		SELECT
@@ -546,6 +526,8 @@
 		GROUP BY
 			차종
 	</select>
+	
+	<!-- 옵션명 중복체크 -->
 	<select id="selectOptCheck">
 		select
 			count(*)

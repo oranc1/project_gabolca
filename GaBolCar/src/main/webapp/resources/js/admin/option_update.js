@@ -1,15 +1,22 @@
 $(function(){
-	// submit 버튼 클릭 - 부모창 새로고침 및 submit
+	// 옵션명 중복여부
+	let isChecked = false;	
+	// 전송버튼 색상 변경 및 클릭 - submit
 	$("#submitBtn").css({
 		"background" : "rgb(255, 94, 0)",
 		"color" : "#FFFFFF"
 	}).on("click",function() {
 		if($("input[name=option_name]").val() != '' && $("input[name=option_image]").val() != '') {
-			$("form").submit();
+			if (isChecked) {
+				$("form").submit();
+			}
 		}
 	});
 	
+	// 기존 옵션명 저장
 	let optionNmChk = $("input[name=option_name]").val();
+	
+	// 옵션명에서 포커스가 옮겨질때 실행 
 	$("input[name=option_name]").on("blur",function() {
 		if (optionNmChk != $(this).val() && $(this).val() != '') {
 			$.ajax({
@@ -19,18 +26,22 @@ $(function(){
 					'option_name': $(this).val()
 				}
 			}).done(function(result) {
-				if (result == '1') {
+				if (result == '1') { // 중복레코드값수; 1 = 중복
 					$("input[name=option_name]").attr("placeholder",$("input[name=option_name]").val()+"은 중복되는 옵션명입니다.");
 					$("input[name=option_name]").val('').focus();
+				} else { // 중복이 아닐경우
+					isChecked = true; // 옵션명 중복여부 true로 변경
 				}
 			});
 		}
 	});
 	
+	// 초기화 버튼
 	$("input[type=reset]").on("click",function(){
 		location.reload();
 	});
     
+    // 닫기 버튼
 	$("#closeBtn").on("click", function() {
 		window.close();
 	});
@@ -41,6 +52,7 @@ $(function(){
 		$("#opth_2").empty().html("<td class='td_right' id='opth_1'><input type='file' accept='image/*' name='option_image' required='required' class='form-control'/></td>");
 	});
 	
+	// 파일 변경시 확장자 및 용량 제한
 	$("input[type=file]").on("change",function() {
 		let file_val = $(this).val()
 		const reg = /(.*?)\.(xbm|tif|jfif|ico|tiff|gif|svg|jpeg|svgz|jpg|webp|png|bmp|pjp|apng|pjeg|avif|jpg)$/; // 제한 확장자
@@ -57,6 +69,7 @@ $(function(){
 		}
 	});	
 	
+	// 옵션명 변경시 정규식 검사
 	$("input[name=option_name]").on("change",function() {
 		let optionName = $(this).val();
 		const regStr = /[^가-힣\w\s]/g;

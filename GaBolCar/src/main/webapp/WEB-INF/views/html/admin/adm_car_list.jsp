@@ -25,27 +25,27 @@
 					<span id="adm_car_title">[관리자] 차량리스트</span>
 					<div id="ctbox">
 						<article id="adm_car_top">
-							<label>
-								<input type="checkbox" name="car_type" value="경형/소형">경형/소형
-							</label>
-							<label>
-								<input type="checkbox" name="car_type" value="준중형">준중형
-							</label>
-							<label>
-								<input type="checkbox" name="car_type" value="중형">중형
-							</label>
-							<label>
-								<input type="checkbox" name="car_type" value="대형">대형
-							</label>
-							<label>
-								<input type="checkbox" name="car_type" value="SUV">SUV
-							</label>
-							<label>
-								<input type="checkbox" name="car_type" value="승합">승합
-							</label>
-							<label>
-								<input type="checkbox" name="car_type" value="수입">수입
-							</label>
+							<span class="cts">
+								<input type="hidden" name="car_type" value="경형/소형">경형/소형
+							</span>
+							<span class="cts">
+								<input type="hidden" name="car_type" value="준중형">준중형
+							</span>
+							<span class="cts">
+								<input type="hidden" name="car_type" value="중형">중형
+							</span>
+							<span class="cts">
+								<input type="hidden" name="car_type" value="대형">대형
+							</span>
+							<span class="cts">
+								<input type="hidden" name="car_type" value="SUV">SUV
+							</span>
+							<span class="cts">
+								<input type="hidden" name="car_type" value="승합">승합
+							</span>
+							<span class="cts">
+								<input type="hidden" name="car_type" value="수입">수입
+							</span>
 						</article>
 						<article id="adm_car_bottom">
 							<span id="adm_search">
@@ -86,9 +86,6 @@
 						</button>
 					</article>
 					<article id="pageList">
-						<input type="button" id="prvsPage"class="adm_car_button" value="이전">
-						<span id="nowPage"></span>
-						<input type="button" id="nextPage" class="adm_car_button" value="다음">
                      </article>
 				</section>
 			</div>

@@ -15,6 +15,12 @@
 	text-align: center;
 }
 
+.pageMove {
+	margin-left: 0.5%;
+	margin-right: 0.5%;
+	cursor: pointer;
+}
+
 #adm_car {
 	width: 100%;
 }
@@ -54,11 +60,7 @@
 	min-width: 330;
 }
 
-#adm_car_top input[type="checkbox"] {
-	display: none;
-}
-
-#adm_car_top label {
+.cts {
 	font-weight: bold;
 	text-align: center;
 	font-size: 12px;
