@@ -360,10 +360,11 @@ public class MemberController {
 		System.out.println("검색타입 : " + searchType);
 		System.out.println("검색어 : " + searchKeyword);
 		
-		int listLimit = 10; // 한 페이지에서 표시할 목록 갯수 지정
+		int listLimit = 4; // 한 페이지에서 표시할 목록 갯수 지정
 		int startRow = (pageNum - 1) * listLimit; // 조회 시작 행(레코드) 번호
 		
 		List<QuestionVO> qstBoardList = qst_service.getQstBoardList(searchType, searchKeyword, startRow, listLimit);
+		System.out.println("QuestionListForm : " + qstBoardList);
 		
 		int listCount = qst_service.getQstBoardListCount(searchType, searchKeyword);
 		
@@ -379,12 +380,13 @@ public class MemberController {
 			endPage = maxPage;
 		}
 		
-		QstPageInfoVO qstPageInfo = new QstPageInfoVO(listCount, pageListLimit, maxPage, startPage, endPage);
+		QstPageInfoVO PageInfo = new QstPageInfoVO(listCount, pageListLimit, maxPage, startPage, endPage);
 		
 		model.addAttribute("qstBoardList", qstBoardList);
-		model.addAttribute("pageInfo", qstPageInfo);
+		model.addAttribute("pageInfo", PageInfo);
 		
-		System.out.println(" qstBoardList : " + qstBoardList);
+//		System.out.println(" qstBoardList : " + qstBoardList);
+//		System.out.println(" pageInfo : " + PageInfo);
 		return "html/member/question/question_board";
 	}
 	
@@ -437,7 +439,7 @@ public class MemberController {
 		return "redirect:/QuestionList?pageNum=" + pageNum;
 	}
 
-	// 답변 구현중
+	// 1:1 문의 게시판 답변 폼
 	@GetMapping("QuestionReplyForm")
 	public String qstReplyForm(
 			@RequestParam int qst_idx, 
@@ -457,78 +459,86 @@ public class MemberController {
 		return "html/member/question/question_reply_form";
 	}
 	
-	// 1:1 문의 게시판 답변 
+	// 문의 게시판 답변 기능
 	@PostMapping("QuestionReplyPro")
 	public String qstReplyPro(
-			@RequestParam String mem_name,
-			QuestionVO question, 
-			@RequestParam(defaultValue = "1") int pageNum,
-			HttpSession session, Model model, HttpServletRequest request) {
+	        @RequestParam String mem_name,
+	        QuestionVO question, 
+	        @RequestParam(defaultValue = "1") int pageNum,
+	        HttpSession session, Model model, HttpServletRequest request) {
+	    
+	    String sId = (String)session.getAttribute("sId");
+	    if(sId == null) {
+	        model.addAttribute("msg", "잘못된 접근입니다!");
+	        return "fail_back";
+	    }
+	    //
+	    int mem_idx = memberService.getCurrentUserMemIdx(mem_name);
+	    //
+	    question.setMem_idx(mem_idx);
+	    
+	    // 원본 글을 불러와서 원본 글의 qst_board_re_ref 값을 추출합니다.
+	    question.setQst_board_re_ref(question.getQst_board_re_ref());
+	    
+	    
+	    int insertCount = qst_service.registReplyQstBoard(question);
+	    
+	    if(insertCount > 0) {
+	        System.out.println("답변 성공");
+	        return "redirect:/QuestionList";
+	    } else {
+	        model.addAttribute("msg", "답변 실패!");
+	        return "inc/fail_back";
+	    }
+	    
+	}
+	
+	
+	// 문의 게시판 수정 폼
+	@GetMapping("QuestionModifyForm")
+	public String qstModiyForm(
+			@RequestParam int qst_idx, 
+			@RequestParam(defaultValue = "1") int pageNum, 
+			HttpSession session, Model model) {
+		
 		
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
 			return "fail_back";
 		}
-		//
-		int mem_idx = memberService.getCurrentUserMemIdx(mem_name);
-	    //
-	    question.setMem_idx(mem_idx);
 		
-		int insertCount = qst_service.registReplyQstBoard(question);
+		QuestionVO question = qst_service.getQuestionBoard(qst_idx);
 		
-		if(insertCount > 0) {
-			System.out.println("답변 성공");
-			return "redirect:/QuestionList";
-		} else {
-			model.addAttribute("msg", "답변 실패!");
-			return "inc/fail_back";
-		}
+		model.addAttribute("question", question);
 		
+		
+		return "html/member/question/question_modify";
 	}
-		@GetMapping("QuestionModifyForm")
-		public String qstModiyForm(
-				@RequestParam int qst_idx, 
-				@RequestParam(defaultValue = "1") int pageNum, 
-				HttpSession session, Model model) {
-			
-			
-			String sId = (String)session.getAttribute("sId");
-			if(sId == null) {
-				model.addAttribute("msg", "잘못된 접근입니다!");
-				return "fail_back";
-			}
-			
-			QuestionVO question = qst_service.getQuestionBoard(qst_idx);
-			
-			model.addAttribute("question", question);
-			
-			
-			return "html/member/question/question_modify";
-		}
 	
-		@PostMapping("QuestionModifyPro")
-		public String qstModiyPro(
-		        @RequestParam String mem_name,
-		        @RequestParam int qst_idx,
-		        QuestionVO question,
-		        @RequestParam(defaultValue = "1") int pageNum,
-		        HttpSession session, 
-		        Model model) {
-		    int mem_idx = memberService.getCurrentUserMemIdx(mem_name);
-		    question.setMem_idx(mem_idx);
-		    question.setQst_idx(qst_idx);
+	// 문의 게시판 수정 기능
+	@PostMapping("QuestionModifyPro")
+	public String qstModiyPro(
+	        @RequestParam String mem_name,
+	        @RequestParam int qst_idx,
+	        QuestionVO question,
+	        @RequestParam(defaultValue = "1") int pageNum,
+	        HttpSession session, 
+	        Model model) {
+	    int mem_idx = memberService.getCurrentUserMemIdx(mem_name);
+	    question.setMem_idx(mem_idx);
+	    question.setQst_idx(qst_idx);
 
-		    int updateCount = qst_service.qstModifyBoard(question);
-		    
-		    if(updateCount > 0) {
-		        System.out.println("수정 성공");
-		        return "redirect:/QuestionList?qst_idx=" + question.getQst_idx() + "&pageNum=" + pageNum;
-		    } else {
-		        model.addAttribute("msg", "수정 실패!");
-		        return "inc/fail_back";
-		    }
-		}
+	    int updateCount = qst_service.qstModifyBoard(question);
+	    
+	    if(updateCount > 0) {
+	        System.out.println("수정 성공");
+	        return "redirect:/QuestionList?qst_idx=" + question.getQst_idx() + "&pageNum=" + pageNum;
+	    } else {
+	        model.addAttribute("msg", "수정 실패!");
+	        return "inc/fail_back";
+	    }
+	}
 	
 	//============= etc ==============
 	// 찾아 오는 길

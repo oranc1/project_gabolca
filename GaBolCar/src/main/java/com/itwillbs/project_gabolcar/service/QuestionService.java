@@ -41,12 +41,6 @@ public class QuestionService {
 		}
 		return question;
 	}
-	// 작성자 확인
-//	public boolean isBoardWriter(int qst_idx, String mem_id) {
-//		String mem_name = getMemNameById(sId);
-//		QuestionVO question = mapper.selectQuestionBoard(qst_idx);
-//		return mem_id.equals(question.getMem_name());
-//	}
 	
 	//  작성자가 맞는 지 확인
 	public boolean isBoardWriter(int qst_idx, String sId) {

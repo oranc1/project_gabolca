@@ -26,25 +26,25 @@
 	<select id="selectQstBoardList" resultType="com.itwillbs.project_gabolcar.vo.QuestionVO">
 			SELECT *
 			FROM qst_board 
+			
 			<if test="!searchKeyword.equals('')">
-						WHERE
-						<choose>
-							<when test="searchType.equals('subject')">
-								qst_subject LIKE '%${searchKeyword}%'
-							</when>
-							<when test="searchType.equals('content')">
-								qst_content LIKE '%${searchKeyword}%'
-							</when>
-							<when test="searchType.equals('subject_content')">
-								qst_subject LIKE '%${searchKeyword}%'
-								OR qst_content LIKE '%${searchKeyword}%'
-							</when>
-							<when test="searchType.equals('name')">
-								mem_name LIKE '%${searchKeyword}%'
-							</when>
-						</choose>
-					</if>
-					
+					WHERE
+					<choose>
+						<when test="searchType.equals('subject')">
+							qst_subject LIKE '%${searchKeyword}%'
+						</when>
+						<when test="searchType.equals('content')">
+							qst_content LIKE '%${searchKeyword}%'
+						</when>
+						<when test="searchType.equals('subject_content')">
+							qst_subject LIKE '%${searchKeyword}%'
+							OR qst_content LIKE '%${searchKeyword}%'
+						</when>
+						<when test="searchType.equals('name')">
+							mem_name LIKE '%${searchKeyword}%'
+						</when>
+					</choose>
+			</if>
 					ORDER BY 
 						qst_board_re_ref DESC
 						, qst_board_re_seq ASC
@@ -130,45 +130,50 @@
 <!-- ON qst_board.mem_idx = mem_info.mem_idx; -->
 	
 
-<!-- <update id="updateQstBoardReSeq"> -->
-<!--     UPDATE qst_board -->
-<!--         SET -->
-<!--             qst_board_re_seq = qst_board_re_seq + 1 -->
-<!--         WHERE -->
-<!--             qst_board_re_ref = #{qst_board_re_ref} -->
-<!--             AND qst_board_re_seq >= #{qst_board_re_seq} + 1 -->
-<!-- </update> -->
 
 	<update id="updateQstBoardReSeq">
-    UPDATE qst_board
-        SET
-            qst_board_re_seq = qst_board_re_seq + 1
-        WHERE
-            qst_board_re_ref = #{qst_board_re_ref}
-            AND qst_board_re_seq > #{qst_board_re_seq}
+	    UPDATE qst_board
+	    SET
+	        qst_board_re_seq = qst_board_re_seq + 1
+	    WHERE
+	        qst_board_re_ref = #{qst_board_re_ref}
+	        AND qst_board_re_seq > #{qst_board_re_seq}
 	</update>
-
 	
-<insert id="insertQstReplyBoard">
-    <selectKey keyProperty="qst_idx" resultType="int" order="BEFORE">
-        SELECT IFNULL(MAX(qst_idx), 0) FROM qst_board
-    </selectKey>
-    INSERT INTO qst_board
-    VALUES (
-        #{qst_idx} + 1
-        , #{mem_idx}
-        , #{mem_name}
-        , #{qst_pass}
-        , #{qst_subject}
-        , #{qst_content}
-        , #{qst_board_re_ref}
-        , #{qst_board_re_lev} + 1
-        , #{qst_board_re_seq} + 1
-        , 0                
-        , now()
-        , #{qst_type}      
-    )
-</insert>
+	<insert id="insertQstReplyBoard">
+	    <selectKey keyProperty="qst_idx" resultType="int" order="BEFORE">
+	        SELECT IFNULL(MAX(qst_idx), 0) FROM qst_board
+	    </selectKey>
+	        INSERT INTO qst_board
+	        VALUES (
+	            #{qst_idx} + 1
+	            , #{mem_idx}
+	            , #{mem_name}
+	            , #{qst_pass}
+	            , #{qst_subject}
+	            , #{qst_content}
+	            , #{qst_board_re_ref} 
+	            , #{qst_board_re_lev} + 1
+	            , #{qst_board_re_seq} + 1
+	            , 0                
+	            , now()
+	            , #{qst_type}      
+	        )
+	</insert>
+	
+	<select id="getQuestionByQstIdx" resultType="com.itwillbs.project_gabolcar.vo.QuestionVO">
+    SELECT *
+    FROM qst_board
+    WHERE qst_idx = #{qst_idx}
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	<update id="updateQstBoard">
 		UPDATE qst_board
