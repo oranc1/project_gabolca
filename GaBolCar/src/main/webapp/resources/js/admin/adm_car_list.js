@@ -36,7 +36,7 @@ $(function() {
 			dataType: "json"
 		})
 		.done(function(carList){
-			if (carList.length > 0) {
+			if (carList.length > 1) {
 				doneResult(carList);
 			} else {
 				noSearchResult();
