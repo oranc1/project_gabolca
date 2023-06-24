@@ -15,46 +15,69 @@ public interface CarItemMapper {
 	//=======================
 	
 	//리뷰 관련 Mapper========================================================================
-	
-	//car_res_info 작은 리뷰창	
-	List<ReviewVO> getReviewListSmall(String car_model);
-	
-	// 최대 글번호 선택
-	int selectMaxIdx();
+		//리뷰게시판 목록조회
+		//List<ReviewVO> selectReviewList(int startRow, int listLimit);
+		
+		//List<ReviewVO> selectReviewList(int startRow, int listLimit);
+		//리뷰게시판 목록 수 참고위한 카운터
+		//int selectReviewListCount();
+		//리뷰게시판 메퍼 종료
+		
+		//car_res_info 작은 리뷰창	
+		List<ReviewVO> getReviewListSmall(String car_model);
+		
+		// 최대 글번호 선택
+		int selectMaxIdx();
 
-	// 글 작성
-	int insertReview(ReviewVO review);
-	
-	// 글 목록 조회
-	// => 복수개의 파라미터 구분을 위해 @Param 어노테이션 사용
-	List<ReviewVO> getReviewListPaging(
-			@Param("searchType") String searchType, 
-			@Param("searchKeyword") String searchKeyword, 
-			@Param("startRow") int startRow, 
-			@Param("listLimit") int listLimit);
+		// 글 작성
+		int insertReview(ReviewVO review);
+		
+		/*//  리뷰게시판 글 목록, 페이지 나눔
+		List<ReviewVO> getReviewListPaging(@Param("searchType") String searchType, 
+				@Param("searchKeyword") String searchKeyword, Criteria cri);
 
-	// 전체 글 목록 갯수 조회
-	int getTotal(
-			@Param("searchType") String searchType, 
-			@Param("searchKeyword") String searchKeyword);
-	
-	// 글 상세보기
-	ReviewVO reviewDetail(ReviewVO review);
+		// 리뷰게시판 총 갯수
+		int getTotal(@Param("searchType") String searchType, 
+				@Param("searchKeyword") String searchKeyword);
+		*/
+		
+		// 글 목록 조회
+		// => 복수개의 파라미터 구분을 위해 @Param 어노테이션 사용
+		List<ReviewVO> getReviewListPaging(
+				@Param("searchType") String searchType, 
+				@Param("searchKeyword") String searchKeyword, 
+				@Param("startRow") int startRow, 
+				@Param("listLimit") int listLimit);
 
-	// 글 수정
-	int modifyReview(ReviewVO review);
+		// 전체 글 목록 갯수 조회
+		int getTotal(
+				@Param("searchType") String searchType, 
+				@Param("searchKeyword") String searchKeyword);
 
-	// 글 삭제
-	int deleteReview(ReviewVO review);
 
-	// 글 삭제 시 글 번호 업데이트
-	int updateIdx(ReviewVO review);
-	
-	//=========================================================================================
-	
-	//=========================================================================================
-	
-	
+		// 글 상세정보 조회
+		int selectBoard(String sId);
+
+		
+		// 글 상세보기
+		ReviewVO reviewDetail(ReviewVO review);
+
+		// 글 수정
+		int modifyReview(ReviewVO review);
+
+		// 글 삭제
+		int deleteReview(ReviewVO review);
+
+		// 글 삭제 시 글 번호 업데이트
+		int updateIdx(ReviewVO review);
+		
+		//=========================================================================================
+		
+		//=========================================================================================
+		
+		
+		
+		
 	
 	
 	

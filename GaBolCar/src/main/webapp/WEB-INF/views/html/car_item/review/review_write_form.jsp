@@ -68,7 +68,8 @@
 								</div>
 
 								<div class="mod_box">
-										<input type="submit" class="delete_btn" value="등록">
+									<input type="submit" class="delete_btn" value="등록">
+									<a class="list_btn" href="/project_gabolcar/reviewList?pageNum=${param.pageNum}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}">목록</a>
 								</div>
 								
 							</div>

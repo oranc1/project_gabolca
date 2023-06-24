@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.itwillbs.project_gabolcar.mapper.CarItemMapper">
 
-	<!-- 리뷰 관련 mapper.xml -->
+<!-- 리뷰 관련 mapper.xml -->
 	<!-- 리뷰 게시판 목록 -->
 
 	<!-- 리뷰게시판 작은거 3개 -->
@@ -23,13 +23,15 @@
 	<!-- 리뷰게시판 목록 페이지 나누기 -->
 	<select id="getReviewListPaging" resultType="com.itwillbs.project_gabolcar.vo.ReviewVO">
 		SELECT * FROM (
-	           	SELECT rc.rev_date, rc.rev_content, rc.rev_name, rc.rev_idx, rc.rev_star, rc.rev_subject, ci.car_model, 
+	           	SELECT rc.rev_date, rc.rev_content, rc.rev_name, mi.mem_id, rc.rev_idx, rc.rev_star, rc.rev_subject, ci.car_model, 
 	            date_format(rev_date, '%Y-%m-%d')AS rev_date_format 
 	              FROM rev_car rc
 	              	JOIN res_info ri
 	              	ON rc.res_idx = ri.res_idx 
 	              	JOIN car_info ci
 	              	ON ri.car_idx = ci.car_idx 
+	              	left join mem_info mi
+	              	on rc.rev_name = mi.mem_name
               		) AS n1
 						  <if test="!searchKeyword.equals('')">
 							WHERE
@@ -96,15 +98,23 @@
 				</if>
 	</select>
 	
+	
+	<!-- 예약 조회 - SELECT -->
+	<select id="selectBoard" resultType="int">
+		select count(*) from res_info ri join mem_info mi on ri.mem_idx = mi.mem_idx where mi.mem_id = #{sId} 
+	</select>
+	
 	<!-- 리뷰 게시판 뷰 -->
 	<select id="reviewDetail" resultType="com.itwillbs.project_gabolcar.vo.ReviewVO">
-		SELECT rc.rev_date, rc.rev_idx, rc.rev_star, rc.rev_subject, rc.rev_name, ci.car_model, 
+		SELECT rc.rev_date, rc.rev_idx, rc.rev_star, mi.mem_id, rc.rev_subject, rc.rev_name, ci.car_model, 
 		rc.rev_content, date_format(rev_date, '%Y-%m-%d')AS rev_date_format 
        		FROM rev_car rc
 	       		JOIN res_info ri
 	       		ON rc.res_idx = ri.res_idx 
 	       		JOIN car_info ci
 	       		ON ri.car_idx = ci.car_idx 
+	       		left join mem_info mi
+	              	on rc.rev_name = mi.mem_name
 					WHERE rev_idx = #{rev_idx}
 	</select>
 	
@@ -144,6 +154,7 @@
 	
 	
 	<!-- 리뷰 게시판 끝 -->
+	
 	
 	
 	

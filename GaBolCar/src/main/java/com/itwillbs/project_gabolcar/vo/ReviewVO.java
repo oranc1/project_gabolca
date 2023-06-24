@@ -23,8 +23,8 @@ public class ReviewVO {
 	private String rev_date_format;
 	private int car_idx;
 	private String car_model;
-	
-	
+	private String sId;
+	private String mem_id;
 }
 
 
