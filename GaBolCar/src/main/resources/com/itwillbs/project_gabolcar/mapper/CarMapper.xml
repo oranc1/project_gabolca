@@ -32,6 +32,7 @@
 		)
 	</insert>
 	
+	<!-- 차량 등록 - 차에 옵션 등록 -->
 	<insert id="insertCarOption" parameterType="com.itwillbs.project_gabolcar.vo.CarVO">
 		insert into
 			car_options
@@ -49,11 +50,6 @@
    		 	car_idx = #{car_idx}
 	</delete>
 	
-	<!-- 차량에 새로 옵션 등록 -->
-	<insert id="addCarOption">
-	    INSERT INTO car_options (car_idx, option_idx)
-	    VALUES (#{car_idx}, #{option_idx})
-	</insert>
 	
 	<insert id="insertUpdateCarOption" parameterType="com.itwillbs.project_gabolcar.vo.CarOptionVO">
 	    INSERT INTO car_options (car_idx, option_idx)

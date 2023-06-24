@@ -289,7 +289,7 @@ public class AdminConroller {
 	    return "html/admin/car_update";
 	}
 		
-	// 차량 수정 0619
+	// 차량수정
 	@Transactional
 	@PostMapping("carUpdatePro")
     public String carUpdatePro(
@@ -373,110 +373,6 @@ public class AdminConroller {
         }
         return "redirect:/admCarList";
     }
-	
-	
-	
-//	// 차량 수정 0619
-//	@Transactional
-//	@PostMapping("carUpdatePro")
-//	public String carUpdatePro(
-//			@RequestParam(value = "option_idx", required = false) List<Integer> optionIdxList,
-//			CarVO car, HttpSession session,
-//			Model model) {
-//		
-//		String uploadDir = "/resources/upload/car"; // 서버 이미지 저장 경로
-//		String saveDir = session.getServletContext().getRealPath(uploadDir);
-//		
-//		try {
-//			Date date = new Date();
-//			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-//			car.setCar_file_path("/" + sdf.format(date));
-//			saveDir = saveDir + car.getCar_file_path();
-//			
-//			Path path = Paths.get(saveDir);
-//			
-//			Files.createDirectories(path);
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//		
-//		MultipartFile[] mFiles = car.getFiles();
-//		
-//		if (mFiles != null && mFiles.length > 0) {
-//			int fileCount = Math.min(mFiles.length, 6); // 파일 수를 6개로 제한
-//			
-//			for (int i = 0; i < fileCount; i++) {
-//				MultipartFile mFile = mFiles[i];
-//				String originalFileName = mFile.getOriginalFilename();
-//				
-//				if (originalFileName != null && !originalFileName.isEmpty()) {
-//					String uuid = UUID.randomUUID().toString();
-//					String carFileName = uuid.substring(0, 8) + "_" + originalFileName;
-//					
-//					car.setCarFileAt(i+1, carFileName); // 파일명을 해당 car_file에 저장
-//					
-//					System.out.println("실제 업로드 될 파일명: " + carFileName);
-//					
-//					try {
-//						mFile.transferTo(new File(saveDir, carFileName));
-//					} catch (IllegalStateException e) {
-//						e.printStackTrace();
-//						model.addAttribute("msg", "파일 업로드 실패!");
-//						return "inc/fail_back";
-//					} catch (IOException e) {
-//						e.printStackTrace();
-//						model.addAttribute("msg", "파일 업로드 실패!");
-//						return "inc/fail_back";
-//					}
-//				}
-//			}
-//		}
-//		
-//		int updateCount = car_service.carUpdate(car);
-//		
-//		if (updateCount > 0) {
-//			System.out.println("차량 수정 성공");
-//			car.setCar_idx((int) car_service.carSelect(car).get("car_idx"));
-//			car_service.deleteOptionFile(car.getCar_idx());
-//			
-//			// 기존에 선택된 옵션을 삭제
-//			car_service.deleteCarOptionsByCarIdx(car.getCar_idx());
-//			
-//			
-//			
-//			// 옵션 수정 부분
-//			if (optionIdxList != null && !optionIdxList.isEmpty()) {
-//				for (Integer optionIdx : optionIdxList) {
-//					CarOptionVO carOption = new CarOptionVO();
-//					carOption.setCar_idx(car.getCar_idx());
-//					carOption.setOption_idx(optionIdx);
-////                    int optionUpdateResult = car_service.carUpdateOptionRegister(carOption); // 수정된 부분
-//					int optionUpdateResult = car_service.carOptionRegister(car);
-//					if (optionUpdateResult > 0) {
-//						System.out.println("옵션 수정 성공: " + optionIdx);
-//					} else {
-//						System.out.println("옵션 수정 실패: " + optionIdx);
-//					}
-//				}
-//			}
-//		} else {
-//			model.addAttribute("msg", "차량 수정 실패!");
-//			return "inc/fail_back";
-//		}
-//		return "redirect:/admCarList";
-//	}
-	
-	
-	
-	
-	
-	
-	
-
-	
-
-	
-
 	
 	// 옵션리스트 이동 - 디자인이 어려움
 	@GetMapping("optionList")
