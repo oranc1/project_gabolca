@@ -95,8 +95,11 @@ public class CarService {
 	
 	//차량 정보 조회
 	public CarVO carInfo(int res_idx) {
-		
 		return mapper.selectDriver(res_idx);
+	}
+
+	public int isOptNameCheck(Map<String, String> map) {
+		return mapper.selectOptCheck(map);
 	}
 	
 }

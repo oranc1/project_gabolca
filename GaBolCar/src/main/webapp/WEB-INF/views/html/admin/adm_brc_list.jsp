@@ -49,11 +49,9 @@
 <!-- 										<span class="li_tit">메일</span> -->
 <!-- 										<span class="li_txt">location_email</span> -->
 <!-- 									</li> -->
-									<li>
-										<span>
-											<button name="brc_update" class="adm_brc_button" value="${brc.brc_idx }">수정</button>
-											<button name="brc_delete" class="adm_brc_button" value="${brc.brc_idx }">삭제</button>
-										</span>
+									<li class="mgmtbtn_sort">
+										<button name="brc_update" class="adm_brc_button" value="${brc.brc_idx }">수정</button>
+										<button name="brc_delete" class="adm_brc_button" value="${brc.brc_idx }">삭제</button>
 									</li>
 								</ul>
 							</div>

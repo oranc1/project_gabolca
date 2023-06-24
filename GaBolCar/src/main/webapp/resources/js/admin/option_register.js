@@ -1,18 +1,37 @@
 $(function(){
-	// submit 창이동 및 지연
-	$("#submitBtn").on("click", function() {
-		if($("input[name=option_name]").val()!='' && $("input[name=option_image]").val()!='') {
-			$("form").submit();
-//	        setTimeout(() => window.open("about:blank","_self"), 100);
-		}
-	});
-	
-	// submit 버튼 색상
+	// submit 색상변경, 창이동 및 지연
 	$("#submitBtn").css({
 		"background" : "rgb(255, 94, 0)",
 		"color" : "#FFFFFF"
+	}).on("click", function() {
+		if($("input[name=option_name]").val()!='' && $("input[name=option_image]").val()!='') {
+			$("form").submit();
+		}
 	});
 	
+	$("input[name=option_name]").on("blur",function() {
+		let optionName = $(this).val();
+		if (optionName != '') {
+			$.ajax({
+				type: "get",
+				url: "optCheckRdndn",
+				data: {
+					'option_name': $(this).val()
+				}
+			}).done(function(result) {
+				if (result == '1') {
+					$("input[name=option_name]").val('').focus();
+					$("input[name=option_name]").attr("placeholder",optionName+"은 중복되는 옵션명입니다.");
+				}
+			});
+		}
+	});
+	
+	$("input[type=reset]").on("click",function(){
+		location.reload();
+	});
+	
+	// 닫기 버튼
 	$("#closeBtn").on("click", function() {
 		window.close();
 	});

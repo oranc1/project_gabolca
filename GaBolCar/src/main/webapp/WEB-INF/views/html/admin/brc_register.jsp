@@ -34,8 +34,12 @@
 						</td>
 					</tr>
 					<tr>
-						<td class="td_left"><label for="brc_tel">전화번호</label></td>
-						<td class="td_right"><input type="text" name="brc_tel" required="required" class="form-control" /></td>
+						<td class="td_left">
+							<label for="brc_tel">전화번호</label>
+						</td>
+						<td class="td_right">
+							<input type="text" name="brc_tel" required="required" class="form-control" placeholder="전화번호"/>
+						</td>
 					</tr>
 	        	</table>
 			    <div id="btnArea">
@@ -46,6 +50,6 @@
 		  	</div>
 		</form>
 	</section>
-	<script src="${pageContext.request.contextPath }/resources/js/admin/brc_open.js"></script>
+	<script src="${pageContext.request.contextPath }/resources/js/admin/brc_register.js"></script>
 </body>
 </html>

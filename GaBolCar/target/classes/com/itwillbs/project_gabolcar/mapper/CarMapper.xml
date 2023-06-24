@@ -546,4 +546,15 @@
 		GROUP BY
 			차종
 	</select>
+	<select id="selectOptCheck">
+		select
+			count(*)
+		from
+			option_list
+			<choose>
+				<when test="!option_name.equals('')">
+					where option_name = #{option_name}					
+				</when>
+			</choose>
+	</select>
 </mapper>

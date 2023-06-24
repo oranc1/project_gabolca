@@ -202,6 +202,13 @@ public class AdminConroller {
 		return "inc/close";
 	}
 	
+	// 지점명 중복체크
+	@ResponseBody
+	@GetMapping("brcCheckRdndn")
+	public int brcCheckRdndn(@RequestParam Map<String,String> map) {
+		return brc_service.isBrcNameCheck(map);
+	}
+	
 	// 지점수정폼 이동
 	@GetMapping("brcUpdate")
 	public ModelAndView brcUpdate(@RequestParam int brc_idx) {
@@ -370,6 +377,13 @@ public class AdminConroller {
     @GetMapping("optionInsert")
     public String optionInsert() {
         return "html/admin/option_register";
+    }
+    
+    // 옵션명 중복체크
+    @ResponseBody
+    @GetMapping("optCheckRdndn")
+    public int optCheckRdndn(@RequestParam Map<String, String> map) {
+    	return car_service.isOptNameCheck(map);
     }
     
     // 옵션등록

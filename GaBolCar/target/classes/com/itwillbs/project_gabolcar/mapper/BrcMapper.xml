@@ -48,4 +48,15 @@
 		where
 			brc_idx=#{brc_idx}
 	</delete>
+	<select id="selectBrcCheck">
+		select
+			count(*)
+		from
+			brc_info
+			<choose>
+				<when test="!brc_name.equals('')">
+					where brc_name = #{brc_name}					
+				</when>
+			</choose>
+	</select>
 </mapper>
