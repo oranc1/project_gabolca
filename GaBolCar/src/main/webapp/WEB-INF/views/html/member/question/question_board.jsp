@@ -118,46 +118,43 @@
 						    <nav class="pg_wrap">
 						        <span class="pg">
 						        
-        <section id="pageList">
-		<c:choose>
-			<c:when test="${pageNum > 1 }">
-				<input type="button" value="이전" onclick="location.href='QuestionListForm?pageNum=${pageNum - 1}'">
-			</c:when>
-			<c:otherwise>
-				<input type="button" value="이전" disabled="disabled">
-			</c:otherwise>
-		</c:choose>
-						
-		<c:forEach var="i" begin="${pageInfo.startPage }" end="${pageInfo.endPage }">
-			<%-- 각 페이지마다 하이퍼링크 설정(단, 현재 페이지는 하이퍼링크 제거) --%>
-			<c:choose>
-				<c:when test="${pageNum eq i }">
-					<b>${i }</b>
-				</c:when>
-				<c:otherwise>
-					<a href="QuestionListForm?pageNum=${i }">${i }</a>
-				</c:otherwise>
-			</c:choose>
-		</c:forEach>	
-						
-		<c:choose>
-			<c:when test="${pageNum < pageInfo.maxPage }">
-				<input type="button" value="다음" onclick="location.href='QuestionListForm?pageNum=${pageNum + 1}'">
-			</c:when>
-			<c:otherwise>
-				<input type="button" value="다음" disabled="disabled">
-			</c:otherwise>
-		</c:choose>
-						
-						            <c:choose>
-						                <c:when test="${pageNum < pageInfo.maxPage }">
-						                    <a href="QuestionListForm?pageNum=${pageInfo.maxPage }" class="pg_page pg_end">맨끝</a>
-						                </c:when>
-						                <c:otherwise>
-						                    <a class="pg_page pg_end disabled" disabled>맨끝</a>
-						                </c:otherwise>
-						            </c:choose>
-						            </section>
+				        	<section id="pageList">
+								<c:choose>
+									<c:when test="${pageNum > 1 }">
+										<input type="button" value="이전" onclick="location.href='QuestionListForm?pageNum=${pageNum - 1}'">
+									</c:when>
+									<c:otherwise>
+										<input type="button" value="이전" disabled="disabled">
+									</c:otherwise>
+								</c:choose>		
+								<c:forEach var="i" begin="${pageInfo.startPage }" end="${pageInfo.endPage }">
+									<%-- 각 페이지마다 하이퍼링크 설정(단, 현재 페이지는 하이퍼링크 제거) --%>
+									<c:choose>
+										<c:when test="${pageNum eq i }">
+											<b>${i }</b>
+										</c:when>
+										<c:otherwise>
+											<a href="QuestionListForm?pageNum=${i }">${i }</a>
+										</c:otherwise>
+									</c:choose>
+								</c:forEach>	
+								<c:choose>
+									<c:when test="${pageNum < pageInfo.maxPage }">
+										<input type="button" value="다음" onclick="location.href='QuestionListForm?pageNum=${pageNum + 1}'">
+									</c:when>
+									<c:otherwise>
+										<input type="button" value="다음" disabled="disabled">
+									</c:otherwise>
+								</c:choose>
+					            <c:choose>
+					                <c:when test="${pageNum < pageInfo.maxPage }">
+					                    <a href="QuestionListForm?pageNum=${pageInfo.maxPage }" class="pg_page pg_end">맨끝</a>
+					                </c:when>
+					                <c:otherwise>
+					                    <a class="pg_page pg_end disabled" disabled>맨끝</a>
+					                </c:otherwise>
+					            </c:choose>
+				            </section>
 						        </span>
 						    </nav>
 						</div>
