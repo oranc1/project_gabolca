@@ -76,7 +76,7 @@
 									<div class="write_file">
 										<c:choose>
 											<c:when test="${empty reviewDetail.rev_file1 }">
-												<input type="file" name="file1" /><br>
+												<!-- <input type="file" name="file1" /><br> -->
 											</c:when>
 											<c:otherwise>
 												${fn:split(reviewDetail.rev_file1, '_')[1] }
@@ -85,7 +85,7 @@
 										</c:choose>
 										<c:choose>
 											<c:when test="${empty reviewDetail.rev_file2 }">
-												<input type="file" name="file2" /><br>
+												<!-- <input type="file" name="file2" /><br> -->
 											</c:when>
 											<c:otherwise>
 												${fn:split(reviewDetail.rev_file2, '_')[1] }
@@ -94,7 +94,7 @@
 										</c:choose>
 										<c:choose>
 											<c:when test="${empty reviewDetail.rev_file3 }">
-												<input type="file" name="file3" /><br>
+												<!-- <input type="file" name="file3" /><br> -->
 											</c:when>
 											<c:otherwise>
 												${fn:split(reviewDetail.rev_file3, '_')[1] }

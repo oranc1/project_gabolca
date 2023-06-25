@@ -145,16 +145,7 @@
 		UPDATE rev_car
 			SET rev_subject = #{rev_subject},
 				rev_content = #{rev_content},
-				rev_star = #{rev_star}, 
-				<if test="!rev_file1.equals('')">
-					rev_file1 = #{rev_file1}, 
-				</if>
-				<if test="!rev_file2.equals('')">
-					rev_file2 = #{rev_file2}, 
-				</if>
-				<if test="!rev_file3.equals('')">
-					rev_file3 = #{rev_file3}
-				</if>
+				rev_star = #{rev_star} 
 					WHERE rev_idx = #{rev_idx}
 	</update>
 		
