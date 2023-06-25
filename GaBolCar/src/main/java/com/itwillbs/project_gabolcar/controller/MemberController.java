@@ -290,7 +290,12 @@ public class MemberController {
 	// 1:1 문의 게시판 리스트 클릭
 	@GetMapping("QuestionList")
 	public String quetionListForm(MemberVO member, HttpSession session, Model model) {
+		String sId = (String) session.getAttribute("sId");
 		
+		if (sId == null) {
+			model.addAttribute("msg", "로그인이 필요합니다!");
+			return "inc/fail_back";
+		}
 		return "redirect:/QuestionListForm";
 	}
 	
@@ -390,11 +395,31 @@ public class MemberController {
 	
 	// "QuestionDetail" 서블릿 요청에 대한 글 상세정보 조회 요청
 	@GetMapping("QuestionDetail")
-	public String detail(@RequestParam int qst_idx, Model model) {
-		// BoardService - getBoard() 메서드 호출하여 글 상세정보 조회 요청
-		// => 파라미터 : 글번호   리턴타입 : BoardVO 객체(board)
+	public String detail(@RequestParam int qst_idx, Model model, HttpSession session) {
+		
+		String sId = (String) session.getAttribute("sId");
+		
+		if (sId == null) {
+			model.addAttribute("msg", "로그인이 필요합니다!");
+			return "inc/fail_back";
+		}
+		
+		 //  작성자가 맞는 지 확인
+		if(!sId.equals("admin")) {
+			
+			boolean isBoardWriter = qst_service.isBoardWriter(qst_idx, sId);
+		    
+			if (!isBoardWriter) {
+				model.addAttribute("msg", "권한이 없습니다!");
+				return "inc/fail_back";
+			}
+		}
+		
+		
 		QuestionVO question = qst_service.getQuestionBoard(qst_idx);
 		
+		MemberVO member = memberService.getMemberInfo(sId);
+		model.addAttribute("member", member);
 		// 상세정보 조회 결과 저장
 		model.addAttribute("question", question);
 		
