@@ -45,11 +45,18 @@ public interface QuestionMapper {
 	// 답글 등록 전 순서번호 증가
 	void updateQstBoardReSeq(QuestionVO question);
 	
+	//	답글을 달 qst_board_re_ref 값
+	int selectCurrentQstBoardQstIdx(int qst_idx);
+	
 	// 답글 등록
 	int insertQstReplyBoard(QuestionVO question);
 	
 	
 	// 글 수정
 	int updateQstBoard(QuestionVO question);
+	
+	
+	
+
 
 }
