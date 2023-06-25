@@ -405,7 +405,7 @@ public class MemberController {
 		}
 		
 		 //  작성자가 맞는 지 확인
-		if(!sId.equals("admin")) {
+		if(!sId.equals("admin@naver.com")) {
 			
 			boolean isBoardWriter = qst_service.isBoardWriter(qst_idx, sId);
 		    
