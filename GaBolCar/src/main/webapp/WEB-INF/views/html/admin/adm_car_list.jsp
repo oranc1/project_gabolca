@@ -22,7 +22,7 @@
 	        <!-- 오른쪽 컨텐츠 -->
 			<div class="content_view">
 				<section id="adm_car">
-					<span id="adm_car_title">[관리자] 차량리스트</span>
+<!-- 					<span id="adm_car_title">[관리자] 차량리스트</span> -->
 					<div id="ctbox">
 						<article id="adm_car_top">
 							<span class="cts">
@@ -67,15 +67,15 @@
 					<article id="adm_car_center">
 						<table id="adm_car_list">
 							<tr id="car_title">
-								<td>차량코드</td>
-								<td>제조사</td>
-								<td>모델명</td>
-								<td>차종</td>
-								<td>연식</td>
-								<td>지점</td>
-								<td>옵션</td>
-								<td>상태</td>
-								<td colspan="2">관리</td>
+								<td class="car_title_idx common">차량코드</td>
+								<td class="car_title_brand common">제조사</td>
+								<td class="car_title_model common">모델명</td>
+								<td class="car_title_carType common">차종</td>
+								<td class="car_title_old common">연식</td>
+								<td class="car_title_brcN common">지점</td>
+								<td class="car_title_option common">옵션</td>
+								<td class="car_title_status common">상태</td>
+								<td colspan="2" class="car_title_btn common">관리</td>
 							</tr>
 						</table>
 						<button name="item_insert" class="adm_car_button">

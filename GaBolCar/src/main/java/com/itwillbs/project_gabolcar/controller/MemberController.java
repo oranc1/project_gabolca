@@ -362,7 +362,7 @@ public class MemberController {
 		System.out.println("검색타입 : " + searchType);
 		System.out.println("검색어 : " + searchKeyword);
 		
-		int listLimit = 4; // 한 페이지에서 표시할 목록 갯수 지정
+		int listLimit = 6; // 한 페이지에서 표시할 목록 갯수 지정
 		int startRow = (pageNum - 1) * listLimit; // 조회 시작 행(레코드) 번호
 		
 		List<QuestionVO> qstBoardList = qst_service.getQstBoardList(searchType, searchKeyword, startRow, listLimit);
@@ -440,7 +440,7 @@ public class MemberController {
 		}
 		
 		 //  작성자가 맞는 지 확인
-		if(!sId.equals("admin")) {
+		if(!sId.equals("admin@naver.com")) {
 			
 			boolean isBoardWriter = qst_service.isBoardWriter(qst_idx, sId);
 		    
@@ -472,7 +472,7 @@ public class MemberController {
 			model.addAttribute("msg", "잘못된 접근입니다!");
 			return "inc/fail_back";
 		}
-		
+		// 현재 로그인한 회원 (관리자)
 		MemberVO member = memberService.getMemberInfo(sId);
 		model.addAttribute("member", member);
 		
@@ -482,40 +482,74 @@ public class MemberController {
 		return "html/member/question/question_reply_form";
 	}
 	
-	// 문의 게시판 답변 기능
+	
+//	 문의 게시판 답변 기능
 	@PostMapping("QuestionReplyPro")
 	public String qstReplyPro(
-	        @RequestParam String mem_name,
-	        QuestionVO question, 
-	        @RequestParam(defaultValue = "1") int pageNum,
-	        HttpSession session, Model model, HttpServletRequest request) {
-	    
-	    String sId = (String)session.getAttribute("sId");
-	    if(sId == null) {
-	        model.addAttribute("msg", "잘못된 접근입니다!");
-	        return "inc/fail_back";
-	    }
-	    //
-	    int mem_idx = memberService.getCurrentUserMemIdx(mem_name);
-	    //
-	    question.setMem_idx(mem_idx);
-	    
-	    // 원본 글을 불러와서 원본 글의 qst_board_re_ref 값을 추출합니다.
-	    question.setQst_board_re_ref(question.getQst_board_re_ref());
-	    
-	    
-	    int insertCount = qst_service.registReplyQstBoard(question);
-	    
-	    if(insertCount > 0) {
-	        System.out.println("답변 성공");
-	        return "redirect:/QuestionList";
-	    } else {
-	        model.addAttribute("msg", "답변 실패!");
-	        return "inc/fail_back";
-	    }
-	    
+			@RequestParam int qst_idx,
+			@RequestParam String mem_name,
+			QuestionVO question, 
+			HttpSession session, Model model, HttpServletRequest request) {
+		
+		String sId = (String)session.getAttribute("sId");
+		if(sId == null) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			return "inc/fail_back";
+		}
+		// 로그인한 회원 이름 
+		int mem_idx = memberService.getCurrentUserMemIdx(mem_name);
+		question.setMem_idx(mem_idx);
+		
+//		답글을 달 qst_board_re_ref 값을 추출합니다.
+	    int qst_board_re_ref = qst_service.getCurrentQstBoardReRef(qst_idx);
+	    question.setQst_board_re_ref(qst_board_re_ref);
+	    System.out.println("qst_board_re_ref : " + qst_board_re_ref);
+		
+		// 답변 글쓰기
+		 int insertCount = qst_service.registReplyQstBoard(question);
+		
+		if(insertCount > 0) {
+			System.out.println("답변 성공");
+			return "redirect:/QuestionList";
+		} else {
+			model.addAttribute("msg", "답변 실패!");
+			return "inc/fail_back";
+		}
+		
 	}
-	
+//	 문의 게시판 답변 기능
+//	@PostMapping("QuestionReplyPro")
+//	public String qstReplyPro(
+//			@RequestParam String mem_name,
+//			QuestionVO question, 
+//			@RequestParam(defaultValue = "1") int pageNum,
+//			HttpSession session, Model model, HttpServletRequest request) {
+//		
+//		String sId = (String)session.getAttribute("sId");
+//		if(sId == null) {
+//			model.addAttribute("msg", "잘못된 접근입니다!");
+//			return "inc/fail_back";
+//		}
+//		// 로그인한 회원 이름 
+//		int mem_idx = memberService.getCurrentUserMemIdx(mem_name);
+//		question.setMem_idx(mem_idx);
+//		
+//		// 원본 글을 불러와서 원본 글의 qst_board_re_ref 값을 추출합니다.
+////		question.setQst_board_re_ref(question.getQst_board_re_ref());
+//		
+//		// 답변 글쓰기
+//		int insertCount = qst_service.registReplyQstBoard(question);
+//		
+//		if(insertCount > 0) {
+//			System.out.println("답변 성공");
+//			return "redirect:/QuestionList";
+//		} else {
+//			model.addAttribute("msg", "답변 실패!");
+//			return "inc/fail_back";
+//		}
+//		
+//	}
+//	
 	
 	// 문의 게시판 수정 폼
 	@GetMapping("QuestionModifyForm")

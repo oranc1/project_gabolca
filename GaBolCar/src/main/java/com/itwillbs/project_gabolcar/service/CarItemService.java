@@ -77,7 +77,7 @@ public class CarItemService {
 	}
 	
 	
-	//==============리뷰 서비스=============================
+	//==============리뷰 서비스================================
 		/*public List<ReviewVO> getReviewList(int startRow, int listLimit){
 		
 		

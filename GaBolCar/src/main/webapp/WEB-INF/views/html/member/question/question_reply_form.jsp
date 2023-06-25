@@ -35,11 +35,10 @@
                                     <li>
                                         <div class="category"><label for="qst_type">분류</label>  
                                             <select name="qst_type" id="qst_type" required="required">
-                                                <option value="" selected>선택하세요</option>
-                                                <option value="예약">예약</option>
-                                                <option value="예약 취소">예약 취소</option>
-                                                <option value="환불">환불</option>
-                                                <option value="기타">기타</option>
+                                                <option value="예약" <c:if test="${queston.qst_type eq '예약' }">selected</c:if>>예약</option>
+                                                <option value="예약 취소" <c:if test="${queston.qst_type eq '예약 취소' }">selected</c:if>>예약 취소</option>
+                                                <option value="환불" <c:if test="${queston.qst_type eq '환불' }">selected</c:if>>환불</option>
+                                                <option value="기타" <c:if test="${queston.qst_type eq '기타' }">selected</c:if>>기타</option>
                                             </select>
                                         </div>
 										<div class="writer">
