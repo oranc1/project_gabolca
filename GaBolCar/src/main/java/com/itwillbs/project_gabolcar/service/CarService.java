@@ -79,6 +79,12 @@ public class CarService {
 		return mapper.selectDriver(res_idx);
 	}
 	
+	// 차량 수정 차 파일 삭제
+	public int removeBoardFile(int car_idx) {
+		return mapper.deletCarFile(car_idx);
+	}
+	
+	
 	// --------------------------------------------------------------------------------------------------------------
 
 	
@@ -141,6 +147,13 @@ public class CarService {
 	public int isOptNameCheck(Map<String, String> map) {
 		return mapper.selectOptCheck(map);
 	}
+
+	public List<Map<String, Object>> carList() {
+		return mapper.selectUpdateCar();
+	}
+
+
+
 	
 
 

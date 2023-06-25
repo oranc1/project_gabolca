@@ -36,6 +36,9 @@ public interface CarMapper {
 	// 차에 등록된 옵션 삭제
 	int deleteCarOption(int car_idx);
 	
+	// 차량 수정 - 등록된 파일 삭제
+	int deletCarFile(int car_idx);
+	
 	// --------------------------------------------------------------------------------------------------------------
 	
 	
@@ -84,6 +87,11 @@ public interface CarMapper {
 	
 	// 차량 예약 - 
 	CarVO selectDriver(int res_idx);
+
+	List<Map<String, Object>> selectUpdateCar();
+
+
+	
 	
 
 

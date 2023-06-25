@@ -31,15 +31,23 @@
 			, now()
 		)
 	</insert>
+	<!-- 차량수정 - 차량정보넘기기 0625 수정중-->
+	<select id="selectUpdateCar" resultType="map">
+		SELECT * FROM
+			car_info
+			WHERE
+			car_idx = #{car_idx }
+	</select>
+	
 	
 	<!-- 차량 등록 - 차에 옵션 등록 -->
-<insert id="insertCarOption" parameterType="com.itwillbs.project_gabolcar.vo.CarVO">
-    <foreach collection="option_idx" item="option" open="INSERT INTO car_options (car_idx, option_idx) VALUES " separator=",">
-        (#{car_idx}, #{option})
-    </foreach>
-    ON DUPLICATE KEY UPDATE
-        option_idx = option_idx;
-</insert>
+	<insert id="insertCarOption" parameterType="com.itwillbs.project_gabolcar.vo.CarVO">
+	    <foreach collection="option_idx" item="option" open="INSERT INTO car_options (car_idx, option_idx) VALUES " separator=",">
+	        (#{car_idx}, #{option})
+	    </foreach>
+	    ON DUPLICATE KEY UPDATE
+	        option_idx = option_idx;
+	</insert>
 	
 	<!-- 차량수정 - 기존 옵션 삭제 -->
 	<delete id="deletUpdateCarOption" parameterType="int">
@@ -81,7 +89,18 @@
 	    where
 	        car_idx=#{car_idx}
 	</delete>
-
+	
+	<!-- 차량수정 - 등록된 차량 파일 삭제 -->
+	<update id="deletCarFile">
+		UPDATE car_info
+			SET
+				car_file1 = ''
+				, car_file_path = ''
+			WHERE
+				car_idx = #{car_idx}
+	</update>
+	
+	
 	
 	<!-- 차량 삭제 -->
 	<delete id="deleteCar" parameterType="int">
@@ -122,7 +141,7 @@
 	where
 		car_idx=#{car_idx}
 </update>
-	
+		
 	
 	
 	<!-- pageInfo 와 map 을 받아  찾고싶은 차량의 조건들을 확인하여 리스트를 반환

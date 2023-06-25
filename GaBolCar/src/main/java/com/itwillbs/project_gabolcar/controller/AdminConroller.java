@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
@@ -315,17 +316,50 @@ public class AdminConroller {
 		List<Map<String, Object>> optionList = car_service.optionList();
 		model.addAttribute("optionList",optionList);
 		
-		// 0620 차량수정폼에 가져갈 car_options 
-//	    List<CarOptionVO> carOptionList = car_service.carOptionList(carOption);
-//	    model.addAttribute("carOptionList", carOptionList);
-//	    System.out.println("carOptionList: " + carOptionList);
-
 	    List<Integer> selectedOptionList = car_service.getSelectedOptionList(car.getCar_idx());
 	    model.addAttribute("selectedOptionList", selectedOptionList);
 	    System.out.println("selectedOptionList: " + selectedOptionList);
 	    return "html/admin/car_update";
 	}
+	
+	// 차량수정 - 등록된 차량 파일 삭제
+	@PostMapping("carDeleteFile")
+	public void carDelete(	
+			@RequestParam int car_idx, 
+			@RequestParam String car_file,
+			@RequestParam String car_file_path,
+			CarVO car,
+			HttpServletResponse response,
+			HttpSession session,
+			Model model) {
 		
+		try {
+			// 응답데이터 출력을 위한 response 객체의 인코딩 타입 설정
+			response.setCharacterEncoding("UTF-8");
+			
+			int deleteCount = car_service.removeBoardFile(car_idx);
+			
+			// DB 파일 삭제 성공 시 실제 파일을 서버에서 삭제
+			if(deleteCount > 0) {
+				String uploadDir = "/resources/upload/car";
+				String saveDir = session.getServletContext().getRealPath(uploadDir);
+				// 경로 생성
+				Path path = Paths.get(saveDir + "/" + car_file_path + "/" + car_file);
+				System.out.println("path 경로: " + path);
+
+				// 파일 삭제
+				Files.deleteIfExists(path);
+				response.getWriter().print("true");
+			} else {
+				response.getWriter().print("false");
+			}
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+		
+	
 	// 차량수정
 	@Transactional
 	@PostMapping("carUpdatePro")
