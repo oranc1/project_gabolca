@@ -414,10 +414,9 @@ public class MemberController {
 				return "inc/fail_back";
 			}
 		}
-		
-		
+		// 글 작성자 정보 	
 		QuestionVO question = qst_service.getQuestionBoard(qst_idx);
-		
+		// 로그인한 회원 정보
 		MemberVO member = memberService.getMemberInfo(sId);
 		model.addAttribute("member", member);
 		// 상세정보 조회 결과 저장
@@ -474,8 +473,10 @@ public class MemberController {
 			return "inc/fail_back";
 		}
 		
-		QuestionVO question = qst_service.getQuestionBoard(qst_idx);
+		MemberVO member = memberService.getMemberInfo(sId);
+		model.addAttribute("member", member);
 		
+		QuestionVO question = qst_service.getQuestionBoard(qst_idx);
 		model.addAttribute("question", question);
 
 		return "html/member/question/question_reply_form";

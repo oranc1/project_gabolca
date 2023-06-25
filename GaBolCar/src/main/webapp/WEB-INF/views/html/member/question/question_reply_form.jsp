@@ -43,7 +43,7 @@
                                             </select>
                                         </div>
 										<div class="writer">
-										    <input type="text" name="mem_name" id="mem_name" class="inputBox" value="${question.mem_name}" readonly >
+										    <input type="text" name="mem_name" id="mem_name" class="inputBox" value="${member.mem_name}" readonly >
 										</div>
                                     </li>
                                     <li>
