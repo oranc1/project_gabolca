@@ -118,31 +118,31 @@
                                     <p class="date">날짜</p>
                                 </li>     
 								<c:forEach var="question" items="${qstBoardList}">
-					<li class="list_cont">
-    <p class="list_car">${question.qst_type}</p>
-    <div class="txt_prev">
-        <c:if test="${question.qst_board_re_lev > 0 }">
-            <c:forEach var="i" begin="1" end="${question.qst_board_re_lev }">
-            </c:forEach>
-            <img class="subject-align" src="${pageContext.request.contextPath }/resources/img/re.gif" style= "width: 25px;">
-        </c:if>
-        <h4 class="subject-align">
-            <%-- 인라인 스타일을 사용하여 전체 h4 영역이 링크로 작동하도록 함. --%>
-            <a href="QuestionDetail?qst_idx=${question.qst_idx}&pageNum=${pageNum}" >
-                ${question.qst_subject}
-            </a>
-        </h4>
-    </div>
-    <p class="writter">
-        <span class="writter_name">${question.mem_name}</span>
-    </p>
-    <p class="readcount">
-        <span class="readcount">${question.qst_readcount}</span>
-    </p>
-    <p class="date">
-        <fmt:formatDate value="${question.qst_date}" pattern="yyyy-MM-dd HH:mm"/>
-    </p>
-</li>
+								<li class="list_cont">
+								    <p class="list_car">${question.qst_type}</p>
+								    <div class="txt_prev">
+								        <c:if test="${question.qst_board_re_lev > 0 }">
+								            <c:forEach var="i" begin="1" end="${question.qst_board_re_lev }">
+								            </c:forEach>
+								            <img class="subject-align" src="${pageContext.request.contextPath }/resources/img/re.gif" style= "width: 25px;">
+								        </c:if>
+								        <h4 class="subject-align">
+								            <%-- 인라인 스타일을 사용하여 전체 h4 영역이 링크로 작동하도록 함. --%>
+								            <a href="QuestionDetail?qst_idx=${question.qst_idx}&pageNum=${pageNum}" >
+								                ${question.qst_subject}
+								            </a>
+								        </h4>
+								    </div>
+								    <p class="writter">
+								        <span class="writter_name">${question.mem_name}</span>
+								    </p>
+								    <p class="readcount">
+								        <span class="readcount">${question.qst_readcount}</span>
+								    </p>
+								    <p class="date">
+								        <fmt:formatDate value="${question.qst_date}" pattern="yyyy-MM-dd HH:mm"/>
+								    </p>
+								</li>
 							</c:forEach>
                             </ul>
                         </div>
@@ -152,44 +152,51 @@
 						<div class="list_pager_wrap">
 						    <nav class="pg_wrap">
 						        <span class="pg">
-						        
-				        	<section id="pageList">
-								<c:choose>
-									<c:when test="${pageNum > 1 }">
-										<input type="button" value="이전" onclick="location.href='QuestionListForm?pageNum=${pageNum - 1}'">
-									</c:when>
-									<c:otherwise>
-										<input type="button" value="이전" disabled="disabled">
-									</c:otherwise>
-								</c:choose>		
-								<c:forEach var="i" begin="${pageInfo.startPage }" end="${pageInfo.endPage }">
-									<%-- 각 페이지마다 하이퍼링크 설정(단, 현재 페이지는 하이퍼링크 제거) --%>
-									<c:choose>
-										<c:when test="${pageNum eq i }">
-											<b>${i }</b>
-										</c:when>
-										<c:otherwise>
-											<a href="QuestionListForm?pageNum=${i }">${i }</a>
-										</c:otherwise>
-									</c:choose>
-								</c:forEach>	
-								<c:choose>
-									<c:when test="${pageNum < pageInfo.maxPage }">
-										<input type="button" value="다음" onclick="location.href='QuestionListForm?pageNum=${pageNum + 1}'">
-									</c:when>
-									<c:otherwise>
-										<input type="button" value="다음" disabled="disabled">
-									</c:otherwise>
-								</c:choose>
-					            <c:choose>
-					                <c:when test="${pageNum < pageInfo.maxPage }">
-					                    <a href="QuestionListForm?pageNum=${pageInfo.maxPage }" class="pg_page pg_end">맨끝</a>
-					                </c:when>
-					                <c:otherwise>
-					                    <a class="pg_page pg_end disabled" disabled>맨끝</a>
-					                </c:otherwise>
-					            </c:choose>
-				            </section>
+                                <section id="pageList">
+                                        <c:choose>
+                                            <c:when test="${pageNum > 1 }">
+                                                <a href="QuestionListForm?pageNum=1" class="pg_page pg_start">맨처음</a>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <a class="pg_page pg_start disabled" disabled>맨처음</a>
+                                            </c:otherwise>
+                                        </c:choose>
+                                        <c:choose>
+                                            <c:when test="${pageNum > 1 }">
+                                                <input type="button" value="이전" onclick="location.href='QuestionListForm?pageNum=${pageNum - 1}'">
+                                            </c:when>
+                                            <c:otherwise>
+                                                <input type="button" value="이전" disabled="disabled">
+                                            </c:otherwise>
+                                        </c:choose>     
+                                        <c:forEach var="i" begin="${pageInfo.startPage }" end="${pageInfo.endPage }">
+                                            <!-- 각 페이지마다 하이퍼링크 설정 -->
+                                            <c:choose>
+                                                <c:when test="${pageNum eq i }">
+                                                    <b>${i }</b>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <a href="QuestionListForm?pageNum=${i }">${i }</a>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </c:forEach> 
+                                        <c:choose>
+                                            <c:when test="${pageNum < pageInfo.maxPage }">
+                                                <input type="button" value="다음" onclick="location.href='QuestionListForm?pageNum=${pageNum + 1}'">
+                                            </c:when>
+                                            <c:otherwise>
+                                                <input type="button" value="다음" disabled="disabled">
+                                            </c:otherwise>
+                                        </c:choose>
+                                        <c:choose>
+                                            <c:when test="${pageNum < pageInfo.maxPage }">
+                                                <a href="QuestionListForm?pageNum=${pageInfo.maxPage }" class="pg_page pg_end">맨끝</a>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <a class="pg_page pg_end disabled" disabled>맨끝</a>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </section>
 						        </span>
 						    </nav>
 						</div>
