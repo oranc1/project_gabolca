@@ -240,9 +240,9 @@ public class CarItemController {
 						Integer.parseInt(returnSplit[2]),
 						returnHour,returnMinute,0);	
 				
-				if(res_rental_date.isAfter(res_return_date)) {
+				if(res_rental_date.isAfter(res_return_date) && !res_return_date.isAfter(res_rental_date.plusDays(1))) {
 					// 에러 메시지 추가 후 fail_back 이동
-					model.addAttribute("msg", "기간이 허용되지 않는 값 이거나 당일 예약으로 선택되었습니다! 다시 선택해주세요");
+					model.addAttribute("msg", "기간이 허용되지 않는 값 이거나 최소 예약일(24시간) 미만으로 선택되었습니다! 다시 선택해주세요");
 					return new ModelAndView("inc/fail_back","map",resultMap);
 				}
 			}catch(Exception e) {	
@@ -376,7 +376,7 @@ public class CarItemController {
 			// 에러 메시지 추가 후 fail_back 이동
 			model.addAttribute("msg", "차량 타입 또는 연료가 잘못된 값 입니다! 다시 선택해주세요");
 			return new ModelAndView("inc/fail_back","map",resultMap);
-		}
+		}lo
 		//=========== 차량 타입, 연료 체크 끝 ===========
 		
 		
@@ -494,14 +494,7 @@ public class CarItemController {
 			resultMap.put("car_res_JSON", jsonObj);
 		}
 		
-//		//json 변환
-//		try {
-//			ObjectMapper objMapper = new ObjectMapper();
-//			resultMap.put("car_res_JSON", objMapper.writeValueAsString(resultMap));
-//		} catch (JsonProcessingException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		System.out.println(res_rental_date.getDayOfWeek());
 		
 		return new ModelAndView("html/car_item/res/car_res","map",resultMap) ;
 	}
