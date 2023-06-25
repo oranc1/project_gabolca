@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>   
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>   
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,32 +19,7 @@
 	</script>
 </c:if>
 
-<script type="text/javascript">
-$(document).ready(function () {
 
-    /*if(${reviewDetail.rev_star}== '1')
-    {
-        $("#rate1").prop("checked", true);
-    }
-    else if(${reviewDetail.rev_star}== '2')
-    {
-        $("#rate2").prop("checked", true);
-    }
-    else if(${reviewDetail.rev_star}== '3')
-    {
-        $("#rate3").prop("checked", true);
-    }
-    else if(${reviewDetail.rev_star}== '4')
-    {
-        $("#rate4").prop("checked", true);
-    }
-    else if(${reviewDetail.rev_star}== '5')
-    {
-        $("#rate5").prop("checked", true);
-    }*/
-}
-
-</script>
 </head>
 <body>
 	<header>
@@ -91,14 +67,40 @@ $(document).ready(function () {
 									<div class="write_cont">
 										<!-- 이미지 파일 출력 -->
 	<!-- 									<img src="../img/casper.jpg" alt=""> -->
-										<!-- 작성글 출력 -->
+										<!-- 작성글 출력! -->
 										<p>
 											<textarea class="inputBox" name="rev_content">${reviewDetail.rev_content}</textarea>
 										</p>
 									</div>
 	
 									<div class="write_file">
-										<input type="file">
+										<c:choose>
+											<c:when test="${empty reviewDetail.rev_file1 }">
+												<input type="file" name="file1" /><br>
+											</c:when>
+											<c:otherwise>
+												${fn:split(reviewDetail.rev_file1, '_')[1] }
+												<!-- <input type="button" value="삭제"> --><br>
+											</c:otherwise>
+										</c:choose>
+										<c:choose>
+											<c:when test="${empty reviewDetail.rev_file2 }">
+												<input type="file" name="file2" /><br>
+											</c:when>
+											<c:otherwise>
+												${fn:split(reviewDetail.rev_file2, '_')[1] }
+												<!-- <input type="button" value="삭제"> --><br>
+											</c:otherwise>
+										</c:choose>
+										<c:choose>
+											<c:when test="${empty reviewDetail.rev_file3 }">
+												<input type="file" name="file3" /><br>
+											</c:when>
+											<c:otherwise>
+												${fn:split(reviewDetail.rev_file3, '_')[1] }
+												<!-- <input type="button" value="삭제"> --><br>
+											</c:otherwise>
+										</c:choose>
 									</div>
 	
 									<div class="mod_box">

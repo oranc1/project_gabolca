@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor // 모든 전달인자를 받는 생성자 자동 정의(주의! 기본 생성자 자동 정의되지 않음!)
+@AllArgsConstructor // 모든 전달인자를 받는 생성자 자동 정의(주의! 기본 생성자 자동 정의되지 않음!!)
 @NoArgsConstructor // 기본 생성자 자동 정의 => @AllArgsConstructor 어노테이션 사용 시 기본 생성자가 필요할 경우 반드시 추가해야햐는 어노테이션
 
 public class PageInfo {

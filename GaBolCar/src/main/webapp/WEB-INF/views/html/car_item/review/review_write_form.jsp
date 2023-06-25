@@ -19,8 +19,8 @@
 		<section id="sec_con" class="inr">
 			<h1 class="con_title">리뷰 작성</h1>
 			<form action="/project_gabolcar/reviewWritePro" method="post" enctype="multipart/form-data">
-				<input type="hidden" name="rev_name" value="${sessionScope.sId }"/>
-				<input type="hidden" name="res_idx" value="${sessionScope.res_idx }"/>
+				<input type="hidden" name="session_id" value="${sessionScope.sId}"/>
+				<input type="hidden" name="res_idx" value="1"/><!-- 예약번호는 임시로 넣었음 차후 수정 필요 -->
 				<section id="board_wrap">
 					<section id="board_list" class="notice">
 						<div class="wrapper">
@@ -57,14 +57,20 @@
 								<div class="write_cont">
 									<!-- 이미지 파일 출력 -->
 <!-- 									<img src="../img/casper.jpg" alt=""> -->
-									<!-- 작성글 출력 -->
+									<!-- 작성글 출력! -->
 									<p>
 										<textarea rows="" cols="" class="inputBox" name="rev_content" placeholder="내용을 입력해주세요"></textarea>
 									</p>
 								</div>
 
 								<div class="write_file">
-									<input type="file" name="rev_real_image">
+									<!-- <input type="file" name="rev_real_image"> -->
+									
+									
+									
+									<input type="file" name="file1" /><br>
+									<input type="file" name="file2" /><br>
+									<input type="file" name="file3" /><br>
 								</div>
 
 								<div class="mod_box">
