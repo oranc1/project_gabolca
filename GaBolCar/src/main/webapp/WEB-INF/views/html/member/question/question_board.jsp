@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>  
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>      
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -116,8 +117,8 @@
                                     </p>     
                                     <p class="writter">조회수</p>
                                     <p class="date">날짜</p>
-                                </li>     
-								<c:forEach var="question" items="${qstBoardList}">
+                                </li>
+							<c:forEach var="question" items="${qstBoardList}">
 								<li class="list_cont">
 								    <p class="list_car">${question.qst_type}</p>
 								    <div class="txt_prev">
@@ -142,7 +143,7 @@
 								    <p class="date">
 								        <fmt:formatDate value="${question.qst_date}" pattern="yyyy-MM-dd HH:mm"/>
 								    </p>
-								</li>
+								</li>			
 							</c:forEach>
                             </ul>
                         </div>
@@ -199,7 +200,7 @@
                                     </section>
 						        </span>
 						    </nav>
-						</div>
+						</div>	
                     </div>
                 </section>
             </section>

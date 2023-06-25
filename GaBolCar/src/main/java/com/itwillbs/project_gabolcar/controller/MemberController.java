@@ -483,7 +483,7 @@ public class MemberController {
 	}
 	
 	
-//	 문의 게시판 답변 기능
+	// 문의 게시판 답변 기능
 	@PostMapping("QuestionReplyPro")
 	public String qstReplyPro(
 			@RequestParam int qst_idx,
@@ -492,6 +492,7 @@ public class MemberController {
 			HttpSession session, Model model, HttpServletRequest request) {
 		
 		String sId = (String)session.getAttribute("sId");
+		
 		if(sId == null) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
 			return "inc/fail_back";
@@ -500,13 +501,13 @@ public class MemberController {
 		int mem_idx = memberService.getCurrentUserMemIdx(mem_name);
 		question.setMem_idx(mem_idx);
 		
-//		답글을 달 qst_board_re_ref 값을 추출합니다.
+		//	답글을 달 qst_board_re_ref 값을 추출
 	    int qst_board_re_ref = qst_service.getCurrentQstBoardReRef(qst_idx);
 	    question.setQst_board_re_ref(qst_board_re_ref);
 	    System.out.println("qst_board_re_ref : " + qst_board_re_ref);
 		
 		// 답변 글쓰기
-		 int insertCount = qst_service.registReplyQstBoard(question);
+		int insertCount = qst_service.registReplyQstBoard(question);
 		
 		if(insertCount > 0) {
 			System.out.println("답변 성공");
@@ -517,39 +518,6 @@ public class MemberController {
 		}
 		
 	}
-//	 문의 게시판 답변 기능
-//	@PostMapping("QuestionReplyPro")
-//	public String qstReplyPro(
-//			@RequestParam String mem_name,
-//			QuestionVO question, 
-//			@RequestParam(defaultValue = "1") int pageNum,
-//			HttpSession session, Model model, HttpServletRequest request) {
-//		
-//		String sId = (String)session.getAttribute("sId");
-//		if(sId == null) {
-//			model.addAttribute("msg", "잘못된 접근입니다!");
-//			return "inc/fail_back";
-//		}
-//		// 로그인한 회원 이름 
-//		int mem_idx = memberService.getCurrentUserMemIdx(mem_name);
-//		question.setMem_idx(mem_idx);
-//		
-//		// 원본 글을 불러와서 원본 글의 qst_board_re_ref 값을 추출합니다.
-////		question.setQst_board_re_ref(question.getQst_board_re_ref());
-//		
-//		// 답변 글쓰기
-//		int insertCount = qst_service.registReplyQstBoard(question);
-//		
-//		if(insertCount > 0) {
-//			System.out.println("답변 성공");
-//			return "redirect:/QuestionList";
-//		} else {
-//			model.addAttribute("msg", "답변 실패!");
-//			return "inc/fail_back";
-//		}
-//		
-//	}
-//	
 	
 	// 문의 게시판 수정 폼
 	@GetMapping("QuestionModifyForm")
