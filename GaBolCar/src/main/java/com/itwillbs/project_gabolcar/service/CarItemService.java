@@ -77,7 +77,7 @@ public class CarItemService {
 	}
 	
 	
-	//==============리뷰 서비스=============================
+	//==============리뷰 서비스================================
 		/*public List<ReviewVO> getReviewList(int startRow, int listLimit){
 		
 		
@@ -184,7 +184,11 @@ public class CarItemService {
 
 
 	
-
+	// ========== 0626 경인 추가 ===========
+	// 매인 페이지에 리뷰 항목 추가
+	public List<Map<String,Object>> getReviewForMain(){
+		return carItemMapper.getReviewListMain();
+	}
 	
 }
 

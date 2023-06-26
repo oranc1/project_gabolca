@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>       
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>   
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -50,12 +51,30 @@
 										</div>
 										<div class="write_box">
 											<span class="write_t">첨부파일</span>
-											<span class="write_c">10</span>
+											<span class="write_c">
+
+												<c:if test="${not empty reviewDetail.rev_file1 }">
+													<a href="${pageContext.request.contextPath }/resources/upload/${reviewDetail.rev_file1 }" download="${fn:split(reviewDetail.rev_file1, '_')[1] }">
+														${fn:split(reviewDetail.rev_file1, '_')[1] }
+													</a>
+												</c:if>
+												<c:if test="${not empty reviewDetail.rev_file2 }">
+													<br>
+													<a href="${pageContext.request.contextPath }/resources/upload/${reviewDetail.rev_file2 }" download="${fn:split(reviewDetail.rev_file2, '_')[1] }">
+														${fn:split(reviewDetail.rev_file2, '_')[1] }
+													</a>
+												</c:if>
+												<c:if test="${not empty reviewDetail.rev_file3 }">
+													<br>
+													<a href="${pageContext.request.contextPath }/resources/upload/${reviewDetail.rev_file3 }" download="${fn:split(reviewDetail.rev_file3, '_')[1] }">
+														${fn:split(reviewDetail.rev_file3, '_')[1] }
+													</a>
+												</c:if>
+											</span>
 										</div>
 									</li>
 
 									<li class="write_scope">
-								
 										<div class="write_scope_box">
 											<div class="car_name">
 												${reviewDetail.car_model}
@@ -116,9 +135,24 @@
 								<div class="write_cont">
 									<!-- 이미지 파일 출력 -->
 									<img src="../img/casper.jpg" alt="">
-									<!-- 작성글 출력 -->
+									<!-- 작성글 출력! -->
 									<p>
+										<div>
 										${reviewDetail.rev_content}
+										</div>
+										<c:if test="${not empty reviewDetail.rev_file1 }">
+											<img src="${pageContext.request.contextPath }/resources/upload/${reviewDetail.rev_file1 }"/>
+											
+										</c:if>
+										<c:if test="${not empty reviewDetail.rev_file2 }">
+											<br>
+											<img src="${pageContext.request.contextPath }/resources/upload/${reviewDetail.rev_file2 }"/>
+										</c:if>
+										<c:if test="${not empty reviewDetail.rev_file3 }">
+											<br>
+											<img src="${pageContext.request.contextPath }/resources/upload/${reviewDetail.rev_file3 }"/>
+										</c:if>
+										
 									</p>
 								</div>
 								
@@ -126,8 +160,9 @@
 									<a class="list_btn" href="/project_gabolcar/reviewList?pageNum=${param.pageNum}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}">목록</a>
 									<c:if test="${reviewDetail.mem_id == sId }">
 										<a class="modify_btn" href="/project_gabolcar/reviewModify?pageNum=${param.pageNum}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}&rev_idx=${reviewDetail.rev_idx}">수정</a>
+										<a class="modify_delete" href="#" onclick="deleteConfirm()">삭제</a>
 									</c:if>
-									<a class="modify_delete" href="#" onclick="deleteConfirm()">삭제</a>
+									
 								</div>
 								
 							</div>

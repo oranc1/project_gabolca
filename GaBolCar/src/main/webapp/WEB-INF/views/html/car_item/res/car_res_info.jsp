@@ -25,27 +25,27 @@
 				<div class="slide_container">
 					<div class="mySlides">
 						<div class="numbertext">1&nbsp;&nbsp;/&nbsp;&nbsp;5</div>
-						<img src="${pageContext.request.contextPath }${map.car_info.car_file1}">
+						<img src="${pageContext.request.contextPath }/resource/upload${map.car_info.car_file_path}/${map.car_info.car_file1}">
 					</div>
 
 					<div class="mySlides">
 						<div class="numbertext">2&nbsp;&nbsp;/&nbsp;&nbsp;5</div>
-						<img src="${pageContext.request.contextPath }${map.car_info.car_file2}">
+						<img src="${pageContext.request.contextPath }/resource/upload${map.car_info.car_file_path}/${map.car_info.car_file2}">
 					</div>
 
 					<div class="mySlides">
 						<div class="numbertext">3&nbsp;&nbsp;/&nbsp;&nbsp;5</div>
-						<img src="${pageContext.request.contextPath }${map.car_info.car_file3}">
+						<img src="${pageContext.request.contextPath }/resource/upload${map.car_info.car_file_path}/${map.car_info.car_file3}">
 					</div>
 
 					<div class="mySlides">
 						<div class="numbertext">4&nbsp;&nbsp;/&nbsp;&nbsp;5</div>
-						<img src="${pageContext.request.contextPath }${map.car_info.car_file4}">
+						<img src="${pageContext.request.contextPath }/resource/upload${map.car_info.car_file_path}/${map.car_info.car_file4}">
 					</div>
 
 					<div class="mySlides">
 						<div class="numbertext">5&nbsp;&nbsp;/&nbsp;&nbsp;5</div>
-						<img src="${pageContext.request.contextPath }${map.car_info.car_file5}">
+						<img src="${pageContext.request.contextPath }/resource/upload${map.car_info.car_file_path}/${map.car_info.car_file5}">
 					</div>
 
 					<a class="prev" onclick="plusSlides(-1)">❮</a> <a class="next"
@@ -54,23 +54,23 @@
 
 				<div class="row">
 					<div class="column">
-						<img class="demo cursor" src="${pageContext.request.contextPath }${map.car_info.car_file1}"
+						<img class="demo cursor" src="${pageContext.request.contextPath }/resource/upload${map.car_info.car_file_path}/${map.car_info.car_file1}"
 							onclick="currentSlide(1)">
 					</div>
 					<div class="column">
-						<img class="demo cursor" src="${pageContext.request.contextPath }${map.car_info.car_file2}"
+						<img class="demo cursor" src="${pageContext.request.contextPath }/resource/upload${map.car_info.car_file_path}/${map.car_info.car_file2}"
 							onclick="currentSlide(2)">
 					</div>
 					<div class="column">
-						<img class="demo cursor" src="${pageContext.request.contextPath }${map.car_info.car_file3}"
+						<img class="demo cursor" src="${pageContext.request.contextPath }/resource/upload${map.car_info.car_file_path}/${map.car_info.car_file3}"
 							onclick="currentSlide(3)">
 					</div>
 					<div class="column">
-						<img class="demo cursor" src="${pageContext.request.contextPath }${map.car_info.car_file4}"
+						<img class="demo cursor" src="${pageContext.request.contextPath }/resource/upload${map.car_info.car_file_path}/${map.car_info.car_file4}"
 							onclick="currentSlide(4)">
 					</div>
 					<div class="column">
-						<img class="demo cursor" src="${pageContext.request.contextPath }${map.car_info.car_file5}"
+						<img class="demo cursor" src="${pageContext.request.contextPath }/resource/upload${map.car_info.car_file_path}/${map.car_info.car_file5}"
 							onclick="currentSlide(5)">
 					</div>
 				</div>
@@ -120,7 +120,7 @@
 					</p>
 					<a href="resPayment?car_idx=${map.car_idx }
                                     &res_rental_date=${map.res_rental_date}&res_return_date=${map.res_return_date}
-                                    &brc_rent_name=${map.brc_rent_name}&brc_return_name=${map.brc_rent_name}" class="view_res_btn">예약하러 가기</a>
+                                    &brc_rent_name=${map.brc_rent_name}&brc_return_name=${map.brc_return_name}" class="view_res_btn">예약하러 가기</a>
 				</div>
 			</div>
 		</div>

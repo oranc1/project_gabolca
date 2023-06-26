@@ -66,6 +66,11 @@ public class QuestionService {
 		return mapper.getMemNameByIdx(mem_idx);
 	}
 	
+	//	답글을 달 qst_board_re_ref 값
+	public int getCurrentQstBoardReRef(int qst_idx) {
+		return mapper.selectCurrentQstBoardQstIdx(qst_idx);
+	}
+	
 	// 답글 등록
 	public int registReplyQstBoard(QuestionVO question) {
 		
@@ -79,4 +84,12 @@ public class QuestionService {
 	public int qstModifyBoard(QuestionVO question) {
 		return mapper.updateQstBoard(question);
 	}
+	
+	// qst_re_ref 비교
+	public Integer getAdminQstReRef(int qst_idx) {
+	    return mapper.getAdminQstReRef(qst_idx);
+	}
+	
+
+	
 }

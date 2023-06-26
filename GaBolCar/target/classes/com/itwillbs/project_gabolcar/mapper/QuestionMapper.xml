@@ -122,6 +122,13 @@
     <select id="getMemNameById" resultType="String" parameterType="String">
     	SELECT mem_name FROM mem_info WHERE mem_id=#{mem_id}
 	</select>
+	
+	<!-- 작성자 관리자 비교 -->
+	<select id="getAdminQstReRef" resultType="int" parameterType="int">
+	    SELECT qst_board_re_ref
+	    FROM qst_board
+	    WHERE qst_idx=#{qst_idx} AND mem_name='관리자'
+	</select>
     
 	<!-- 나중에 작성자 이름에 mem_name을 불러올때 쓰이는 구문 -->
 <!-- SELECT qst_board.qst_idx, qst_board.mem_name, qst_board.qst_pass, qst_board.qst_subject, qst_board.qst_content, qst_board.qst_date, qst_board.qst_type, mem_info.mem_name  -->
@@ -130,19 +137,20 @@
 <!-- ON qst_board.mem_idx = mem_info.mem_idx; -->
 	
 
-
+	<!-- 답글 등록 전 순서번호 증가 -->
 	<update id="updateQstBoardReSeq">
-	    UPDATE qst_board
-	    SET
-	        qst_board_re_seq = qst_board_re_seq + 1
-	    WHERE
-	        qst_board_re_ref = #{qst_board_re_ref}
-	        AND qst_board_re_seq > #{qst_board_re_seq}
+		UPDATE qst_board
+		SET
+			qst_board_re_seq = qst_board_re_seq + 1
+		WHERE
+			qst_board_re_ref = #{qst_board_re_ref}
+			AND qst_board_re_seq > #{qst_board_re_seq}
 	</update>
-	
+		
+	<!-- 답글 달기 -->
 	<insert id="insertQstReplyBoard">
 	    <selectKey keyProperty="qst_idx" resultType="int" order="BEFORE">
-	        SELECT IFNULL(MAX(qst_idx), 0) FROM qst_board
+	        SELECT IFNULL(MAX(qst_idx), 0) + 1 FROM qst_board
 	    </selectKey>
 	        INSERT INTO qst_board
 	        VALUES (
@@ -152,7 +160,7 @@
 	            , #{qst_pass}
 	            , #{qst_subject}
 	            , #{qst_content}
-	            , #{qst_board_re_ref} 
+	            , #{qst_board_re_ref}
 	            , #{qst_board_re_lev} + 1
 	            , #{qst_board_re_seq} + 1
 	            , 0                
@@ -160,20 +168,12 @@
 	            , #{qst_type}      
 	        )
 	</insert>
-	
-	<select id="getQuestionByQstIdx" resultType="com.itwillbs.project_gabolcar.vo.QuestionVO">
-    SELECT *
-    FROM qst_board
-    WHERE qst_idx = #{qst_idx}
-	</select>
-	
-	
-	
-	
-	
-	
-	
-	
+	<!-- 답글을 달려고하는 게시물의 qst_board_re_ref 셀렉  -->
+    <select id="selectCurrentQstBoardQstIdx" resultType="int">
+	    SELECT qst_board_re_ref 
+	    	FROM qst_board 
+	    	WHERE qst_idx = #{qst_idx}
+    </select>
 	
 	<update id="updateQstBoard">
 		UPDATE qst_board

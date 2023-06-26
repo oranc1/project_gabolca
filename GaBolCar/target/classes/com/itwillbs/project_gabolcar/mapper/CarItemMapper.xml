@@ -3,7 +3,7 @@
 <mapper namespace="com.itwillbs.project_gabolcar.mapper.CarItemMapper">
 
 <!-- 리뷰 관련 mapper.xml -->
-	<!-- 리뷰 게시판 목록 -->
+	<!-- 리뷰 게시판 목록 !-->
 
 	<!-- 리뷰게시판 작은거 3개 -->
 	<select id="getReviewListSmall" resultType="map" parameterType="com.itwillbs.project_gabolcar.vo.ReviewVO">
@@ -107,7 +107,7 @@
 	<!-- 리뷰 게시판 뷰 -->
 	<select id="reviewDetail" resultType="com.itwillbs.project_gabolcar.vo.ReviewVO">
 		SELECT rc.rev_date, rc.rev_idx, rc.rev_star, mi.mem_id, rc.rev_subject, rc.rev_name, ci.car_model, 
-		rc.rev_content, date_format(rev_date, '%Y-%m-%d')AS rev_date_format 
+		rc.rev_content, date_format(rev_date, '%Y-%m-%d')AS rev_date_format, rc.rev_file1, rc.rev_file2, rc.rev_file3 
        		FROM rev_car rc
 	       		JOIN res_info ri
 	       		ON rc.res_idx = ri.res_idx 
@@ -130,11 +130,14 @@
 			VALUES (
 				null,
 				#{res_idx},
-				#{rev_name},
+				(select mem_name from mem_info where mem_id = #{session_id}),
 				#{rev_subject},
 				#{rev_content},
 				#{rev_star},
-				now()
+				now(),
+				#{rev_file1},
+				#{rev_file2},
+				#{rev_file3}
 			)
 	</insert>
 	
@@ -142,7 +145,7 @@
 		UPDATE rev_car
 			SET rev_subject = #{rev_subject},
 				rev_content = #{rev_content},
-				rev_star = #{rev_star}
+				rev_star = #{rev_star} 
 					WHERE rev_idx = #{rev_idx}
 	</update>
 		
@@ -189,4 +192,20 @@
 	
 	
 	
+	<!-- ==== 0626 경인수정 main 페이지 리뷰 띄울항목 검색 -->
+	<select id="getReviewListMain" resultType="map">
+		SELECT rev_idx, res_idx, rev_star ,rev_subject, rev_date ,car_model, car_company
+		FROM 
+			(
+				SELECT rc.rev_idx, rc.res_idx, rev_subject , car_idx, rev_star ,rev_date  
+				FROM 
+				rev_car rc JOIN res_info ri ON rc.res_idx = ri.res_idx
+			) 
+			rev_res 
+			JOIN car_info ci ON ci.car_idx = rev_res.car_idx
+		WHERE 
+			rev_star >= 4
+		ORDER BY rev_date DESC 
+		LIMIT 0, 4
+	</select>
 </mapper>

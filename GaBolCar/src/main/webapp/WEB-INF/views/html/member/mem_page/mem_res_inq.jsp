@@ -54,7 +54,7 @@
 												<p class="ret_car">반납 완료</p>
 											</c:when>
 											<c:otherwise>
-												<p>결제 대기 중</p>
+												<p>결제 완료</p>
 											</c:otherwise>
 										</c:choose>
 										
@@ -105,7 +105,7 @@
 												<button class="ret_rev" onclick="location.href='reviewWriteForm'">리뷰 작성</button>
 											</c:when>
 											<c:otherwise>
-												<button type="button" onclick="location.href=''">예약취소</button>
+												<button type="button" onclick="location.href='ResCancel?res_idx=${resinfo.res_idx}'">예약취소</button>
 											</c:otherwise>
 										</c:choose>
 									</div>

@@ -18,4 +18,6 @@ public class QuestionVO {
 	private int qst_readcount; 
 	private Timestamp qst_date;
 	private String qst_type;
+	
+	private int admin_qst_board_re_ref; // 관리자와 작성자 qst_board_re_ref 비교
 }

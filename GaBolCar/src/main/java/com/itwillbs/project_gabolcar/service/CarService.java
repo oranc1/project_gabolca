@@ -50,11 +50,16 @@ public class CarService {
 		return mapper.selectCarOptionList(car_idx);
 	}
 	
+	
 	// 차량 수정 
 	public int carUpdate(CarVO car) {
 		return mapper.updateCar(car);
 	}
 	
+	// 차량수정 - 수정할 해당 차량 car_file1..6 배열로 들고오기
+	public List<CarVO> selectCarfiles(CarVO car) {
+		return mapper.selectCarFiles(car);
+	}
 	
 	// 차량수정 - 기존에 선택된 옵션을 삭제합니다
 	public int deleteCarOptionsByCarIdx(int car_idx) {
@@ -78,6 +83,13 @@ public class CarService {
 		
 		return mapper.selectDriver(res_idx);
 	}
+	
+	
+	// 차량 수정 차 파일 삭제
+	public int removeBoardFile(CarVO car) {
+		 return mapper.deleteCarFile(car);
+	}
+	
 	
 	// --------------------------------------------------------------------------------------------------------------
 
@@ -141,6 +153,22 @@ public class CarService {
 	public int isOptNameCheck(Map<String, String> map) {
 		return mapper.selectOptCheck(map);
 	}
+
+	public List<Map<String, Object>> carList() {
+		return mapper.selectUpdateCar();
+	}
+	
+
+
+		
+//	    if (resultCarVO != null) {
+//	        return resultCarVO.toString(); // CarVO에서 필요한 String 값을 가져옵니다.
+//	    }
+//	    return null;
+	}
+
+
+
 	
 
 
@@ -150,4 +178,3 @@ public class CarService {
 
 
 	
-}

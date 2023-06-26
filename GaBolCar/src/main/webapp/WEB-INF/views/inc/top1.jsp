@@ -35,14 +35,24 @@
 							</li>
 						</c:when>
 						<c:otherwise>
-						<li>
-							<a href="${pageContext.request.contextPath }/MemberUpdatePro"> <i class="xi-user"></i> ${sessionScope.sId } 님
-							</a>
-						</li>
-						<li>
-							<a href="javascript:logout()"> <i class="xi-user"></i> 로그아웃
-							</a>
-						</li>
+							<c:choose>
+								<c:when test="${sessionScope.sId eq 'admin@admin.com' }">
+									<li>
+										<a href="javascript:Check('${sessionScope.sId}')" > <i class="xi-user"></i> ${sessionScope.sId } 님
+										</a>
+									</li>
+								</c:when>
+								<c:otherwise>
+									<li>
+										<a href="${pageContext.request.contextPath }/MemberUpdatePro"> <i class="xi-user"></i> ${sessionScope.sId } 님
+										</a>
+									</li>
+								</c:otherwise>
+							</c:choose>
+							<li>
+								<a href="javascript:logout()"> <i class="xi-user"></i> 로그아웃
+								</a>
+							</li>
 						</c:otherwise>
 					</c:choose>
 				</ul>
@@ -82,28 +92,38 @@
 						로그인 현황 체크하여 항목 띄우기--%>
 					
 					<ul class="login_section">
-					<c:choose>
-						<c:when test="${empty sessionScope.sId }">
-						<li>
-							<a href="${pageContext.request.contextPath }/login"> <i class="xi-user"></i> 로그인
-							</a>
-						</li>
-						<li>
-							<a href="${pageContext.request.contextPath }/signup"> <i class="xi-user"></i> 회원가입
-							</a>
-						</li>
-						</c:when>
-						<c:otherwise>
-						<li>
-							<a href=""> <i class="xi-user"></i> ${sessionScope.sId } 님
-							</a>
-						</li>
-						<li>
-							<a href="javascript:logout()"> <i class="xi-user"></i> 로그아웃
-							</a>
-						</li>
-						</c:otherwise>
-					</c:choose>
+						<c:choose>
+							<c:when test="${empty sessionScope.sId }">
+								<li>
+									<a href="${pageContext.request.contextPath }/login"> <i class="xi-user"></i> 로그인
+									</a>
+								</li>
+								<li>
+									<a href="${pageContext.request.contextPath }/signup"> <i class="xi-user"></i> 회원가입
+									</a>
+								</li>
+							</c:when>
+							<c:otherwise>
+								<c:choose>
+									<c:when test="${sessionScope.sId eq 'admin@admin.com' }">
+										<li>
+											<a href="javascript:Check('${sessionScope.sId}')" > <i class="xi-user"></i> ${sessionScope.sId } 님
+											</a>
+										</li>
+									</c:when>
+									<c:otherwise>
+										<li>
+											<a href="${pageContext.request.contextPath }/MemberUpdatePro"> <i class="xi-user"></i> ${sessionScope.sId } 님
+											</a>
+										</li>
+									</c:otherwise>
+								</c:choose>
+								<li>
+									<a href="javascript:logout()"> <i class="xi-user"></i> 로그아웃
+									</a>
+								</li>
+							</c:otherwise>
+						</c:choose>
 					</ul>
 				</ul>
 				<div class="btn_close">
@@ -165,5 +185,25 @@
                 $nav.toggleClass("scroll", $(this).scrollTop() > $nav.height()*0.5);
             });
         });
+    </script>
+    <script>
+    	function Check(id) {
+    		let data = window.prompt("접속 키워드 입력");
+    		$.ajax({
+    			url: "adminCheck",
+    			type: "get",
+				data: {
+					id: id,
+					data: data
+				},
+    		}).done(function(result) {
+    			if ($.trim(result) == 'true') {
+    				location.href="admDash";
+    			} else {
+    				alert("접근권한이 없습니다.")
+    				history.back();
+    			}
+    		})
+    	}
     </script>
 

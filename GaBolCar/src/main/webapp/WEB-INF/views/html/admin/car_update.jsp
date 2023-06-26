@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> 
+
 <!-- 수정중 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -12,6 +14,58 @@
 <link href="${pageContext.request.contextPath }/resources/css/admin/car_register.css" rel="stylesheet">
 <script src="${pageContext.request.contextPath }/resources/js/inc/jquery-3.7.0.js"></script>
 <script src="${pageContext.request.contextPath }/resources/js/inc/bootstrap.bundle.min.js"></script>
+<script type="text/javascript">
+function deleteFile(car_file_value, car_file_index) {
+	let car_idx = ${car.car_idx};
+
+	$.ajax({
+		type: "POST",
+		url: "carDeleteFile",
+		data: {
+			"car_idx": car_idx,
+			"car_file": car_file_value,
+			"car_file_path": "${car.car_file_path}",
+			"car_file_index": car_file_index // 이 코드 추가
+// 			"car_file_path": "${car.car_file_path}"
+		},
+		success: function(result) {
+			if (result == "true") {
+				alert("파일 삭제 성공");
+
+				// car_file_value에 따라 분기하는 코드를 switch 구문을 사용
+				let index;
+				switch(car_file_value) {
+				    case "${car.car_file1}":
+				        index = "1";
+				        break;
+				    case "${car.car_file2}":
+				        index = "2";
+				        break;
+				    case "${car.car_file3}":
+				        index = "3";
+				        break;
+				    case "${car.car_file4}":
+				        index = "4";
+				        break;
+				    case "${car.car_file5}":
+				        index = "5";
+				        break;
+				    case "${car.car_file6}":
+				        index = "6";
+				        break;
+				    default:
+				        break;
+				}
+
+				// 인덱스 번호로 fileBtnArea 엘리먼트를 선택
+				$("#fileBtnArea" + index).html("<input type='file' name='files'/>");
+			} else {
+				alert("일시적인 오류로 파일 삭제에 실패했습니다!");
+			}
+		}
+	});
+}
+</script>
 </head>
 <body>
 	<section id="reg_section">
@@ -113,78 +167,142 @@
 	              			</select>
 						</td>
 	          		</tr>
-
-<tr>
-    <td class="td_left">
-        <label for="option_name">옵션</label>
-    </td>
-    <td class="td_right">
-        <div class="row">
-            <div class="col-md-12">
-                <label class="checkbox-label">
-                    <input type="checkbox" id="selectAllCheckbox">
-                    전체 선택
-                </label>
-                <c:forEach var="option" items="${optionList}">
-                    <c:set var="isChecked" value="false"/>
-                    <c:forEach var="carOptionIdx" items="${selectedOptionList}">
-                        <c:if test="${carOptionIdx == option.option_idx}">
-                            <c:set var="isChecked" value="true"/>
-                        </c:if>
-                    </c:forEach>
-                    <label class="checkbox-label">
-                        <input type="checkbox" name="option_idx" value="${option.option_idx}" <c:if test="${isChecked}">checked="checked"</c:if>>
-                        ${option.option_name}
-                    </label>
-                </c:forEach>
-            </div>
-        </div>
-    </td>
-</tr>
-
-
+					<tr>
+					    <td class="td_left">
+					        <label for="option_name">옵션</label>
+					    </td>
+					    <td class="td_right">
+					        <div class="row">
+					            <div class="col-md-12">
+					                <label class="checkbox-label">
+					                    <input type="checkbox" id="selectAllCheckbox">
+					                    전체 선택
+					                </label>
+					                <c:forEach var="option" items="${optionList}">
+					                    <c:set var="isChecked" value="false"/>
+					                    <c:forEach var="carOptionIdx" items="${selectedOptionList}">
+					                        <c:if test="${carOptionIdx == option.option_idx}">
+					                            <c:set var="isChecked" value="true"/>
+					                        </c:if>
+					                    </c:forEach>
+					                    <label class="checkbox-label">
+					                        <input type="checkbox" name="option_idx" value="${option.option_idx}" <c:if test="${isChecked}">checked="checked"</c:if>>
+					                        ${option.option_name}
+					                    </label>
+					                </c:forEach>
+					            </div>
+					        </div>
+					    </td>
+					</tr>
 		      		<tr> 
-				        <td class="td_left"><label for="file1"> 차량예약, 차량소개 이미지</label></td>
-				        <td class="td_right">
-					        <input type="file" name="files" id="car_file1" class="form-control" />
-					        <input type="hidden" name="oldFilename1" value="${car.car_file1 }" />
+				        <td class="td_left"><label for="file1"> 차량예약, 차량소개 이미지</label></td> 
+				        <td class="td_right"  id="fileBtnArea1">
+							<c:choose>
+								<c:when test="${empty car.car_file1 }">
+										<input type="file" name="files" id="car_file1" class="form-control" value="${car.car_file1 }" />
+								</c:when>
+								<c:otherwise>
+									<c:set var="length" value="${fn:length(car.car_file1) }" />
+									<c:set var="index" value="${fn:indexOf(car.car_file1, '_') }" />
+									<c:set var="fileName" value="${fn:substring(car.car_file1, index + 1, length) }" />
+									<a href="${pageContext.request.contextPath}/resources/upload/car/${car.car_file_path}/${car.car_file1}">${car.car_file1 }</a>
+									<%-- 삭제버튼 클릭 시 deleteFile() 함수 호출(파라미터로 글번호, 파일명 전달) --%>
+<input type="button" value="삭제" onclick="deleteFile('${car.car_file1}', 0)">
+								</c:otherwise>
+							</c:choose>
 				        </td>
 			      	</tr>
-			      	<tr> 
-				        <td class="td_left"><label for="file2">차량상세예약 1(정면)</label></td>
-				        <td class="td_right">
-					        <input type="file" name="files" id="car_file2" class="form-control" />
-					        <input type="hidden" name="oldFilename2" value="${car.car_file2 }" />
+		      		<tr> 
+				        <td class="td_left"><label for="file2"> 차량 상세 예약 이미지 1</label></td> 
+				        <td class="td_right"  id="fileBtnArea2">
+							<c:choose>
+								<c:when test="${empty car.car_file2 }">
+										<input type="file" name="files" id="car_file_2" class="form-control" value="${car.car_file2 }" />
+								</c:when>
+								<c:otherwise>
+									<c:set var="length" value="${fn:length(car.car_file2) }" />
+									<c:set var="index" value="${fn:indexOf(car.car_file2, '_') }" />
+									<c:set var="fileName" value="${fn:substring(car.car_file2, index + 1, length) }" />
+									<a href="${pageContext.request.contextPath}/resources/upload/car/${car.car_file_path}/${car.car_file2}">${car.car_file2 }</a>
+									<%-- 삭제버튼 클릭 시 deleteFile() 함수 호출(파라미터로 글번호, 파일명 전달) --%>
+<input type="button" value="삭제" onclick="deleteFile('${car.car_file2}', 1)">
+								</c:otherwise>
+							</c:choose>
 				        </td>
 			      	</tr>
-			      	<tr> 
-				        <td class="td_left"><label for="file3">차량상세예약 2(후면)</label></td>
-				        <td class="td_right">
-					        <input type="file" name="files" id="car_file3" class="form-control" />
-					        <input type="hidden" name="oldFilename3" value="${car.car_file3 }" />
+		      		<tr> 
+				        <td class="td_left"><label for="file3"> 차량예약, 차량소개 이미지</label></td> 
+				        <td class="td_right"  id="fileBtnArea3">
+							<c:choose>
+								<c:when test="${empty car.car_file3 }">
+										<input type="file" name="files" id="car_file3" class="form-control" value="${car.car_file3 }" />
+								</c:when>
+								<c:otherwise>
+									<c:set var="length" value="${fn:length(car.car_file3) }" />
+									<c:set var="index" value="${fn:indexOf(car.car_file3, '_') }" />
+									<c:set var="fileName" value="${fn:substring(car.car_file3, index + 1, length) }" />
+									<a href="${pageContext.request.contextPath}/resources/upload/car/${car.car_file_path}/${car.car_file3}">${car.car_file3 }</a>
+									<%-- 삭제버튼 클릭 시 deleteFile() 함수 호출(파라미터로 글번호, 파일명 전달) --%>
+<input type="button" value="삭제" onclick="deleteFile('${car.car_file3}', 2)">
+								</c:otherwise>
+							</c:choose>
 				        </td>
 			      	</tr>
-			      	<tr> 
-				        <td class="td_left"><label for="file4">차량상세예약 3(측면)</label></td>
-				        <td class="td_right">
-					        <input type="file" name="files" id="car_file4" class="form-control" />
-					        <input type="hidden" name="oldFilename4" value="${car.car_file4 }" />
+		      		<tr> 
+				        <td class="td_left"><label for="file4"> 차량예약, 차량소개 이미지</label></td> 
+				        <td class="td_right"  id="fileBtnArea4">
+							<c:choose>
+								<c:when test="${empty car.car_file4 }">
+										<input type="file" name="files" id="car_file4" class="form-control" value="${car.car_file4 }" />
+								</c:when>
+								<c:otherwise>
+									<c:set var="length" value="${fn:length(car.car_file4) }" />
+									<c:set var="index" value="${fn:indexOf(car.car_file4, '_') }" />
+									<c:set var="fileName" value="${fn:substring(car.car_file4, index + 1, length) }" />
+									<a href="${pageContext.request.contextPath}/resources/upload/car/${car.car_file_path}/${car.car_file4}">${car.car_file4 }</a>
+									<%-- 삭제버튼 클릭 시 deleteFile() 함수 호출(파라미터로 글번호, 파일명 전달) --%>
+<input type="button" value="삭제" onclick="deleteFile('${car.car_file4}', 3)">
+								</c:otherwise>
+							</c:choose>
 				        </td>
 			      	</tr>
-			      	<tr> 
-				        <td class="td_left"><label for="file5">차량상세예약 4(내부1)</label></td>
-				        <td class="td_right">
-					        <input type="file" name="files" id="car_file5" class="form-control" />
-					        <input type="hidden" name="oldFilename5" value="${car.car_file5 }" />
+		      		<tr> 
+				        <td class="td_left"><label for="file5"> 차량예약, 차량소개 이미지</label></td> 
+				        <td class="td_right"  id="fileBtnArea5">
+							<c:choose>
+								<c:when test="${empty car.car_file5 }">
+										<input type="file" name="files" id="car_file5" class="form-control" value="${car.car_file5 }" />
+								</c:when>
+								<c:otherwise>
+									<c:set var="length" value="${fn:length(car.car_file5) }" />
+									<c:set var="index" value="${fn:indexOf(car.car_file5, '_') }" />
+									<c:set var="fileName" value="${fn:substring(car.car_file5, index + 1, length) }" />
+									<a href="${pageContext.request.contextPath}/resources/upload/car/${car.car_file_path}/${car.car_file5}">${car.car_file5 }</a>
+									<%-- 삭제버튼 클릭 시 deleteFile() 함수 호출(파라미터로 글번호, 파일명 전달) --%>
+<input type="button" value="삭제" onclick="deleteFile('${car.car_file5}', 4)">
+								</c:otherwise>
+							</c:choose>
 				        </td>
 			      	</tr>
-			      	<tr> 
-				        <td class="td_left"><label for="file6">차량상세예약 5(내부2)</label></td>
-				        <td class="td_right">
-					        <input type="file" name="files" id="car_file6" class="form-control" />
-					        <input type="hidden" name="oldFilename6" value="${car.car_file6 }" />
+		      		<tr> 
+				        <td class="td_left"><label for="file6"> 차량예약, 차량소개 이미지</label></td> 
+				        <td class="td_right"  id="fileBtnArea6">
+							<c:choose>
+								<c:when test="${empty car.car_file6 }">
+										<input type="file" name="files" id="car_file6" class="form-control" value="${car.car_file6 }" />
+								</c:when>
+								<c:otherwise>
+									<c:set var="length" value="${fn:length(car.car_file6) }" />
+									<c:set var="index" value="${fn:indexOf(car.car_file6, '_') }" />
+									<c:set var="fileName" value="${fn:substring(car.car_file6, index + 1, length) }" />
+									<a href="${pageContext.request.contextPath}/resources/upload/car/${car.car_file_path}/${car.car_file6}">${car.car_file6 }</a>
+									<%-- 삭제버튼 클릭 시 deleteFile() 함수 호출(파라미터로 글번호, 파일명 전달) --%>
+<input type="button" value="삭제" onclick="deleteFile('${car.car_file6}', 5)">
+								</c:otherwise>
+							</c:choose>
 				        </td>
 			      	</tr>
+
 	      			<tr>
 	        			<td class="td_left"><label for="car_status">차량상태</label></td>
 	        			<td class="td_right">

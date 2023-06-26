@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.itwillbs.project_gabolcar.handler.MyPasswordEncoder;
 import com.itwillbs.project_gabolcar.service.MemberService;
 import com.itwillbs.project_gabolcar.util.FindUtil;
 import com.itwillbs.project_gabolcar.util.SendUtil;
@@ -109,6 +110,18 @@ public class OnController { //나중에 합칠거임
 			return "redirect:/login";
 		}
 		
+		@ResponseBody
+		@GetMapping("adminCheck")
+		public String adminPasswdChk(
+				@RequestParam String data
+				, Model model) {
+			if (data.equals("c5d2302t3")) {
+				return "true";
+			} else {
+				return "false";
+			}
+		}
+		
 		//로그인 
 		@GetMapping("login")
 		public String login(@CookieValue(value = "REMEMBER_ID", required = false) Cookie cookie) {
@@ -128,7 +141,6 @@ public class OnController { //나중에 합칠거임
 			
 			String securePasswd = memberService.getPasswd(member);
 			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
 			
 			if(member.getMem_passwd() == null || !passwordEncoder.matches(member.getMem_passwd(), securePasswd)) { // 로그인 실패
 				model.addAttribute("msg", "로그인 실패!");

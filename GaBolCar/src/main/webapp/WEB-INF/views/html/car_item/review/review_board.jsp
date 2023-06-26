@@ -45,7 +45,7 @@
 							<input type="submit" value="검색">
 						
 							
-							<%-- 검색타입목록, 검색어입력창 추가 --%>
+							<%-- 검색타입목록, 검색어입력창 추가! --%>
 													
 						
 						
@@ -131,9 +131,9 @@
 										</li>
 										</c:forEach>
 									</ul>
-									<!-- <div class="write_btn">
+									<div class="write_btn">
 										<a href="/project_gabolcar/reviewWriteForm?pageNum=${pageNum}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}">글쓰기</a>
-									</div> -->
+									</div>
 										
 										
 									<div class="list_pager_wrap">

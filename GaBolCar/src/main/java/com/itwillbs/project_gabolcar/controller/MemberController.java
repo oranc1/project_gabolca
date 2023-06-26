@@ -61,202 +61,195 @@ public class MemberController {
 
 
 	// =============== 멤버 페이지, 멤버 정보 관련 ================
-		// 회원 정보 수정
-		@GetMapping("MemberUpdatePro")
-		public String memberupdate(HttpSession session, Model model) {
+	// 회원 정보 수정
+	@GetMapping("MemberUpdatePro")
+	public String memberupdate(HttpSession session, Model model) {
 
-			String sId = (String) session.getAttribute("sId");
-			
-			
-			if (sId == null) {
-				model.addAttribute("msg", "잘못된 접근입니다!");
+		String sId = (String) session.getAttribute("sId");
+
+		if (sId == null) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			return "inc/fail_back";
+		}
+
+		// 세션 아이디를 사용하여 회원 상세정보 조회 요청
+		MemberVO member = memberService.getMemberInfo(sId);
+//					System.out.println(member);
+		member.setPhone1(member.getMem_mtel().split("-")[0]);
+		member.setPhone2(member.getMem_mtel().split("-")[1]);
+		member.setPhone3(member.getMem_mtel().split("-")[2]);
+
+		member.setMem_bir1(member.getMem_birthday().toString().split("-")[0]);
+		member.setMem_bir2(member.getMem_birthday().toString().split("-")[1]);
+		member.setMem_bir3(member.getMem_birthday().toString().split("-")[2]);
+
+		member.setSample6_postcode(member.getMem_addr().toString().split("/")[0]);
+		member.setSample6_address(member.getMem_addr().toString().split("/")[1]);
+
+		if (member.getMem_addr().toString().split("/").length > 2) {
+			member.setSample6_detailAddress(member.getMem_addr().toString().split("/")[2]);
+
+		}
+		if (member.getMem_addr().toString().split("/").length > 3) {
+
+			member.setSample6_extraAddress(member.getMem_addr().toString().split("/")[3]);
+		}
+
+		// 회원 상세정보(MemberVO) 저장
+		model.addAttribute("member", member);
+		return "html/member/mem_page/mem_info_update";
+
+	}
+
+	@PostMapping("MemberModify")
+	public String MemberModify(MemberVO member, @RequestParam String newPasswd, @RequestParam String newPasswd1,
+			HttpSession session, Model model) {
+
+		String sId = (String) session.getAttribute("sId");
+		String securePasswd = memberService.getPasswd(member);
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+		if (sId == null) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			return "inc/fail_back";
+		} else if (!sId.equals("admin")) {
+
+			if (member.getMem_passwd() == null || member.getMem_passwd().equals("")) { // 패스워드가 입력되지 않았을 경우
+				model.addAttribute("msg", "패스워드 입력 필수!");
 				return "inc/fail_back";
-			}
-			
-
-			// 세션 아이디를 사용하여 회원 상세정보 조회 요청
-			MemberVO member = memberService.getMemberInfo(sId);
-//				System.out.println(member);
-			member.setPhone1(member.getMem_mtel().split("-")[0]);
-			member.setPhone2(member.getMem_mtel().split("-")[1]);
-			member.setPhone3(member.getMem_mtel().split("-")[2]);
-
-			member.setMem_bir1(member.getMem_birthday().toString().split("-")[0]);
-			member.setMem_bir2(member.getMem_birthday().toString().split("-")[1]);
-			member.setMem_bir3(member.getMem_birthday().toString().split("-")[2]);
-
-			member.setSample6_postcode(member.getMem_addr().toString().split("/")[0]);
-			member.setSample6_address(member.getMem_addr().toString().split("/")[1]);
-
-			if (member.getMem_addr().toString().split("/").length > 2) {
-				member.setSample6_detailAddress(member.getMem_addr().toString().split("/")[2]);
+			} else if (!passwordEncoder.matches(member.getMem_passwd(), securePasswd)) {
+				model.addAttribute("msg", "패스워드 불일치!");
+				return "inc/fail_back";
+			} else if (!newPasswd.equals(newPasswd1)) {
+				model.addAttribute("msg", "비밀번호 확인 불일치!");
+				return "inc/fail_back";
 
 			}
-			if (member.getMem_addr().toString().split("/").length > 3) {
-
-				member.setSample6_extraAddress(member.getMem_addr().toString().split("/")[3]);
-			}
-
-			// 회원 상세정보(MemberVO) 저장
-			model.addAttribute("member", member);
-			return "html/member/mem_page/mem_info_update";
 
 		}
 
-		@PostMapping("MemberModify")
-		public String MemberModify(MemberVO member, @RequestParam String newPasswd, @RequestParam String newPasswd1,HttpSession session, Model model) {
-		
-			String sId = (String) session.getAttribute("sId");
-			String securePasswd = memberService.getPasswd(member);
-			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		// 일반 회원이 패스워드가 일치하거나, 관리자일 때
+		// MemberService - ModifyMember() 메서드 호출하여 회원 정보 수정 요청
+		memberService.ModifyMember(member, newPasswd1, passwordEncoder.encode(newPasswd));
 
-			if (sId == null) {
-				model.addAttribute("msg", "잘못된 접근입니다!");
-				return "inc/fail_back";
-			} else if (!sId.equals("admin")) {
+		// " 회원 정보 수정 성공! " 메세지 출력 및 포워딩
+		model.addAttribute("msg", "회원 정보 수정 성공!");
+		model.addAttribute("targetURL", "MemberUpdatePro");
 
-				if (member.getMem_passwd() == null || member.getMem_passwd().equals("")) { // 패스워드가 입력되지 않았을 경우
-					model.addAttribute("msg", "패스워드 입력 필수!");
-					return "inc/fail_back";
-				} else if(!passwordEncoder.matches(member.getMem_passwd(), securePasswd)) {
-					model.addAttribute("msg", "패스워드 불일치!");
-					return "inc/fail_back";
-				} else if (!newPasswd.equals(newPasswd1)) {
-					model.addAttribute("msg", "비밀번호 확인 불일치!");
-					return "inc/fail_back";
-				
-				}
+		return "inc/success_forward";
 
-			}
+	}
 
-			// 일반 회원이 패스워드가 일치하거나, 관리자일 때
-			// MemberService - ModifyMember() 메서드 호출하여 회원 정보 수정 요청
-			memberService.ModifyMember(member, newPasswd1, passwordEncoder.encode(newPasswd));
+	// 멤버) 차량 예약 조회
+	@GetMapping("MemberRes")
+	public String resInq(HttpSession session, Model model) {
 
-			// " 회원 정보 수정 성공! " 메세지 출력 및 포워딩
-			model.addAttribute("msg", "회원 정보 수정 성공!");
-			model.addAttribute("targetURL", "MemberUpdatePro");
+		String sId = (String) session.getAttribute("sId");
 
-			return "inc/success_forward";
-
+		if (sId == null) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			return "inc/fail_back";
 		}
 
-
-
-		// 멤버) 차량 예약 조회
-		@GetMapping("MemberRes")
-		public String resInq(HttpSession session, Model model) {
-			
-			String sId = (String) session.getAttribute("sId");
-			
-			if (sId == null) {
-				model.addAttribute("msg", "잘못된 접근입니다!");
+		List<ResInfoVO> resinfo;
+		try {
+			resinfo = resService.getResInfo(sId);
+			if (resinfo.isEmpty()) {
+				model.addAttribute("msg", "예약 내역이 없습니다!");
 				return "inc/fail_back";
 			}
-		
-			List<ResInfoVO> resinfo;
-			try {
-				resinfo = resService.getResInfo(sId);
-				 if (resinfo.isEmpty()) {
-			            model.addAttribute("msg", "예약 내역이 없습니다!");
-			            return "inc/fail_back";
-			        }
-			} catch (Exception e) {
-				model.addAttribute("msg", "예약 내역을 가져오는 중에 오류가 발생했습니다!");
-				return "inc/fail_back";
-			}
-			
-//			System.out.println(resinfo);
-			
-		
-			model.addAttribute("resinfo", resinfo);
-			
-			MemberVO member =memberService.memName(sId);
-			model.addAttribute("member",member);
-			System.out.println(member);
-			
-			return "html/member/mem_page/mem_res_inq";
+		} catch (Exception e) {
+			model.addAttribute("msg", "예약 내역을 가져오는 중에 오류가 발생했습니다!");
+			return "inc/fail_back";
 		}
 
+//				System.out.println(resinfo);
 
-		
-		
-		//예약 상세 정보
-		@GetMapping("resDetail")
-		public String resDetail(@RequestParam int res_idx, HttpSession session, Model model) {
-				String sId = (String) session.getAttribute("sId");
-			
-			if (sId == null) {
-				model.addAttribute("msg", "잘못된 접근입니다!");
+		model.addAttribute("resinfo", resinfo);
+
+		MemberVO member = memberService.memName(sId);
+		model.addAttribute("member", member);
+		System.out.println(member);
+
+		return "html/member/mem_page/mem_res_inq";
+	}
+
+	// 예약 상세 정보
+	@GetMapping("resDetail")
+	public String resDetail(@RequestParam int res_idx, HttpSession session, Model model) {
+		String sId = (String) session.getAttribute("sId");
+
+		if (sId == null) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			return "inc/fail_back";
+		}
+		System.out.println(res_idx);
+		ResInfoVO resinfo = resService.detail(res_idx);
+		model.addAttribute("resinfo", resinfo);
+
+		PaymentVO payment = payService.totalPay(res_idx);
+		System.out.println(payment);
+		model.addAttribute("payment", payment);
+
+		DriverVO driver = driService.driverInfo(res_idx);
+//				System.out.println(driver);
+		model.addAttribute("driver", driver);
+
+		CarVO car = carService.carInfo(res_idx);
+//		System.out.println(car);
+		model.addAttribute("car", car);
+
+		MemberVO member = memberService.memName(sId);
+		model.addAttribute("member", member);
+//		System.out.println(member);
+
+		return "html/member/mem_page/mem_res_detail";
+
+	}
+
+	// 회원 탈퇴
+	@GetMapping("MemberDeleteForm")
+	public String memberOut() {
+		return "html/member/mem_page/mem_member_out";
+	}
+
+	@PostMapping("MemberDeletePro")
+	public String memberDelete(@RequestParam String mem_passwd, MemberVO member, HttpSession session, Model model) {
+		String sId = (String) session.getAttribute("sId");
+
+		member.setMem_id(sId);
+		String securePasswd = memberService.getPasswd(member);
+
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+		if (sId == null) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			return "inc/fail_back";
+		} else if (!sId.equals("admin")) {
+
+			if (member.getMem_passwd() == null || member.getMem_passwd().equals("")) { // 패스워드가 입력되지 않았을 경우
+				model.addAttribute("msg", "패스워드 입력 필수!");
+				return "inc/fail_back";
+			} else if (!passwordEncoder.matches(member.getMem_passwd(), securePasswd)) { // 패스워드 틀렸을 경우
+				model.addAttribute("msg", "패스워드 불일치!");
 				return "inc/fail_back";
 			}
-			System.out.println(res_idx);
-			ResInfoVO resinfo = resService.detail(res_idx);
-			model.addAttribute("resinfo",resinfo);
-					
-			
-			PaymentVO payment = payService.totalPay(res_idx);
-//			System.out.println(payment);
-			model.addAttribute("payment",payment);
-			
-			DriverVO driver = driService.driverInfo(res_idx);
-//			System.out.println(driver);
-			model.addAttribute("driver",driver);
-			
-			CarVO car = carService.carInfo(res_idx);
-//			System.out.println(car);
-			model.addAttribute("car",car);
-			
-			
-			
-			return "html/member/mem_page/mem_res_detail";
-		
 		}
 
-		// 회원 탈퇴
-		@GetMapping("MemberDeleteForm")
-		public String memberOut() {
-			return "html/member/mem_page/mem_member_out";
+		int deleteCount = memberService.removeMember(member);
+		if (deleteCount == 0) {
+			model.addAttribute("msg", "회원 탈퇴 실패!");
+			return "inc/fail_back";
+		} else {
+			// 세션 초기화
+			session.invalidate();
+//					session.setAttribute("msg", "회원 탈퇴 성공!");
+//					
+			// 메인페이지로 리다이렉트
+			return "redirect:/";
 		}
 
-		@PostMapping("MemberDeletePro")
-		public String memberDelete(@RequestParam String mem_passwd, MemberVO member, HttpSession session, Model model) {
-			String sId = (String) session.getAttribute("sId");
-
-			member.setMem_id(sId);
-			String securePasswd = memberService.getPasswd(member);
-			
-			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
-			if (sId == null) {
-				model.addAttribute("msg", "잘못된 접근입니다!");
-				return "inc/fail_back";
-			} else if (!sId.equals("admin")) {
-
-				if (member.getMem_passwd() == null || member.getMem_passwd().equals("")) { // 패스워드가 입력되지 않았을 경우
-					model.addAttribute("msg", "패스워드 입력 필수!");
-					return "inc/fail_back";
-				} else if(!passwordEncoder.matches(member.getMem_passwd(), securePasswd)) { //패스워드 틀렸을 경우
-					model.addAttribute("msg", "패스워드 불일치!");
-					return "inc/fail_back";
-				}
-			}
-
-			int deleteCount = memberService.removeMember(member);
-			if (deleteCount == 0) {
-				model.addAttribute("msg", "회원 탈퇴 실패!");
-				return "inc/fail_back";
-			} else {
-				// 세션 초기화
-				session.invalidate();
-//				session.setAttribute("msg", "회원 탈퇴 성공!");
-//				
-				// 메인페이지로 리다이렉트
-				return "redirect:/";
-			}
-
-		}
-	
+	}
 	
 	// =============== 로그인 회원가입 관련 ================
 
@@ -290,7 +283,12 @@ public class MemberController {
 	// 1:1 문의 게시판 리스트 클릭
 	@GetMapping("QuestionList")
 	public String quetionListForm(MemberVO member, HttpSession session, Model model) {
+		String sId = (String) session.getAttribute("sId");
 		
+		if (sId == null) {
+			model.addAttribute("msg", "로그인이 필요합니다!");
+			return "inc/fail_back";
+		}
 		return "redirect:/QuestionListForm";
 	}
 	
@@ -357,7 +355,7 @@ public class MemberController {
 		System.out.println("검색타입 : " + searchType);
 		System.out.println("검색어 : " + searchKeyword);
 		
-		int listLimit = 4; // 한 페이지에서 표시할 목록 갯수 지정
+		int listLimit = 6; // 한 페이지에서 표시할 목록 갯수 지정
 		int startRow = (pageNum - 1) * listLimit; // 조회 시작 행(레코드) 번호
 		
 		List<QuestionVO> qstBoardList = qst_service.getQstBoardList(searchType, searchKeyword, startRow, listLimit);
@@ -388,15 +386,53 @@ public class MemberController {
 	}
 	
 	
-	// "QuestionDetail" 서블릿 요청에 대한 글 상세정보 조회 요청
+	// "QuestionDetail" 서블릿 요청에 대한 글 상세정보 조회 요청 수정중
 	@GetMapping("QuestionDetail")
-	public String detail(@RequestParam int qst_idx, Model model) {
-		// BoardService - getBoard() 메서드 호출하여 글 상세정보 조회 요청
-		// => 파라미터 : 글번호   리턴타입 : BoardVO 객체(board)
-		QuestionVO question = qst_service.getQuestionBoard(qst_idx);
+	public String detail(@RequestParam int qst_idx, Model model, HttpSession session) {
 		
+		String sId = (String) session.getAttribute("sId");
+
+		if (sId == null) {
+			model.addAttribute("msg", "로그인이 필요합니다!");
+			return "inc/fail_back";
+		}
+		// 글 작성자 정보 	
+//		QuestionVO question = qst_service.getQuestionBoard(qst_idx);
+		//  작성자가 맞는 지 확인
+	    // 작성자가 맞는 지 확인
+	    if (!sId.equals("admin@admin.com")) {
+
+	        boolean isBoardWriter = qst_service.isBoardWriter(qst_idx, sId);
+
+	        if (!isBoardWriter) {
+	            model.addAttribute("msg", "권한이 없습니다!");
+	            return "inc/fail_back";
+	        }
+	    }
+	    
+	    QuestionVO question = qst_service.getQuestionBoard(qst_idx);
+	    Integer admin_qst_board_re_ref = qst_service.getAdminQstReRef(qst_idx);
+	    int qst_board_re_ref = question.getQst_board_re_ref();
+	    System.out.println("admin_qst_board_re_ref : " + admin_qst_board_re_ref);
+	    // 답글이 없으면 admin_qst_board_re_ref를 qst_board_re_ref로 설정:
+	    if (admin_qst_board_re_ref == null) {
+	        admin_qst_board_re_ref = qst_board_re_ref;
+	    }
+
+	    // 작성자 게시글의 qst_board_re_ref와 관리자 답글의 qst_board_re_ref가 동일한 경우
+	    if (qst_board_re_ref == admin_qst_board_re_ref) {
+	        MemberVO member = memberService.getMemberInfo(sId);
+	        model.addAttribute("member", member);
+	        model.addAttribute("question", question);
+	        return "html/member/question/question_detail";
+	    }
+		// 글 작성자 정보 	
+//		QuestionVO question = qst_service.getQuestionBoard(qst_idx);
+		// 로그인한 회원 정보
+//		MemberVO member = memberService.getMemberInfo(sId);
+//		model.addAttribute("member", member);
 		// 상세정보 조회 결과 저장
-		model.addAttribute("question", question);
+//		model.addAttribute("question", question);
 		
 		return "html/member/question/question_detail";
 	}
@@ -416,7 +452,7 @@ public class MemberController {
 		}
 		
 		 //  작성자가 맞는 지 확인
-		if(!sId.equals("admin")) {
+		if(!sId.equals("admin@admin.com")) {
 			
 			boolean isBoardWriter = qst_service.isBoardWriter(qst_idx, sId);
 		    
@@ -448,48 +484,52 @@ public class MemberController {
 			model.addAttribute("msg", "잘못된 접근입니다!");
 			return "inc/fail_back";
 		}
+		// 현재 로그인한 회원 (관리자)
+		MemberVO member = memberService.getMemberInfo(sId);
+		model.addAttribute("member", member);
 		
 		QuestionVO question = qst_service.getQuestionBoard(qst_idx);
-		
 		model.addAttribute("question", question);
 
 		return "html/member/question/question_reply_form";
 	}
 	
+	
 	// 문의 게시판 답변 기능
 	@PostMapping("QuestionReplyPro")
 	public String qstReplyPro(
-	        @RequestParam String mem_name,
-	        QuestionVO question, 
-	        @RequestParam(defaultValue = "1") int pageNum,
-	        HttpSession session, Model model, HttpServletRequest request) {
-	    
-	    String sId = (String)session.getAttribute("sId");
-	    if(sId == null) {
-	        model.addAttribute("msg", "잘못된 접근입니다!");
-	        return "inc/fail_back";
-	    }
-	    //
-	    int mem_idx = memberService.getCurrentUserMemIdx(mem_name);
-	    //
-	    question.setMem_idx(mem_idx);
-	    
-	    // 원본 글을 불러와서 원본 글의 qst_board_re_ref 값을 추출합니다.
-	    question.setQst_board_re_ref(question.getQst_board_re_ref());
-	    
-	    
-	    int insertCount = qst_service.registReplyQstBoard(question);
-	    
-	    if(insertCount > 0) {
-	        System.out.println("답변 성공");
-	        return "redirect:/QuestionList";
-	    } else {
-	        model.addAttribute("msg", "답변 실패!");
-	        return "inc/fail_back";
-	    }
-	    
+			@RequestParam int qst_idx,
+			@RequestParam String mem_name,
+			QuestionVO question, 
+			HttpSession session, Model model, HttpServletRequest request) {
+		
+		String sId = (String)session.getAttribute("sId");
+		
+		if(sId == null) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			return "inc/fail_back";
+		}
+		// 로그인한 회원 이름 
+		int mem_idx = memberService.getCurrentUserMemIdx(mem_name);
+		question.setMem_idx(mem_idx);
+		
+		//	답글을 달 qst_board_re_ref 값을 추출
+	    int qst_board_re_ref = qst_service.getCurrentQstBoardReRef(qst_idx);
+	    question.setQst_board_re_ref(qst_board_re_ref);
+	    System.out.println("qst_board_re_ref : " + qst_board_re_ref);
+		
+		// 답변 글쓰기
+		int insertCount = qst_service.registReplyQstBoard(question);
+		
+		if(insertCount > 0) {
+			System.out.println("답변 성공");
+			return "redirect:/QuestionList";
+		} else {
+			model.addAttribute("msg", "답변 실패!");
+			return "inc/fail_back";
+		}
+		
 	}
-	
 	
 	// 문의 게시판 수정 폼
 	@GetMapping("QuestionModifyForm")

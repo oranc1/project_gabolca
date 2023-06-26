@@ -6,17 +6,6 @@ let search_keyword = '';
 $(function() {
 	carAjax();
 	
-	// 스크롤 바
-//	$(window).scroll(function() {
-//		let scrollTop = $(window).scrollTop();
-//		let windowHeight = $(window).height();
-//		let documentHeight = $(document).height();
-//		if (scrollTop + windowHeight + 1 >= documentHeight) {
-//			pageNum++;
-//			carAjax();
-//		}
-//	})
-	
 	// 차량리스트 조회
 	function carAjax() {
 		$("#nowPage").empty().html("<b>"+pageNum+"</b>");

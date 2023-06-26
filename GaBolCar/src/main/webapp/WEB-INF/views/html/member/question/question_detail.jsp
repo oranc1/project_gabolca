@@ -32,8 +32,9 @@
     </header>
     <div id="notice_cont">
         <section id="sec_con" class="inr">
-            <h1 class="con_title">1:1 문의 게시판 상세보기</h1>
+            <h1 class="con_title">1:1 문의 게시판</h1>
             <form action="" method="get">
+                <c:set var="loginId" value="${member.mem_id}"/>
                 <section id="board_wrap">
                     <section id="board_list" class="notice">
                         <div class="wrapper">
@@ -68,10 +69,11 @@
                                 </div>
 
                                 <div class="mod_box">
-                                    <a href="QuestionReplyForm?qst_idx=${question.qst_idx}&pageNum=${pageNum}" class="modify_btn">답변</a>
-                                    <a href="QuestionListForm?qst_idx=${question.qst_idx}&pageNum=${pageNum}" class="modify_btn">목록</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <a href="QuestionListForm?qst_idx=${question.qst_idx}&pageNum=${pageNum}" class="modify_btn">목록</a>
+					                <c:if test="${loginId eq 'admin@admin.com'}">
+					                    <a href="QuestionReplyForm?qst_idx=${question.qst_idx}&pageNum=${pageNum}" class="modify_btn">답변</a>&nbsp;&nbsp;&nbsp;&nbsp;
+					                </c:if>
                                     <a href="QuestionModifyForm?qst_idx=${question.qst_idx}&pageNum=${pageNum}" class="modify_btn">수정</a>&nbsp;&nbsp;&nbsp;&nbsp;
-<%--                                     <a href="QuestionDelete?qst_idx=${question.qst_idx}&pageNum=${pageNum}" class="modify_delete">삭제</a> --%>
                                     <a class="modify_delete" onclick="confirmDelete()">삭제</a>
                                 </div>
 

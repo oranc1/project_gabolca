@@ -59,7 +59,7 @@ public interface MemberMapper {
 
 	String getMemNameByMemIdx(int mem_idx);
 	
-	//
+	
 	//회원 이름 가져오기
 	MemberVO getMemName(String sId);
 	
