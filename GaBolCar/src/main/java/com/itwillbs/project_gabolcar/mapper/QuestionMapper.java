@@ -55,6 +55,9 @@ public interface QuestionMapper {
 	// 글 수정
 	int updateQstBoard(QuestionVO question);
 	
+	// 관리자 작성자 비교
+	Integer getAdminQstReRef(int qst_idx);
+	
 	
 	
 

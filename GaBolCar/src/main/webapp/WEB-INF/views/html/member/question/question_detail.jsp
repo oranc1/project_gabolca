@@ -70,7 +70,7 @@
 
                                 <div class="mod_box">
                                     <a href="QuestionListForm?qst_idx=${question.qst_idx}&pageNum=${pageNum}" class="modify_btn">목록</a>
-					                <c:if test="${loginId eq 'admin@naver.com'}">
+					                <c:if test="${loginId eq 'admin@admin.com'}">
 					                    <a href="QuestionReplyForm?qst_idx=${question.qst_idx}&pageNum=${pageNum}" class="modify_btn">답변</a>&nbsp;&nbsp;&nbsp;&nbsp;
 					                </c:if>
                                     <a href="QuestionModifyForm?qst_idx=${question.qst_idx}&pageNum=${pageNum}" class="modify_btn">수정</a>&nbsp;&nbsp;&nbsp;&nbsp;

@@ -85,6 +85,11 @@ public class QuestionService {
 		return mapper.updateQstBoard(question);
 	}
 	
+	// qst_re_ref 비교
+	public Integer getAdminQstReRef(int qst_idx) {
+	    return mapper.getAdminQstReRef(qst_idx);
+	}
+	
 
 	
 }

@@ -386,34 +386,53 @@ public class MemberController {
 	}
 	
 	
-	// "QuestionDetail" 서블릿 요청에 대한 글 상세정보 조회 요청
+	// "QuestionDetail" 서블릿 요청에 대한 글 상세정보 조회 요청 수정중
 	@GetMapping("QuestionDetail")
 	public String detail(@RequestParam int qst_idx, Model model, HttpSession session) {
 		
 		String sId = (String) session.getAttribute("sId");
-		
+
 		if (sId == null) {
 			model.addAttribute("msg", "로그인이 필요합니다!");
 			return "inc/fail_back";
 		}
-		
-		 //  작성자가 맞는 지 확인
-		if(!sId.equals("admin@naver.com")) {
-			
-			boolean isBoardWriter = qst_service.isBoardWriter(qst_idx, sId);
-		    
-			if (!isBoardWriter) {
-				model.addAttribute("msg", "권한이 없습니다!");
-				return "inc/fail_back";
-			}
-		}
 		// 글 작성자 정보 	
-		QuestionVO question = qst_service.getQuestionBoard(qst_idx);
+//		QuestionVO question = qst_service.getQuestionBoard(qst_idx);
+		//  작성자가 맞는 지 확인
+	    // 작성자가 맞는 지 확인
+	    if (!sId.equals("admin@admin.com")) {
+
+	        boolean isBoardWriter = qst_service.isBoardWriter(qst_idx, sId);
+
+	        if (!isBoardWriter) {
+	            model.addAttribute("msg", "권한이 없습니다!");
+	            return "inc/fail_back";
+	        }
+	    }
+	    
+	    QuestionVO question = qst_service.getQuestionBoard(qst_idx);
+	    Integer admin_qst_board_re_ref = qst_service.getAdminQstReRef(qst_idx);
+	    int qst_board_re_ref = question.getQst_board_re_ref();
+	    System.out.println("admin_qst_board_re_ref : " + admin_qst_board_re_ref);
+	    // 답글이 없으면 admin_qst_board_re_ref를 qst_board_re_ref로 설정:
+	    if (admin_qst_board_re_ref == null) {
+	        admin_qst_board_re_ref = qst_board_re_ref;
+	    }
+
+	    // 작성자 게시글의 qst_board_re_ref와 관리자 답글의 qst_board_re_ref가 동일한 경우
+	    if (qst_board_re_ref == admin_qst_board_re_ref) {
+	        MemberVO member = memberService.getMemberInfo(sId);
+	        model.addAttribute("member", member);
+	        model.addAttribute("question", question);
+	        return "html/member/question/question_detail";
+	    }
+		// 글 작성자 정보 	
+//		QuestionVO question = qst_service.getQuestionBoard(qst_idx);
 		// 로그인한 회원 정보
-		MemberVO member = memberService.getMemberInfo(sId);
-		model.addAttribute("member", member);
+//		MemberVO member = memberService.getMemberInfo(sId);
+//		model.addAttribute("member", member);
 		// 상세정보 조회 결과 저장
-		model.addAttribute("question", question);
+//		model.addAttribute("question", question);
 		
 		return "html/member/question/question_detail";
 	}
@@ -433,7 +452,7 @@ public class MemberController {
 		}
 		
 		 //  작성자가 맞는 지 확인
-		if(!sId.equals("admin@naver.com")) {
+		if(!sId.equals("admin@admin.com")) {
 			
 			boolean isBoardWriter = qst_service.isBoardWriter(qst_idx, sId);
 		    
