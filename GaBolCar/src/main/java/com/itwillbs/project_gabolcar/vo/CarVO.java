@@ -1,5 +1,6 @@
 package com.itwillbs.project_gabolcar.vo;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -69,5 +70,43 @@ public class CarVO {
                 throw new IllegalArgumentException("Invalid index: " + index);
         }
     }
+    
+    public List<String> getCarFiles() {
+        return Arrays.asList(car_file1, car_file2, car_file3, car_file4, car_file5, car_file6);
+    }
+    
+    public String getUpdateCarFileAt(int index) {
+        switch (index) {
+            case 1: return getCar_file1();
+            case 2: return getCar_file2();
+            case 3: return getCar_file3();
+            case 4: return getCar_file4();
+            case 5: return getCar_file5();
+            default: return getCar_file6();
+        }
+    }
+
+    public void setUpdateCarFileAt(int index, String carFile) {
+        switch (index) {
+            case 1: setCar_file1(carFile); break;
+            case 2: setCar_file2(carFile); break;
+            case 3: setCar_file3(carFile); break;
+            case 4: setCar_file4(carFile); break;
+            case 5: setCar_file5(carFile); break;
+            default: setCar_file6(carFile); break;
+        }
+    }
+
+//    
+//    public void setCarFileAt(int index, String carFile) {
+//    	switch (index) {
+//    	case 1: setCar_file1(carFile); break;
+//    	case 2: setCar_file2(carFile); break;
+//    	case 3: setCar_file3(carFile); break;
+//    	case 4: setCar_file4(carFile); break;
+//    	case 5: setCar_file5(carFile); break;
+//    	default: setCar_file6(carFile); break;
+//    	}
+//    }
 
 }

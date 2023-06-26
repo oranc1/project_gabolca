@@ -49,6 +49,13 @@
 	        option_idx = option_idx;
 	</insert>
 	
+	<!-- 차량수정 - 수정차량 차량파일 셀렉 -->
+	<select id="selectCarFiles" resultType="com.itwillbs.project_gabolcar.vo.CarVO">
+	    SELECT car_file1, car_file2, car_file3, car_file4, car_file5, car_file6
+	        FROM car_info
+	        WHERE car_idx = #{car_idx}
+	</select>
+
 	<!-- 차량수정 - 기존 옵션 삭제 -->
 	<delete id="deletUpdateCarOption" parameterType="int">
    		 DELETE FROM 
@@ -90,14 +97,19 @@
 	        car_idx=#{car_idx}
 	</delete>
 	
-	<!-- 차량수정 - 등록된 차량 파일 삭제 -->
+	<!-- 차량수정 - 등록된 차량 파일 업데이트 -->
 	<update id="deletCarFile">
-		UPDATE car_info
-			SET
-				car_file1 = ''
-				, car_file_path = ''
-			WHERE
-				car_idx = #{car_idx}
+	  UPDATE car_info
+	  SET
+	    car_file1 = '',
+	    car_file2 = '',
+	    car_file3 = '',
+	    car_file4 = '',
+	    car_file5 = '',
+	    car_file6 = '',
+	    car_file_path = ''
+	  WHERE
+	    car_idx = #{car_idx}
 	</update>
 	
 	

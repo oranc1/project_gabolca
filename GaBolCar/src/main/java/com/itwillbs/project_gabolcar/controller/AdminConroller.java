@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -359,62 +360,90 @@ public class AdminConroller {
 		}
 	}
 		
-	
 	// 차량수정
 	@Transactional
 	@PostMapping("carUpdatePro")
-    public String carUpdatePro(
-    		@RequestParam(value = "option_idx", required = false) List<Integer> optionIdxList,
-    		CarVO car, HttpSession session,
-    		Model model) {
+	public String carUpdatePro(
+	        @RequestParam(value = "option_idx", required = false) List<Integer> optionIdxList,
+	        CarVO car, HttpSession session,
+	        Model model) {
+	    // car_idx 에 있는 car_file 이 있으면 파일 넣기 수행 x 없으면 수행 O
+		
+		// 해당 차량 car_file1..6 배열로 들고오기
+	    List<CarVO> car_files = car_service.selectCarfiles(car);
+	    System.out.println("car_files 차량에 등록된 파일 : "  + car_files);
 
-        String uploadDir = "/resources/upload/car"; // 서버 이미지 저장 경로
-        String saveDir = session.getServletContext().getRealPath(uploadDir);
+	    if (car_files == null || car_files.isEmpty() || car_files.stream().allMatch(c -> c == null)) {
+	        car_files = new ArrayList<>();
+	        CarVO defaultCarFile = new CarVO();
+	        defaultCarFile.setCar_file1(null);
+	        defaultCarFile.setCar_file2(null);
+	        defaultCarFile.setCar_file3(null);
+	        defaultCarFile.setCar_file4(null);
+	        defaultCarFile.setCar_file5(null);
+	        defaultCarFile.setCar_file6(null);
+	        car_files.add(defaultCarFile);
+	    }
+	    
+	    String uploadDir = "/resources/upload/car"; // 서버 이미지 저장 경로
+	    String saveDir = session.getServletContext().getRealPath(uploadDir);
 
-        try {
-            Date date = new Date();
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-            car.setCar_file_path("/" + sdf.format(date));
-            saveDir = saveDir + car.getCar_file_path();
+	    if (car_files != null && !car_files.isEmpty() && car_files.get(0).getCar_file_path() != null) {
+	        car.setCar_file_path(car_files.get(0).getCar_file_path());
+	    } else {
+	        Date date = new Date();
+	        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+	        car.setCar_file_path("/" + sdf.format(date));
+	    }
 
-            Path path = Paths.get(saveDir);
+	    saveDir = saveDir + car.getCar_file_path();
+	    Path path = Paths.get(saveDir);
+	    try {
+	        Files.createDirectories(path);
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
 
-            Files.createDirectories(path);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+	    boolean[] fileAdded = new boolean[6];
 
-        MultipartFile[] mFiles = car.getFiles();
+	    MultipartFile[] mFiles = car.getFiles();
+	    if (mFiles != null && mFiles.length > 0) {
+	        int fileCount = Math.min(mFiles.length, 6); // 파일 수를 6개로 제한
+	        
+	        for (int i = 0; i < fileCount; i++) {
+	            MultipartFile mFile = mFiles[i];
+	            String originalFileName = mFile.getOriginalFilename();
+	            
+	            if (originalFileName != null && !originalFileName.isEmpty()) {
+	                String uuid = UUID.randomUUID().toString();
+	                String carFileName = uuid.substring(0, 8) + "_" + originalFileName;
+	                
+	                car.setCarFileAt(i + 1, carFileName); // 파일명을 해당 car_file에 저장
+	                fileAdded[i] = true;
+	                
+	                System.out.println("실제 업로드 될 파일명: " + carFileName);
+	                
+	                try {
+	                    mFile.transferTo(new File(saveDir, carFileName));
+	                } catch (IllegalStateException e) {
+	                    e.printStackTrace();
+	                    model.addAttribute("msg", "파일 업로드 실패!");
+	                    return "inc/fail_back";
+	                } catch (IOException e) {
+	                    e.printStackTrace();
+	                    model.addAttribute("msg", "파일 업로드 실패!");
+	                    return "inc/fail_back";
+	                }
+	            }
+	        }
+	    }
 
-        if (mFiles != null && mFiles.length > 0) {
-            int fileCount = Math.min(mFiles.length, 6); // 파일 수를 6개로 제한
-
-            for (int i = 0; i < fileCount; i++) {
-                MultipartFile mFile = mFiles[i];
-                String originalFileName = mFile.getOriginalFilename();
-
-                if (originalFileName != null && !originalFileName.isEmpty()) {
-                    String uuid = UUID.randomUUID().toString();
-                    String carFileName = uuid.substring(0, 8) + "_" + originalFileName;
-
-                    car.setCarFileAt(i+1, carFileName); // 파일명을 해당 car_file에 저장
-
-                    System.out.println("실제 업로드 될 파일명: " + carFileName);
-
-                    try {
-                        mFile.transferTo(new File(saveDir, carFileName));
-                    } catch (IllegalStateException e) {
-                        e.printStackTrace();
-                        model.addAttribute("msg", "파일 업로드 실패!");
-                        return "inc/fail_back";
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        model.addAttribute("msg", "파일 업로드 실패!");
-                        return "inc/fail_back";
-                    }
-                }
-            }
-        }
+	    // 기존 등록된 파일을 누락된 파일에 대해서 사용
+	    for (int i = 0; i < 6; i++) {
+	        if (!fileAdded[i] && car_files != null && !car_files.isEmpty()) {
+	        	car.setCarFileAt(i + 1, car_files.get(0).getUpdateCarFileAt(i + 1));
+	        }
+	    }
 
         int updateCount = car_service.carUpdate(car);
 
@@ -444,6 +473,8 @@ public class AdminConroller {
         }
         return "redirect:/admCarList";
     }
+	
+	
 	
 	// 옵션리스트 이동 - 디자인이 어려움
 	@GetMapping("optionList")
