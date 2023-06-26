@@ -535,12 +535,26 @@ public class CarItemController {
 			resultMap.put("reviewListS", reviewListSmall);
 			// 노용석 END
 			
+			// 렌트 비용 계산 하기
+			// 문자열로 있는 날짜를 변환
+			String[] rentSplit = map.get("res_rental_date").toString().split(" ");
+			String[] returnSplit = map.get("res_return_date").toString().split(" ");
+			LocalDateTime resRentalDate = carResHandler.str2Ldt(rentSplit[0], "-", rentSplit[1], ":");
+			LocalDateTime resReturnDate = carResHandler.str2Ldt(returnSplit[0], "-", returnSplit[1], ":");
+			
+			//
+			int rentPrice = carResHandler.resPriceCal(
+					resRentalDate
+					, resReturnDate
+					, (int)carInfo.get("car_weekdays")
+					, (int)carInfo.get("car_weekend"));
+			//렌트 비용 집어 넣기
+			resultMap.put("rentPrice", rentPrice);
 		}
 		
 		resultMap.put("DUMMY_DATA_FLAG", DUMMY_DATA_FLAG);
 		//=================================================
 		
-
 		//List<ReviewVO> reviewListSmall = carItemService.getReviewListSmall(car_model);
 		//model.addAttribute("reviewListS", reviewListSmall);
 		
@@ -807,7 +821,7 @@ public class CarItemController {
 			// -----------------------------------------------------------------------------------------
 			// 조회된 게시물 목록 객쳬(boardList) 와 페이징 정보 객체(pageInfo) 를 Model 객체에 저장
 			
-			
+			System.out.println(reviewListWithPaging);
 			
 			model.addAttribute("reviewListP", reviewListWithPaging);
 			model.addAttribute("pageInfo", pageInfo);

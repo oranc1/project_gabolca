@@ -22,30 +22,31 @@
 		<section id="sec_con" class="inr car_view">
 		<div class="upperContainner">
 			<div class="slide_wrap">
-				<div class="slide_container">
+
+<div class="slide_container">
 					<div class="mySlides">
 						<div class="numbertext">1&nbsp;&nbsp;/&nbsp;&nbsp;5</div>
-						<img src="${pageContext.request.contextPath }/resource/upload${map.car_info.car_file_path}/${map.car_info.car_file1}">
+						<img src="${pageContext.request.contextPath}/resources/upload/car/${car.car_file_path}/${car.car_file2}">
 					</div>
 
 					<div class="mySlides">
 						<div class="numbertext">2&nbsp;&nbsp;/&nbsp;&nbsp;5</div>
-						<img src="${pageContext.request.contextPath }/resource/upload${map.car_info.car_file_path}/${map.car_info.car_file2}">
+						<img src="${pageContext.request.contextPath}/resources/upload/car/${car.car_file_path}/${car.car_file3}">
 					</div>
 
 					<div class="mySlides">
 						<div class="numbertext">3&nbsp;&nbsp;/&nbsp;&nbsp;5</div>
-						<img src="${pageContext.request.contextPath }/resource/upload${map.car_info.car_file_path}/${map.car_info.car_file3}">
+						<img src="${pageContext.request.contextPath}/resources/upload/car/${car.car_file_path}/${car.car_file4}">
 					</div>
 
 					<div class="mySlides">
 						<div class="numbertext">4&nbsp;&nbsp;/&nbsp;&nbsp;5</div>
-						<img src="${pageContext.request.contextPath }/resource/upload${map.car_info.car_file_path}/${map.car_info.car_file4}">
+						<img src="${pageContext.request.contextPath}/resources/upload/car/${car.car_file_path}/${car.car_file5}">
 					</div>
 
 					<div class="mySlides">
 						<div class="numbertext">5&nbsp;&nbsp;/&nbsp;&nbsp;5</div>
-						<img src="${pageContext.request.contextPath }/resource/upload${map.car_info.car_file_path}/${map.car_info.car_file5}">
+						<img src="${pageContext.request.contextPath}/resources/upload/car/${car.car_file_path}/${car.car_file6}">
 					</div>
 
 					<a class="prev" onclick="plusSlides(-1)">❮</a> <a class="next"
@@ -54,29 +55,30 @@
 
 				<div class="row">
 					<div class="column">
-						<img class="demo cursor" src="${pageContext.request.contextPath }/resource/upload${map.car_info.car_file_path}/${map.car_info.car_file1}"
+						<img class="demo cursor" src="${pageContext.request.contextPath}/resources/upload/car/${car.car_file_path}/${car.car_file2}"
 							onclick="currentSlide(1)">
 					</div>
 					<div class="column">
-						<img class="demo cursor" src="${pageContext.request.contextPath }/resource/upload${map.car_info.car_file_path}/${map.car_info.car_file2}"
+						<img class="demo cursor" src="${pageContext.request.contextPath}/resources/upload/car/${car.car_file_path}/${car.car_file3}"
 							onclick="currentSlide(2)">
 					</div>
 					<div class="column">
-						<img class="demo cursor" src="${pageContext.request.contextPath }/resource/upload${map.car_info.car_file_path}/${map.car_info.car_file3}"
+						<img class="demo cursor" src="${pageContext.request.contextPath}/resources/upload/car/${car.car_file_path}/${car.car_file4}"
 							onclick="currentSlide(3)">
 					</div>
 					<div class="column">
-						<img class="demo cursor" src="${pageContext.request.contextPath }/resource/upload${map.car_info.car_file_path}/${map.car_info.car_file4}"
+						<img class="demo cursor" src="${pageContext.request.contextPath}/resources/upload/car/${car.car_file_path}/${car.car_file5}"
 							onclick="currentSlide(4)">
 					</div>
 					<div class="column">
-						<img class="demo cursor" src="${pageContext.request.contextPath }/resource/upload${map.car_info.car_file_path}/${map.car_info.car_file5}"
+						<img class="demo cursor" src="${pageContext.request.contextPath}/resources/upload/car/${car.car_file_path}/${car.car_file6}"
 							onclick="currentSlide(5)">
 					</div>
 				</div>
 			</div>
 
 			<div class="view_info">
+
 				<div class="view_cont">
 					<p class="car_comp">${map.car_info.car_company}</p>
 					<div class="car_name">
@@ -108,7 +110,7 @@
 						</div>
 						<div class="rent_date_total">
 							<p>총 대여시간</p>
-							<span id="rental_time"></span>
+							<span id="rental_time_final"></span>
 						</div>
 						<div class="ret_date date_comm">
 							<p>반납일</p>
@@ -116,11 +118,11 @@
 						</div>
 					</div>
 					<p class="view_amount">
-						<b id="total_money"></b>원
+						<b>${map.rentPrice}</b>원
 					</p>
 					<a href="resPayment?car_idx=${map.car_idx }
                                     &res_rental_date=${map.res_rental_date}&res_return_date=${map.res_return_date}
-                                    &brc_rent_name=${map.brc_rent_name}&brc_return_name=${map.brc_rent_name}" class="view_res_btn">예약하러 가기</a>
+                                    &brc_rent_name=${map.brc_rent_name}&brc_return_name=${map.brc_return_name}" class="view_res_btn">예약하러 가기</a>
 				</div>
 			</div>
 		</div>
@@ -134,8 +136,12 @@
 			const dateB = new Date('${map.res_rental_date}');
 			const diffMSec = dateA.getTime() - dateB.getTime();
 			
-			var diffTime = (dateA.getTime() - dateB.getTime()) / (1000*60*60);
-			$("#rental_time").html(diffTime);
+			var diffTime = (dateA.getTime() - dateB.getTime()) / (10006060);
+            $("#rental_time").html(diffTime);
+            rental_day = parseInt(diffTime/24);
+            rental_time = parseInt(diffTime%24);
+            console.log(rental_time);
+            $("#rental_time_final").html(rental_day + "일 " + rental_time + "시간");
 			 
 			
 			var total_money = parseInt(diffTime * (${map.car_info.car_weekdays}/24)); <%--${map.car_info.car_weekend}--%>
