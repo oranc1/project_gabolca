@@ -40,7 +40,7 @@ public interface CarMapper {
 	int deleteCarOption(int car_idx);
 	
 	// 차량 수정 - 등록된 파일 삭제
-	int deletCarFile(int car_idx);
+	int deleteCarFile(CarVO car);
 	
 	// --------------------------------------------------------------------------------------------------------------
 	
