@@ -189,15 +189,13 @@
 		    <artifactId>retrofit</artifactId>
 		    <version>2.7.2</version>
 		</dependency>
-		
-		<!-- 김예린 결제 검증 -->
-		<dependency>
-		    <groupId>com.github.iamport</groupId>
-		    <artifactId>iamport-rest-client-java</artifactId>
-		    <version>0.2.21</version>
-		</dependency>
-		
 			
+        <!-- 예린 결제 검증 의존성 추가 -->
+        <dependency>
+            <groupId>com.github.iamport</groupId>
+            <artifactId>iamport-rest-client-java</artifactId>
+            <version>0.2.21</version>
+        </dependency>
 		
 		<!-- AspectJ -->
 		<dependency>
@@ -291,14 +289,14 @@
 			<scope>test</scope>
 		</dependency>        
 	</dependencies>
+    <!-- 예린 결제 검증 -->
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
 	
-	<!-- 김예린 결제 검증 -->
-	<repositories>
-		<repository>
-		    <id>jitpack.io</id>
-		    <url>https://jitpack.io</url>
-		</repository>
-	</repositories>
 	
     <build>
         <plugins>
