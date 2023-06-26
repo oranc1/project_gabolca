@@ -84,11 +84,11 @@
 					<ul class="side_sub">
 						<li class="drv_input">
 							<label for="name">운전자명</label>
-							<input type="text" name="dri_name" placeholder="운전자명을 입력해 주세요" class="drv_80">
+							<input type="text" name="dri_name" placeholder="운전자명을 입력해주세요" class="drv_80" required="required">
 						</li>
 						<li class="drv_input">
 							<label for="birthDate">생년월일</label>
-							<input type="text" name="dri_birthday" placeholder="생년월일을 8자리를 입력해 주세요"  maxlength="8" class="drv_80">
+							<input type="text" name="dri_birthday" placeholder="생년월일 8자리를 입력해주세요"  maxlength="8" class="drv_80">
 						</li>
 						<li class="drv_phone">
 							<label for="phoneNum">휴대폰 번호</label>
@@ -145,13 +145,13 @@
 									<th class="title">고객부담금</th>
 								</tr>
 								<tr class="tr1">
-									<th><input type="radio" class="car_insurance" name="car_insurance" value="선택안함" onclick="getIns(event)" required="required">선택안함</th>
+									<th><input type="radio" class="car_insurance" name="car_insurance" value="선택안함" onclick="getIns(event)">선택안함</th>
 									<td>없음</td>
 									<td>없음</td>
 									<td>전액부담</td>
 								</tr>
 								<tr class="tr1">
-									<th><input type="radio" class="car_insurance" name="car_insurance" value="일반자차" onclick="getIns(event)"  required="required">일반자차</th>
+									<th><input type="radio" class="car_insurance" name="car_insurance" value="일반자차" onclick="getIns(event)">일반자차</th>
 									<td>1만원</td>
 									<td>300만원</td>
 									<td>30만원</td>
@@ -353,7 +353,7 @@
                             </textarea>
                             <br>
                             <p class="terms_p">
-	                             <input type="checkbox">이용약관에 동의합니다.
+	                             <input type="checkbox" name="agreeBtn">이용약관에 동의합니다.
 	                             <br>
                             </p>
 							</li>
@@ -380,7 +380,7 @@
                            		<tr>
                             </table>
                                <p class="terms_p">
-	                               <input type="checkbox" id="agree" required >환불규정에 동의합니다.<br>
+	                               <input type="checkbox" id="agree" name="agreeCheckbox">환불규정에 동의합니다.<br>
                                </p>
 							</li>
 					</ul>
@@ -473,6 +473,11 @@
 			
 				function requestPay() {
 					
+					// 결제 API 실행 전 유효성 검사
+					if(!validateForm()) {
+						return false;
+					}
+					
 					// IMP.request_pay(param, callback) 결제창 호출
 					IMP.request_pay({ // param
 						pg : "html5_inicis", // 
@@ -501,8 +506,8 @@
 									contentType:"application/json; charset=utf-8",
 									dataType:"json",
 									success: function(result) {
-										alert("결제검증 완료");
 										if(rsp.paid_amount == result.response.amount) {
+											alert("결제검증 완료");
 											document.querySelector('.pay_status').value = "결제완료";
 											document.querySelector('input[name="merchant_uid"]').value = rsp.merchant_uid;
 											$("form").submit();
@@ -522,6 +527,119 @@
 					      }
 				    });
 					
+				}
+				
+				// 유효성 검사 함수
+				function validateForm() {
+					var dri_name = document.querySelector('input[name="dri_name"]');
+				    var containsNumber = /\d/.test(dri_name.value);
+
+					var dri_birthday = document.querySelector('input[name="dri_birthday"]');
+					
+					var dri_tel1 = document.querySelector('input[name="dri_tel1"]');
+					var dri_tel2 = document.querySelector('input[name="dri_tel2"]');
+					var dri_tel3 = document.querySelector('input[name="dri_tel3"]');
+					
+					var lic_num2 = document.querySelector('input[name="lic_num2"]');
+					var lic_num3 = document.querySelector('input[name="lic_num3"]');
+					var lic_num4 = document.querySelector('input[name="lic_num4"]');
+					
+					var lic_issue_date = document.querySelector('input[name="lic_issue_date"]');
+					var lic_expiration_date = document.querySelector('input[name="lic_expiration_date"]');
+					
+					var car_insurance = document.querySelectorAll('input[name="car_insurance"]');
+					var insuranceChecked = false; // 라디오 버튼 체크 여부를 저장하는 변수
+					
+					var agreeBtn = document.querySelector('input[name="agreeBtn"]');
+					
+					var agreeCheckbox = document.getElementById('agree');
+
+					// 운전자명
+					if(dri_name.value == "" || containsNumber) {
+						alert('운전자명을 올바르게 입력해주세요');
+				        dri_name.focus();
+						return false;
+					}
+					// 생년월일
+					if(isNaN(dri_birthday.value) || dri_birthday.value == "" || dri_birthday.value.length != 8) {
+						alert('생년월일 8자리를 올바르게 작성해주세요');
+				        dri_birthday.focus();
+				        return false;
+				    }
+					// 휴대폰번호
+					if(dri_tel1.value == "" || isNaN(dri_tel1.value) || dri_tel1.value != "010" && dri_tel1.value != "011") {
+						alert('휴대폰 번호를 올바르게 입력해주세요');
+						dri_tel1.focus();
+				        return false;
+					}
+					if(dri_tel2.value == "" || isNaN(dri_tel2.value) || dri_tel2.value.length != 4) {
+						alert('휴대폰 번호를 올바르게 입력해주세요');
+						dri_tel2.focus();
+				        return false;
+					}
+					if(dri_tel3.value == "" || isNaN(dri_tel3.value) || dri_tel3.value.length != 4) {
+						alert('휴대폰 번호를 올바르게 입력해주세요');
+						dri_tel3.focus();
+				        return false;
+					}
+					// 면허증 번호
+					if(lic_num2.value == "" || isNaN(lic_num2.value) || lic_num2.value.length != 2) {
+						alert('면허증 번호 2자리를 올바르게 입력해주세요');
+						lic_num2.focus();
+				        return false;
+					}
+					if(lic_num3.value == "" || isNaN(lic_num3.value) || lic_num3.value.length != 6) {
+						alert('면허증 번호 6자리를 올바르게 입력해주세요');
+						lic_num3.focus();
+				        return false;
+					}
+					if(lic_num4.value == "" || isNaN(lic_num4.value) || lic_num4.value.length != 2) {
+						alert('면허증 번호 2자리를 올바르게 입력해주세요');
+						lic_num4.focus();
+				        return false;
+					}
+					// 발급일자
+					if (lic_issue_date.value === "" || !(/^\d{8}$/.test(lic_issue_date.value)) || lic_issue_date.value.length != 8) {
+					    alert('발급일자 8자리를 올바르게 입력해주세요');
+					    lic_issue_date.focus();
+					    return false;
+					}
+
+					// 만료일자
+					if (lic_expiration_date.value === "" || !(/^\d{8}$/.test(lic_expiration_date.value)) || lic_expiration_date.value.length != 8) {
+					    alert('만료일자 8자리를 올바르게 입력해주세요');
+					    lic_expiration_date.focus();
+					    return false;
+					}
+					
+					// 보험 정보
+					for (var i = 0; i < car_insurance.length; i++) {
+					   if (car_insurance[i].checked) {
+					     insuranceChecked = true;
+					     break;
+					   }
+					}
+					
+					if (!insuranceChecked) {
+					   alert('보험종류를 선택해주세요');
+					   return false;
+					}
+					
+					// 이용 약관
+					if (!agreeBtn.checked) {
+					   alert('이용약관에 동의해야 합니다.');
+					   agreeBtn.checked = true;
+					   return false;
+					}
+					
+					// 환불 규정
+					 if (!agreeCheckbox.checked) {
+					   alert('환불규정에 동의해야 합니다.');
+					   agreeCheckbox.checked = true;
+					   return false;
+					 }
+					  
+					return true;
 				}
 			</script>
 			

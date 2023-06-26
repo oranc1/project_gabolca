@@ -13,6 +13,27 @@
 	<link href="${pageContext.request.contextPath }/resources/css/inc/footer.css" rel="styleSheet">
 
 	<script src="${pageContext.request.contextPath }/resources/js/inc/jquery-3.7.0.js"></script>
+
+	<script>
+	
+		function canselPayments() {
+			$.ajax({
+				type: "POST",
+				url:"cancelPayments",
+				data:JSON.stringify(data),
+				contentType:"application/json; charset=utf-8",
+				success: function(result){
+					alert("결제금액 환불완료");
+					//결제 취소화면으로 이동해주기.
+				},
+				error: function(result){
+					alert("환불 불가 : "+result.responseText);
+				}
+			});
+		}
+		
+		
+	</script>
 </head>
 <body>
 	<header>
@@ -110,7 +131,7 @@
 	
 			<div class="finish_btn" align="center">
 				<a href="MemberRes"><button>이전으로</button></a>
-				<a href="./"><button>취소하기</button></a>
+				<a href="./" onclick="cancelPayments()"><button>취소하기</button></a>
 			</div>
 			
 		</div>
