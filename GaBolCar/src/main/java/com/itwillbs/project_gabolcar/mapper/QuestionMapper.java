@@ -55,8 +55,17 @@ public interface QuestionMapper {
 	// 글 수정
 	int updateQstBoard(QuestionVO question);
 	
-	// 관리자 작성자 비교
+	// 관리자 작성자 비교 폐기 대상
 	Integer getAdminQstReRef(int qst_idx);
+
+	List<QuestionVO> selectRelatedQuestions(int qst_board_re_ref);
+
+	List<QuestionVO> getQstBoardListForMember(
+		    @Param("searchType") String searchType, 
+		    @Param("searchKeyword") String searchKeyword, 
+		    @Param("startRow") int startRow, 
+		    @Param("listLimit") int listLimit,
+		    @Param("mem_idx") int mem_idx);
 	
 	
 	

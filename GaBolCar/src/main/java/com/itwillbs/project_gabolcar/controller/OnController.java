@@ -148,8 +148,14 @@ public class OnController { //나중에 합칠거임
 			} else { // 로그인 성공(= 패스워드 일치)
 				// 세션 객체에 아이디 저장(속성명 sId)
 				session.setAttribute("sId", member.getMem_id());
-				session.setAttribute("mem_idx", member.getMem_idx()); // 로그인 후 mem_idx 세션 객체에 저장
 				Cookie cookie = new Cookie("REMEMBER_ID", member.getMem_id());
+				
+				// 김태윤 코드 추가 : 로그인 한 회원의 mem_id 로 로그인 한 회원의 mem_idx 값 넘겨받기
+		        MemberVO loggedInUser = memberService.getMemberInfoById(member.getMem_id());
+		        session.setAttribute("loggedInUser", loggedInUser);
+		        session.setAttribute("mem_idx", loggedInUser.getMem_idx());
+//		        System.out.println("member_idx : " + loggedInUser.getMem_idx());
+				
 				if(rememberId) { // 아이디 저장 체크 시(쿠키 생성)
 					cookie.setMaxAge(60 * 60 * 24 * 30); // 쿠키 유효기간 1개월(30일) 설정
 				} else { // 아이디 저장 체크 해제 시(쿠키 삭제)

@@ -85,9 +85,20 @@ public class QuestionService {
 		return mapper.updateQstBoard(question);
 	}
 	
-	// qst_re_ref 비교
+	// qst_re_ref 비교 // 폐기 대상
 	public Integer getAdminQstReRef(int qst_idx) {
 	    return mapper.getAdminQstReRef(qst_idx);
+	}
+	
+	
+	// qst_board_re_ref 비교 
+	public List<QuestionVO> getRelatedQuestions(int qst_board_re_ref) {
+	    return mapper.selectRelatedQuestions(qst_board_re_ref);
+	}
+	
+	// 수정 중
+	public List<QuestionVO> getQstBoardListForMember(String searchType, String searchKeyword, int startRow, int listLimit, int mem_idx) {
+	    return mapper.getQstBoardListForMember(searchType, searchKeyword, startRow, listLimit, mem_idx);
 	}
 	
 
