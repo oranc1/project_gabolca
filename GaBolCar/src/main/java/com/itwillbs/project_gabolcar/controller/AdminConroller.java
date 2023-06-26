@@ -55,13 +55,23 @@ public class AdminConroller {
 	
 	// 대시보드 이동
 	@GetMapping("admDash")
-	public String admDash() {
+	public String admDash(HttpSession session, Model model) {
+		String sId = (String)session.getAttribute("sId");
+		if (sId == null || !sId.equals("admin@admin.com")) {
+			model.addAttribute("msg","접근권한이 없습니다.");
+			return "inc/fail_back";
+		}
 		return "html/admin/adm_dash";
 	}
 	
 	// 차량리스트 이동
 	@GetMapping("admCarList")
-	public String admCarList() {
+	public String admCarList(HttpSession session, Model model) {
+		String sId = (String)session.getAttribute("sId");
+		if (sId == null || !sId.equals("admin@admin.com")) {
+			model.addAttribute("msg","접근권한이 없습니다.");
+			return "inc/fail_back";
+		}
 		return "html/admin/adm_car_list";
 	}
 	
@@ -117,14 +127,25 @@ public class AdminConroller {
     
 	// 지점리스트 이동
 	@GetMapping("admBrcList")
-	public ModelAndView admBrcList() {
+	public String admBrcList(HttpSession session, Model model) {
+		String sId = (String)session.getAttribute("sId");
+		if (sId == null || !sId.equals("admin@admin.com")) {
+			model.addAttribute("msg","접근권한이 없습니다.");
+			return "inc/fail_back";
+		}
 		List<Map<String, Object>> brcList = brc_service.brcList();
-		return new ModelAndView("html/admin/adm_brc_list","brcList",brcList);
+		model.addAttribute("brcList",brcList);
+		return "html/admin/adm_brc_list";
 	}
 	
 	// 차량등록폼 이동
 	@GetMapping("CarRegister")
-	public String carRegister(Model model) {
+	public String carRegister(HttpSession session, Model model) {
+		String sId = (String)session.getAttribute("sId");
+		if (sId == null || !sId.equals("admin@admin.com")) {
+			model.addAttribute("msg","접근권한이 없습니다.");
+			return "inc/fail_back";
+		}
 		List<Map<String, Object>> brcList = brc_service.brcList();
 		List<Map<String, Object>> optionList = car_service.optionList();
 		model.addAttribute("brcList",brcList);
@@ -136,6 +157,11 @@ public class AdminConroller {
 	// 차량등록
 	@PostMapping("CarRegisterPro")
 	public String carRegisterPro(CarOptionVO caroption ,CarVO car, HttpSession session, Model model) {
+		String sId = (String)session.getAttribute("sId");
+		if (sId == null || !sId.equals("admin@admin.com")) {
+			model.addAttribute("msg","접근권한이 없습니다.");
+			return "inc/fail_back";
+		}
 	    String uploadDir = "/resources/upload/car"; // 서버 이미지 저장 경로
 	    String saveDir = session.getServletContext().getRealPath(uploadDir);
 
@@ -225,7 +251,12 @@ public class AdminConroller {
 	
 	// 차량삭제
 	@GetMapping("carDeletePro")
-	public String carDeletePro(int car_idx, Model model) {
+	public String carDeletePro(int car_idx, HttpSession session, Model model) {
+		String sId = (String)session.getAttribute("sId");
+		if (sId == null || !sId.equals("admin@admin.com")) {
+			model.addAttribute("msg","접근권한이 없습니다.");
+			return "inc/fail_back";
+		}
 	    // 차량 옵션 삭제 추가
 	    int optionDeleteCount = car_service.carOptionDelete(car_idx);
 
@@ -248,13 +279,23 @@ public class AdminConroller {
 	}
 	// 지점등록폼 이동
 	@GetMapping("brcRegister")
-	public String brcRegister() {
+	public String brcRegister(HttpSession session, Model model) {
+		String sId = (String)session.getAttribute("sId");
+		if (sId == null || !sId.equals("admin@admin.com")) {
+			model.addAttribute("msg","접근권한이 없습니다.");
+			return "inc/fail_back";
+		}
 		return "html/admin/brc_register";
 	}
 	
 	// 지점등록
 	@PostMapping("brcRegisterPro")
-	public String brcRegisterPro(@RequestParam Map<String, String> map, Model model) {
+	public String brcRegisterPro(@RequestParam Map<String, String> map,HttpSession session, Model model) {
+		String sId = (String)session.getAttribute("sId");
+		if (sId == null || !sId.equals("admin@admin.com")) {
+			model.addAttribute("msg","접근권한이 없습니다.");
+			return "inc/fail_back";
+		}
 		int insertCount = 0;
 		map.put("brc_addr", map.get("brc_addr") +","+ map.get("brc_addrDetail"));
 		insertCount = brc_service.brcRegister(map);
@@ -274,16 +315,27 @@ public class AdminConroller {
 	
 	// 지점수정폼 이동
 	@GetMapping("brcUpdate")
-	public ModelAndView brcUpdate(@RequestParam int brc_idx) {
+	public String brcUpdate(@RequestParam int brc_idx,HttpSession session, Model model) {
+		String sId = (String)session.getAttribute("sId");
+		if (sId == null || !sId.equals("admin@admin.com")) {
+			model.addAttribute("msg","접근권한이 없습니다.");
+			return "inc/fail_back";
+		}
 		Map<String, Object> brc = brc_service.brcSelect(brc_idx);
 		brc.put("brc_addrDetail", brc.get("brc_addr").toString().split(",")[1]);
 		brc.put("brc_addr", brc.get("brc_addr").toString().split(",")[0]);
-		return new ModelAndView("html/admin/brc_update","brc",brc);
+		model.addAttribute("brc",brc);
+		return "html/admin/brc_update";
 	}
 	
 	// 지점수정
 	@PostMapping("brcUpdatePro")
-	public String brcUpdatePro(@RequestParam Map<String, String> map,Model model) {
+	public String brcUpdatePro(@RequestParam Map<String, String> map,HttpSession session, Model model) {
+		String sId = (String)session.getAttribute("sId");
+		if (sId == null || !sId.equals("admin@admin.com")) {
+			model.addAttribute("msg","접근권한이 없습니다.");
+			return "inc/fail_back";
+		}
 		map.put("brc_addr", map.get("brc_addr") +","+ map.get("brc_addrDetail"));
 		int updateCount = brc_service.brcUpdate(map);
 		if (updateCount > 0) {
@@ -296,7 +348,12 @@ public class AdminConroller {
 	
 	// 지점삭제
 	@GetMapping("brcDeletePro")
-	public String brcDeletePro(int brc_idx,Model model) {
+	public String brcDeletePro(int brc_idx,HttpSession session, Model model) {
+		String sId = (String)session.getAttribute("sId");
+		if (sId == null || !sId.equals("admin@admin.com")) {
+			model.addAttribute("msg","접근권한이 없습니다.");
+			return "inc/fail_back";
+		}
 		int deleteCount = brc_service.brcDelete(brc_idx);
 		if (deleteCount > 0) {
 			return "redirect:/admBrcList";
@@ -308,7 +365,12 @@ public class AdminConroller {
 	
 	// 차량수정폼 이동
 	@GetMapping("carUpdate")
-	public String carUpdate(CarOptionVO carOption, CarVO car,Model model) {
+	public String carUpdate(CarOptionVO carOption, CarVO car,HttpSession session, Model model) {
+		String sId = (String)session.getAttribute("sId");
+		if (sId == null || !sId.equals("admin@admin.com")) {
+			model.addAttribute("msg","접근권한이 없습니다.");
+			return "inc/fail_back";
+		}
 		Map<String, Object> map = car_service.carSelect(car);
 		model.addAttribute("car",map);
 		List<Map<String, Object>> brcList = brc_service.brcList();
@@ -363,6 +425,7 @@ public class AdminConroller {
 	// 차량수정
 	@Transactional
 	@PostMapping("carUpdatePro")
+<<<<<<< HEAD
 	public String carUpdatePro(
 	        @RequestParam(value = "option_idx", required = false) List<Integer> optionIdxList,
 	        CarVO car, HttpSession session,
@@ -387,6 +450,19 @@ public class AdminConroller {
 	    
 	    String uploadDir = "/resources/upload/car"; // 서버 이미지 저장 경로
 	    String saveDir = session.getServletContext().getRealPath(uploadDir);
+=======
+    public String carUpdatePro(
+    		@RequestParam(value = "option_idx", required = false) List<Integer> optionIdxList,
+    		CarVO car, HttpSession session,
+    		Model model) {
+		String sId = (String)session.getAttribute("sId");
+		if (sId == null || !sId.equals("admin@admin.com")) {
+			model.addAttribute("msg","접근권한이 없습니다.");
+			return "inc/fail_back";
+		}
+        String uploadDir = "/resources/upload/car"; // 서버 이미지 저장 경로
+        String saveDir = session.getServletContext().getRealPath(uploadDir);
+>>>>>>> origin/main
 
 	    if (car_files != null && !car_files.isEmpty() && car_files.get(0).getCar_file_path() != null) {
 	        car.setCar_file_path(car_files.get(0).getCar_file_path());
@@ -478,14 +554,25 @@ public class AdminConroller {
 	
 	// 옵션리스트 이동 - 디자인이 어려움
 	@GetMapping("optionList")
-	public ModelAndView optionList() {
+	public String optionList(HttpSession session, Model model) {
+		String sId = (String)session.getAttribute("sId");
+		if (sId == null || !sId.equals("admin@admin.com")) {
+			model.addAttribute("msg","접근권한이 없습니다.");
+			return "inc/fail_back";
+		}
 		List<Map<String,Object>> optionList = car_service.optionList();
-		return new ModelAndView("html/admin/option_list","optionList",optionList);
+		model.addAttribute("optionList",optionList);
+		return "html/admin/option_list";
 	}
 	
     // 옵션등록폼 이동
     @GetMapping("optionInsert")
-    public String optionInsert() {
+    public String optionInsert(HttpSession session, Model model) {
+		String sId = (String)session.getAttribute("sId");
+		if (sId == null || !sId.equals("admin@admin.com")) {
+			model.addAttribute("msg","접근권한이 없습니다.");
+			return "inc/fail_back";
+		}
         return "html/admin/option_register";
     }
     
@@ -502,6 +589,11 @@ public class AdminConroller {
             @RequestParam String option_name, 
             @RequestParam MultipartFile option_image, 
             HttpSession session, Model model) {
+		String sId = (String)session.getAttribute("sId");
+		if (sId == null || !sId.equals("admin@admin.com")) {
+			model.addAttribute("msg","접근권한이 없습니다.");
+			return "inc/fail_back";
+		}
         String uploadDir = "/resources/upload/car_options";
         String saveDir = session.getServletContext().getRealPath(uploadDir);
         try {
@@ -533,9 +625,15 @@ public class AdminConroller {
     
     // 옵션수정폼 이동
     @GetMapping("optionUpdate")
-    public ModelAndView optionUpdate(int option_idx) {
+    public String optionUpdate(int option_idx, HttpSession session, Model model) {
+		String sId = (String)session.getAttribute("sId");
+		if (sId == null || !sId.equals("admin@admin.com")) {
+			model.addAttribute("msg","접근권한이 없습니다.");
+			return "inc/fail_back";
+		}
     	Map<String, Object> option = car_service.optionSelect(option_idx);
-    	return new ModelAndView("html/admin/option_update","option",option);
+    	model.addAttribute("option",option);
+    	return "html/admin/option_update";
     }
     
     
@@ -547,6 +645,11 @@ public class AdminConroller {
     		, @RequestParam(value = "option_image", required = false) MultipartFile option_image
     		, HttpSession session
     		, Model model) {
+		String sId = (String)session.getAttribute("sId");
+		if (sId == null || !sId.equals("admin@admin.com")) {
+			model.addAttribute("msg","접근권한이 없습니다.");
+			return "inc/fail_back";
+		}
     	int updateCount = 0;
     	if(option_image == null) {
     		updateCount = car_service.optionUpdate(map);
@@ -596,6 +699,11 @@ public class AdminConroller {
     // 옵션 삭제(파일 포함)
     @GetMapping("optionDeletePro")
     public String optionDeletePro(int option_idx, HttpSession session, Model model) {
+		String sId = (String)session.getAttribute("sId");
+		if (sId == null || !sId.equals("admin@admin.com")) {
+			model.addAttribute("msg","접근권한이 없습니다.");
+			return "inc/fail_back";
+		}
     	Map<String, Object> map = car_service.optionSelect(option_idx);
     	int deleteCount = car_service.optionDelete(option_idx);
     	if(deleteCount > 0) {
@@ -616,15 +724,24 @@ public class AdminConroller {
     
 	//예약리스트 이동
 	@GetMapping("admResList")
-	public String admResList() {
-
+	public String admResList(HttpSession session, Model model) {
+		String sId = (String)session.getAttribute("sId");
+		if (sId == null || !sId.equals("admin@admin.com")) {
+			model.addAttribute("msg","접근권한이 없습니다.");
+			return "inc/fail_back";
+		}
 		return "html/admin/adm_res_list";
 	}
 
 	// 예약리스트 조회
     @ResponseBody
     @RequestMapping(value= "resList.ajax", method = RequestMethod.GET, produces = "application/text; charset=UTF-8")
-    public String resSearch(@RequestParam Map<String, Object> map, Model model) {
+    public String resSearch(@RequestParam Map<String, Object> map,HttpSession session, Model model) {
+		String sId = (String)session.getAttribute("sId");
+		if (sId == null || !sId.equals("admin@admin.com")) {
+			model.addAttribute("msg","접근권한이 없습니다.");
+			return "inc/fail_back";
+		}
 		System.out.println(map);
 		
 		int listLimit = 15;
@@ -641,14 +758,24 @@ public class AdminConroller {
 
 	// 회원리스트 이동
 	@GetMapping("admMemList")
-	public String admMemList() {
+	public String admMemList(HttpSession session, Model model) {
+		String sId = (String)session.getAttribute("sId");
+		if (sId == null || !sId.equals("admin@admin.com")) {
+			model.addAttribute("msg","접근권한이 없습니다.");
+			return "inc/fail_back";
+		}
 		return "html/admin/adm_mem_list";    	
 	}
 
 	// 회원리스트 조회
     @ResponseBody
     @RequestMapping(value= "memList.ajax", method = RequestMethod.GET, produces = "application/text; charset=UTF-8")
-    public String memSearch(@RequestParam Map<String, Object> map, Model model) {
+    public String memSearch(@RequestParam Map<String, Object> map, HttpSession session, Model model) {
+		String sId = (String)session.getAttribute("sId");
+		if (sId == null || !sId.equals("admin@admin.com")) {
+			model.addAttribute("msg","접근권한이 없습니다.");
+			return "inc/fail_back";
+		}
 		System.out.println(map);
 		
 		int listLimit = 15;
