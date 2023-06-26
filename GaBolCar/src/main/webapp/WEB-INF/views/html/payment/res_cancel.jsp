@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -49,8 +50,7 @@
 						<em>총 결제 금액</em>
 						<span><b><fmt:formatNumber value="${resPayInfo.pay_total}" pattern="###,###" /></b>원</span>
 					</li> 
-					
-					
+
 				</ul>
 			</div>
 		  
@@ -68,12 +68,41 @@
 					<span><b><fmt:formatNumber value="${resPayInfo.pay_total}" pattern="###,###" /></b>원</span>
 					</li>
 					<li>
+					
 						<em>환불 수수료</em>
-						<span><b>20000</b>원</span>
+						<span>
+                <c:set var="refundFee" value="${resPayInfo.pay_total}" /> <!-- 기본 환불 수수료 -->
+                <c:set var="refundFeePercentage" value="0.5" /> <!-- 총 결제 금액의 50% -->
+
+                <!-- 예약일자와 현재 시간 비교 -->
+                <c:set var="reservationDateStr" value="${resInfoCom.res_rental_date }" /> <!-- 예약일자를 해당 변수에 할당 -->
+                <fmt:parseDate var="reservationDate" value="${reservationDateStr}" pattern="yyyy-MM-dd" />
+
+                <c:set var="currentTime" value="<%= new java.util.Date() %>" />
+
+                <!-- 예약일자와 현재 시간을 밀리초 단위로 변환하여 비교 -->
+                <c:set var="oneDayInMillis" value="86400000" /> <!-- 24시간을 밀리초로 변환 -->
+                <c:set var="timeDifference" value="${reservationDate.time - currentTime.time}" />
+
+                <!-- 조건에 따라 환불 수수료 결정 -->
+                <c:choose>
+                    <c:when test="${timeDifference <= oneDayInMillis}">
+                        <!-- 24시간 이내인 경우: 환불 수수료를 총 결제 금액의 50%로 설정 -->
+                        <c:set var="refundFee" value="${resPayInfo.pay_total * refundFeePercentage}" />
+                    </c:when>
+                    <c:otherwise>
+                        <!-- 24시간 이상인 경우: 환불 수수료를 0원으로 설정 -->
+                        <c:set var="refundFee" value="0" />
+                    </c:otherwise>
+                </c:choose>
+
+                <b><fmt:formatNumber value="${refundFee}" pattern="###,###" /></b>원
+            </span>
 					</li>
 					<li>
 						<em>총 환불 금액</em>
-						<span><b>100,000</b>원</span>
+						  <span><b><fmt:formatNumber value="${resPayInfo.pay_total - refundFee}" pattern="###,###" /></b>원</span>
+        
 					</li>
 				</ul>
 			</div>

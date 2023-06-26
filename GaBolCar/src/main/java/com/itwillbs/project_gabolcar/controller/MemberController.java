@@ -188,7 +188,7 @@ public class MemberController {
 		model.addAttribute("resinfo", resinfo);
 
 		PaymentVO payment = payService.totalPay(res_idx);
-//				System.out.println(payment);
+		System.out.println(payment);
 		model.addAttribute("payment", payment);
 
 		DriverVO driver = driService.driverInfo(res_idx);
@@ -196,12 +196,12 @@ public class MemberController {
 		model.addAttribute("driver", driver);
 
 		CarVO car = carService.carInfo(res_idx);
-		System.out.println(car);
+//		System.out.println(car);
 		model.addAttribute("car", car);
 
 		MemberVO member = memberService.memName(sId);
 		model.addAttribute("member", member);
-		System.out.println(member);
+//		System.out.println(member);
 
 		return "html/member/mem_page/mem_res_detail";
 
