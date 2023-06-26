@@ -34,4 +34,6 @@ public interface PaymentMapper {
 
 	//총금액
 	PaymentVO selectTotal(int res_idx);
+
+	
 }
