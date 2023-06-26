@@ -84,7 +84,9 @@ public interface CarItemMapper {
 	List<Map<String, Object>> selectCarOptionListInfo(int carIdx);
 
 	
-	
+	// =============== 0626 경인 추가 ================
+	// main에 리뷰 항목들 추가
+	List<Map<String,Object>> getReviewListMain();
 
 
 }

@@ -109,16 +109,26 @@ body{
 	text-align: center;
 	margin: 0 40px;
 }
-.review-star{
-	font-size: 2rem;
+
+/* 별점 셋팅 */
+
+.review-star span{
+	font-size: 1.5rem;
 	font-weight: bold;
+	color: transparent;
+	border: 1px solid;
+}
+
+.fill {
+	color: #ffc600;
+	text-shadow: 0 0 0 #FFA500;
 }
 .review-car-name{
 	font-size:1.7rem;
 }
 
 .review-content{
-	margin-top: 3rem;
+	margin-top: 2rem;
 }
 
 .review-content p {
@@ -126,6 +136,7 @@ body{
 
 }
 
+/* QnA */
 .qna_title {
 	font-size: 2rem;
 	font-weight: bold;

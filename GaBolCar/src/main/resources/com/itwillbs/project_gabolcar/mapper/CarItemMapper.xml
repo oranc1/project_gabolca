@@ -192,4 +192,20 @@
 	
 	
 	
+	<!-- ==== 0626 경인수정 main 페이지 리뷰 띄울항목 검색 -->
+	<select id="getReviewListMain" resultType="map">
+		SELECT rev_idx, res_idx, rev_star ,rev_subject, rev_date ,car_model, car_company
+		FROM 
+			(
+				SELECT rc.rev_idx, rc.res_idx, rev_subject , car_idx, rev_star ,rev_date  
+				FROM 
+				rev_car rc JOIN res_info ri ON rc.res_idx = ri.res_idx
+			) 
+			rev_res 
+			JOIN car_info ci ON ci.car_idx = rev_res.car_idx
+		WHERE 
+			rev_star >= 4
+		ORDER BY rev_date DESC 
+		LIMIT 0, 4
+	</select>
 </mapper>
