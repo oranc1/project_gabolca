@@ -33,14 +33,7 @@
 							<li>${option.option_idx }</li>
 							<li>${option.option_name }</li>
 							<li>
-								<c:choose>
-									<c:when test="${empty option.option_image_url }">
-										없음
-									</c:when>
-									<c:otherwise>
-										<img id="option_image" src="${pageContext.request.contextPath }/resources/upload/car_options/${option.option_image_url }">
-									</c:otherwise>
-								</c:choose>
+								<img id="option_image" src="${pageContext.request.contextPath }/resources/upload/car_options/${option.option_image_url }">
 							</li>
 							<li>
 			               		<button name="option_update" class="btn btn-warnig" value="${option.option_idx }">

@@ -25,28 +25,26 @@
 	
 	<select id="selectQstBoardList" resultType="com.itwillbs.project_gabolcar.vo.QuestionVO">
 			SELECT *
-			FROM qst_board -- FROM 절 이후 작업 분기 일어남(= 동적 SQL문 작성 필요)
+			FROM qst_board 
 			
 			<if test="!searchKeyword.equals('')">
-						WHERE
-						<!-- 2. 검색타입(searchType)에 따른 WHERE 절 조건 대상 변경 -->
-						<choose>
-							<when test="searchType.equals('subject')">
-								qst_subject LIKE '%${searchKeyword}%'
-							</when>
-							<when test="searchType.equals('content')">
-								qst_content LIKE '%${searchKeyword}%'
-							</when>
-							<when test="searchType.equals('subject_content')">
-								qst_subject LIKE '%${searchKeyword}%'
-								OR qst_content LIKE '%${searchKeyword}%'
-							</when>
-							<when test="searchType.equals('name')">
-								mem_name LIKE '%${searchKeyword}%'
-							</when>
-						</choose>
-					</if>
-					
+					WHERE
+					<choose>
+						<when test="searchType.equals('subject')">
+							qst_subject LIKE '%${searchKeyword}%'
+						</when>
+						<when test="searchType.equals('content')">
+							qst_content LIKE '%${searchKeyword}%'
+						</when>
+						<when test="searchType.equals('subject_content')">
+							qst_subject LIKE '%${searchKeyword}%'
+							OR qst_content LIKE '%${searchKeyword}%'
+						</when>
+						<when test="searchType.equals('name')">
+							mem_name LIKE '%${searchKeyword}%'
+						</when>
+					</choose>
+			</if>
 					ORDER BY 
 						qst_board_re_ref DESC
 						, qst_board_re_seq ASC
@@ -54,6 +52,7 @@
 						#{startRow}
 						, #{listLimit}
 	</select>
+	
 	
 	<select id="selectQstBoardListCount" resultType="int">
 		SELECT COUNT(*)
@@ -113,6 +112,7 @@
 				qst_idx = #{qst_idx}
 	</delete>
 	
+	
 	<!-- 작성자가 맞는 지 확인 -->
     <select id="getMemNameByIdx" resultType="String" parameterType="int">
         SELECT mem_name FROM mem_info WHERE mem_idx=#{mem_idx}
@@ -129,36 +129,55 @@
 <!-- JOIN mem_info  -->
 <!-- ON qst_board.mem_idx = mem_info.mem_idx; -->
 	
+
+	<!-- 답글 등록 전 순서번호 증가 -->
 	<update id="updateQstBoardReSeq">
 		UPDATE qst_board
-			SET
-				qst_board_re_seq = qst_board_re_seq + 1
-			WHERE
-				qst_board_re_ref = #{qst_board_re_ref}
-				AND qst_board_re_seq > #{qst_board_re_seq}
+		SET
+			qst_board_re_seq = qst_board_re_seq + 1
+		WHERE
+			qst_board_re_ref = #{qst_board_re_ref}
+			AND qst_board_re_seq > #{qst_board_re_seq}
 	</update>
+		
+	<!-- 답글 달기 -->
+	<insert id="insertQstReplyBoard">
+	    <selectKey keyProperty="qst_idx" resultType="int" order="BEFORE">
+	        SELECT IFNULL(MAX(qst_idx), 0) + 1 FROM qst_board
+	    </selectKey>
+	        INSERT INTO qst_board
+	        VALUES (
+	            #{qst_idx} + 1
+	            , #{mem_idx}
+	            , #{mem_name}
+	            , #{qst_pass}
+	            , #{qst_subject}
+	            , #{qst_content}
+	            , #{qst_board_re_ref}
+	            , #{qst_board_re_lev} + 1
+	            , #{qst_board_re_seq} + 1
+	            , 0                
+	            , now()
+	            , #{qst_type}      
+	        )
+	</insert>
+	<!-- 답글을 달려고하는 게시물의 qst_board_re_ref 셀렉  -->
+    <select id="selectCurrentQstBoardQstIdx" resultType="int">
+	    SELECT qst_board_re_ref 
+	    	FROM qst_board 
+	    	WHERE qst_idx = #{qst_idx}
+    </select>
 	
-		<insert id="insertQstReplyBoard">
-		<selectKey keyProperty="qst_idx" resultType="int" order="BEFORE">
-			SELECT IFNULL(MAX(qst_idx), 0) FROM qst_board
-		</selectKey>
-			INSERT 
-				INTO qst_board
-				VALUES (
-					#{qst_idx} + 1
-					, #{mem_idx}
-					, #{mem_name}
-					, #{qst_pass}
-					, #{qst_subject}
-					, #{qst_content}
-					, #{qst_board_re_ref} + 1 -- qst_re_ref
-					, #{qst_board_re_lev} + 1 -- qst_board_re_lev
-					, #{qst_board_re_seq} + 1 -- qst_board_re_seq
-					, 0 			 -- qst_readcount
-					, now()
-					, #{qst_type}		
-				)
-	</insert>	
-	
+	<update id="updateQstBoard">
+		UPDATE qst_board
+			SET
+				qst_type = #{qst_type}
+				, mem_name = #{mem_name}
+				, qst_pass = #{qst_pass}
+				, qst_subject = #{qst_subject}
+				, qst_content = #{qst_content}
+			WHERE
+				qst_idx = #{qst_idx}
+	</update>
 	
 </mapper>

@@ -70,18 +70,19 @@ public class OnController { //나중에 합칠거임
 			String code  = FindUtil.getRandomNum();
 			String msg = "[가볼카 회원가입] 인증번호 ["+code+"]를 입력해 주세요.";
 			SendUtil.sendMsg(phone, msg);
+			
 			//코드랑 번호 저장
 			codeMap = new HashMap<String, String>();
 			codeMap.put("phone", code);
 //			codeMap.put("code", code);
 //	
 //			SendUtil.sendMsg(phone, msg);
-			System.out.println(code);
+//			System.out.println(code);
 			
 			
-			System.out.println("전송완료");
+//			System.out.println("전송완료");
 			
-			return "";
+			return "0";
 	    }
 	   
 		@PostMapping("/verify-phone-authentication")

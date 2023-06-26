@@ -20,7 +20,9 @@
 
 .brc_instan {
 	display: inline-block;
+	margin-left: 2%;
 	width: 350px;
+	margin-bottom: 1%;
 }
 
 .brc_title {
@@ -41,7 +43,7 @@
 	position: absolute;
 	top: 20px;
 	left: 10px;
-	background: url("../..//img/member/etc/branch_location/map_marker_icon.png") no-repeat center;
+	background: url("../../img/member/etc/branch_location/map_marker_icon.png") no-repeat center;
 	background-size: contain;
 }
 
@@ -90,6 +92,11 @@
     cursor: pointer;
     font-weight: bold;
     border-radius: 5px;
+    margin-left: 2%;
+}
+
+.mgmtbtn_sort {
+	text-align: center;
 }
 
 .adm_brc_title {

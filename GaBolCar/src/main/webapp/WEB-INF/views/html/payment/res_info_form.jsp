@@ -17,8 +17,7 @@
 <%-- <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script> --%>
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
 <!-- 아임포트 -->
-<script src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
-
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.8.js"></script>
 
 </head>
 <body>
@@ -31,6 +30,7 @@
 			<input type="hidden" name="res_return_date" value="${map.res_return_date }">
 			<input type="hidden" name="car_idx" value="${map.car_idx }">
 			<input type="hidden" name="pay_total" class="pay_total">
+			<input type="hidden" name="merchant_uid">
 			<!-- 결제 상태 임시지정 -->
 			<input type="hidden" name="pay_status" class="pay_status">
 			<ul class="res_page_wrap">
@@ -497,9 +497,10 @@
 // 					    	    	 merchant_uid: rsp.merchant_uid 
 // 					    	      },
 // 					    	  });
-					    	  
-							  $("form").submit();
+					    	  document.querySelector('input[name="merchant_uid"]').value = rsp.merchant_uid;
 							  document.querySelector('.pay_status').value = "결제완료";
+							  
+							  $("form").submit();
 					      } else {
 					    	  // 결제 실패 시 로직
 					    	  alert("결제에 실패하였습니다 : " + rsp.error_msg);

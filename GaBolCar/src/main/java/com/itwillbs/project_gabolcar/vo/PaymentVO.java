@@ -12,4 +12,7 @@ public class PaymentVO {
 	private int pay_total;
 	private String pay_status;
 	private Date pay_time;
+	
+	// 추가 - 아임포트 결제번호 추가
+	private String merchant_uid;
 }

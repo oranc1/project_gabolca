@@ -1,15 +1,13 @@
 package com.itwillbs.project_gabolcar.controller;
 
 
+import java.io.*;
+import java.nio.file.*;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.itwillbs.project_gabolcar.handler.CarResHandler;
@@ -240,9 +239,9 @@ public class CarItemController {
 						Integer.parseInt(returnSplit[2]),
 						returnHour,returnMinute,0);	
 				
-				if(res_rental_date.isAfter(res_return_date)) {
+				if(res_rental_date.isAfter(res_return_date) && !res_return_date.isAfter(res_rental_date.plusDays(1))) {
 					// 에러 메시지 추가 후 fail_back 이동
-					model.addAttribute("msg", "기간이 허용되지 않는 값 이거나 당일 예약으로 선택되었습니다! 다시 선택해주세요");
+					model.addAttribute("msg", "기간이 허용되지 않는 값 이거나 최소 예약일(24시간) 미만으로 선택되었습니다! 다시 선택해주세요");
 					return new ModelAndView("inc/fail_back","map",resultMap);
 				}
 			}catch(Exception e) {	
@@ -494,14 +493,7 @@ public class CarItemController {
 			resultMap.put("car_res_JSON", jsonObj);
 		}
 		
-//		//json 변환
-//		try {
-//			ObjectMapper objMapper = new ObjectMapper();
-//			resultMap.put("car_res_JSON", objMapper.writeValueAsString(resultMap));
-//		} catch (JsonProcessingException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		System.out.println(res_rental_date.getDayOfWeek());
 		
 		return new ModelAndView("html/car_item/res/car_res","map",resultMap) ;
 	}
@@ -629,6 +621,11 @@ public class CarItemController {
 				map.put("search", "carRes");			
 				
 				//차량 찾기
+				// 차량 찾기 전 현재 car_search_list 초기화
+				
+				map.put("car_search_list", "");
+				
+				System.out.println(carService.carList(map));
 				map.put("car_search_list", carService.carList(map));
 				
 			}
@@ -654,259 +651,530 @@ public class CarItemController {
 	//=================================================
 	//차량 소개
 	@GetMapping("carInfoList")
-	public ModelAndView carInfo() {
-	List<Map<String, Object>> carInfoList = carItemService.carInfoList();
-	return new ModelAndView("html/car_item/car_info_list","carInfoList",carInfoList);
+	public String carInfo(Model model) {
+	    List<Map<String, Object>> carInfoList = carItemService.carInfoList();
+	    for (Map<String, Object> carInfo : carInfoList) {
+	        int carIdx = (int) carInfo.get("car_idx");
+	        List<Map<String, Object>> carOptionList = carItemService.carOptionListInfo(carIdx);
+	        carInfo.put("options", carOptionList);
+	    }
+	    model.addAttribute("carInfoList", carInfoList);
+	    return "html/car_item/car_info_list";
 	}
 	
-	//============ 리뷰 =================
+	//============ 리뷰 ==================
 	
-	//car_res_info에서 리뷰리스트 3개 가져오기
-	
-	
-	@GetMapping("reviewListSmall")
-	public String reviewListSmall(ReviewVO review, Model model, String car_model) {
-
-		List<ReviewVO> reviewListSmall = carItemService.getReviewListSmall(car_model);
-		model.addAttribute("reviewListS", reviewListSmall);
-
-	
-		return "html/car_item/res/car_res_info";
+		// 리뷰 게시판
+		/*@GetMapping("review")
+		public String reviewBoard(@RequestParam Map<String, String> map, Model model, PageInfo pageInfo, ReviewVO review) {
+			
+			int pageNum = 1;
+			if(map.get("pageNum") != null) {
+				pageNum = Integer.parseInt(map.get("pageNum"));
+			}
+					
+			int listLimit = 10; // 한 페이지에서 표시할 목록 갯수 지정
+			int startRow = (pageNum - 1 ) * listLimit; //조회 행번호 지정
 		
-	}
-		
-	// 리뷰게시판 글 목록, 페이지 나눔
-	
-	@GetMapping("reviewList")
-	public String reviewList(
-			@RequestParam(defaultValue = "") String searchType, 
-			@RequestParam(defaultValue = "") String searchKeyword, 
-			@RequestParam(defaultValue = "1") int pageNum, 
-			Model model) {
-		// -------------------------------------------------------------------------
-		// 페이징 처리를 위해 조회 목록 갯수 조절 시 사용될 변수 선언
-		int listLimit = 10; // 한 페이지에서 표시할 목록 갯수 지정
-		int startRow = (pageNum - 1) * listLimit; // 조회 시작 행(레코드) 번호
-		// -------------------------------------------------------------------------
-		// BoardService - getBoardList() 메서드 호출하여 게시물 목록 조회 요청
-		// => 파라미터 : 검색타입, 검색어, 시작행번호, 목록갯수
-		// => 리턴타입 : List<BoardVO>(boardList)
-		List<ReviewVO> reviewListWithPaging = carItemService.getReviewListPaging(searchType, searchKeyword, startRow, listLimit);
-//		System.out.println(boardList);
-		// -------------------------------------------------------------------------
-		// 페이징 처리를 위한 계산 작업
-		// 한 페이지에서 표시할 페이지 목록(번호) 계산
-		// 1. BoardService - getBoardListCount() 메서드를 호출하여
-		//    전체 게시물 수 조회 요청(페이지 목록 계산에 활용)
-		// => 파라미터 : 검색타입, 검색어   리턴타입 : int(listCount)
-		int listCount = carItemService.getTotal(searchType, searchKeyword);
-//		System.out.println("전체 게시물 수 : " + listCount);
-		
-		// 2. 한 페이지에서 표시할 목록 갯수 설정(페이지 번호의 갯수)
-		int pageListLimit = 10;
-		
-		// 3. 전체 페이지 목록 갯수 계산
+		List<ReviewVO> reviewList = carItemService.getReviewList(startRow, listLimit);
+		int listCount = carItemService.getReviewListCount();
+		System.out.println("리스트카운트"+listCount);
+			
+		int pageListLimit = 3;
 		int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0);
-//		System.out.println("전체 페이지 목록 갯수 : " + maxPage);
-		
-		// 4. 시작 페이지 번호 계산
 		int startPage = (pageNum - 1) / pageListLimit * pageListLimit + 1;
-//		System.out.println(startPage);
-		
-		// 5. 끝 페이지 번호 계산
 		int endPage = startPage + pageListLimit - 1;
-		
-		// 6. 만약, 끝 페이지 번호(endPage)가 전체(최대) 페이지 번호(maxPage) 보다
-		//    클 경우 끝 페이지 번호를 최대 페이지 번호로 교체
 		if(endPage > maxPage) {
 			endPage = maxPage;
 		}
 		
-		int nowPage = 0;  // nowPage 꼭 있어야 되어 사용(변수 선언용 노용석) 
-//		System.out.println(endPage);
 		
-		// 페이징 처리 정보를 저장할 PageInfoVO 객체에 계산된 데이터 저장
-		PageInfo pageInfo = new PageInfo(listCount, pageListLimit, maxPage, startPage, endPage, nowPage);
-		// -----------------------------------------------------------------------------------------
-		// 조회된 게시물 목록 객쳬(boardList) 와 페이징 정보 객체(pageInfo) 를 Model 객체에 저장
-		model.addAttribute("reviewListP", reviewListWithPaging);
+		pageInfo.getListCount();
+		pageInfo.setPageListLimit(pageListLimit);
+		pageInfo.setMaxPage(maxPage);
+		pageInfo.setStartPage(startPage);
+		pageInfo.setEndPage(endPage);
+		
+		
+		model.addAttribute("reviewList", reviewList);
 		model.addAttribute("pageInfo", pageInfo);
 		
-		return "html/car_item/review/review_board";
-	}
+		System.out.println(reviewList);
+		System.out.println("페이지 인포"+pageInfo);
 		
-	
-	// 리뷰 상세 글 보기
-	@GetMapping("reviewDetail")
-	public String reviewDetail(ReviewVO review, 
-			Model model, HttpServletRequest request, 
-			HttpServletResponse response, 
-			@RequestParam(defaultValue = "") String searchType, 
-			@RequestParam(defaultValue = "") String searchKeyword, 
-			@RequestParam(defaultValue = "1") int pageNum) {
 		
-		int listLimit = 10;
-		int startRow = (pageNum - 1) * listLimit; 
- 
-		ReviewVO reviewResult = carItemService.reviewDetail(review);
+			return "html/car_item/review/review_board";
+		}*/
+		//car_res_info에서 리뷰리스트 3개 가져오기
 		
-		int listCount = carItemService.getTotal(searchType, searchKeyword);
+		
+		@GetMapping("reviewListSmall")
+		public String reviewListSmall(ReviewVO review, Model model, String car_model) {
 
-		int pageListLimit = 10;
-		
-		int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0);
-		
-		int startPage = (pageNum - 1) / pageListLimit * pageListLimit + 1;
-		
-		int endPage = startPage + pageListLimit - 1;
-		
-		if(endPage > maxPage) {
-			endPage = maxPage;
-		}
-		
-		int nowPage = 0;                                        // nowPage 꼭 있어야 되어 사용(변수 선언용 노용석) 
-		
-		PageInfo pageInfo = new PageInfo(listCount, pageListLimit, maxPage, startPage, endPage, nowPage);
-		
-		model.addAttribute("reviewDetail", reviewResult);
-		model.addAttribute("pageInfo", pageInfo);
+			List<ReviewVO> reviewListSmall = carItemService.getReviewListSmall(car_model);
+			model.addAttribute("reviewListS", reviewListSmall);
 
 		
-		return "html/car_item/review/review_detail";
-	}
-	
-	
-	@GetMapping("reviewWriteForm")
-	public String reviewWriteForm(HttpSession session, Model model) {
-		String sId = (String)session.getAttribute("sId");
-		//===========권한 필요(아이디가 있는지 -> 있다면 예약건수가 있는지 ->있으면 남고 없으면 나가) =====================
-		
-		/*if(sId == null || !sId.equals("admin")) {
-			model.addAttribute("msg", "잘못된 접근입니다");
-			return "html/car_item/review/fail_back";
-		}*/
-		//=================================== 작성 페이지 이동 ============================================
-		
-		return "html/car_item/review/review_write_form";
-	}
-	
-	// 리뷰게시판 글 작성
-	@PostMapping("reviewWritePro")
-	public String reviewWritePro(HttpSession session, ReviewVO review, Model model, @RequestParam Map<String,Object> map) {
-		String sId = (String)session.getAttribute("sId");
-	//============권한 필요 (아이디가 있는지 -> 있다면 예약건수가 있는지 ->있으면 남고 없으면 나가) =======
-	
-		/*if(sId == null || !sId.equals("admin")) {
-			model.addAttribute("msg", "잘못된 접근입니다");
-			return "html/car_item/review/fail_back";
-		}*/
-	//============================================작성 개시====================================================
-		int insertCount = carItemService.insertReview(review);
-		
-		if(insertCount == 0) {
-			model.addAttribute("msg", "등록 실패");
-			return "html/car_item/review/fail_back";
+			return "html/car_item/res/car_res_info";
+			
 		}
 		
-		return "redirect:/reviewList";
-	}
-	
-	// 리뷰 글 삭제
-	@GetMapping("reviewDelete")
-	public String reviewDelete(HttpSession session, ReviewVO review, Model model) {
-		String sId = (String)session.getAttribute("sId");
-	//==============권한이 있는지 (아이디가 있는지 -> 있다면 admin인지 -> 아니면 작성자랑 세션이 일치하는지, 일치하면 남고 아니면 나가)======
-//		if(sId == null || !sId.equals("admin")) {
-//			model.addAttribute("msg", "잘못된 접근입니다");
-//			return "html/member/review/fail_back";
-//		}
-	//======================삭제 시작=======================================================================	
-		int deleteReviewCount = carItemService.deleteReview(review);
 		
-		if(deleteReviewCount < 0) {
-			model.addAttribute("msg", "삭제 실패");
-			return "html/car_item/review/fail_back";
-		}
+		// 리뷰게시판 글 목록, 페이지 나눔
 		
-		int updateCount = carItemService.updateIdx(review);
-		if(updateCount < 0) {
-			model.addAttribute("msg", "업데이트 실패");
-			return "html/car_item/review/fail_back";
-		}
 		
-		return "redirect:/reviewList";
-	}
-	
-	//리뷰게시판 글 수정 폼
-	@GetMapping("reviewModify")
-	public String reviewModify(HttpSession session, ReviewVO review, Model model) {
-		String sId = (String)session.getAttribute("sId");
 		
-//==============권한이 있는지 (세션아이디가 있는지 -> 있다면 작성자랑 세션이 일치하는지, 일치하면 남고 아니면 나가)======
-		/*if(sId == null || !sId.equals("admin")) {
-			model.addAttribute("msg", "잘못된 접근입니다");
-			return "html/car_item/review/fail_back";
-		}*/
-		//======================수정게시판이동=======================================================================
-		ReviewVO reviewResult = carItemService.reviewDetail(review);
-		model.addAttribute("reviewDetail", reviewResult);
-		
-		return "html/car_item/review/review_modify_form";
-	}
-	
-	// 리뷰게시판 글 수정
-	@PostMapping("reviewModifyPro")
-	public String reviewModifyPro(HttpSession session, ReviewVO review, 
-			Model model, HttpServletRequest request, 
-			HttpServletResponse response, 
-			@RequestParam(defaultValue = "") String searchType, 
-			@RequestParam(defaultValue = "") String searchKeyword, 
-			@RequestParam(defaultValue = "1") int pageNum) {
-		
-		String sId = (String)session.getAttribute("sId");
-//==============권한이 있는지 (세션아이디가 있는지 -> 있다면 작성자랑 세션이 일치하는지, 일치하면 남고 아니면 나가)======
-		/*if(sId == null || !sId.equals("admin")) {
-			model.addAttribute("msg", "잘못된 접근입니다");
-			return "html/car_item/review/fail_back";
-		}*/
-		//======================수정 개시=======================================================================
+	/*	@GetMapping("reviewList")
+		public String reviewList(@RequestParam(defaultValue = "") String searchType, 
+				@RequestParam(defaultValue = "") String searchKeyword, Model model, Criteria cri) {
 
-		int listLimit = 10;
-		int startRow = (pageNum - 1) * listLimit;
+			System.out.println("검색타입 : " + searchType);
+			System.out.println("검색어 : " + searchKeyword);
+			System.out.println("cri"+cri);
+			
+			List<ReviewVO> reviewListWithPaging = carItemService.getReviewListPaging(searchType, searchKeyword,cri);
 		
-		int ModifySuccess = carItemService.modifyReview(review);
+			
+			
+			model.addAttribute("reviewListP", reviewListWithPaging);
+			
+			int total = carItemService.getTotal(searchType, searchKeyword);
+			PageDTO pageMaker = new PageDTO(cri, total);
+			model.addAttribute("pageMaker", pageMaker);		
+			
+			return "html/car_item/review/review_board";
+			
+		}*/
 		
-		int listCount = carItemService.getTotal(searchType, searchKeyword);
-
-		int pageListLimit = 10;
+		// "BoardList" 서블릿 요청에 대해 글목록 조회 비즈니스 로직 요청
+		// => 파라미터 : 검색타입(searchType) => 기본값 널스트링("") 으로 설정
+		//               검색어(searchKeyword) => 기본값 널스트링("") 으로 설정
+		//               페이지번호(pageNum) => 기본값 0 으로 설정
+		//               데이터공유객체(model)
+		@GetMapping("reviewList")
+		public String reviewList(
+				@RequestParam(defaultValue = "") String searchType, 
+				@RequestParam(defaultValue = "") String searchKeyword, 
+				@RequestParam(defaultValue = "1") int pageNum, 
+				Model model) {
+			
+			System.out.println("검색타입 : " + searchType);
+			System.out.println("검색어 : " + searchKeyword);
+			// -------------------------------------------------------------------------
+			// 페이징 처리를 위해 조회 목록 갯수 조절 시 사용될 변수 선언
+			int listLimit = 10; // 한 페이지에서 표시할 목록 갯수 지정
+			int startRow = (pageNum - 1) * listLimit; // 조회 시작 행(레코드) 번호
+			// -------------------------------------------------------------------------
+			// BoardService - getBoardList() 메서드 호출하여 게시물 목록 조회 요청
+			// => 파라미터 : 검색타입, 검색어, 시작행번호, 목록갯수
+			// => 리턴타입 : List<BoardVO>(boardList)
+			List<ReviewVO> reviewListWithPaging = carItemService.getReviewListPaging(searchType, searchKeyword, startRow, listLimit);
+//			System.out.println(boardList);
+			// -------------------------------------------------------------------------
+			// 페이징 처리를 위한 계산 작업
+			// 한 페이지에서 표시할 페이지 목록(번호) 계산
+			// 1. BoardService - getBoardListCount() 메서드를 호출하여
+			//    전체 게시물 수 조회 요청(페이지 목록 계산에 활용)
+			// => 파라미터 : 검색타입, 검색어   리턴타입 : int(listCount)
+			int listCount = carItemService.getTotal(searchType, searchKeyword);
+//			System.out.println("전체 게시물 수 : " + listCount);
+			
+			// 2. 한 페이지에서 표시할 목록 갯수 설정(페이지 번호의 갯수)
+			int pageListLimit = 10;
+			
+			// 3. 전체 페이지 목록 갯수 계산
+			int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0);
+//			System.out.println("전체 페이지 목록 갯수 : " + maxPage);
+			
+			// 4. 시작 페이지 번호 계산
+			int startPage = (pageNum - 1) / pageListLimit * pageListLimit + 1;
+//			System.out.println(startPage);
+			
+			// 5. 끝 페이지 번호 계산
+			int endPage = startPage + pageListLimit - 1;
+			
+			// 6. 만약, 끝 페이지 번호(endPage)가 전체(최대) 페이지 번호(maxPage) 보다
+			//    클 경우 끝 페이지 번호를 최대 페이지 번호로 교체
+			if(endPage > maxPage) {
+				endPage = maxPage;
+			}
+			
+			int nowPage = 0;                                        // nowPage 꼭 있어야 되어 사용(변수 선언용 노용석) 
+//			System.out.println(endPage);
+			
+			// 페이징 처리 정보를 저장할 PageInfoVO 객체에 계산된 데이터 저장
+			PageInfo pageInfo = new PageInfo(listCount, pageListLimit, maxPage, startPage, endPage, nowPage);
+			// -----------------------------------------------------------------------------------------
+			// 조회된 게시물 목록 객쳬(boardList) 와 페이징 정보 객체(pageInfo) 를 Model 객체에 저장
+			
+			
+			
+			model.addAttribute("reviewListP", reviewListWithPaging);
+			model.addAttribute("pageInfo", pageInfo);
+			
+			return "html/car_item/review/review_board";
+		}
+			
 		
-		int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0);
 		
-		int startPage = (pageNum - 1) / pageListLimit * pageListLimit + 1;
 		
-		int endPage = startPage + pageListLimit - 1;
-		
-		if(endPage > maxPage) {
-			endPage = maxPage;
+		// 리뷰 상세 글 보기
+		@GetMapping("reviewDetail")
+		public String reviewDetail(HttpSession session, ReviewVO review, Model model, HttpServletRequest request, HttpServletResponse response, @RequestParam(defaultValue = "") String searchType, 
+				@RequestParam(defaultValue = "") String searchKeyword, 
+				@RequestParam(defaultValue = "1") int pageNum) {
+			
+			// 파라미터에 request 없애고 HttpSession 으로 
+			ReviewVO reviewResult = carItemService.reviewDetail(review);
+			model.addAttribute("reviewDetail", reviewResult);
+			String sId = (String)session.getAttribute("sId");
+			
+			model.addAttribute("sId",sId);
+			
+			
+			return "html/car_item/review/review_detail";
 		}
 		
-		int nowPage = 0;                                        // nowPage 꼭 있어야 되어 사용(변수 선언용 노용석) 
 		
-		PageInfo pageInfo = new PageInfo(listCount, pageListLimit, maxPage, startPage, endPage, nowPage);
 		
-		model.addAttribute("pageInfo", pageInfo);
-		int rev_star = review.getRev_star();
-		if(ModifySuccess < 0) {
-			model.addAttribute("msg", "수정 실패");
-			return "html/car_item/review/fail_back";
-		} else if (rev_star <= 0) {
-			model.addAttribute("msg", "별점을 입력해주세요");
-			return "html/car_item/review/fail_back";
-		}				
-			return "redirect:/reviewDetail?pageNum=" + pageInfo.getNowPage() + "&rev_idx=" + review.getRev_idx();
-	}
-	
-	//=================================
+		
+		
+		@GetMapping("reviewWriteForm")
+		public String reviewWriteForm(HttpSession session, Model model, @RequestParam(defaultValue = "") String searchType, 
+				@RequestParam(defaultValue = "") String searchKeyword, 
+				@RequestParam(defaultValue = "1") int pageNum, 
+				@RequestParam(defaultValue = "1") int rev_idx) {
+			String sId = (String)session.getAttribute("sId");
+
+			//글쓰기 제어 : admin이 아닐 때 예약이 있을 때
+			if(sId == null || sId.length() == 0)
+			{
+				model.addAttribute("msg", "로그인해 주십시오."); // 로그인 안했을 때
+				return "redirect:/login";
+			}
+			else
+			{
+				if(!sId.equals("admin@naver.com")) {
+					int isBoardWriter = carItemService.isBoardWriter(sId);
+					
+					if(isBoardWriter == 0 ) {
+						model.addAttribute("msg", "권한이 없습니다!");
+						return "html/car_item/review/fail_back";
+					}
+				}
+			}
+
+			return "html/car_item/review/review_write_form";
+		}
+		
+		// 리뷰게시판 글 작성
+		@PostMapping("reviewWritePro")
+		public String reviewWritePro(HttpSession session, ReviewVO review, Model model, @RequestParam Map<String,Object> map,HttpServletRequest request) {
+			String sId = (String)session.getAttribute("sId");
+
+			//글쓰기 제어 : admin이 아닐 때 예약이 있을 때
+			if(sId == null || sId.length() == 0)
+			{
+				model.addAttribute("msg", "로그인해 주십시오."); // 로그인 안했을 때
+				return "redirect:/login";
+			}
+			else
+			{
+				if(!sId.equals("admin@naver.com")) {
+					int isBoardWriter = carItemService.isBoardWriter(sId);
+					
+					if(isBoardWriter == 0 ) {
+						model.addAttribute("msg", "권한이 없습니다!");
+						return "html/car_item/review/fail_back";
+					}
+				}
+			}
+
+			
+			String uploadDir = "/resources/upload"; 
+			//String saveDir = request.getServletContext().getRealPath(uploadDir); // 사용 가능
+			String saveDir = session.getServletContext().getRealPath(uploadDir);
+//			String saveDir = "C:/Users/linan/git/project_gabolca/GaBolCar/src/main/webapp/resources/upload";
+//			System.out.println("실제 업로드 경로 : "+ saveDir);
+			// 실제 업로드 경로 :C:/STS4/workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/GaBolCar/resources/upload
+			
+			String subDir = ""; // 서브디렉토리(날짜 구분)
+			
+			try {
+				// ------------------------------------------------------------------------------
+				// 업로드 디렉토리를 날짜별 디렉토리로 자동 분류하기
+				// => 하나의 디렉토리에 너무 많은 파일이 존재하면 로딩 시간 길어지며 관리도 불편
+				// => 따라서, 날짜별 디렉토리 구별 위해 java.util.Date 클래스 활용
+				// 1. Date 객체 생성(기본 생성자 호출하여 시스템 날짜 정보 활용)
+				Date date = new Date(); // Mon Jun 19 11:26:52 KST 2023
+//			System.out.println(date);
+				// 2. SimpleDateFormat 클래스를 활용하여 날짜 형식을 "yyyy/MM/dd" 로 지정
+				// => 디렉토리 구조로 바로 활용하기 위해 날짜 구분 기호를 슬래시(/)로 지정
+				// => 디렉토리 구분자를 가장 정확히 표현하려면 File.pathSeperator 또는 File.seperator 상수 활용
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+				// 3. 기존 업로드 경로에 날짜 경로 결합하여 저장
+				subDir = sdf.format(date);
+				saveDir += "/" + subDir;
+				// --------------------------------------------------------------
+				// java.nio.file.Paths 클래스의 get() 메서드를 호출하여
+				// 실제 경로를 관리하는 java.nio.file.Path 타입 객체 리턴받기
+				// => 파라미터 : 실제 업로드 경로
+				Path path = Paths.get(saveDir);
+				
+				// Files 클래스의 createDirectories() 메서드를 호출하여
+				// Path 객체가 관리하는 경로 생성(존재하지 않으면 거쳐가는 경로들 중 없는 경로 모두 생성)
+				Files.createDirectories(path);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			// BoardVO 객체에 전달된 MultipartFile 객체 꺼내기
+			MultipartFile mFile1 = review.getFile1();
+			MultipartFile mFile2 = review.getFile2();
+			MultipartFile mFile3 = review.getFile3();
+			System.out.println("원본파일명1 : " + mFile1.getOriginalFilename());
+			System.out.println("원본파일명2 : " + mFile2.getOriginalFilename());
+			System.out.println("원본파일명3 : " + mFile3.getOriginalFilename());
+			
+			// 이미지만 업로드 가능
+			String filename1 = mFile1.getOriginalFilename();
+			String filename2 = mFile2.getOriginalFilename();
+			String filename3 = mFile3.getOriginalFilename();
+			String fileext1 = filename1.substring(filename1.lastIndexOf(".") + 1);
+			String fileext2 = filename2.substring(filename2.lastIndexOf(".") + 1);
+			String fileext3 = filename3.substring(filename3.lastIndexOf(".") + 1);
+			
+			
+			if((fileext1 == null || fileext1.length() == 0))
+			{	
+			}
+			else
+			{	
+				if(fileext1.equals("png") || fileext1.equals("jpg") || fileext1.equals("jpeg"))
+				{
+				}
+				else 
+				{
+					model.addAttribute("msg", "첫번째 파일 업로드는 이미지만 업로드 가능합니다.");
+					return "html/car_item/review/fail_back";
+				}
+			}
+			
+			if((fileext2 == null || fileext2.length() == 0))
+			{	
+			}
+			else
+			{	
+				if(fileext2.equals("png") || fileext2.equals("jpg") || fileext2.equals("jpeg"))
+				{
+				}
+				else 
+				{
+					model.addAttribute("msg", "두번째 파일 업로드는 이미지만 업로드 가능합니다.");
+					return "html/car_item/review/fail_back";
+				}
+			}
+			
+			if((fileext3 == null || fileext3.length() == 0))
+			{	
+			}
+			else
+			{	
+				if(fileext3.equals("png") || fileext3.equals("jpg") || fileext3.equals("jpeg"))
+				{
+				}
+				else 
+				{
+					model.addAttribute("msg", "세번째 파일 업로드는 이미지만 업로드 가능합니다.");
+					return "html/car_item/review/fail_back";
+				}
+			}
+			
+			
+			// 파일명 중복 방지를 위한 대첵
+			// 현재 시스템(서버)에서 랜덤ID 값을 추출하여 파일명 앞에 붙여서
+			// "랜덤ID값_파일명.확장자" 형식으로 중복 파일명 처리
+			// => 랜덤ID 생성은 java.util.UUID 클래스 활용(UUID = 범용 고유 식별자)
+			String uuid = UUID.randomUUID().toString();
+//			System.out.println("uuid : " + uuid);
+			
+			// 생성된 UUID 값을 원본 파일명 앞에 결합(파일명과 구분을 위해 _ 기호 추가)
+			// => 나중에 사용자 다운로드 시 원본 파일명 표시를 위해 분리할 때 구분자로 사용
+			//    (가장 먼저 만나는 _ 기호를 기준으로 문자열 분리하여 처리)
+			// => 단, 파일명 길이 조절을 위해 임의로 UUID 중 맨 앞자리 8자리 문자열만 활용
+//			System.out.println(uuid.substring(0, 8));
+			// 생성된 UUID 값(8자리 추출)과 업로드 파일명을 결합하여 BoardVO 객체에 저장(구분자로 _ 기호 추가)
+			// => 단, 파일명이 존재하는 경우에만 파일명 생성(없을 경우를 대비하여 기본 파일명 널스트링으로 처리)
+			review.setRev_file1("");
+			review.setRev_file2("");
+			review.setRev_file3("");
+			
+			// 파일명을 저장할 변수 선언
+			String fileName1 = uuid.substring(0, 8) + "_" + mFile1.getOriginalFilename();
+			String fileName2 = uuid.substring(0, 8) + "_" + mFile2.getOriginalFilename();
+			String fileName3 = uuid.substring(0, 8) + "_" + mFile3.getOriginalFilename();
+			
+			if(!mFile1.getOriginalFilename().equals("")) {
+				review.setRev_file1(subDir + "/" + fileName1);
+			}
+			
+			if(!mFile2.getOriginalFilename().equals("")) {
+				review.setRev_file2(subDir + "/" + fileName2);
+			}
+			
+			if(!mFile3.getOriginalFilename().equals("")) {
+				review.setRev_file3(subDir + "/" + fileName3);
+			}
+			
+			System.out.println("실제 업로드 파일명1 : " + review.getRev_file1());
+			System.out.println("실제 업로드 파일명2 : " + review.getRev_file2());
+			System.out.println("실제 업로드 파일명3 : " + review.getRev_file3());
+			
+			int insertCount = carItemService.insertReview(review);
+			
+			if(insertCount > 0) {
+			 // 성공
+				try {
+					// 업로드 된 파일은 MultipartFile 객체에 의해 임시 디렉토리에 저장되어 있으며
+					// 글쓰기 작업 성공 시 임시 디렉토리 -> 실제 디렉토리로 이동 작업 필요
+					// MultipartFile 객체의 transferTo() 메서드를 호출하여 실제 위치로 이동(업로드)
+					// => 비어있는 파일은 이동할 수 없으므로(= 예외 발생) 제외
+					// => File 객체 생성 시 지정한 디렉토리에 지정한 이름으로 파일이 이동(생성)됨
+					//    따라서, 이동할 위치의 파일명도 UUID 가 결합된 파일명을 지정해야한다!
+					if(!mFile1.getOriginalFilename().equals("")) {
+						mFile1.transferTo(new File(saveDir, fileName1));
+					}
+					
+					if(!mFile2.getOriginalFilename().equals("")) {
+						mFile2.transferTo(new File(saveDir, fileName2));
+					}
+					
+					if(!mFile3.getOriginalFilename().equals("")) {
+						mFile3.transferTo(new File(saveDir, fileName3));
+					}
+				} catch (IllegalStateException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+						
+			int rev_star = review.getRev_star();
+			if(insertCount < 0) {
+				model.addAttribute("msg", "등록 실패");
+				return "html/car_item/review/fail_back";
+			} else if (rev_star <= 0) {
+				model.addAttribute("msg", "별점을 입력해주세요");
+				return "html/car_item/review/fail_back";
+			}				
+			return "redirect:/reviewList";
+		}
+		
+		// 리뷰 글 삭제
+		@GetMapping("reviewDelete")
+		public String reviewDelete(HttpSession session, ReviewVO review, Model model) {
+//			String sId = (String)session.getAttribute("sId");
+//			if(sId == null || !sId.equals("admin")) {
+//				model.addAttribute("msg", "잘못된 접근입니다");
+//				return "html/member/review/fail_back";
+//			}
+			
+			int deleteReviewCount = carItemService.deleteReview(review);
+			
+			if(deleteReviewCount < 0) {
+				model.addAttribute("msg", "삭제 실패");
+				return "html/car_item/review/fail_back";
+			}
+			
+			int updateCount = carItemService.updateIdx(review);
+			if(updateCount < 0) {
+				model.addAttribute("msg", "업데이트 실패");
+				return "html/car_item/review/fail_back";
+			}
+			
+			return "redirect:/reviewList";
+		}
+		
+		//리뷰게시판 글 수정 폼
+		@GetMapping("reviewModify")
+		public String reviewModify(HttpSession session, ReviewVO review, Model model, @RequestParam(defaultValue = "") String searchType, 
+				@RequestParam(defaultValue = "") String searchKeyword, 
+				@RequestParam(defaultValue = "1") int pageNum) {
+			String sId = (String)session.getAttribute("sId");
+
+			//글쓰기 제어 : admin이 아닐 때 예약이 있을 때
+			if(sId == null || sId.length() == 0)
+			{
+				model.addAttribute("msg", "로그인해 주십시오."); // 로그인 안했을 때
+				return "redirect:/login";
+			}
+			else
+			{
+				if(!sId.equals("admin@naver.com")) {
+					int isBoardWriter = carItemService.isBoardWriter(sId);
+					
+					if(isBoardWriter == 0 ) {
+						model.addAttribute("msg", "권한이 없습니다!");
+						return "html/car_item/review/fail_back";
+					}
+				}
+			}
+			
+			ReviewVO reviewResult = carItemService.reviewDetail(review);
+			model.addAttribute("reviewDetail", reviewResult);
+			
+			return "html/car_item/review/review_modify_form";
+		}
+		
+		// 리뷰게시판 글 수정
+		@PostMapping("reviewModifyPro")
+		public String reviewModifyPro(HttpSession session, ReviewVO review, Model model, @RequestParam(defaultValue = "") String searchType, 
+				@RequestParam(defaultValue = "") String searchKeyword, 
+				@RequestParam(defaultValue = "1") int pageNum) {
+			String sId = (String)session.getAttribute("sId");
+
+			//글쓰기 제어 : admin이 아닐 때 예약이 있을 때
+			if(sId == null || sId.length() == 0)
+			{
+				model.addAttribute("msg", "로그인해 주십시오."); // 로그인 안했을 때
+				return "redirect:/login";
+			}
+			else
+			{
+				if(!sId.equals("admin@naver.com")) {
+					int isBoardWriter = carItemService.isBoardWriter(sId);
+					
+					if(isBoardWriter == 0 ) {
+						model.addAttribute("msg", "권한이 없습니다!");
+						return "html/car_item/review/fail_back";
+					}
+				}
+			}
+			
+			
+			
+			
+			
+			
+			int ModifySuccess = carItemService.modifyReview(review);
+			
+			int rev_star = review.getRev_star();
+			if(ModifySuccess < 0) {
+				model.addAttribute("msg", "수정 실패");
+				return "html/car_item/review/fail_back";
+			} else if (rev_star <= 0) {
+				model.addAttribute("msg", "별점을 입력해주세요");
+				return "html/car_item/review/fail_back";
+			}				
+			
+			
+			return "redirect:/reviewDetail?pageNum=" + pageNum + "&searchType=" + searchType + "&searchKeyword=" + searchKeyword + "&rev_idx=" + review.getRev_idx();
+		}
+		
+		//=================================
+		
+		
+		
 	// 지점, 차량 타입, 연료 체크용 내부메서드
 	private boolean checkListName(String name, List<String> nameList) {
 		boolean result = false;

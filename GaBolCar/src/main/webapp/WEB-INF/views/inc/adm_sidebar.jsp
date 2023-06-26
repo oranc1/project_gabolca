@@ -4,9 +4,13 @@
 <div class="mypage_sidebar">
 	<!-- 유저 프로필 -->
   	<div class="user_profile">
-       	<dl class="user_info">
-           	<dt><b>홍길동</b> 님</dt>
+		<dl class="user_info">
+           	<dt>
+           		<b>홍길동</b> 님
+<%-- 				<b>${member.mem_name }</b> 님 --%>
+           	</dt>
            	<dd>abcd1234@naver.com</dd>
+<%--            	<dd>${sessionScope.sId }</dd> --%>
        	</dl>
    	</div>
    	<ul class="side_menu">

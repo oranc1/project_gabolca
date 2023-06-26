@@ -38,15 +38,14 @@
 								<option value="content" <c:if test="${param.searchType eq 'content' }">selected</c:if>>내용</option>			
 								<option value="subject_content" <c:if test="${param.searchType eq 'subject_content' }">selected</c:if>>제목&내용</option>			
 								<option value="name" <c:if test="${param.searchType eq 'name' }">selected</c:if>>작성자</option>
-								<option value="star" <c:if test="${param.searchType eq 'star' }">selected</c:if>>별점</option>
-								<option value="carModel" <c:if test="${param.searchType eq 'carModel' }">selected</c:if>>차종</option>			
+								<option value="star" <c:if test="${param.searchType eq 'star' }">selected</c:if>>별점</option>		
 							</select>
 							<input type="text" name="searchKeyword" value="${param.searchKeyword }" id="searchKeyword">
 						
-							<input type="submit" name="searchButton" value="검색">
+							<input type="submit" value="검색">
 						
 							
-							<%-- 검색타입목록, 검색어입력창 추가 --%>
+							<%-- 검색타입목록, 검색어입력창 추가! --%>
 													
 						
 						
@@ -67,7 +66,7 @@
 										</li>
 										<c:forEach var="reviewList" items="${reviewListP }">
 										<li class="list_cont">
-											<a href="/project_gabolcar/reviewDetail?pageNum=${pageMaker.cri.pageNum}&rev_idx=${reviewList.rev_idx}">
+											<a href="/project_gabolcar/reviewDetail?rev_idx=${reviewList.rev_idx}&pageNum=${pageNum}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}">
 												<p class="list_num">${reviewList.rev_idx }</p>
 												<p class="list_scope">
 												<!-- 별점 구현 초보, 새로운 거 알면 바꾸기-->
@@ -133,7 +132,7 @@
 										</c:forEach>
 									</ul>
 									<div class="write_btn">
-										<a href="/project_gabolcar/reviewWriteForm">글쓰기</a>
+										<a href="/project_gabolcar/reviewWriteForm?pageNum=${pageNum}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}">글쓰기</a>
 									</div>
 										
 										

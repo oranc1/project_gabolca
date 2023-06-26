@@ -140,27 +140,27 @@
 					</tr>
 			      	<tr> 
 				        <td class="td_left"><label for="file1"> 차량예약, 차량소개 이미지</label></td>
-				        <td class="td_right"><input type="file" name="files" id="car_file1" required="required" class="form-control" /></td>
+				        <td class="td_right"><input type="file" name="files" id="car_file1" class="form-control" /></td>
 			      	</tr>
 			      	<tr> 
 				        <td class="td_left"><label for="file2">차량상세예약 1(정면)</label></td>
-				        <td class="td_right"><input type="file" name="files" id="car_file2" required="required" class="form-control" /></td>
+				        <td class="td_right"><input type="file" name="files" id="car_file2" class="form-control" /></td>
 			      	</tr>
 			      	<tr> 
 				        <td class="td_left"><label for="file3">차량상세예약 2(후면)</label></td>
-				        <td class="td_right"><input type="file" name="files" id="car_file3" required="required" class="form-control" /></td>
+				        <td class="td_right"><input type="file" name="files" id="car_file3" class="form-control" /></td>
 			      	</tr>
 			      	<tr> 
 				        <td class="td_left"><label for="file4">차량상세예약 3(측면)</label></td>
-				        <td class="td_right"><input type="file" name="files" id="car_file4" required="required" class="form-control" /></td>
+				        <td class="td_right"><input type="file" name="files" id="car_file4"  class="form-control" /></td>
 			      	</tr>
 			      	<tr> 
 				        <td class="td_left"><label for="file5">차량상세예약 4(내부1)</label></td>
-				        <td class="td_right"><input type="file" name="files" id="car_file5" required="required" class="form-control" /></td>
+				        <td class="td_right"><input type="file" name="files" id="car_file5"  class="form-control" /></td>
 			      	</tr>
 			      	<tr> 
 				        <td class="td_left"><label for="file6">차량상세예약 5(내부2)</label></td>
-				        <td class="td_right"><input type="file" name="files" id="car_file6" required="required" class="form-control" /></td>
+				        <td class="td_right"><input type="file" name="files" id="car_file6"  class="form-control" /></td>
 			      	</tr>
 	      			<tr>
 	        			<td class="td_left"><label for="car_status">차량상태</label></td>

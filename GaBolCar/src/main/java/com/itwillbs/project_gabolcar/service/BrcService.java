@@ -32,5 +32,9 @@ public class BrcService {
 	public int brcDelete(int brc_idx) {
 		return mapper.deleteBrc(brc_idx);
 	}
+
+	public int isBrcNameCheck(Map<String, String> map) {
+		return mapper.selectBrcCheck(map);
+	}
 	
 }

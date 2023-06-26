@@ -6,17 +6,22 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,8 +38,7 @@ import com.itwillbs.project_gabolcar.service.MemberService;
 import com.itwillbs.project_gabolcar.service.ResService;
 import com.itwillbs.project_gabolcar.vo.CarOptionVO;
 import com.itwillbs.project_gabolcar.vo.CarVO;
-import com.itwillbs.project_gabolcar.vo.MemberVO;
-import com.itwillbs.project_gabolcar.vo.ResInfoVO;
+import com.itwillbs.project_gabolcar.vo.PageInfo;
 
 @Controller
 public class AdminConroller {
@@ -63,16 +67,48 @@ public class AdminConroller {
 	// 차량리스트 조회
     @ResponseBody
     @RequestMapping(value= "carList.ajax", method = RequestMethod.GET, produces = "application/text; charset=UTF-8")
-    public String carSearch(@RequestParam Map<String, Object> map, Model model) {
-		System.out.println(map);
-		
+    public String carSearch(@RequestParam Map<String, Object> map) {
 		int listLimit = 15;
 		int pageNum = Integer.parseInt(String.valueOf(map.get("pageNum")));
 		int startRow = (pageNum -1) * listLimit;
 		
+		// 출력할 데이터 가져오기
 		map.put("startRow", startRow);
 		map.put("listLimit", listLimit);
 		List<Map<String, Object>> carList = car_service.carList(map);
+		
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		// 출력할 데이터 사이즈
+		map.remove("startRow");
+		map.remove("listLimit");
+		int listCount = car_service.carList(map).size();
+		
+		//한 페이지에서 표시할 페이지 목록 갯수 설정
+		int pageListLimit = 5;
+		// 3. 전체 페이지 목록 수 계산
+		int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0);
+		// 4. 시작 페이지 번호 계산
+		int startPage = (pageNum - 1) / pageListLimit * pageListLimit + 1;
+		// 5. 끝 페이지 번호 계산
+		int endPage = startPage + pageListLimit - 1;
+		if(endPage > maxPage) {
+			endPage = maxPage;
+		}
+		
+		Map<String, Object> pageInfo = new HashMap<String, Object>();
+		pageInfo.put("listCount", listCount);
+		pageInfo.put("pageListLimit", pageListLimit);
+		pageInfo.put("maxPage", maxPage);
+		pageInfo.put("startPage", startPage);
+		pageInfo.put("endPage", endPage);
+		pageInfo.put("pageNum", pageNum);
+		
+		carList.add(pageInfo);
 		
 		JSONArray jsonArray = new JSONArray(carList);
     	return jsonArray.toString();
@@ -186,6 +222,29 @@ public class AdminConroller {
 	    return "redirect:/admCarList";
 	}
 	
+	// 차량삭제
+	@GetMapping("carDeletePro")
+	public String carDeletePro(int car_idx, Model model) {
+	    // 차량 옵션 삭제 추가
+	    int optionDeleteCount = car_service.carOptionDelete(car_idx);
+
+	    if (optionDeleteCount > 0) {
+	        System.out.println("차량 옵션 삭제 성공");
+	    } else {
+	        System.out.println("차량 옵션 삭제 실패");
+	    }
+
+	    int deleteCount = car_service.carDelete(car_idx);
+
+	    if (deleteCount > 0) {
+	        model.addAttribute("msg", "삭제 완료");
+	        return "redirect:/admCarList";
+	    } else {
+	        model.addAttribute("msg", "삭제 실패");
+	        return "inc/fail_back";
+	    }
+	    
+	}
 	// 지점등록폼 이동
 	@GetMapping("brcRegister")
 	public String brcRegister() {
@@ -196,6 +255,7 @@ public class AdminConroller {
 	@PostMapping("brcRegisterPro")
 	public String brcRegisterPro(@RequestParam Map<String, String> map, Model model) {
 		int insertCount = 0;
+		map.put("brc_addr", map.get("brc_addr") +","+ map.get("brc_addrDetail"));
 		insertCount = brc_service.brcRegister(map);
 		if (insertCount == 0) {
 			model.addAttribute("msg","등록 실패");
@@ -204,17 +264,26 @@ public class AdminConroller {
 		return "inc/close";
 	}
 	
+	// 지점명 중복체크
+	@ResponseBody
+	@GetMapping("brcCheckRdndn")
+	public int brcCheckRdndn(@RequestParam Map<String,String> map) {
+		return brc_service.isBrcNameCheck(map);
+	}
+	
 	// 지점수정폼 이동
 	@GetMapping("brcUpdate")
 	public ModelAndView brcUpdate(@RequestParam int brc_idx) {
 		Map<String, Object> brc = brc_service.brcSelect(brc_idx);
+		brc.put("brc_addrDetail", brc.get("brc_addr").toString().split(",")[1]);
+		brc.put("brc_addr", brc.get("brc_addr").toString().split(",")[0]);
 		return new ModelAndView("html/admin/brc_update","brc",brc);
 	}
 	
 	// 지점수정
 	@PostMapping("brcUpdatePro")
 	public String brcUpdatePro(@RequestParam Map<String, String> map,Model model) {
-		System.out.println(map);
+		map.put("brc_addr", map.get("brc_addr") +","+ map.get("brc_addrDetail"));
 		int updateCount = brc_service.brcUpdate(map);
 		if (updateCount > 0) {
 			return "inc/close";
@@ -238,7 +307,7 @@ public class AdminConroller {
 	
 	// 차량수정폼 이동
 	@GetMapping("carUpdate")
-	public String carUpdate(CarVO car,Model model) {
+	public String carUpdate(CarOptionVO carOption, CarVO car,Model model) {
 		Map<String, Object> map = car_service.carSelect(car);
 		model.addAttribute("car",map);
 		List<Map<String, Object>> brcList = brc_service.brcList();
@@ -246,28 +315,58 @@ public class AdminConroller {
 		// 0620 차량수정으로 가져갈 optionList
 		List<Map<String, Object>> optionList = car_service.optionList();
 		model.addAttribute("optionList",optionList);
-		// 0620 차량수정폼에 가져갈 car_options 
-		List<Map<String, Object>> carOptionList = car_service.carOptionList(car);
-		model.addAttribute("carOptionList", carOptionList);
-		return "html/admin/car_update";
+		
+	    List<Integer> selectedOptionList = car_service.getSelectedOptionList(car.getCar_idx());
+	    model.addAttribute("selectedOptionList", selectedOptionList);
+	    System.out.println("selectedOptionList: " + selectedOptionList);
+	    return "html/admin/car_update";
 	}
 	
-	// 차량수정
-//	@PostMapping("carUpdatePro")
-//	public String carUpdatePro(@RequestParam Map<String, String> map, Model model) {
-//		int updateCount = car_service.carUpdate(map);
-//		if (updateCount > 0) {
-//			model.addAttribute("msg","수정 완료");
-//			return "redirect:/admCarList";
-//		} else {
-//			model.addAttribute("msg","수정 실패");
-//			return "inc/fail_back";
-//		}
-//	}
+	// 차량수정 - 등록된 차량 파일 삭제
+	@PostMapping("carDeleteFile")
+	public void carDelete(	
+			@RequestParam int car_idx, 
+			@RequestParam String car_file,
+			@RequestParam String car_file_path,
+			CarVO car,
+			HttpServletResponse response,
+			HttpSession session,
+			Model model) {
+		
+		try {
+			// 응답데이터 출력을 위한 response 객체의 인코딩 타입 설정
+			response.setCharacterEncoding("UTF-8");
+			
+			int deleteCount = car_service.removeBoardFile(car_idx);
+			
+			// DB 파일 삭제 성공 시 실제 파일을 서버에서 삭제
+			if(deleteCount > 0) {
+				String uploadDir = "/resources/upload/car";
+				String saveDir = session.getServletContext().getRealPath(uploadDir);
+				// 경로 생성
+				Path path = Paths.get(saveDir + "/" + car_file_path + "/" + car_file);
+				System.out.println("path 경로: " + path);
+
+				// 파일 삭제
+				Files.deleteIfExists(path);
+				response.getWriter().print("true");
+			} else {
+				response.getWriter().print("false");
+			}
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+		
 	
-	// 차량 수정 0619
+	// 차량수정
+	@Transactional
 	@PostMapping("carUpdatePro")
-    public String carUpdatePro(@RequestParam(value = "option_idx", required = false) List<Integer> optionIdxList, CarVO car, HttpSession session, Model model) {
+    public String carUpdatePro(
+    		@RequestParam(value = "option_idx", required = false) List<Integer> optionIdxList,
+    		CarVO car, HttpSession session,
+    		Model model) {
 
         String uploadDir = "/resources/upload/car"; // 서버 이미지 저장 경로
         String saveDir = session.getServletContext().getRealPath(uploadDir);
@@ -322,19 +421,19 @@ public class AdminConroller {
         if (updateCount > 0) {
             System.out.println("차량 수정 성공");
             car.setCar_idx((int) car_service.carSelect(car).get("car_idx"));
-            car_service.deleteOptionFile(car.getCar_idx());
-            
-            // 옵션 수정 부분
+            System.out.println("selectcar : " + car.getCar_idx());
+            // 기존에 선택된 옵션을 삭제
+            int deletOption = car_service.deleteCarOptionsByCarIdx(car.getCar_idx());
+            System.out.println("deletOption : " + deletOption);
+            // 새로 선택된 옵션을 추가
             if (optionIdxList != null && !optionIdxList.isEmpty()) {
                 for (Integer optionIdx : optionIdxList) {
-                    CarOptionVO carOption = new CarOptionVO();
+                	CarOptionVO carOption = new CarOptionVO();
                     carOption.setCar_idx(car.getCar_idx());
                     carOption.setOption_idx(optionIdx);
-                    int optionUpdateResult = car_service.carOptionRegister(car);
-                    
-                    if (optionUpdateResult > 0) {
-                        System.out.println("옵션 수정 성공: " + optionIdx);
-                    } else {
+                    int optionUpdateResult = car_service.carUpdateOptionRegister(carOption);
+
+                    if (optionUpdateResult <= 0) {
                         System.out.println("옵션 수정 실패: " + optionIdx);
                     }
                 }
@@ -343,28 +442,8 @@ public class AdminConroller {
             model.addAttribute("msg", "차량 수정 실패!");
             return "inc/fail_back";
         }
-
         return "redirect:/admCarList";
     }
-	
-	
-	
-	
-	
-	
-	
-	// 차량삭제
-	@GetMapping("carDeletePro")
-	public String carDeletePro(int car_idx,Model model) {
-		int deleteCount = car_service.carDelete(car_idx);
-		if (deleteCount > 0) {
-			model.addAttribute("msg","삭제 완료");
-			return "redirect:/admCarList";
-		} else {
-			model.addAttribute("msg","삭제 실패");
-			return "inc/fail_back";
-		}
-	}
 	
 	// 옵션리스트 이동 - 디자인이 어려움
 	@GetMapping("optionList")
@@ -377,6 +456,13 @@ public class AdminConroller {
     @GetMapping("optionInsert")
     public String optionInsert() {
         return "html/admin/option_register";
+    }
+    
+    // 옵션명 중복체크
+    @ResponseBody
+    @GetMapping("optCheckRdndn")
+    public int optCheckRdndn(@RequestParam Map<String, String> map) {
+    	return car_service.isOptNameCheck(map);
     }
     
     // 옵션등록
@@ -421,13 +507,15 @@ public class AdminConroller {
     	return new ModelAndView("html/admin/option_update","option",option);
     }
     
+    
+    
     // 옵션수정
     @PostMapping("optionUpdatePro")
     public String optionUpdatePro(
-    		@RequestParam Map<String, Object> map,
-    		@RequestParam(value = "option_image", required = false) MultipartFile option_image,
-            HttpSession session, Model model) {
-    	
+    		@RequestParam Map<String, Object> map
+    		, @RequestParam(value = "option_image", required = false) MultipartFile option_image
+    		, HttpSession session
+    		, Model model) {
     	int updateCount = 0;
     	if(option_image == null) {
     		updateCount = car_service.optionUpdate(map);

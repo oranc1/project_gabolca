@@ -21,7 +21,7 @@
     <div id="notice_cont">
         <section id="sec_con" class="inr">
             <h1 class="con_title">1:1 문의 게시판</h1>
-            <form action="QuestionReplyFormPro" name="QuestionReplyFormPro" method="post" >
+            <form action="QuestionReplyPro" name="QuestionReplyFormPro" method="post" >
             <input type="hidden" name="qst_idx" value="${param.qst_idx }">
 			<input type="hidden" name="pageNum" value="${param.pageNum }">
 			<input type="hidden" name="board_re_ref" value="${board.qst_board_re_ref }">
@@ -35,15 +35,14 @@
                                     <li>
                                         <div class="category"><label for="qst_type">분류</label>  
                                             <select name="qst_type" id="qst_type" required="required">
-                                                <option value="" selected>선택하세요</option>
-                                                <option value="예약">예약</option>
-                                                <option value="예약 취소">예약 취소</option>
-                                                <option value="환불">환불</option>
-                                                <option value="기타">기타</option>
+                                                <option value="예약" <c:if test="${queston.qst_type eq '예약' }">selected</c:if>>예약</option>
+                                                <option value="예약 취소" <c:if test="${queston.qst_type eq '예약 취소' }">selected</c:if>>예약 취소</option>
+                                                <option value="환불" <c:if test="${queston.qst_type eq '환불' }">selected</c:if>>환불</option>
+                                                <option value="기타" <c:if test="${queston.qst_type eq '기타' }">selected</c:if>>기타</option>
                                             </select>
                                         </div>
 										<div class="writer">
-										    <input type="text" name="mem_name" id="mem_name" class="inputBox" value="${question.mem_name}" readonly >
+										    <input type="text" name="mem_name" id="mem_name" class="inputBox" value="${member.mem_name}" readonly >
 										</div>
                                     </li>
                                     <li>
@@ -61,9 +60,9 @@
                                     </p>
                                 </div>
                                 <div class="mod_box">
-                                    <input type="submit" class="delete_btn" value="등록">&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <input type="submit" class="delete_btn" value="답글등록">&nbsp;&nbsp;&nbsp;&nbsp;
                                     <input type="reset" class="delete_btn" value="다시쓰기">&nbsp;&nbsp;&nbsp;&nbsp;
-                                   <input type="button" value="취소" onclick="history.back()">
+                                    <input type="button" value="취소" onclick="history.back()">
                                 </div>
                             </div>
                         </div>

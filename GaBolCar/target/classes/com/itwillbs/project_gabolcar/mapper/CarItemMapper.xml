@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.itwillbs.project_gabolcar.mapper.CarItemMapper">
 
-	<!-- 리뷰 관련 mapper.xml -->
-	<!-- 리뷰 게시판 목록 -->
+<!-- 리뷰 관련 mapper.xml -->
+	<!-- 리뷰 게시판 목록 !-->
 
 	<!-- 리뷰게시판 작은거 3개 -->
 	<select id="getReviewListSmall" resultType="map" parameterType="com.itwillbs.project_gabolcar.vo.ReviewVO">
@@ -23,13 +23,15 @@
 	<!-- 리뷰게시판 목록 페이지 나누기 -->
 	<select id="getReviewListPaging" resultType="com.itwillbs.project_gabolcar.vo.ReviewVO">
 		SELECT * FROM (
-	           	SELECT rc.rev_date, rc.rev_content, rc.rev_name, rc.rev_idx, rc.rev_star, rc.rev_subject, ci.car_model, 
+	           	SELECT rc.rev_date, rc.rev_content, rc.rev_name, mi.mem_id, rc.rev_idx, rc.rev_star, rc.rev_subject, ci.car_model, 
 	            date_format(rev_date, '%Y-%m-%d')AS rev_date_format 
 	              FROM rev_car rc
 	              	JOIN res_info ri
 	              	ON rc.res_idx = ri.res_idx 
 	              	JOIN car_info ci
 	              	ON ri.car_idx = ci.car_idx 
+	              	left join mem_info mi
+	              	on rc.rev_name = mi.mem_name
               		) AS n1
 						  <if test="!searchKeyword.equals('')">
 							WHERE
@@ -96,15 +98,23 @@
 				</if>
 	</select>
 	
+	
+	<!-- 예약 조회 - SELECT -->
+	<select id="selectBoard" resultType="int">
+		select count(*) from res_info ri join mem_info mi on ri.mem_idx = mi.mem_idx where mi.mem_id = #{sId} 
+	</select>
+	
 	<!-- 리뷰 게시판 뷰 -->
 	<select id="reviewDetail" resultType="com.itwillbs.project_gabolcar.vo.ReviewVO">
-		SELECT rc.rev_date, rc.rev_idx, rc.rev_star, rc.rev_subject, rc.rev_name, ci.car_model, 
-		rc.rev_content, date_format(rev_date, '%Y-%m-%d')AS rev_date_format 
+		SELECT rc.rev_date, rc.rev_idx, rc.rev_star, mi.mem_id, rc.rev_subject, rc.rev_name, ci.car_model, 
+		rc.rev_content, date_format(rev_date, '%Y-%m-%d')AS rev_date_format, rc.rev_file1, rc.rev_file2, rc.rev_file3 
        		FROM rev_car rc
 	       		JOIN res_info ri
 	       		ON rc.res_idx = ri.res_idx 
 	       		JOIN car_info ci
 	       		ON ri.car_idx = ci.car_idx 
+	       		left join mem_info mi
+	              	on rc.rev_name = mi.mem_name
 					WHERE rev_idx = #{rev_idx}
 	</select>
 	
@@ -120,11 +130,14 @@
 			VALUES (
 				null,
 				#{res_idx},
-				#{rev_name},
+				(select mem_name from mem_info where mem_id = #{session_id}),
 				#{rev_subject},
 				#{rev_content},
 				#{rev_star},
-				now()
+				now(),
+				#{rev_file1},
+				#{rev_file2},
+				#{rev_file3}
 			)
 	</insert>
 	
@@ -132,7 +145,7 @@
 		UPDATE rev_car
 			SET rev_subject = #{rev_subject},
 				rev_content = #{rev_content},
-				rev_star = #{rev_star}
+				rev_star = #{rev_star} 
 					WHERE rev_idx = #{rev_idx}
 	</update>
 		
@@ -144,6 +157,7 @@
 	
 	
 	<!-- 리뷰 게시판 끝 -->
+	
 	
 	
 	
@@ -161,12 +175,21 @@
 	</select>	
 	
 	
-	<!-- 차량 소개 mapper.xml -->
+	<!-- 차량 소개 - 차량 정보 -->
 	<select id="selectCarInfoList" resultType="map">
 		select
 			*
 		from
 			car_info
 	</select>
+	
+	<!-- 차량 소개 - 각 차량에 등록된 옵션 -->
+	<select id="selectCarOptionListInfo" parameterType="int" resultType="map">
+	    SELECT ol.* FROM option_list ol
+	    	INNER JOIN car_options co ON ol.option_idx = co.option_idx
+	    	WHERE co.car_idx = #{carIdx}
+	</select>
+	
+	
 	
 </mapper>

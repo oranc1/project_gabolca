@@ -28,13 +28,18 @@
 		        		<td class="td_left"><label for="brc_addr">주소</label></td>
 			          	<td class="td_right">
 			      			<input type="text" size="40" name="brc_addr" id="address" class="form-control" required="required">
+			      			<input type="text" size="40" name="brc_addrDetail" id="addressDetail" class="form-control" required="required" placeholder="상세주소">
 							<input type="hidden" name="map_x">
 							<input type="hidden" name="map_y">
 						</td>
 					</tr>
 					<tr>
-						<td class="td_left"><label for="brc_tel">전화번호</label></td>
-						<td class="td_right"><input type="text" name="brc_tel" required="required" class="form-control" /></td>
+						<td class="td_left">
+							<label for="brc_tel">전화번호</label>
+						</td>
+						<td class="td_right">
+							<input type="text" name="brc_tel" required="required" class="form-control" placeholder="전화번호"/>
+						</td>
 					</tr>
 	        	</table>
 			    <div id="btnArea">
@@ -45,6 +50,6 @@
 		  	</div>
 		</form>
 	</section>
-	<script src="${pageContext.request.contextPath }/resources/js/admin/brc_open.js"></script>
+	<script src="${pageContext.request.contextPath }/resources/js/admin/brc_register.js"></script>
 </body>
 </html>

@@ -6,7 +6,8 @@ let map_x ='129.0620349';
 var mapContainer = document.getElementById('map'), // 지도를 표시할 div
 	mapOptions = {
 	center: new kakao.maps.LatLng(map_y, map_x), // 지도의 중심좌표
-	level: 3 // 지도의 확대 레벨
+	level: 3, // 지도의 확대 레벨
+	disableDoubleClickZoom: true // 더블클릭 확대기능 X
 };
 
 var map = new kakao.maps.Map(mapContainer, mapOptions); // 지도를 생성합니다
@@ -38,7 +39,7 @@ var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
 var markers = [];
 
 // 마커 삭제
-function setMarkers(map) {
+function setMarkers() {
 	for (var i = 0; i < markers.length; i++) {
     	markers[i].setMap(null);
     }	
@@ -74,26 +75,8 @@ $(function(){
 		map_y = $(this).siblings().eq(0).val();
 		map_x = $(this).siblings().eq(1).val();
 		
-		setMarkers(map);
+		setMarkers();
 		addMarker();
 		panTo();
 	})
 });
-
-
-
-
-// 이미지 지도(고정)
-//var staticMapContainer  = document.getElementById('map'), // 이미지 지도를 표시할 div 
-//    staticMapOption = {
-//		        marker : {
-//		        	text : '부산진구 본점', // 마커와 함께 표시할 텍스트
-//		        	position: new kakao.maps.LatLng(35.1584043, 129.0620349) // 좌표가 없으면 지도 중심에 마커가 표시된다
-//		        },
-//		        center: new kakao.maps.LatLng(35.1795543, 129.0756416), // 이미지 지도의 중심 좌표
-//		        level: 7, // 이미지 지도의 확대 레벨
-//		        mapTypeId : kakao.maps.MapTypeId.ROADMAP // 지도종류
-//		    };
-//		    
-//		// 이미지 지도를 생성한다
-//var staticMap = new kakao.maps.StaticMap(staticMapContainer, staticMapOption);

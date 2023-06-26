@@ -5,20 +5,91 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.itwillbs.project_gabolcar.mapper.CarMapper;
+import com.itwillbs.project_gabolcar.vo.CarOptionVO;
 import com.itwillbs.project_gabolcar.vo.CarVO;
 import com.itwillbs.project_gabolcar.vo.PageInfo;
 
 @Service
 public class CarService {
+	
 	@Autowired
 	private CarMapper mapper;
 	
+	// --------------------------------------차량등록, 수정, 삭제------------------------------------------------
+
+	// 차량등록
 	public int carRegister(CarVO car) {
 		return mapper.registerCar(car);
 	}
 	
+	// 차량삭제 - 차량옵션 삭제
+	public int carOptionDelete(int car_idx) {
+		return mapper.deleteCarOption(car_idx);
+	}
+
+	// 차량삭제 
+	public int carDelete(int car_idx) {
+		return mapper.deleteCar(car_idx);
+	}
+	
+	// 차량등록 - 선택된 옵션이 있는 차량 검색
+	public Map<String, Object> carSelect(CarVO car) {
+		return mapper.selectCar(car);
+	}
+	
+//	// 차량수정 폼 - 선택된 옵션이 있는 차량 검색
+//	public Map<String, Object> carSelect(CarVO car) {
+//		return mapper.selectCar(car);
+//	}
+	
+	// 차량수정 폼
+	public List<Integer> getSelectedOptionList(int car_idx) {
+		return mapper.selectCarOptionList(car_idx);
+	}
+	
+	// 차량 수정 
+	public int carUpdate(CarVO car) {
+		return mapper.updateCar(car);
+	}
+	
+	
+	// 차량수정 - 기존에 선택된 옵션을 삭제합니다
+	public int deleteCarOptionsByCarIdx(int car_idx) {
+		return mapper.deletUpdateCarOption(car_idx);
+		
+	}
+	
+	// 차량수정 - 차량수정시 새로 옵션 넣기
+	public int carUpdateOptionRegister(CarOptionVO carOption) {
+	    return mapper.insertUpdateCarOption(carOption);
+	}
+	
+	// 차량 등록 - 차에 옵션 등록 
+	public int carOptionRegister(CarVO car) {
+		return mapper.insertCarOption(car);
+	}
+	
+	
+	//차량 정보 조회
+	public CarVO carInfo(int res_idx) {
+		
+		return mapper.selectDriver(res_idx);
+	}
+	
+	// 차량 수정 차 파일 삭제
+	public int removeBoardFile(int car_idx) {
+		return mapper.deletCarFile(car_idx);
+	}
+	
+	
+	// --------------------------------------------------------------------------------------------------------------
+
+	
+	
+	// 차량리스트 조회
 	public List<Map<String, Object>> carList(Map<String, Object> map) {
 		PageInfo pageInfo = null;
 		if(map.get("pageInfo") != null) {			
@@ -30,15 +101,6 @@ public class CarService {
 	}
 	
 	
-	public Map<String, Object> carSelect(CarVO car) {
-		return mapper.selectCar(car);
-	}
-
-
-	public int carDelete(int car_idx) {
-		return mapper.deleteCar(car_idx);
-	}
-
 	public int optionRegister(String option_name, String option_image_url) {
         return mapper.registerOption(option_name, option_image_url);
 	}
@@ -62,14 +124,8 @@ public class CarService {
 	public int optionDelete(int option_idx) {
 		return mapper.deleteOption(option_idx);
 	}
+	
 
-	public int carOptionRegister(CarVO car) {
-		return mapper.insertCarOption(car);
-	}
-
-	public int carUpdate(CarVO car) {
-		return mapper.updateCar(car);
-	}
 
 	public List<Map<String, Object>> dsbCarStatus() {
 		return mapper.dsbCarStatus();
@@ -83,20 +139,28 @@ public class CarService {
 		return mapper.dsbBrcHoldStatus(brcList);
 	}
 
-	public List<Map<String, Object>> carOptionList(CarVO car) {
-		return mapper.selectOptionCar(car);
+	public List<CarOptionVO> carOptionList(CarOptionVO carOption) {
+		return mapper.selectOptionCar(carOption);
 	}
 
-//	// 차량수정 0619
-//	public int carUpdate(CarVO car) {
-//		return mapper.updateCar(car);
-//	}
+
+	public int isOptNameCheck(Map<String, String> map) {
+		return mapper.selectOptCheck(map);
+	}
+
+	public List<Map<String, Object>> carList() {
+		return mapper.selectUpdateCar();
+	}
+
+
 
 	
-	//차량 정보 조회
-	public CarVO carInfo(int res_idx) {
-		
-		return mapper.selectDriver(res_idx);
-	}
+
+
+
+
+	
+
+
 	
 }

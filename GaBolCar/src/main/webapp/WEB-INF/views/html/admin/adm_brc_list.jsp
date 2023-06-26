@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,7 +35,11 @@
 									</li>
 									<li>
 										<span class="li_tit">주소</span>
-										<span class="li_txt">${brc.brc_addr }</span>
+										<span class="li_txt">${fn:split(brc.brc_addr,',')[0] }</span>
+									</li>
+									<li>
+										<span class="li_tit">상세주소</span>
+										<span class="li_txt">${fn:split(brc.brc_addr,',')[1] }</span>
 									</li>
 									<li>
 										<span class="li_tit">전화번호</span>
@@ -44,11 +49,9 @@
 <!-- 										<span class="li_tit">메일</span> -->
 <!-- 										<span class="li_txt">location_email</span> -->
 <!-- 									</li> -->
-									<li>
-										<span>
-											<button name="brc_update" class="adm_brc_button" value="${brc.brc_idx }">수정</button>
-											<button name="brc_delete" class="adm_brc_button" value="${brc.brc_idx }">삭제</button>
-										</span>
+									<li class="mgmtbtn_sort">
+										<button name="brc_update" class="adm_brc_button" value="${brc.brc_idx }">수정</button>
+										<button name="brc_delete" class="adm_brc_button" value="${brc.brc_idx }">삭제</button>
 									</li>
 								</ul>
 							</div>

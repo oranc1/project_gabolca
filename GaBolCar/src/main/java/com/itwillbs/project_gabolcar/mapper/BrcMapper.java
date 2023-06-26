@@ -15,5 +15,7 @@ public interface BrcMapper {
 	int updateBrc(Map<String, String> map);
 
 	int deleteBrc(int brc_idx);
+
+	int selectBrcCheck(Map<String, String> map);
 	
 }

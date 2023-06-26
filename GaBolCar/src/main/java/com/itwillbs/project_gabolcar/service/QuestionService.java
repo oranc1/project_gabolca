@@ -41,12 +41,6 @@ public class QuestionService {
 		}
 		return question;
 	}
-	// 작성자 확인
-//	public boolean isBoardWriter(int qst_idx, String mem_id) {
-//		String mem_name = getMemNameById(sId);
-//		QuestionVO question = mapper.selectQuestionBoard(qst_idx);
-//		return mem_id.equals(question.getMem_name());
-//	}
 	
 	//  작성자가 맞는 지 확인
 	public boolean isBoardWriter(int qst_idx, String sId) {
@@ -72,13 +66,25 @@ public class QuestionService {
 		return mapper.getMemNameByIdx(mem_idx);
 	}
 	
+	//	답글을 달 qst_board_re_ref 값
+	public int getCurrentQstBoardReRef(int qst_idx) {
+		return mapper.selectCurrentQstBoardQstIdx(qst_idx);
+	}
+	
 	// 답글 등록
 	public int registReplyQstBoard(QuestionVO question) {
 		
 		mapper.updateQstBoardReSeq(question);
 		
-		int insertCount = mapper.insertQstReplyBoard(question);
+		return mapper.insertQstReplyBoard(question);
 		
-		return 0;
 	}
+	
+	// 수정
+	public int qstModifyBoard(QuestionVO question) {
+		return mapper.updateQstBoard(question);
+	}
+	
+
+	
 }

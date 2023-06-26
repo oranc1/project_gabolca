@@ -7,8 +7,9 @@
 <title>옵션 등록</title>
 <link href="${pageContext.request.contextPath }/resources/css/inc/bootstrap.min.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath }/resources/css/admin/brc_opt_open.css" rel="stylesheet">
-<script src="${pageContext.request.contextPath }/resources/js/inc/bootstrap.bundle.min.js"></script>
+<%-- <script src="${pageContext.request.contextPath }/resources/js/inc/bootstrap.bundle.min.js"></script> --%>
 <script src="${pageContext.request.contextPath }/resources/js/inc/jquery-3.7.0.js"></script>
+<script src="${pageContext.request.contextPath }/resources/js/admin/option_register.js"></script>
 </head>
 <body>
     <section id="main_section">
@@ -35,6 +36,5 @@
 			</div>
 		</form>
     </section>
-    <script src="${pageContext.request.contextPath }/resources/js/admin/option_register.js"></script>
 </body>
 </html>

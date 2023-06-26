@@ -6,29 +6,50 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
-import com.itwillbs.project_gabolcar.vo.CarVO;
-import com.itwillbs.project_gabolcar.vo.PageInfo;
-
 import com.itwillbs.project_gabolcar.vo.*;
 
 public interface CarMapper {
-
+	
+	// --------------------------------------차량등록, 수정, 삭제------------------------------------------------
+	
 	// 차량 등록
 	int registerCar(CarVO car);
+	
+	// 차량 수정 폼 - 옵션 선택된 차량 검색
+	Map<String, Object> selectCar(CarVO car);
 
-	// 차량 리스트
-	List<Map<String, Object>> selectCarList(@RequestParam(required = false) @Param("pageInfo") PageInfo pageInfo,@RequestParam(required = false) @Param("map") Map<String, Object> resFindOption);
+	// 차량수정 - 기존에 선택된 옵션을 삭제합니다
+	int deletUpdateCarOption(int car_idx);
+
+	// 차량수정 - 차량에 옵션 추가
+	int insertUpdateCarOption(CarOptionVO carOption);
+	
+	// 차량 삭제
+	int deleteCar(int car_idx);
+	
+	// 차량 등록 - 차에 옵션 등록 
+	int insertCarOption(CarVO car);
+	
+	//	차량 수정 
+	int updateCar(CarVO car);
+	
+	// 차에 등록된 옵션 삭제
+	int deleteCarOption(int car_idx);
+	
+	// 차량 수정 - 등록된 파일 삭제
+	int deletCarFile(int car_idx);
+	
+	// --------------------------------------------------------------------------------------------------------------
+	
 	
 	// 차량 수량 확인 (페이지 최대 항목 계산에 사용)
 	int selectCarListCount(@RequestParam(required = false) Map<String,Object> map);
 	
-	// 차량 검색
-	Map<String, Object> selectCar(CarVO car);
-
-
-	// 차량 삭제
-	int deleteCar(int car_idx);
+	// 차량 리스트
+	List<Map<String, Object>> selectCarList(@RequestParam(required = false) @Param("pageInfo") PageInfo pageInfo,@RequestParam(required = false) @Param("map") Map<String, Object> resFindOption);
+	
+	// 차량수정 폼
+	List<Integer> selectCarOptionList(int car_idx);
 	
 	// 옵션 등록
 	int registerOption(@Param("option_name") String option_name,@Param("option_image_url") String option_image_url);
@@ -42,7 +63,7 @@ public interface CarMapper {
 	// 옵션 파일삭제
 	int deleteOptionFile(int option_idx);
 
-	// 옵션 수정
+	// 옵션 수정 - 옵션 이미지 수정
 	int updateOption(Map<String, Object> map);
 
 	// 옵션 삭제
@@ -51,24 +72,30 @@ public interface CarMapper {
 
 	List<Integer> selectCarIdxList();
 
-	int insertCarOption(CarVO car);
-
-//	 차량 수정
-	int updateCar(CarVO car);
-
 	List<Map<String, Object>> dsbCarStatus();
 
 	List<Map<String, Object>> dsbCarType();
 
 	List<Map<String, Object>> dsbBrcHoldStatus(List<Map<String, Object>> brcList);
-
-	List<Map<String, Object>> selectOptionCar(CarVO car);
+	
+	// 차에 등록된 옵션 셀렉 
+	List<CarOptionVO> selectOptionCar(CarOptionVO carOption);
 	
 	// 자동차 정보 조회
+	int selectOptCheck(Map<String, String> map);
+	
+	
+	// 차량 예약 - 
 	CarVO selectDriver(int res_idx);
+
+	List<Map<String, Object>> selectUpdateCar();
+
+
 	
-//	// 차량 수정 0619
-//	int updateCar(CarVO car);
 	
+
+
+	
+
 
 }

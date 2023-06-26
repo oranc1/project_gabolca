@@ -33,7 +33,7 @@ public class PaymentController {
 		
 		if(id == null) {
 			model.addAttribute("msg", "로그인 후 예약 가능합니다");
-			return "redirect:/";
+			return "html/member/notice/fail_back";
 		}
 		
 		MemberVO member = service.getMemberInfo(id);
@@ -55,7 +55,9 @@ public class PaymentController {
 	
 	// 결제 완료 시
 	@PostMapping("carRes/resInfoPro")
-	public String resInfoPro(PaymentVO payment, ResInfoVO res, DriverVO driver, Model model, HttpSession session) {
+	public String resInfoPro(PaymentVO payment, ResInfoVO res, DriverVO driver, Model model, HttpSession session, @RequestParam String merchant_uid) {
+		
+		System.out.println(merchant_uid);
 		
 		String id = (String)session.getAttribute("sId");
 		
@@ -83,8 +85,9 @@ public class PaymentController {
 		
 		// 예약 번호 가져오기
 		int res_idx = service.getResIdx();
+		
 		// 결제 정보 저장
-		System.out.println(payment);
+//		System.out.println(payment);
 		int paymentInsert = service.insertPayment(payment, res_idx);
 		if(paymentInsert == 0) {
 			model.addAttribute("msg", "예약 실패(결제 정보)");
