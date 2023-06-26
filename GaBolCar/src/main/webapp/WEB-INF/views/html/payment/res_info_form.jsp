@@ -503,6 +503,8 @@
 									success: function(result) {
 										alert("결제검증 완료");
 										if(rsp.paid_amount == result.response.amount) {
+											document.querySelector('.pay_status').value = "결제완료";
+											document.querySelector('input[name="merchant_uid"]').value = rsp.merchant_uid;
 											$("form").submit();
 										} else {
 											alert("결제 검증 실패");
