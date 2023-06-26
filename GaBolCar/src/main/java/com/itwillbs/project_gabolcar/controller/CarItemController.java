@@ -891,7 +891,7 @@ public class CarItemController {
 			}
 
 			
-			String uploadDir = "/resources/upload"; 
+			String uploadDir = "/resources/upload";
 			//String saveDir = request.getServletContext().getRealPath(uploadDir); // 사용 가능
 			String saveDir = session.getServletContext().getRealPath(uploadDir);
 //			String saveDir = "C:/Users/linan/git/project_gabolca/GaBolCar/src/main/webapp/resources/upload";
