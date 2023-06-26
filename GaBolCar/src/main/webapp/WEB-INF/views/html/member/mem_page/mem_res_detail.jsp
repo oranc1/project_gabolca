@@ -37,6 +37,8 @@
 						<b>렌트중</b>
 					</div>
 				</article>
+				
+				
 				<article class="res_detail_article2">
 					<ul class="side_menu">
 						<li>

@@ -96,4 +96,6 @@
 			WHERE res_idx = #{res_idx};
 	</select>
 	
+	
+	
 </mapper>

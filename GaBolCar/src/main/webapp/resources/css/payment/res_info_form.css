@@ -228,9 +228,9 @@ li.lic_num_inp select, li.lic_num_inp input{
 }
 
 .payment_wrap {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
+/* 	display: flex; */
+/* 	justify-content: space-between; */
+/* 	align-items: center; */
 }
 
 .payment_p {
@@ -244,6 +244,7 @@ li.lic_num_inp select, li.lic_num_inp input{
 	border: 1px solid #ddd;
 	color: #ff6600;
 	font-weight: 600;
+	margin: 0 auto;
 }
 
 .payment_p.active {

@@ -109,16 +109,39 @@ public class PaymentController {
 
 		return "html/payment/res_com";
 	}
-	
+
 	// 차량 예약 완료 페이지
 	@GetMapping("carRes/resCom")
 	public String resResult() {
 		return "html/payment/res_com";
 	}
-	
+
 	// 차량 예약 완료 페이지
 	@GetMapping("resCancelCom")
 	public String resCancelCom() {
 		return "html/payment/res_cancel_com";
 	}
+
+	// 예약 취소 페이지
+	@GetMapping("ResCancel")
+	public String resCancel(@RequestParam int res_idx, Model model, HttpSession session) {
+
+		String sId = (String) session.getAttribute("sId");
+
+		if (sId == null) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			return "inc/fail_back";
+		}
+
+		ResInfoVO resInfo = service.selectResInfo(res_idx);
+		model.addAttribute("resInfoCom", resInfo);
+		CarVO resCarInfo = service.selectCarName(res_idx);
+		model.addAttribute("resCarInfo", resCarInfo);
+		PaymentVO resPayInfo = service.selectPayInfo(res_idx);
+		model.addAttribute("resPayInfo", resPayInfo);
+
+		return "html/payment/res_cancel";
+	}
+
 }
+

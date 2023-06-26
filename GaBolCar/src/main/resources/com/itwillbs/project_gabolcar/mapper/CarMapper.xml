@@ -576,4 +576,11 @@
 				</when>
 			</choose>
 	</select>
+	<select id="selectDriver"  parameterType="com.itwillbs.project_gabolcar.vo.CarVO">
+	SELECT *
+		 FROM car_info c join res_info r
+		 	on c.car_idx = r. car_idx
+		 	WHERE r.res_idx = #{res_idx};
+	
+	</select>
 </mapper>

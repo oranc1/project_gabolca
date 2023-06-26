@@ -25,12 +25,14 @@
 		<jsp:include page="../../inc/top1.jsp"></jsp:include>
 	</header>
 	<section id="sec_con" class="inr res_page">
+<!-- 		<form action="resInfoPro" method="post"> -->
 		<form action="resInfoPro" method="post">
 			<input type="hidden" name="res_rental_date" value="${map.res_rental_date }">
 			<input type="hidden" name="res_return_date" value="${map.res_return_date }">
 			<input type="hidden" name="car_idx" value="${map.car_idx }">
 			<input type="hidden" name="pay_total" class="pay_total">
 			<input type="hidden" name="merchant_uid">
+			<input type="hidden" name="imp_uid">
 			<!-- 결제 상태 임시지정 -->
 			<input type="hidden" name="pay_status" class="pay_status">
 			<ul class="res_page_wrap">
@@ -167,12 +169,12 @@
 							<div class="payment_p active" id="box1" style="cursor : pointer;">
 								<input type="radio" name="pay_method" id="card" value="0">신용/체크카드
 							</div>
-							<div class="payment_p" id="box2" style="cursor : pointer;">
-								<input type="radio" name="pay_method" id="virtual_account" value="1">가상계좌이체
-							</div>
-							<div class="payment_p" id="box3" style="cursor : pointer;">
-								<input type="radio" name="pay_method" id="transfer" value="2">무통장입금
-							</div>
+<!-- 							<div class="payment_p" id="box2" style="cursor : pointer;"> -->
+<!-- 								<input type="radio" name="pay_method" id="virtual_account" value="1">가상계좌이체 -->
+<!-- 							</div> -->
+<!-- 							<div class="payment_p" id="box3" style="cursor : pointer;"> -->
+<!-- 								<input type="radio" name="pay_method" id="transfer" value="2">무통장입금 -->
+<!-- 							</div> -->
 						</li>
 					</ul>
 					<script>
@@ -486,21 +488,33 @@
 					      //rsp.imp_uid 값으로 결제 단건조회 API를 호출하여 결제결과를 판단합니다.
 					      if(rsp.success) {
 					    	  // 결제 성공 시 로직
-					    	  
+					    	  let data = {
+									imp_uid: rsp.imp_uid,
+									merchant_uid: rsp.merchant_uid,
+									amount: rsp.paid_amount,
+							  };
 					    	  // ajax 로직
-// 					    	  jQuery.ajax({
-// 					    		  url: "resInfoPro",
-// 					    		  method: "POST",
-// 					    		  headers: { "Content-Type": "application/json" },
-// 					    	      data: { 
-// 					    	    	 imp_uid: rsp.imp_uid,
-// 					    	    	 merchant_uid: rsp.merchant_uid 
-// 					    	      },
-// 					    	  });
-					    	  document.querySelector('input[name="merchant_uid"]').value = rsp.merchant_uid;
-							  document.querySelector('.pay_status').value = "결제완료";
-							  
-							  $("form").submit();
+					    	  $.ajax({
+					    		  type:"POST",
+									url:"verifyIamport/" + rsp.imp_uid,
+									data:JSON.stringify(data),
+									contentType:"application/json; charset=utf-8",
+									dataType:"json",
+									success: function(result) {
+										alert("결제검증 완료");
+										if(rsp.paid_amount == result.response.amount) {
+											document.querySelector('.pay_status').value = "결제완료";
+											document.querySelector('input[name="merchant_uid"]').value = rsp.merchant_uid;
+											$("form").submit();
+										} else {
+											alert("결제 검증 실패");
+										}
+									},
+									error: function(result){
+										alert(result.responseText);
+										cancelPayments(rsp);
+									}
+					    	  });
 					      } else {
 					    	  // 결제 실패 시 로직
 					    	  alert("결제에 실패하였습니다 : " + rsp.error_msg);
