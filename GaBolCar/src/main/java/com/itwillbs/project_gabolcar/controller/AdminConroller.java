@@ -425,7 +425,6 @@ public class AdminConroller {
 	// 차량수정
 	@Transactional
 	@PostMapping("carUpdatePro")
-<<<<<<< HEAD
 	public String carUpdatePro(
 	        @RequestParam(value = "option_idx", required = false) List<Integer> optionIdxList,
 	        CarVO car, HttpSession session,
@@ -450,19 +449,6 @@ public class AdminConroller {
 	    
 	    String uploadDir = "/resources/upload/car"; // 서버 이미지 저장 경로
 	    String saveDir = session.getServletContext().getRealPath(uploadDir);
-=======
-    public String carUpdatePro(
-    		@RequestParam(value = "option_idx", required = false) List<Integer> optionIdxList,
-    		CarVO car, HttpSession session,
-    		Model model) {
-		String sId = (String)session.getAttribute("sId");
-		if (sId == null || !sId.equals("admin@admin.com")) {
-			model.addAttribute("msg","접근권한이 없습니다.");
-			return "inc/fail_back";
-		}
-        String uploadDir = "/resources/upload/car"; // 서버 이미지 저장 경로
-        String saveDir = session.getServletContext().getRealPath(uploadDir);
->>>>>>> origin/main
 
 	    if (car_files != null && !car_files.isEmpty() && car_files.get(0).getCar_file_path() != null) {
 	        car.setCar_file_path(car_files.get(0).getCar_file_path());
