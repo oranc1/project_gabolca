@@ -15,10 +15,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.itwillbs.project_gabolcar.handler.MyPasswordEncoder;
 import com.itwillbs.project_gabolcar.service.MemberService;
 import com.itwillbs.project_gabolcar.util.FindUtil;
 import com.itwillbs.project_gabolcar.util.SendUtil;
@@ -259,6 +260,32 @@ public class OnController { //나중에 합칠거임
 			return "html/member/login/find_pw";
 		}
 		
+//	@ResponseBody
+	@RequestMapping(value = "kakaoLogin", method = RequestMethod.GET)
+	public String kakaoLogin(
+			@RequestParam(required = false) String code
+			,HttpSession session
+			,Model model) {
+		System.out.println(code);
 		
-
+		String accessToken = memberService.getKakaoAccessToken(code);
+		
+		Map<String, Object> map = memberService.getUserInfo(accessToken);
+		System.out.println(map);
+		
+		MemberVO member = memberService.getMemberInfo(String.valueOf(map.get("email")));
+		System.out.println(member);
+		
+		if(member == null) { // 로그인 실패
+			model.addAttribute("msg", "비즈앱인증이 안되어 이메일밖에 조회가 안됨");
+			return "html/inc/fail_back";
+		} else { // 로그인 성공
+			// 세션 객체에 아이디 저장(속성명 sId)
+			session.setAttribute("sId", member.getMem_id());
+			session.setAttribute("mem_idx", member.getMem_idx());
+//			Cookie cookie = new Cookie("REMEMBER_ID", member.getMem_id());
+			return "redirect:/"; // 메인페이지(루트)로 리다이렉트
+		}
+		
+	}
 }
