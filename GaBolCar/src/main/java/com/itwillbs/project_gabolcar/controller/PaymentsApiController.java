@@ -8,6 +8,7 @@ import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.net.http.HttpClient;
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
@@ -15,6 +16,7 @@ import javax.net.ssl.HttpsURLConnection;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.JsonObject;
 import com.itwillbs.project_gabolcar.service.PaymentApiService;
+import com.itwillbs.project_gabolcar.vo.PaymentVO;
 import com.siot.IamportRestClient.IamportClient;
 import com.siot.IamportRestClient.exception.IamportResponseException;
 import com.siot.IamportRestClient.request.CancelData;
@@ -52,20 +55,21 @@ public class PaymentsApiController {
 	}
 	
 	// 결제 환불
-//	@PostMapping("cancelPayments")
-//	public IamportResponse<Payment> cancelPayments(@RequestBody Map<String,String> map,
-//			@AuthenticationPrincipal Principal principal) throws IamportResponseException, IOException {
-//		
-//		//조회
-//		IamportResponse<Payment> lookUp = null;
-//		if(map.containsKey("impUid")) lookUp = paymentLookup(map.get("impUid"));//들어온 정보에 imp_uid가 있을때
-//		else if(map.containsKey("paymentsNo")) lookUp = paymentLookup(map.get("paymentsNo"));//imp_uid가 없을때
-//		 
-//		String code = paymentService.code(principal.getBankName());//은행코드
-//		CancelData data = paymentService.cancelData(map,lookUp,principal,code);//취소데이터 셋업
-//		IamportResponse<Payment> cancel = iamportClientApi.cancelPaymentByImpUid(data);//취소
-//		
-//		return cancel;
-//	}
+	@PostMapping("cancelPayments")
+	@ResponseBody
+	public ResponseEntity<?> cancelPayments(@RequestBody Map<String, String> map, PaymentVO payment) throws Exception {
+		
+		System.out.println("취소 맵" + map);
+		System.out.println("payment" + payment);
+		
+		HashMap<String, String> response = new HashMap<>();
+        // 캔슬 데이터
+		CancelData cancelData = new CancelData(map.get("merchant_uid"),true);
+        // 캔슬
+		iamportClientApi.cancelPaymentByImpUid(cancelData);
+        // DB 처리(res_cancel insert, pay_info update)
+		response.put("response","success");
+        return ResponseEntity.ok(response);
+	}
 	
 }

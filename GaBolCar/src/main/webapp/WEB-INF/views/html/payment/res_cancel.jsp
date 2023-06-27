@@ -12,21 +12,19 @@
 	<link href="${pageContext.request.contextPath }/resources/css/inc/top.css" rel="styleSheet">
 	<link href="${pageContext.request.contextPath }/resources/css/inc/footer.css" rel="styleSheet">
 
-	<script src="${pageContext.request.contextPath }/resources/js/inc/jquery-3.7.0.js"></script>
+<%-- 	<script src="${pageContext.request.contextPath }/resources/js/inc/jquery-3.7.0.js"></script> --%>
+	<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
 	<script type="text/javascript">
-    function removeRes() {
-        var text = document.getElementsByName("cancel_reason")[0].value;
-        if (text == null || text.trim() == '') { 
-            alert("환불 사유를 작성하여주세요!");
+    	function removeRes() {
+        	var text = document.getElementsByName("cancel_reason")[0].value;
+        	if (text == null || text.trim() == '') { 
+           	alert("환불 사유를 작성하여주세요!");
             return false;
-        }
-        if (!confirm("예약을 취소 하시겠습니까?")) {
-            return false;
-        }
+       	}
         return true;
     }
-</script>
-
+	
+	
 </head>
 <body>
 	<header>
@@ -69,14 +67,37 @@
 			</div>
 		  
 		  	<hr class="com_line">
+		  	
+		  	<script>
+				function cancelPayments() {
+					alert('cancelPayments');
+					var reason = document.querySelector('.cancel_reason').value;
+					$.ajax({
+						url:"cancelPayments",
+						type: "POST",
+						data:JSON.stringify({
+							merchant_uid: ${resPayInfo.merchant_uid},
+							amount: ${resPayInfo.pay_total},
+							reason: reason
+						}),
+						contentType:"application/json; charset=utf-8",
+						success: function(result){
+							alert("결제금액 환불완료");
+							//결제 취소화면으로 이동해주기.
+						},
+						error: function(result){
+							alert("환불 불가 : "+result.responseText);
+						}
+					});
+				}
+			</script>
 		
 			<div class="payment_info com_wrap">
 				<h3>환불 정보</h3>
 				<ul>
 					<li>
 						<em>환불 사유</em>
-					<span><input type="text" name="cancel_reason" placeholder="환불사유를 입력해주세요" required="required"></span>
-					
+							<span><input type="text" name="cancel_reason" placeholder="환불사유를 입력해주세요" required="required" class="cancel_reason"></span>
 					</li>
 					<li>
 						<em>환불 수단</em>
@@ -98,6 +119,8 @@
                 <fmt:parseDate var="reservationDate" value="${reservationDateStr}" pattern="yyyy-MM-dd" />
 
                 <c:set var="currentTime" value="<%= new java.util.Date() %>" />
+
+                <!-- 예약일자와 현재 시간을 밀리초 단위로 변환하여 비교 -->
                 <c:set var="oneDayInMillis" value="86400000" /> <!-- 24시간을 밀리초로 변환 -->
                 <c:set var="timeDifference" value="${reservationDate.time - currentTime.time}" />
 
@@ -123,18 +146,18 @@
 					</li>
 				</ul>
 			</div>
+			
 		
 	
 			<div class="finish_btn" align="center">
 				<a href="MemberRes"><button>이전으로</button></a>
-				<a href="UpdateResPro?res_idx=${resInfoCom.res_idx}" onclick="return removeRes();"><button>취소하기</button></a>
+				<a href="javascript:;"><button onclick="cancelPayments()">취소하기</button></a>
 			</div>
 			
+			
 		</div>
-
 	</section>
-
-
+	
 	<footer>
 		<jsp:include page="../../inc/footer.jsp"></jsp:include>
 	</footer>
