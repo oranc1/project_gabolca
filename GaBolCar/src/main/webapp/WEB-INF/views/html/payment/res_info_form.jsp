@@ -513,6 +513,7 @@
 											document.querySelector('input[name="merchant_uid"]').value = rsp.merchant_uid;
 											$("form").submit();
 										} else {
+											location.href="cancelPayments";
 											alert("결제 검증 실패");
 										}
 									},
