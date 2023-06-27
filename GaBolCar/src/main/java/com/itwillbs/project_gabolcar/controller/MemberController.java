@@ -365,8 +365,17 @@ public class MemberController {
 	    int listLimit = 6;
 	    int startRow = (pageNum - 1) * listLimit;
 
-	    List<QuestionVO> qstBoardList = qst_service.getQstBoardListForMember(searchType, searchKeyword, startRow, listLimit, mem_idx);
-
+//	    List<QuestionVO> qstBoardList = qst_service.getQstBoardListForMember(searchType, searchKeyword, startRow, listLimit, mem_idx);
+	    List<QuestionVO> qstBoardList;
+	    
+	    if (mem_idx == 1) {
+	        // 관리자인 경우: 모든 게시글 가져오기
+	        qstBoardList = qst_service.getQstBoardList(searchType, searchKeyword, startRow, listLimit);
+	    } else {
+	        // 일반 사용자인 경우: 자신이 작성한 글과 관리자가 작성한 답변 글만 가져오기
+	        qstBoardList = qst_service.getQstBoardListForMember(searchType, searchKeyword, startRow, listLimit, mem_idx);
+	    }
+	    
 	    int listCount = qst_service.getQstBoardListCount(searchType, searchKeyword);
 
 	    int pageListLimit = 2;
@@ -382,10 +391,10 @@ public class MemberController {
 
 	    model.addAttribute("qstBoardList", qstBoardList);
 	    model.addAttribute("pageInfo", pageInfo);
-
-	    return "html/member/question/question_board";
+	    
+	    // mem_idx = 1(관리자) 면 question_board (관리자 뷰페이지) 아닐경우(회원) question_board_member(회원 뷰페이지) 로 이동
+	    return loggedInUser.getMem_idx() == 1 ? "html/member/question/question_board" : "html/member/question/question_board_member";
 	}
-	
 	
 	
 	// "QuestionDetail" 서블릿 요청에 대한 글 상세정보 조회 요청
@@ -399,16 +408,16 @@ public class MemberController {
 			return "inc/fail_back";
 		}
 		
-		 //  작성자가 맞는 지 확인
-//		if(!sId.equals("admin@admin.com")) {
-//			
-//			boolean isBoardWriter = qst_service.isBoardWriter(qst_idx, sId);
-//		    
-//			if (!isBoardWriter) {
-//				model.addAttribute("msg", "권한이 없습니다!");
-//				return "inc/fail_back";
-//			}
-//		}
+//		   작성자가 맞는 지 확인
+		if(!sId.equals("admin@admin.com")) {
+			
+			boolean isBoardWriter = qst_service.isBoardWriter(qst_idx, sId);
+		    
+			if (!isBoardWriter) {
+				model.addAttribute("msg", "권한이 없습니다!");
+				return "inc/fail_back";
+			}
+		}
 		
 		// 글 작성자 정보 	
 		QuestionVO question = qst_service.getQuestionBoard(qst_idx);

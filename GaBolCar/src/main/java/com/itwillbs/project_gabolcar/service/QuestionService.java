@@ -96,7 +96,7 @@ public class QuestionService {
 	    return mapper.selectRelatedQuestions(qst_board_re_ref);
 	}
 	
-	// 수정 중
+	// 문의 게시판 - 회원 본인 글만 조회
 	public List<QuestionVO> getQstBoardListForMember(String searchType, String searchKeyword, int startRow, int listLimit, int mem_idx) {
 	    return mapper.getQstBoardListForMember(searchType, searchKeyword, startRow, listLimit, mem_idx);
 	}
