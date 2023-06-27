@@ -133,6 +133,18 @@ public class OnController { //나중에 합칠거임
 			return "html/member/login/login";
 		}
 		
+	    @GetMapping("login/oauth2/code/naver")
+	    public String loginGetNaver(HttpSession session) {
+	        System.out.println("callback controller");
+	        return "html/member/login/naver_callback";
+	    }
+	    
+	    @GetMapping("callback")
+	    public String loginNaverCallback(HttpSession session) {
+	    	
+	        return "html/member/login/naver_callback";
+	    }
+	    
 		//로그인 db
 		@PostMapping("MemberLoginPro")
 		public String loginPro(MemberVO member, @RequestParam(required = false) boolean rememberId, 

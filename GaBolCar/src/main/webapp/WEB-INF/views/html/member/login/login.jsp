@@ -1,6 +1,25 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<%-- 네이버 로그인 관련 모듈 --%>
+<%@ page import="java.net.URLEncoder" %>
+<%@ page import="java.security.SecureRandom" %>
+<%@ page import="java.math.BigInteger" %>
+
+<%-- 0627 배경인 수정 네이버 로그인 --%>
+  <%
+    String clientId = "iyG93Byk9xPFZKJeZAaH";//애플리케이션 클라이언트 아이디값";
+    String redirectURI = URLEncoder.encode("http://localhost:8089/project_gabolcar/login/oauth2/code/naver", "UTF-8");
+    SecureRandom random = new SecureRandom();
+    String state = new BigInteger(130, random).toString();
+    String apiURL = "https://nid.naver.com/oauth2.0/authorize?response_type=code";
+    apiURL += "&client_id=" + clientId;
+    apiURL += "&redirect_uri=" + redirectURI;
+    apiURL += "&state=" + state;
+    session.setAttribute("state", state);
+ %>
+ <%-- ======================= --%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,8 +33,12 @@
     <link href="${pageContext.request.contextPath }/resources/css/inc/footer.css" rel="styleSheet">
 
     <script src="${pageContext.request.contextPath }/resources/js/inc/jquery-3.7.0.js"></script>
+    
+    <%-- 0627 배경인 수정 네이버 로그인 js --%>
+<!--     <script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script> -->
 </head>
 <body>
+
     <header>
 		<jsp:include page="../../../inc/top1.jsp"></jsp:include>
 	</header>
@@ -73,10 +96,16 @@
                                 <div class="login_other">
                                     <ul class="clear">
                                         <li>
-                                            <a href="" onclick="" class="naver">
-                                                <span></span>
-                                                <span>네이버로 로그인</span>
-                                            </a>
+<!--                                             <a href="" onclick="" class="naver"> -->
+<!--                                                 <span></span> -->
+<!--                                                 <span>네이버로 로그인</span> -->
+<!--                                             </a> -->
+
+											<!-- 네이버 로그인 버튼 노출 영역 -->
+<!-- 										    <div id="naver_id_login"></div> -->
+  											<a href="<%=apiURL%>"><img height="50" src="http://static.nid.naver.com/oauth/small_g_in.PNG"/></a>
+  
+										    <!-- //네이버 로그인 버튼 노출 영역 -->
                                         </li>
                                     </ul>
                                 </div>
@@ -101,7 +130,17 @@
 		<jsp:include page="../../../inc/footer.jsp"></jsp:include>
 	</footer>
 
-
+<%-- 0627 배경인 수정 네이버 로그인 --%>
+<%-- 네이버 로그인 --%>
+    <script type="text/javascript">
+//         var naver_id_login = new naver_id_login("iyG93Byk9xPFZKJeZAaH", "http://localhost:8089/project_gabolcar/login/oauth2/code/naver");
+//         var state = naver_id_login.getUniqState();
+//         naver_id_login.setButton("white", 2,40);
+//         naver_id_login.setDomain("http://localhost:8089/");
+//         naver_id_login.setState(state);
+//         naver_id_login.setPopup();
+//         naver_id_login.init_naver_id_login();
+    </script>
 
 </body>
 
