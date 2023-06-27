@@ -857,10 +857,10 @@ public class CarItemController {
 		public String reviewWriteForm(HttpSession session, Model model, @RequestParam(defaultValue = "") String searchType, 
 				@RequestParam(defaultValue = "") String searchKeyword, 
 				@RequestParam(defaultValue = "1") int pageNum, 
-				@RequestParam(defaultValue = "-1") int rev_idx) {
+				@RequestParam(defaultValue = "-1") int res_idx) {
 			
 			// 예약 번호 저장
-			int revIdx = rev_idx;
+			int resIdx = res_idx;
 			String sId = (String)session.getAttribute("sId");
 			
 			Map<String,Object> map = null;
@@ -877,8 +877,8 @@ public class CarItemController {
 					int isBoardWriter = carItemService.isBoardWriter(sId);
 					
 					if(isBoardWriter == 0 
-							|| revIdx < 0 
-							|| carItemService.isAlreadyWriteRev(revIdx)) {
+							|| resIdx < 0 
+							|| carItemService.isAlreadyWriteRev(resIdx)) {
 						model.addAttribute("msg", "권한이 없습니다!");
 						return "html/car_item/review/fail_back";
 					}
@@ -886,9 +886,9 @@ public class CarItemController {
 			}
 			
 			// 예약번호로 차량 정보 가져오기
-			map = carItemService.selectResNCarInfo(sId,revIdx);
+			map = carItemService.selectResNCarInfo(sId,resIdx);
 			if(map == null) {
-				model.addAttribute("msg", "예약 정보를 가져오는중에 문제가 발생되었습니다!");
+				model.addAttribute("msg", "권한이 없거나 예약 정보를 가져오는중에 문제가 발생되었습니다!");
 				return "html/car_item/review/fail_back";
 			}
 			
@@ -1131,7 +1131,8 @@ public class CarItemController {
 				@RequestParam(defaultValue = "") String searchKeyword, 
 				@RequestParam(defaultValue = "1") int pageNum) {
 			String sId = (String)session.getAttribute("sId");
-
+			Map<String,Object> map = null;
+			
 			//글쓰기 제어 : admin이 아닐 때 예약이 있을 때
 			if(sId == null || sId.length() == 0)
 			{
@@ -1143,15 +1144,22 @@ public class CarItemController {
 				if(!sId.equals("admin@admin.com")) {
 					int isBoardWriter = carItemService.isBoardWriter(sId);
 					
-					if(isBoardWriter == 0 
-							|| carItemService.isAlreadyWriteRev(revIdx)) {
+					if(isBoardWriter == 0 ) {
 						model.addAttribute("msg", "권한이 없습니다!");
 						return "html/car_item/review/fail_back";
 					}
 				}
 			}
 			
+			// 예약번호로 차량 정보 가져오기
+			map = carItemService.selectResNCarInfo(sId,review.getRes_idx());
+			if(map == null) {
+				model.addAttribute("msg", "권한이 없거나 예약 정보를 가져오는중에 문제가 발생되었습니다!");
+				return "html/car_item/review/fail_back";
+			}
 			ReviewVO reviewResult = carItemService.reviewDetail(review);
+			
+			model.addAttribute("map", map);
 			model.addAttribute("reviewDetail", reviewResult);
 			
 			return "html/car_item/review/review_modify_form";
