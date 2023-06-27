@@ -117,7 +117,7 @@
 						</div>
 					</div>
 					<p class="view_amount">
-						<b>${map.rentPrice}</b>원
+						  <b><fmt:formatNumber value="${map.rentPrice}" pattern="#,###" />원</b>
 					</p>
 					<a href="resPayment?car_idx=${map.car_idx }
                                     &res_rental_date=${map.res_rental_date}&res_return_date=${map.res_return_date}

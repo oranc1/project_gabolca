@@ -107,7 +107,7 @@
 
 		<jsp:include page="inc/car_info_item.jsp"></jsp:include>
 		<div id="pageArea">
-			<input type='button' id='nextPage' value='더보기'>
+			<input type='button' class="res_btn"id='nextPage' value='더보기'>
 		</div>
 	</section>
 	<footer>

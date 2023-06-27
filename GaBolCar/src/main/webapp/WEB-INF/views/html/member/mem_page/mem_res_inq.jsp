@@ -46,24 +46,29 @@
 							<li>
 								<div class="res_car_img">
 									<div>
-									
+
 										<c:forEach items="${car }" var="car">
-										
-										<c:if test="${resinfo.car_idx eq car.car_idx }">
-											<img
-												src="${pageContext.request.contextPath}/resources/upload/car/${car.car_file_path}/${car.car_file1}"
-												alt="${car.car_model}" />
-												</c:if>
-												
+
+											<c:if test="${resinfo.car_idx eq car.car_idx }">
+												<img
+													src="${pageContext.request.contextPath}/resources/upload/car/${car.car_file_path}/${car.car_file1}"
+													alt="${car.car_model}" />
+											</c:if>
+
 										</c:forEach>
 									</div>
 								</div>
 								<div class="list_car_info">
 									<div class="list_res_car">
-										<p>캐스퍼(현대)</p>
-
+										<c:forEach items="${car }" var="car">
+											<c:if test="${resinfo.car_idx eq car.car_idx }">
+												<p>${car.car_model }(${car.car_company })</p>
+											</c:if>
+										</c:forEach>
 										<c:set var="today" value="<%=new java.util.Date()%>" />
 										<c:set var="targetDate" value="${resinfo.res_return_date}" />
+										<c:set var="rentDate" value="${resinfo.res_rental_date}" />
+
 										<c:choose>
 											<c:when test="${today ge targetDate}">
 												<p class="ret_car">반납 완료</p>
@@ -71,10 +76,12 @@
 											<c:when test="${resinfo.pay_status eq '취소' }">
 												<p class="ret_car">취소된 예약</p>
 											</c:when>
+											<c:when test="${today ge rentDate and today lt targetDate}">
+												<p class="ret_car" style="background-color: #FF6600">렌트중</p>
+											</c:when>
 											<c:otherwise>
 												<p>결제 완료</p>
 											</c:otherwise>
-
 										</c:choose>
 
 									</div>
@@ -127,8 +134,13 @@
 												<button type="button"
 													onclick="location.href='resDetail?res_idx=${resinfo.res_idx}'">예약상세조회</button>
 												<button type="button" class="ret_rev"
-													onclick="location.href='reviewWriteForm?res_idx=${resinfo.res_idx}'">리뷰 작성</button>
-											
+													onclick="location.href='reviewWriteForm?res_idx=${resinfo.res_idx}'">리뷰
+													작성</button>
+											</c:when>
+											<c:when test="${today ge rentDate and today lt targetDate}">
+												<button type="button"
+													onclick="location.href='resDetail?res_idx=${resinfo.res_idx}'"
+													style="width: 100%">예약상세조회</button>
 											</c:when>
 											<c:otherwise>
 												<button type="button"
