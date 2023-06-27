@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>  
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>   
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>  
-<%--최신본인증--%>
+<%--최신본 인증!--%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -54,15 +54,15 @@
 
 				<div class="row">
 					<div class="column">
-						<img class="demo cursor" src="${pageContext.request.contextPath}/resources/upload/car/${map.car_info.car_file_path}/${map.car_info.car_file2}">
+						<img class="demo cursor" src="${pageContext.request.contextPath}/resources/upload/car/${map.car_info.car_file_path}/${map.car_info.car_file2}"
 							onclick="currentSlide(1)">
 					</div>
 					<div class="column">
-						<img class="demo cursor" src="${pageContext.request.contextPath}/resources/upload/car/${map.car_info.car_file_path}/${map.car_info.car_file3}">
+						<img class="demo cursor" src="${pageContext.request.contextPath}/resources/upload/car/${map.car_info.car_file_path}/${map.car_info.car_file3}"
 							onclick="currentSlide(2)">
 					</div>
 					<div class="column">
-						<img class="demo cursor" src="${pageContext.request.contextPath}/resources/upload/car/${map.car_info.car_file_path}/${map.car_info.car_file4}">
+						<img class="demo cursor" src="${pageContext.request.contextPath}/resources/upload/car/${map.car_info.car_file_path}/${map.car_info.car_file4}"
 							onclick="currentSlide(3)">
 					</div>
 					<div class="column">
