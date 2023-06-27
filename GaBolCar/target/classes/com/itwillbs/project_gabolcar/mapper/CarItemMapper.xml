@@ -117,14 +117,16 @@
 			res_info ri join car_info ci
 			on ri.car_idx = ci.car_idx
 		where 
-			mem_idx = 
-			(
-				select mem_idx
-				from mem_info
-				where
-					mem_id = #{sId}
-			)
-			AND 
+			<if test="sId != null">
+				mem_idx = 
+				(
+					select mem_idx
+					from mem_info
+					where
+						mem_id = #{sId}
+				)
+				AND 
+			</if>
 			res_idx = #{resIdx}
 		LIMIT 0,1
 	</select>	

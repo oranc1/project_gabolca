@@ -896,9 +896,9 @@ public class CarItemController {
 		
 		// 리뷰게시판 글 작성
 		@PostMapping("reviewWritePro")
-		public String reviewWritePro(HttpSession session, ReviewVO review, Model model, @RequestParam Map<String,Object> map,HttpServletRequest request) {
+		public String reviewWritePro(HttpSession session,@RequestParam Map<String,Object> map ,  ReviewVO review, Model model ,HttpServletRequest request) {
 			String sId = (String)session.getAttribute("sId");
-
+			
 			//글쓰기 제어 : admin이 아닐 때 예약이 있을 때
 			if(sId == null || sId.length() == 0)
 			{
@@ -919,7 +919,7 @@ public class CarItemController {
 					}
 				}
 			}
-
+			
 			
 			String uploadDir = "/resources/upload";
 			//String saveDir = request.getServletContext().getRealPath(uploadDir); // 사용 가능
@@ -1059,7 +1059,7 @@ public class CarItemController {
 			System.out.println("실제 업로드 파일명1 : " + review.getRev_file1());
 			System.out.println("실제 업로드 파일명2 : " + review.getRev_file2());
 			System.out.println("실제 업로드 파일명3 : " + review.getRev_file3());
-			System.out.println(review);
+			
 			int insertCount = carItemService.insertReview(review);
 			
 			if(insertCount > 0) {
