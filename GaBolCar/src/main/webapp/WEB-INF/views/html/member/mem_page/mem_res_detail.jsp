@@ -33,8 +33,21 @@
 			<div class="res-detail-cont">
 				<article class="res_detail_article1">
 					<div>
-						<img alt="" src="${pageContext.request.contextPath }/resources/img/car_img_storage/test_img/casper.jpg">
-						<b>렌트중</b>
+						<img alt=""
+							src="${pageContext.request.contextPath }/resources/img/car_img_storage/test_img/casper.jpg">
+						<c:set var="today" value="<%=new java.util.Date()%>" />
+						<c:set var="targetDate" value="${resinfo.res_return_date}" />
+						<c:choose>
+							<c:when test="${today ge targetDate}">
+								<b>반납 완료</b>
+							</c:when>
+							<c:when test="${payment.pay_status eq '취소' }">
+							<p></p>
+							</c:when>
+							<c:otherwise>
+								<b>결제 완료</b>
+							</c:otherwise>
+						</c:choose>
 					</div>
 				</article>
 				

@@ -46,5 +46,7 @@ public class ResService {
 		return mapper.selectResList(pageInfo,map);
 	}
 
+	
+
 
 }

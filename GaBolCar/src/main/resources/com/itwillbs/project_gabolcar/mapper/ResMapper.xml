@@ -75,12 +75,14 @@
 			FROM(
 				SELECT
 					mem_idx
-					, res_rental_date
-					, res_return_date 
-					, res_idx
-					, brc_rent_name
-					, brc_return_name
-					FROM res_info)
+					, r.res_rental_date
+					, r.res_return_date 
+					, r.res_idx
+					, r.brc_rent_name
+					, r.brc_return_name
+					, p.pay_status
+					FROM res_info r join pay_info p
+					on r.res_idx = p.res_idx)
 					AS n1
 					WHERE mem_idx=(select mem_idx 
 									from mem_info 
@@ -142,5 +144,10 @@
 		SELECT res_idx, res_time, car_idx, mem_idx, res_rental_date,  res_return_date
 			FROM res_info
 	</select>
+	<update id="deleteRes">
+	UPDATE pay_info
+		SET pay_status = '취소' WHERE res_idx=#{res_idx}
+
+	</update>
 	
 </mapper>
