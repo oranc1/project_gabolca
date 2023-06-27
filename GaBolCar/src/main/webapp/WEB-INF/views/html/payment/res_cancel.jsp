@@ -12,7 +12,12 @@
 	<link href="${pageContext.request.contextPath }/resources/css/inc/top.css" rel="styleSheet">
 	<link href="${pageContext.request.contextPath }/resources/css/inc/footer.css" rel="styleSheet">
 
-	<script src="${pageContext.request.contextPath }/resources/js/inc/jquery-3.7.0.js"></script>
+<%-- 	<script src="${pageContext.request.contextPath }/resources/js/inc/jquery-3.7.0.js"></script> --%>
+	<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+	<script type="text/javascript">
+       		
+    </script>
+	
 </head>
 <body>
 	<header>
@@ -55,10 +60,45 @@
 			</div>
 		  
 		  	<hr class="com_line">
+		  	
+		  	<script>
+				function cancelPayments() {
+					
+					var reason = document.querySelector('.cancel_reason').value;
+		        	if (reason == null || reason.trim() == '') { 
+		           		alert("환불 사유를 작성하여주세요!");
+		            	return false;
+		      		}
+		        	
+					$.ajax({
+						url:"cancelPayments",
+						type: "POST",
+						data:JSON.stringify({
+							merchant_uid: ${resPayInfo.merchant_uid},
+							amount: ${resPayInfo.pay_total},
+							reason: reason,
+							res_idx: ${resPayInfo.res_idx}
+							
+						}),
+						contentType:"application/json; charset=utf-8",
+						success: function(result){
+							alert("결제금액 환불완료");
+							location.href="MemberRes";
+						},
+						error: function(result){
+							alert("환불 불가 : "+result.responseText);
+						}
+					});
+				}
+			</script>
 		
 			<div class="payment_info com_wrap">
 				<h3>환불 정보</h3>
 				<ul>
+					<li>
+						<em>환불 사유</em>
+							<span><input type="text" name="cancel_reason" placeholder="환불사유를 입력해주세요" required="required" class="cancel_reason"></span>
+					</li>
 					<li>
 						<em>환불 수단</em>
 						<span>신용/체크카드</span>
@@ -106,12 +146,14 @@
 					</li>
 				</ul>
 			</div>
+			
 		
 	
 			<div class="finish_btn" align="center">
 				<a href="MemberRes"><button>이전으로</button></a>
-				<a href="./"><button>취소하기</button></a>
+				<a href="javascript:;"><button onclick="cancelPayments()">취소하기</button></a>
 			</div>
+			
 			
 		</div>
 	</section>

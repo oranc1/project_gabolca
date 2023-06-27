@@ -388,6 +388,7 @@ public class AdminConroller {
 	// 차량수정 - 등록된 차량 파일 삭제
 	@PostMapping("carDeleteFile")
 	public void carDelete(	
+			@RequestParam int car_file_index,
 			@RequestParam int car_idx, 
 			@RequestParam String car_file,
 			@RequestParam String car_file_path,
@@ -399,8 +400,9 @@ public class AdminConroller {
 		try {
 			// 응답데이터 출력을 위한 response 객체의 인코딩 타입 설정
 			response.setCharacterEncoding("UTF-8");
-			
-			int deleteCount = car_service.removeBoardFile(car_idx);
+			car.setCar_file_index(car_file_index);
+			int deleteCount = car_service.removeBoardFile(car);
+
 			
 			// DB 파일 삭제 성공 시 실제 파일을 서버에서 삭제
 			if(deleteCount > 0) {
@@ -431,7 +433,7 @@ public class AdminConroller {
 	        Model model) {
 	    // car_idx 에 있는 car_file 이 있으면 파일 넣기 수행 x 없으면 수행 O
 		
-		// 해당 차량 car_file1..6 배열로 들고오기
+		// 해당 차량 car_file1..6  들고오기
 	    List<CarVO> car_files = car_service.selectCarfiles(car);
 	    System.out.println("car_files 차량에 등록된 파일 : "  + car_files);
 

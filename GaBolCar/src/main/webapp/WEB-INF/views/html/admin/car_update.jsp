@@ -15,7 +15,7 @@
 <script src="${pageContext.request.contextPath }/resources/js/inc/jquery-3.7.0.js"></script>
 <script src="${pageContext.request.contextPath }/resources/js/inc/bootstrap.bundle.min.js"></script>
 <script type="text/javascript">
-function deleteFile(car_file_value) {
+function deleteFile(car_file_value, car_file_index) {
 	let car_idx = ${car.car_idx};
 
 	$.ajax({
@@ -24,7 +24,9 @@ function deleteFile(car_file_value) {
 		data: {
 			"car_idx": car_idx,
 			"car_file": car_file_value,
-			"car_file_path": "${car.car_file_path}"
+			"car_file_path": "${car.car_file_path}",
+			"car_file_index": car_file_index // 이 코드 추가
+// 			"car_file_path": "${car.car_file_path}"
 		},
 		success: function(result) {
 			if (result == "true") {
@@ -205,7 +207,7 @@ function deleteFile(car_file_value) {
 									<c:set var="fileName" value="${fn:substring(car.car_file1, index + 1, length) }" />
 									<a href="${pageContext.request.contextPath}/resources/upload/car/${car.car_file_path}/${car.car_file1}">${car.car_file1 }</a>
 									<%-- 삭제버튼 클릭 시 deleteFile() 함수 호출(파라미터로 글번호, 파일명 전달) --%>
-								<input type="button" value="삭제" onclick="deleteFile('${car.car_file1}')">
+<input type="button" value="삭제" onclick="deleteFile('${car.car_file1}', 0)">
 								</c:otherwise>
 							</c:choose>
 				        </td>
@@ -223,7 +225,7 @@ function deleteFile(car_file_value) {
 									<c:set var="fileName" value="${fn:substring(car.car_file2, index + 1, length) }" />
 									<a href="${pageContext.request.contextPath}/resources/upload/car/${car.car_file_path}/${car.car_file2}">${car.car_file2 }</a>
 									<%-- 삭제버튼 클릭 시 deleteFile() 함수 호출(파라미터로 글번호, 파일명 전달) --%>
-								<input type="button" value="삭제" onclick="deleteFile('${car.car_file2}')">
+<input type="button" value="삭제" onclick="deleteFile('${car.car_file2}', 1)">
 								</c:otherwise>
 							</c:choose>
 				        </td>
@@ -241,7 +243,7 @@ function deleteFile(car_file_value) {
 									<c:set var="fileName" value="${fn:substring(car.car_file3, index + 1, length) }" />
 									<a href="${pageContext.request.contextPath}/resources/upload/car/${car.car_file_path}/${car.car_file3}">${car.car_file3 }</a>
 									<%-- 삭제버튼 클릭 시 deleteFile() 함수 호출(파라미터로 글번호, 파일명 전달) --%>
-								<input type="button" value="삭제" onclick="deleteFile('${car.car_file3}')">
+<input type="button" value="삭제" onclick="deleteFile('${car.car_file3}', 2)">
 								</c:otherwise>
 							</c:choose>
 				        </td>
@@ -259,7 +261,7 @@ function deleteFile(car_file_value) {
 									<c:set var="fileName" value="${fn:substring(car.car_file4, index + 1, length) }" />
 									<a href="${pageContext.request.contextPath}/resources/upload/car/${car.car_file_path}/${car.car_file4}">${car.car_file4 }</a>
 									<%-- 삭제버튼 클릭 시 deleteFile() 함수 호출(파라미터로 글번호, 파일명 전달) --%>
-								<input type="button" value="삭제" onclick="deleteFile('${car.car_file4}')">
+<input type="button" value="삭제" onclick="deleteFile('${car.car_file4}', 3)">
 								</c:otherwise>
 							</c:choose>
 				        </td>
@@ -277,7 +279,7 @@ function deleteFile(car_file_value) {
 									<c:set var="fileName" value="${fn:substring(car.car_file5, index + 1, length) }" />
 									<a href="${pageContext.request.contextPath}/resources/upload/car/${car.car_file_path}/${car.car_file5}">${car.car_file5 }</a>
 									<%-- 삭제버튼 클릭 시 deleteFile() 함수 호출(파라미터로 글번호, 파일명 전달) --%>
-								<input type="button" value="삭제" onclick="deleteFile('${car.car_file5}')">
+<input type="button" value="삭제" onclick="deleteFile('${car.car_file5}', 4)">
 								</c:otherwise>
 							</c:choose>
 				        </td>
@@ -295,7 +297,7 @@ function deleteFile(car_file_value) {
 									<c:set var="fileName" value="${fn:substring(car.car_file6, index + 1, length) }" />
 									<a href="${pageContext.request.contextPath}/resources/upload/car/${car.car_file_path}/${car.car_file6}">${car.car_file6 }</a>
 									<%-- 삭제버튼 클릭 시 deleteFile() 함수 호출(파라미터로 글번호, 파일명 전달) --%>
-								<input type="button" value="삭제" onclick="deleteFile('${car.car_file6}')">
+<input type="button" value="삭제" onclick="deleteFile('${car.car_file6}', 5)">
 								</c:otherwise>
 							</c:choose>
 				        </td>

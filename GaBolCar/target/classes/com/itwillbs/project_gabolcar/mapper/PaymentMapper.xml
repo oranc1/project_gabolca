@@ -91,11 +91,25 @@
 	</select>
 
 	<select id="selectTotal" resultType="com.itwillbs.project_gabolcar.vo.PaymentVO">
-	SELECT pay_total
+	SELECT *
 		FROM pay_info
 			WHERE res_idx = #{res_idx};
 	</select>
 	
+	<update id="updateResInfo">
+	UPDATE pay_info 
+		SET pay_status="취소" WHERE res_idx=#{res_idx}
 	
+	</update>
+	
+<!-- 	<select id="selectResCancel"> -->
+<!-- 	SELECT * -->
+<!-- 			FROM res_info AS r -->
+<!-- 			JOIN pay_info AS p -->
+<!-- 				ON r.res_idx = p.res_idx -->
+<!-- 					WHERE p.pay_status = #{pay_status} -->
+
+	
+<!-- 	</select> -->
 	
 </mapper>

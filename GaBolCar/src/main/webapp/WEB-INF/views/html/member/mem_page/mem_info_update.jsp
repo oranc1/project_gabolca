@@ -38,6 +38,24 @@ $(function(){
 	  }
 	});
 	
+//비밀번호 중복 확인검사 
+function validatePassword() {
+  var passwd = document.getElementById("mem_passwd").value;
+  var repeatPasswd = document.getElementById("passwordCheck").value;
+  var span = document.querySelector("#passwordCheckError");
+
+  if (passwd != repeatPasswd) {
+	span.innerHTML= '패스워드가 일치하지 않습니다.' 
+   
+    return false;
+  }else{
+	span.innerHTML= '' 
+	
+  return true;
+}
+
+}
+	
 
 </script>
 </head>
@@ -86,7 +104,7 @@ $(function(){
 					<li>
 						<label for="name">비밀번호 변경 확인</label>
 						<div class="form-input">
-							<input type="password" name="newPasswd1"  id="passwordCheck" class="form-control" placeholder="비밀변호 변경 시 입력하세요" >
+							<input type="password" name="newPasswd1" oninput='validatePassword()'  id="passwordCheck" class="form-control" placeholder="비밀변호 변경 시 입력하세요" >
 					 		<div id="passwordCheckError" class="error"></div>
 						</div>
 					

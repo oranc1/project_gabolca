@@ -26,7 +26,6 @@ public interface PaymentMapper {
 
 	int insertPayment(@Param("payment") PaymentVO payment, @Param("res_idx") int res_idx);
 
-	ResInfoVO selectResInfo(int res_idx);
 
 	CarVO selectCarName(int res_idx);
 
@@ -34,6 +33,12 @@ public interface PaymentMapper {
 
 	//총금액
 	PaymentVO selectTotal(int res_idx);
+
+	//예약 취소
+	int updateResInfo(int res_idx);
+
+	ResInfoVO selectResInfo(int res_idx);
+
 
 	
 }

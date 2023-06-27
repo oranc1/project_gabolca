@@ -45,6 +45,8 @@ public class CarVO {
 	private String car_file5;
 	private String car_file6;
 	
+	private int car_file_index;
+	
 	// 파일명을 carFile1 ~ carFile6 변수에 셋팅
     public void setCarFileAt(int index, String carFile){
         switch (index) {

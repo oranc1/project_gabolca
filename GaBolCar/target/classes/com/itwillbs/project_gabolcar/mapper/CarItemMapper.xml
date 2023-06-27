@@ -101,8 +101,43 @@
 	
 	<!-- 예약 조회 - SELECT -->
 	<select id="selectBoard" resultType="int">
-		select count(*) from res_info ri join mem_info mi on ri.mem_idx = mi.mem_idx where mi.mem_id = #{sId} 
+		select count(*) 
+		from 
+			res_info ri join mem_info mi 
+			on ri.mem_idx = mi.mem_idx 
+		where 
+			mi.mem_id = #{sId} 
 	</select>
+	
+	<!-- 리뷰 게시판 - 멤버의 이름으로 검색하여
+	 최신 예약건과 차량이름, 모델, 년도 들고오기 -->
+	<select id="selectResNCarInfo" resultType="map">
+		select res_idx , car_model, car_company , car_old
+		from 
+			res_info ri join car_info ci
+			on ri.car_idx = ci.car_idx
+		where 
+			mem_idx = 
+			(
+				select mem_idx
+				from mem_info
+				where
+					mem_id = #{sId}
+			)
+			AND 
+			res_idx = #{resIdx}
+		LIMIT 0,1
+	</select>	
+	
+	<!-- 리뷰 게시판 - 현재 리뷰를 작성할 예약 번호로
+		리뷰가 이미 작성이 되어 있는지 확인하기 -->
+	<select id="selectIsAlreadyWriteRev" resultType="int">
+		SELECT count(*) 
+		FROM rev_car rc 
+		WHERE 
+			res_idx = #{resIdx}
+	</select>
+		
 	
 	<!-- 리뷰 게시판 뷰 -->
 	<select id="reviewDetail" resultType="com.itwillbs.project_gabolcar.vo.ReviewVO">
@@ -243,4 +278,20 @@
 	
 	
 	
+	<!-- ==== 0626 경인수정 main 페이지 리뷰 띄울항목 검색 -->
+	<select id="getReviewListMain" resultType="map">
+		SELECT rev_idx, res_idx, rev_star ,rev_subject, rev_date ,car_model, car_company
+		FROM 
+			(
+				SELECT rc.rev_idx, rc.res_idx, rev_subject , car_idx, rev_star ,rev_date  
+				FROM 
+				rev_car rc JOIN res_info ri ON rc.res_idx = ri.res_idx
+			) 
+			rev_res 
+			JOIN car_info ci ON ci.car_idx = rev_res.car_idx
+		WHERE 
+			rev_star >= 4
+		ORDER BY rev_date DESC 
+		LIMIT 0, 4
+	</select>
 </mapper>

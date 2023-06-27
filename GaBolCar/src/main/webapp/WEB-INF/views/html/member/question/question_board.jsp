@@ -84,7 +84,7 @@
                 
      <div id="notice_cont">
         <section id="sec_con" class="inr">
-            <h1 class="con_title">1:1 문의 게시판</h1>
+            <h1 class="con_title">1:1 관리자 문의 게시판</h1>
             <section id="board_list" class="notice">
                 <section id="buttonArea">
 				<form action="QuestionListForm" method="GET" class="search-form">
@@ -118,7 +118,10 @@
                                     <p class="writter">조회수</p>
                                     <p class="date">날짜</p>
                                 </li>
+                                <c:set var="loggedInUser" value="${sessionScope.loggedInUser}" />
+                                
 							<c:forEach var="question" items="${qstBoardList}">
+<%-- 							    <c:if test="${question.mem_idx eq loggedInUser.mem_idx or question.mem_idx eq 1}"> --%>
 								<li class="list_cont">
 								    <p class="list_car">${question.qst_type}</p>
 								    <div class="txt_prev">
@@ -143,7 +146,8 @@
 								    <p class="date">
 								        <fmt:formatDate value="${question.qst_date}" pattern="yyyy-MM-dd HH:mm"/>
 								    </p>
-								</li>			
+								</li>		
+<%-- 								</c:if>	 --%>
 							</c:forEach>
                             </ul>
                         </div>

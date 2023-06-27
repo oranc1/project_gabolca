@@ -8,7 +8,7 @@ $(function(){
     if (validateEmail(email)) {
       validateMessage.textContent = '';
     } else {
-      validateMessage.textContent = '메일 주소를 정확히 입력하세요.';
+      validateMessage.textContent ='메일 주소를 정확히 입력하세요.';
       email.value=null;
     }
   });
@@ -20,7 +20,7 @@ $(function(){
   }
 });
 
-//이메일 중복확인 db등록후 재확인 필요 결고ㅏ값뜨는구역
+//이메일 중복확인
 function checkId(){
  var id = $('#mem_id').val(); //id값이 "id"인 입력란의 값을 저장
  $.ajax({
@@ -43,20 +43,21 @@ function checkId(){
 };
 
 //비밀번호 유효성 검사
+
 $(function(){
   const passWd = document.getElementById("mem_passwd");
   const validateMessage = document.getElementById('passwordError');
 
   passWd.addEventListener("input", function() {
     const pass = passWd.value;
-    if (validateEmail(pass)) {
+    if (validatePassword(pass)) {
       validateMessage.textContent = '';
     } else {
       validateMessage.textContent = '영문,숫자,특수문자 포함 8~20글자 이상 입력 해주세요.';
     }
   });
   
-  function validateEmail(pass) {
+  function validatePassword(pass) {
     const re = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,20}$/;
     return re.test(pass);
   }
@@ -69,21 +70,35 @@ function validatePassword() {
   var passwd = document.getElementById("mem_passwd").value;
   var repeatPasswd = document.getElementById("passwordCheck").value;
   var span = document.querySelector("#passwordCheckError");
-
   if (passwd != repeatPasswd) {
 	span.innerHTML= '패스워드가 일치하지 않습니다.' 
-   
     return false;
   }else{
 	span.innerHTML= '' 
-	
   return true;
 }
 
 }
 
+//이름 확인 한글만,2글자 이상 10글자 미만, 자음,모음만 입력 안됨
+function validateName(){
+	const name = document.getElementById("mem_name").value.trim();
+	const span = document.querySelector("#nameError");
 
-//주소찾기 js
+  		if (!/^[\uAC00-\uD7A3]{2,10}$/.test(name) || /[\u314F-\u3163]/.test(name)) {
+		    span.innerHTML= '유효한 이름을 입력 해 주세요'
+		    document.getElementById("name").value = "";
+		    document.getElementById("name").focus();
+		    return false;}
+		    else{
+		 	span.innerHTML= ''
+		 	 return true;
+			}
+}
+
+
+
+//주소찾기 
 function sample6_execDaumPostcode() {
     new daum.Postcode({
         oncomplete: function(data) {
@@ -158,32 +173,68 @@ function changePhone3(){
     
 }
 
+//타이머
+let timer; // 타이머 변수
+
+function startTimer() {
+  let seconds = 180; // 타이머 초기 시간 (3분)
+  timer = setInterval(function() {
+    let minutes = Math.floor(seconds / 60);
+    let remainingSeconds = seconds % 60;
+
+    // 타이머 시간을 cert 칸에 표시
+    document.getElementById("cert").placeholder = minutes + "분 " + remainingSeconds + "초 남았습니다.";
+
+    if (seconds <= 0) {
+      // 타이머 시간 초과
+      clearInterval(timer);
+      alert("시간이 초과되었습니다.");
+      document.getElementById("cert").disabled = true; // memberPhoneCertify 칸 비활성화
+      document.getElementById("cert").placeholder = "인증번호를 입력 해주세요"; 
+    }
+
+    seconds--;
+  }, 1000);
+}
+
+//핸드폰 번호 유효성 검사 및 인증번호 전송
 function sendMsg(){
-	var phone = $("#phone1").val() + $("#phone2").val() + $("#phone3").val();
+	var phone =$("#phone1").val()+"-"+$("#phone2").val()+"-"+$("#phone3").val();
+	//패턴 확인용
+	var patternPhone = /01[016789]-[^0][0-9]{2,3}-[0-9]{3,4}/;
+	 if(!patternPhone.test(phone)){
+		alert('유효한 핸드폰 번호를 입력 해 주세요')
+   		document.getElementById("sendMessage").disabled = true;
+		document.getElementById("phone1").value = ""; // phone1 입력란 내용 지우기
+		document.getElementById("phone2").value = ""; // phone1 입력란 내용 지우기
+		document.getElementById("phone3").value = ""; // phone1 입력란 내용 지우기
+   		document.getElementById("phone1").focus();
+		}else{
+	
 	 $.ajax({
      url:'./send-phone-authentication', //Controller에서 요청 받을 주소
      type:'post', //POST 방식으로 전달
      data:{phone:phone},
      success:function(phone){ 
          console.log("서버 응답 데이터:", phone); // 디버깅용 로그 출력
-        if (phone !== 0) { //이부분 작동 안되는데 왜그럴까 - 해결 한거같음
-          alert("휴대폰 번호가 올바르지 않습니다. \n유효한 번호를 입력해주세요.");
-          $("#phone").attr("autofocus", true);
-        } else {
           alert("인증번호가 전송되었습니다.");
           $("#cert").attr("disabled", false);
           $("#certifyCheck").attr("disabled", false);
           $("#phone1").attr("readonly", true);
           $("#phone2").attr("readonly", true);
           $("#phone3").attr("readonly", true);
-         }
+          //타이머 작동 시켜야 할것같다
+          startTimer();
      },
      error:function(){
          alert("에러입니다");
      }
  });
 }
+		
+}
 
+//인증번호 확인
 function verifyCode(){
 	var newCode = $("#cert").val()
 	 $.ajax({
@@ -193,7 +244,7 @@ function verifyCode(){
      success:function(data){ 
    	  const isCorrectCode = data;	
    	  if(isCorrectCode == true){
-         alert("인증되었습니다.");
+         alert("인증 되었습니다.");
 		}else{
 		alert("인증번호가 일치하지 않습니다.")
 		}
@@ -204,192 +255,6 @@ function verifyCode(){
  });	
 }
 
-//function initButton(){
-//	const cert = document.getElementById("cert").value // 010
-//	if(cert.length === 4){
-//	  document.getElementById("certifyCheck").focus();
-//	  document.getElementById("certifyCheck").setAttribute("style","background-color:#F0F0F0;")
-//	  document.getElementById("certifyCheck").disabled = false;
-//	}
-//
-//}
-
-//휴대폰번호 인증번호 보내기 버튼 클릭 이벤트
-//$(document).ready(function() {
-//  var code2 = "";
-
-//  $("#sendMessage").on("click", function() {
-//	console.log("phoneChk 버튼 클릭"); // 디버깅용 로그 출력
-//    alert("인증번호 발송이 완료되었습니다.\n휴대폰에서 인증번호 확인을 해주십시오.");
-//    var phone = $("#phone1").val() + $("#phone2").val() + $("#phone3").val();
-//    $.ajax({
-//      type: "POST",
-//      url: "./send-phone-authentication",
-//      data: JSON.stringify(phone),
-//      contentType: 'application/json',
-//      cache: false,
-//      success: function(data) {
-//			console.log("서버 응답 데이터:", data); // 디버깅용 로그 출력
-//        if (data.code === "error") {
-//          alert("휴대폰 번호가 올바르지 않습니다. \n유효한 번호를 입력해주세요.");
-//          $("#phone").attr("autofocus", true);
-//        } else {
-//          $("#cert").attr("disabled", false);
-//          $("#certifyCheck").attr("disabled", false);
-//          $("#phone1").attr("readonly", true);
-//          $("#phone2").attr("readonly", true);
-//          $("#phone3").attr("readonly", true);
-//          code2 = data.code;
-          
-//      	  console.log("받은 인증번호:", code2); // 디버깅용 로그 출력
-//            }
-//      }
-//      error: function(xhr, status, error) {
-//        console.log("에러 발생:", error); // 디버깅용 로그 출력
-//      }
-//    });
-//  });
-
-//  $("#certifyCheck").on("click", function() {
-//	  var certValue = $("#cert").val(); // 변경: 변수로 인증번호 값 저장
-//	  console.log("입력한 인증번호:", certValue); // 디버깅용 로그 출력
-//	  
-//	  if (certValue === code2) { // 변경: 변수와 code2 비교
-//      alert("인증이 완료 되었습니다.");
-//      $("#cert").attr("disabled", true);
-//   	 } else {
-//      alert("인증번호가 일치하지 않습니다. \n다시 확인해주시기 바랍니다.");
-//      $("#cert").attr("autofocus", true);
-//    }
-//  });
-//});
-
-//var code2 = "";
-//$("#phoneChk").on("click",function(){
-//	alert("인증번호 발송이 완료되었습니다.\n휴대폰에서 인증번호 확인을 해주십시오.");
-//	var phone = $("#phone1").val()+$("#phone2").val()+$("#phone3").val();
-//	$.ajax({
-//        type:"GET",
-//        url:"send-one?phone=" + phone,
-//        cache : false,
-//        success:function(data){
-//        	if(data == "error"){
-//        		alert("휴대폰 번호가 올바르지 않습니다. \n유효한 번호를 입력해주세요.")
-//				$(".successPhoneChk").text("유효한 번호를 입력해주세요.");
-//				$(".successPhoneChk").css("color","red");
-//				$("#phone").attr("autofocus",true);
-//        	}else{	        		
-//        		$("#cert").attr("disabled",false);//인증번호 입력칸
-//        		$("#phoneChk2").css("display","inline-block");
-//        		$(".successPhoneChk").text("인증번호를 입력한 뒤 본인인증을 눌러주십시오.");
-//        		$(".successPhoneChk").css("color","green");
-//        		$("#phone1").attr("readonly",true);
-//        		$("#phone2").attr("readonly",true);
-//        		$("#phone3").attr("readonly",true);
-//        		code2 = data;
-//        	}
-//        }
-//    });
-//});
-
-
-//휴대폰 인증번호 대조
-
-//$("#certifyCheck").on("click",function(){
-//	if($("#cert").val() == code2){
-//		alert("인증이 완료 되었습니다.")
-//		$(".successPhoneChk").text("인증번호가 일치합니다.");
-//		$(".successPhoneChk").css("color","green");
-//		$("#phoneDoubleChk").val("true");
-//		$("#cert").attr("disabled",true);
-//	}else{
-//		alert("인증번호가 일치하지 않습니다. \n다시 확인해주시기 바랍니다.")
-//		$(".successPhoneChk").text("인증번호가 일치하지 않습니다. 확인해주시기 바랍니다.");
-//		$(".successPhoneChk").css("color","red");
-//		$("#phoneDoubleChk").val("false");
-//		$("#cert").attr("autofocus",true);
-//	}
-//});
-
-
-//$(function(){
-//	$('#sendMessage').on("click",function(){
-//		var to = $('input[name="phone1"]').val()+"-"+$('input[name="phone2"]').val()+"-"+$('input[name="phone3"]').val();
-//		//이렇게 해도 되는지 존나 의문이다 
-//		$.ajax({
-//			url : "send-one",
-//			type : "POST",
-//			data : {"to": to},
-//			dataType : "json",
-//			success : function(data) {
-//				console.log(data);
-//				const checkNum = data;
-//				alert('checkNum:'+ checkNum);
-				
-	            //인증하기 버튼 클릭 이벤트
-//				$('#certifyCheck').click(function(){
-//					const userNum = $('input[name="memberPhoneCertify"]').val();
-//					if(checkNum == userNum){
-//						alert('인증 성공하였습니다.');
-//					}else {
-//						alert('인증 실패하였습니다. 다시 입력해주세요.');
-//					}
-//				});
-	            
-//			},
-//			error : function() {
-//				alert("에러")
-//			}
-//		});
-//	});
-//})
-
-
-
-
-// 문자인증+타이머 부분
-//function initButton(){
-//  document.getElementById("sendMessage").disabled = true;
-//  document.getElementById("completion").disabled = true;
-//  document.getElementById("certificationNumber").innerHTML = "000000";
-//  document.getElementById("timeLimit").innerHTML = "03:00";
-//  document.getElementById("sendMessage").setAttribute("style","background-color:none;")
-//  document.getElementById("completion").setAttribute("style","background-color:none;")
-//}
-//
-//let processID = -1;
-//
-//const getToken = () => {
-
-  // 인증확인 버튼 활성화
-//  document.getElementById("completion").setAttribute("style","background-color:#F0F0F0;")
-//  document.getElementById("completion").disabled = false;
-//
-//  if (processID != -1) clearInterval(processID);
-//  const token = String(Math.floor(Math.random() * 1000000)).padStart(6, "0");
-//  document.getElementById("certificationNumber").innerText = token;
-//  let time = 180;
-//  processID = setInterval(function () {
-//    if (time < 0 || document.getElementById("sendMessage").disabled) {
-//      clearInterval(processID);
-//      initButton();
-//      return;
-//    }
-//    let mm = String(Math.floor(time / 60)).padStart(2, "0");
-//    let ss = String(time % 60).padStart(2, "0");
-//    let result = mm + ":" + ss;
-//    document.getElementById("timeLimit").innerText = result;
-//    time--;
-//  }, 50);
-//};
-//
-//function checkCompletion(){
-//  alert("문자 인증이 완료되었습니다.")
-//  initButton();
-//  document.getElementById("completion").innerHTML="인증완료"
-//  document.getElementById("signUpButton").disabled = false;
-//  document.getElementById("signUpButton").setAttribute("style","background-color:yellow;")
-//}
 
 
 // 가입부분 체크

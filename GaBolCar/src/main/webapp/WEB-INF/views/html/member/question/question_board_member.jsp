@@ -84,10 +84,10 @@
                 
      <div id="notice_cont">
         <section id="sec_con" class="inr">
-            <h1 class="con_title">1:1 문의 게시판</h1>
+            <h1 class="con_title">1:1 회원 문의 게시판</h1>
             <section id="board_list" class="notice">
                 <section id="buttonArea">
-				<form action="QuestionListForm" method="GET" class="search-form">
+				<form action="QuestionMemberListForm" method="GET" class="search-form">
 				    <select name="searchType" id="searchType">
 				        <option value="subject" <c:if test="${param.searchType eq 'subject' }">selected</c:if>>제목</option>          
 				        <option value="content" <c:if test="${param.searchType eq 'content' }">selected</c:if>>내용</option>          

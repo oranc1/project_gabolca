@@ -158,22 +158,30 @@
 								
 								<div class="mod_box">
 									<a class="list_btn" href="/project_gabolcar/reviewList?pageNum=${param.pageNum}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}">목록</a>
-									<c:if test="${reviewDetail.mem_id == sId }">
-										<a class="modify_btn" href="/project_gabolcar/reviewModify?pageNum=${param.pageNum}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}&rev_idx=${reviewDetail.rev_idx}">수정</a>
-										<a class="modify_delete" href="#" onclick="deleteConfirm()">삭제</a>
-									</c:if>
-									
+										 <c:choose>
+										 		<c:when test="${sId eq null}">  												
+    											</c:when>
+    											<c:when test="${reviewDetail.mem_id eq sId }">
+    												<a class="modify_btn" href="/project_gabolcar/reviewModify?pageNum=${param.pageNum}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}&rev_idx=${reviewDetail.rev_idx}">수정</a>
+													<a class="modify_delete" href="#" onclick="deleteConfirm()">삭제</a>
+    											</c:when>
+    											<c:when test="${sId eq 'admin@admin.com' }">
+  													<a class="modify_delete" href="#" onclick="deleteConfirm()">삭제</a>
+    											</c:when>
+   												 <c:otherwise>
+												 </c:otherwise>
+											</c:choose>
+										</div>
+									</div>
 								</div>
-								
-							</div>
-						</div>
-					</section>
+							</section>
+						</section>
+					</form>
 				</section>
-			</form>
-		</section>
-	</div>
-	<footer>
-		<jsp:include page="../../../inc/footer.jsp"></jsp:include>
-	</footer>
-</body>
-</html>
+			</div>
+		<footer>
+			<jsp:include page="../../../inc/footer.jsp"></jsp:include>
+		</footer>
+	</body>
+	</html>
+							

@@ -43,20 +43,20 @@
 				        <div class="password">
 				        	<p>비밀번호</p>
 				        	<span class="sign_mark">*</span><br>
-				            <input id="mem_passwd" name="mem_passwd" type="password" placeholder="영문,숫자,특수문자 포함 8~20글자 이상."   required="required" autoComplete="off">
+				            <input id="mem_passwd" name="mem_passwd" type="password" placeholder="영문,숫자,특수문자 포함 8~20글자 이상." required="required" autoComplete="off">
 				            <div id="passwordError" class="error"></div>
 				        </div>
 				        <div class="passwordCheck">
 				        	<p>비밀번호 확인</p>
 				        	<span class="sign_mark">*</span><br>
-				            <input id="passwordCheck" oninput='validatePassword()' type="password" placeholder="비밀번호를 다시 입력해 주세요."  required="required" onchange="validatePassword()" autoComplete="off">
+				            <input id="passwordCheck" oninput='passwordConfirm()' type="password" placeholder="비밀번호를 다시 입력해 주세요."  required="required" onchange="validatePassword()" autoComplete="off">
 				            <div id="passwordCheckError" class="error"></div>
 				        </div>
 				        
 				        <div class="name">
 				        	<p>이름</p>
 				        	<span class="sign_mark">*</span><br>
-				            <input id="mem_name"  name="mem_name" type="text" placeholder="이름을 입력해 주세요." required="required">
+				            <input id="mem_name"  name="mem_name" type="text" placeholder="이름을 입력해 주세요." required="required" onchange="validateName()">
 				            <div id="nameError" class="error"></div>
 				        </div>
 				        

@@ -3,6 +3,7 @@ package com.itwillbs.project_gabolcar.controller;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -43,7 +45,7 @@ public class MemberController {
 
 	@Autowired
 	private DriverService driService;
-	
+
 	@Autowired
 	private ResService resService;
 
@@ -52,13 +54,12 @@ public class MemberController {
 	private QuestionService qst_service;
 	@Autowired
 	private BrcService brc_service;
-	
+
 	@Autowired
 	private PaymentService payService;
-	
-	@Autowired
-	private CarService carService;	
 
+	@Autowired
+	private CarService carService;
 
 	// =============== 멤버 페이지, 멤버 정보 관련 ================
 	// 회원 정보 수정
@@ -74,7 +75,7 @@ public class MemberController {
 
 		// 세션 아이디를 사용하여 회원 상세정보 조회 요청
 		MemberVO member = memberService.getMemberInfo(sId);
-//					System.out.println(member);
+//							System.out.println(member);
 		member.setPhone1(member.getMem_mtel().split("-")[0]);
 		member.setPhone2(member.getMem_mtel().split("-")[1]);
 		member.setPhone3(member.getMem_mtel().split("-")[2]);
@@ -154,6 +155,9 @@ public class MemberController {
 		List<ResInfoVO> resinfo;
 		try {
 			resinfo = resService.getResInfo(sId);
+//					List<Integer> resIdxList = resinfo.stream().map(ResInfoVO::getRes_idx).collect(Collectors.toList());
+//					model.addAttribute("resIdxList",resIdxList);
+
 			if (resinfo.isEmpty()) {
 				model.addAttribute("msg", "예약 내역이 없습니다!");
 				return "inc/fail_back";
@@ -163,13 +167,23 @@ public class MemberController {
 			return "inc/fail_back";
 		}
 
-//				System.out.println(resinfo);
-
 		model.addAttribute("resinfo", resinfo);
 
 		MemberVO member = memberService.memName(sId);
 		model.addAttribute("member", member);
 		System.out.println(member);
+
+		List<Integer> resIdxList = resinfo.stream().map(ResInfoVO::getRes_idx).collect(Collectors.toList());
+//				System.out.println("나와줘" +  resIdxList );
+		List<Integer> carIdxList = carService.insertCar(resIdxList);
+		List<CarVO> car = carService.selectCarInfo(carIdxList);
+		model.addAttribute("carIdxList", carIdxList);
+		model.addAttribute("car", car);
+		System.out.println("이거임" + resinfo);
+//				System.out.println("나나나난"+carIdxList);
+//				List<CarVO> car = carService.insertcar(resIdxList);
+//				model.addAttribute("car",car);
+//				System.out.println("차차차" + car);
 
 		return "html/member/mem_page/mem_res_inq";
 	}
@@ -192,16 +206,16 @@ public class MemberController {
 		model.addAttribute("payment", payment);
 
 		DriverVO driver = driService.driverInfo(res_idx);
-//				System.out.println(driver);
+//						System.out.println(driver);
 		model.addAttribute("driver", driver);
 
 		CarVO car = carService.carInfo(res_idx);
-//		System.out.println(car);
+//				System.out.println(car);
 		model.addAttribute("car", car);
 
 		MemberVO member = memberService.memName(sId);
 		model.addAttribute("member", member);
-//		System.out.println(member);
+//				System.out.println(member);
 
 		return "html/member/mem_page/mem_res_detail";
 
@@ -243,34 +257,32 @@ public class MemberController {
 		} else {
 			// 세션 초기화
 			session.invalidate();
-//					session.setAttribute("msg", "회원 탈퇴 성공!");
-//					
+//							session.setAttribute("msg", "회원 탈퇴 성공!");
+//							
 			// 메인페이지로 리다이렉트
 			return "redirect:/";
 		}
 
 	}
-	
+
 	// =============== 로그인 회원가입 관련 ================
 
-	//임시로 OnController 사용중
+	// 임시로 OnController 사용중
 
-	
 	// =============== 공지사항 ================
-	
 
 	// 공지사항 게시판
 	@GetMapping("notice")
 	public String notice() {
 		return "html/member/notice/notice";
 	}
-	
+
 	// 공지사항 글 자세히 보기
 	@GetMapping("notice/detail")
 	public String noticeDetail() {
 		return "html/member/notice/notice_detail";
 	}
-	
+
 	// 공지사항 쓰기
 	@GetMapping("notice/write")
 	public String noticeBoard() {
@@ -279,34 +291,33 @@ public class MemberController {
 
 	// =============== 상담게시판 ================
 	// 사이트 1:1 상담 게시판
-	
+
 	// 1:1 문의 게시판 리스트 클릭
-	@GetMapping("QuestionList")
-	public String quetionListForm(MemberVO member, HttpSession session, Model model) {
-		String sId = (String) session.getAttribute("sId");
-		
-		if (sId == null) {
-			model.addAttribute("msg", "로그인이 필요합니다!");
-			return "inc/fail_back";
-		}
-		return "redirect:/QuestionListForm";
-	}
-	
-	
+//	@GetMapping("QuestionList")
+//	public String quetionListForm(MemberVO member, HttpSession session, Model model) {
+//		String sId = (String) session.getAttribute("sId");
+//		
+//		if (sId == null) {
+//			model.addAttribute("msg", "로그인이 필요합니다!");
+//			return "inc/fail_back";
+//		}
+//		return "redirect:/QuestionListForm";
+//	}
+
 	@GetMapping("QuestionWriteForm")
 	public String quetionWriteForm(HttpSession session, Model model) {
-		
+
 		String sId = (String) session.getAttribute("sId");
-		
+
 		if (sId == null) {
 			model.addAttribute("msg", "로그인이 필요합니다!");
 			return "inc/fail_back";
 		}
-		
-		  MemberVO member = memberService.getMemberInfo(sId);
-		  model.addAttribute("member", member);
-		  
-	    // 매개 변수 가져 오기
+
+		MemberVO member = memberService.getMemberInfo(sId);
+		model.addAttribute("member", member);
+
+		// 매개 변수 가져 오기
 //	      int mem_idx = (int)session.getAttribute("mem_idx");
 //	      // 서비스에서 이름 가져 오기
 //	      String mem_name = memberService.getMemNameByIdx(mem_idx);
@@ -315,255 +326,245 @@ public class MemberController {
 //	      model.addAttribute("mem_name", mem_name);
 //	      System.out.println("mem_name " + mem_name);
 //	      System.out.println("mem_name " + mem_name);
-	      
-	      
-	      return "html/member/question/question_write_form";
-		
+
+		return "html/member/question/question_write_form";
+
 	}
-	
-	
-	
+
 	// 1:1 상담 게시판 작성
 	@PostMapping("QuestionWritePro")
-	public String quetionWritePro(@RequestParam String mem_name, QuestionVO question, HttpSession session, Model model) {
-		  // 로그인한 사용자의 mem_idx를 가져오기
-	    int mem_idx = memberService.getCurrentUserMemIdx(mem_name);
+	public String quetionWritePro(@RequestParam String mem_name, QuestionVO question, HttpSession session,
+			Model model) {
+		// 로그인한 사용자의 mem_idx를 가져오기
+		int mem_idx = memberService.getCurrentUserMemIdx(mem_name);
 
-	    // 가져온 mem_idx를 QuestionVO의 mem_idx에 설정
-	    question.setMem_idx(mem_idx);
-		
+		// 가져온 mem_idx를 QuestionVO의 mem_idx에 설정
+		question.setMem_idx(mem_idx);
+
 		int insertCount = qst_service.questionBoard(question);
-		
-		if(insertCount > 0) {
+
+		if (insertCount > 0) {
 			System.out.println("QuestionWrite 성공");
-			return "redirect:/QuestionList";
+			return "redirect:/QuestionListForm";
 		} else {
 			model.addAttribute("msg", "1:1 문의 쓰기 실패!");
 			return "inc/fail_back";
 		}
 	}
-	
-	// 1:1 상담 게시판 리스트
+
 	@GetMapping("QuestionListForm")
-	public String questionBoard(
-			@RequestParam(name = "searchType", defaultValue = "") String searchType, 
-			@RequestParam(name = "searchKeyword", defaultValue = "") String searchKeyword, 
-			@RequestParam(defaultValue = "1") int pageNum, 
-			Model model) {
-		
-	
-		System.out.println("검색타입 : " + searchType);
-		System.out.println("검색어 : " + searchKeyword);
-		
-		int listLimit = 6; // 한 페이지에서 표시할 목록 갯수 지정
-		int startRow = (pageNum - 1) * listLimit; // 조회 시작 행(레코드) 번호
-		
-		List<QuestionVO> qstBoardList = qst_service.getQstBoardList(searchType, searchKeyword, startRow, listLimit);
-		System.out.println("QuestionListForm : " + qstBoardList);
-		
+	public String questionBoard(MemberVO member,
+			@RequestParam(name = "searchType", defaultValue = "") String searchType,
+			@RequestParam(name = "searchKeyword", defaultValue = "") String searchKeyword,
+			@RequestParam(defaultValue = "1") int pageNum, HttpSession session, Model model) {
+
+		MemberVO loggedInUser = (MemberVO) session.getAttribute("loggedInUser");
+
+		if (loggedInUser == null) {
+			model.addAttribute("msg", "로그인 다시 해주세요");
+			return "inc/fail_back"; // 로그인 페이지로 리다이렉트
+		}
+
+		int mem_idx = loggedInUser.getMem_idx();
+		System.out.println("mem_idx 게시판 : " + mem_idx);
+		int listLimit = 6;
+		int startRow = (pageNum - 1) * listLimit;
+
+//	    List<QuestionVO> qstBoardList = qst_service.getQstBoardListForMember(searchType, searchKeyword, startRow, listLimit, mem_idx);
+		List<QuestionVO> qstBoardList;
+
+		if (mem_idx == 1) {
+			// 관리자인 경우: 모든 게시글 가져오기
+			qstBoardList = qst_service.getQstBoardList(searchType, searchKeyword, startRow, listLimit);
+		} else {
+			// 일반 사용자인 경우: 자신이 작성한 글과 관리자가 작성한 답변 글만 가져오기
+			qstBoardList = qst_service.getQstBoardListForMember(searchType, searchKeyword, startRow, listLimit,
+					mem_idx);
+		}
+
 		int listCount = qst_service.getQstBoardListCount(searchType, searchKeyword);
-		
+
 		int pageListLimit = 2;
-		
-		int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0);		
-		
+		int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0);
 		int startPage = (pageNum - 1) / pageListLimit * pageListLimit + 1;
-		
 		int endPage = startPage + pageListLimit - 1;
-		
-		if(endPage > maxPage) {
+
+		if (endPage > maxPage) {
 			endPage = maxPage;
 		}
-		
-		QstPageInfoVO PageInfo = new QstPageInfoVO(listCount, pageListLimit, maxPage, startPage, endPage);
-		
+
+		QstPageInfoVO pageInfo = new QstPageInfoVO(listCount, pageListLimit, maxPage, startPage, endPage);
+
 		model.addAttribute("qstBoardList", qstBoardList);
-		model.addAttribute("pageInfo", PageInfo);
-		
-//		System.out.println(" qstBoardList : " + qstBoardList);
-//		System.out.println(" pageInfo : " + PageInfo);
-		return "html/member/question/question_board";
+		model.addAttribute("pageInfo", pageInfo);
+
+		// mem_idx = 1(관리자) 면 question_board (관리자 뷰페이지) 아닐경우(회원)
+		// question_board_member(회원 뷰페이지) 로 이동
+		return loggedInUser.getMem_idx() == 1 ? "html/member/question/question_board"
+				: "html/member/question/question_board_member";
 	}
-	
-	
+
 	// "QuestionDetail" 서블릿 요청에 대한 글 상세정보 조회 요청
 	@GetMapping("QuestionDetail")
 	public String detail(@RequestParam int qst_idx, Model model, HttpSession session) {
-		
+
 		String sId = (String) session.getAttribute("sId");
-		
+
 		if (sId == null) {
 			model.addAttribute("msg", "로그인이 필요합니다!");
 			return "inc/fail_back";
 		}
-		
-		 //  작성자가 맞는 지 확인
-		if(!sId.equals("admin@naver.com")) {
-			
+
+//		   작성자가 맞는 지 확인
+		if (!sId.equals("admin@admin.com")) {
+
 			boolean isBoardWriter = qst_service.isBoardWriter(qst_idx, sId);
-		    
+
 			if (!isBoardWriter) {
 				model.addAttribute("msg", "권한이 없습니다!");
 				return "inc/fail_back";
 			}
 		}
-		// 글 작성자 정보 	
+
+		// 글 작성자 정보
 		QuestionVO question = qst_service.getQuestionBoard(qst_idx);
 		// 로그인한 회원 정보
 		MemberVO member = memberService.getMemberInfo(sId);
 		model.addAttribute("member", member);
 		// 상세정보 조회 결과 저장
 		model.addAttribute("question", question);
-		
+
 		return "html/member/question/question_detail";
 	}
-	
+
 	// "QuestionDelete" 서블릿 요청에 대한 글 삭제 요청
 	@GetMapping("QuestionDelete")
-	public String qstDelet(
-			@RequestParam int qst_idx,
-			@RequestParam(defaultValue = "1") int pageNum,
-			HttpSession session, 
-			Model model) {
-		
-		String sId = (String)session.getAttribute("sId");
-		if(sId == null) {
+	public String qstDelet(@RequestParam int qst_idx, @RequestParam(defaultValue = "1") int pageNum,
+			HttpSession session, Model model) {
+
+		String sId = (String) session.getAttribute("sId");
+		if (sId == null) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
 			return "inc/fail_back";
 		}
-		
-		 //  작성자가 맞는 지 확인
-		if(!sId.equals("admin@naver.com")) {
-			
+
+		// 작성자가 맞는 지 확인
+		if (!sId.equals("admin@admin.com")) {
+
 			boolean isBoardWriter = qst_service.isBoardWriter(qst_idx, sId);
-		    
+
 			if (!isBoardWriter) {
 				model.addAttribute("msg", "권한이 없습니다!");
 				return "inc/fail_back";
 			}
 		}
-		
+
 		int deleteCount = qst_service.removeBoard(qst_idx);
-	
-		if(deleteCount == 0) {
+
+		if (deleteCount == 0) {
 			model.addAttribute("msg", "삭제 실패!");
 			return "inc/fail_back";
 		}
-	
-		return "redirect:/QuestionList?pageNum=" + pageNum;
+
+		return "redirect:/QuestionListForm?pageNum=" + pageNum;
 	}
 
 	// 1:1 문의 게시판 답변 폼
 	@GetMapping("QuestionReplyForm")
-	public String qstReplyForm(
-			@RequestParam int qst_idx, 
-			@RequestParam(defaultValue = "1") int pageNum, 
+	public String qstReplyForm(@RequestParam int qst_idx, @RequestParam(defaultValue = "1") int pageNum,
 			HttpSession session, Model model) {
-		
-		String sId = (String)session.getAttribute("sId");
-		if(sId == null) {
+
+		String sId = (String) session.getAttribute("sId");
+		if (sId == null) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
 			return "inc/fail_back";
 		}
 		// 현재 로그인한 회원 (관리자)
 		MemberVO member = memberService.getMemberInfo(sId);
 		model.addAttribute("member", member);
-		
+
 		QuestionVO question = qst_service.getQuestionBoard(qst_idx);
 		model.addAttribute("question", question);
 
 		return "html/member/question/question_reply_form";
 	}
-	
-	
+
 	// 문의 게시판 답변 기능
 	@PostMapping("QuestionReplyPro")
-	public String qstReplyPro(
-			@RequestParam int qst_idx,
-			@RequestParam String mem_name,
-			QuestionVO question, 
+	public String qstReplyPro(@RequestParam int qst_idx, @RequestParam String mem_name, QuestionVO question,
 			HttpSession session, Model model, HttpServletRequest request) {
-		
-		String sId = (String)session.getAttribute("sId");
-		
-		if(sId == null) {
+
+		String sId = (String) session.getAttribute("sId");
+
+		if (sId == null) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
 			return "inc/fail_back";
 		}
-		// 로그인한 회원 이름 
+		// 로그인한 회원 이름
 		int mem_idx = memberService.getCurrentUserMemIdx(mem_name);
 		question.setMem_idx(mem_idx);
-		
-		//	답글을 달 qst_board_re_ref 값을 추출
-	    int qst_board_re_ref = qst_service.getCurrentQstBoardReRef(qst_idx);
-	    question.setQst_board_re_ref(qst_board_re_ref);
-	    System.out.println("qst_board_re_ref : " + qst_board_re_ref);
-		
+
+		// 답글을 달 qst_board_re_ref 값을 추출
+		int qst_board_re_ref = qst_service.getCurrentQstBoardReRef(qst_idx);
+		question.setQst_board_re_ref(qst_board_re_ref);
+		System.out.println("qst_board_re_ref : " + qst_board_re_ref);
+
 		// 답변 글쓰기
 		int insertCount = qst_service.registReplyQstBoard(question);
-		
-		if(insertCount > 0) {
+
+		if (insertCount > 0) {
 			System.out.println("답변 성공");
-			return "redirect:/QuestionList";
+			return "redirect:/QuestionListForm";
 		} else {
 			model.addAttribute("msg", "답변 실패!");
 			return "inc/fail_back";
 		}
-		
+
 	}
-	
+
 	// 문의 게시판 수정 폼
 	@GetMapping("QuestionModifyForm")
-	public String qstModiyForm(
-			@RequestParam int qst_idx, 
-			@RequestParam(defaultValue = "1") int pageNum, 
+	public String qstModiyForm(@RequestParam int qst_idx, @RequestParam(defaultValue = "1") int pageNum,
 			HttpSession session, Model model) {
-		
-		
-		String sId = (String)session.getAttribute("sId");
-		if(sId == null) {
+
+		String sId = (String) session.getAttribute("sId");
+		if (sId == null) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
 			return "inc/fail_back";
 		}
-		
+
 		QuestionVO question = qst_service.getQuestionBoard(qst_idx);
-		
+
 		model.addAttribute("question", question);
-		
-		
+
 		return "html/member/question/question_modify";
 	}
-	
+
 	// 문의 게시판 수정 기능
 	@PostMapping("QuestionModifyPro")
-	public String qstModiyPro(
-	        @RequestParam String mem_name,
-	        @RequestParam int qst_idx,
-	        QuestionVO question,
-	        @RequestParam(defaultValue = "1") int pageNum,
-	        HttpSession session, 
-	        Model model) {
-	    int mem_idx = memberService.getCurrentUserMemIdx(mem_name);
-	    question.setMem_idx(mem_idx);
-	    question.setQst_idx(qst_idx);
+	public String qstModiyPro(@RequestParam String mem_name, @RequestParam int qst_idx, QuestionVO question,
+			@RequestParam(defaultValue = "1") int pageNum, HttpSession session, Model model) {
+		int mem_idx = memberService.getCurrentUserMemIdx(mem_name);
+		question.setMem_idx(mem_idx);
+		question.setQst_idx(qst_idx);
 
-	    int updateCount = qst_service.qstModifyBoard(question);
-	    
-	    if(updateCount > 0) {
-	        System.out.println("수정 성공");
-	        return "redirect:/QuestionList?qst_idx=" + question.getQst_idx() + "&pageNum=" + pageNum;
-	    } else {
-	        model.addAttribute("msg", "수정 실패!");
-	        return "inc/fail_back";
-	    }
+		int updateCount = qst_service.qstModifyBoard(question);
+
+		if (updateCount > 0) {
+			System.out.println("수정 성공");
+			return "redirect:/QuestionListForm?qst_idx=" + question.getQst_idx() + "&pageNum=" + pageNum;
+		} else {
+			model.addAttribute("msg", "수정 실패!");
+			return "inc/fail_back";
+		}
 	}
-	
-	//============= etc ==============
+
+	// ============= etc ==============
 	// 찾아 오는 길
 	@GetMapping("branchLocation")
 	public ModelAndView branchLocation() {
 		List<Map<String, Object>> brcList = brc_service.brcList();
-		return new ModelAndView("html/member/etc/branch_location","brcList",brcList);
+		return new ModelAndView("html/member/etc/branch_location", "brcList", brcList);
 	}
 
 	// 사이트 이용 안내
@@ -571,14 +572,11 @@ public class MemberController {
 	public String siteHowTo() {
 		return "html/member/etc/site_guide";
 	}
-	
+
 	// 사이트 자주묻는 질문 (FAQ)
 	@GetMapping("siteFAQ")
 	public String siteFAQ() {
 		return "html/member/etc/site_faq";
 	}
-	
-	
-
 
 }

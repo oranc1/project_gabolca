@@ -84,9 +84,10 @@ public class CarService {
 		return mapper.selectDriver(res_idx);
 	}
 	
+	
 	// 차량 수정 차 파일 삭제
-	public int removeBoardFile(int car_idx) {
-		return mapper.deletCarFile(car_idx);
+	public int removeBoardFile(CarVO car) {
+		 return mapper.deleteCarFile(car);
 	}
 	
 	
@@ -156,6 +157,22 @@ public class CarService {
 	public List<Map<String, Object>> carList() {
 		return mapper.selectUpdateCar();
 	}
+
+	public List<Integer> insertCar(List<Integer> collect) {
+		
+		return mapper.selectCarInfo(collect);
+	}
+
+	public List<CarVO> selectCarInfo(List<Integer> carIdxList) {
+		
+		return mapper.selectCarIdx(carIdxList);
+	}
+
+
+
+
+
+
 	
 
 

@@ -124,6 +124,11 @@ public class MemberService{
 			
 			return mapper.selectMemList(pageInfo,map);
 		}
+		
+		// 로그인된 회원 아이디 조회
+		public MemberVO getMemberInfoById(String mem_id) {
+			return mapper.getMemberInfoById(mem_id);
+		}
 
 
 
