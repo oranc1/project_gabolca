@@ -126,8 +126,9 @@
 											<c:when test="${today ge targetDate}">
 												<button type="button"
 													onclick="location.href='resDetail?res_idx=${resinfo.res_idx}'">예약상세조회</button>
-												<button class="ret_rev"
-													onclick="location.href='reviewWriteForm'">리뷰 작성</button>
+												<button type="button" class="ret_rev"
+													onclick="location.href='reviewWriteForm?res_idx=${resinfo.res_idx}'">리뷰 작성</button>
+											
 											</c:when>
 											<c:otherwise>
 												<button type="button"

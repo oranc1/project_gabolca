@@ -83,7 +83,7 @@
 						contentType:"application/json; charset=utf-8",
 						success: function(result){
 							alert("결제금액 환불완료");
-							location.href="MemberRes?res_idx=${resPayInfo.res_idx}";
+							location.href="MemberRes";
 						},
 						error: function(result){
 							alert("환불 불가 : "+result.responseText);
