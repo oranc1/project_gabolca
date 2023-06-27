@@ -159,6 +159,8 @@
 								<div class="mod_box">
 									<a class="list_btn" href="/project_gabolcar/reviewList?pageNum=${param.pageNum}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}">목록</a>
 										 <c:choose>
+										 		<c:when test="${sId eq null}">  												
+    											</c:when>
     											<c:when test="${reviewDetail.mem_id eq sId }">
     												<a class="modify_btn" href="/project_gabolcar/reviewModify?pageNum=${param.pageNum}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}&rev_idx=${reviewDetail.rev_idx}">수정</a>
 													<a class="modify_delete" href="#" onclick="deleteConfirm()">삭제</a>

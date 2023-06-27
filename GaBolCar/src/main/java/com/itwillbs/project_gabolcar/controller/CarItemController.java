@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -666,13 +667,6 @@ public class CarItemController {
 	//차량 소개
 	@GetMapping("carInfoList")
 	public String carInfo(Model model) {
-	    List<Map<String, Object>> carInfoList = carItemService.carInfoList();
-	    for (Map<String, Object> carInfo : carInfoList) {
-	        int carIdx = (int) carInfo.get("car_idx");
-	        List<Map<String, Object>> carOptionList = carItemService.carOptionListInfo(carIdx);
-	        carInfo.put("options", carOptionList);
-	    }
-	    model.addAttribute("carInfoList", carInfoList);
 	    return "html/car_item/car_info_list";
 	}
 	
@@ -1239,5 +1233,55 @@ public class CarItemController {
 		return result;
 	}
 	
-
+	// 차량리스트 조회
+    @ResponseBody
+    @RequestMapping(value= "carInfoList.ajax", method = RequestMethod.GET, produces = "application/text; charset=UTF-8")
+    public String carInfoListAjax(
+    		@RequestParam Map<String, Object> map
+    		,@RequestParam(value="car_type[]", required = false) String[] car_type
+    		,@RequestParam(value="car_fuel[]", required = false) String[] car_fuel ) {
+    	// 차종, 연료 맵 추가
+    	map.put("car_type",car_type);
+    	map.put("car_fuel",car_fuel);
+    	
+    	// 출력할 데이터 정의
+		int pageNum = Integer.parseInt(String.valueOf(map.get("pageNum")));
+		int listLimit = 4;
+		int startRow = (pageNum -1) * listLimit;
+		
+		// 출력할 데이터 가져오기
+		map.put("startRow", startRow);
+		map.put("listLimit", listLimit);
+		List<Map<String, Object>> carList = carItemService.carInfoList(map);
+		
+		// 출력할 데이터 사이즈
+		map.remove("startRow");
+		map.remove("listLimit");
+		int listCount = carItemService.carInfoList(map).size();
+		
+		//한 페이지에서 표시할 페이지 목록 갯수 설정
+		int pageListLimit = 4;
+		// 3. 전체 페이지 목록 수 계산
+		int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0);
+		// 4. 시작 페이지 번호 계산
+		int startPage = (pageNum - 1) / pageListLimit * pageListLimit + 1;
+		// 5. 끝 페이지 번호 계산
+		int endPage = startPage + pageListLimit - 1;
+		if(endPage > maxPage) {
+			endPage = maxPage;
+		}
+		
+		Map<String, Object> pageInfo = new HashMap<String, Object>();
+		pageInfo.put("listCount", listCount);
+		pageInfo.put("pageListLimit", pageListLimit);
+		pageInfo.put("maxPage", maxPage);
+		pageInfo.put("startPage", startPage);
+		pageInfo.put("endPage", endPage);
+		pageInfo.put("pageNum", pageNum);
+		
+		carList.add(pageInfo);
+		
+		JSONArray jsonArray = new JSONArray(carList);
+    	return jsonArray.toString();
+    }
 }
