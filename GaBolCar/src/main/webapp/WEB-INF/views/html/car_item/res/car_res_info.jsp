@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>  
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>   
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>  
-
+<%--최신본인증--%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,31 +22,30 @@
 		<section id="sec_con" class="inr car_view">
 		<div class="upperContainner">
 			<div class="slide_wrap">
-
-<div class="slide_container">
+				<div class="slide_container">
 					<div class="mySlides">
 						<div class="numbertext">1&nbsp;&nbsp;/&nbsp;&nbsp;5</div>
-						<img src="${pageContext.request.contextPath}/resources/upload/car/${car.car_file_path}/${car.car_file2}">
+						<img src="${pageContext.request.contextPath}/resources/upload/car/${map.car_info.car_file_path}/${map.car_info.car_file2}">
 					</div>
 
 					<div class="mySlides">
 						<div class="numbertext">2&nbsp;&nbsp;/&nbsp;&nbsp;5</div>
-						<img src="${pageContext.request.contextPath}/resources/upload/car/${car.car_file_path}/${car.car_file3}">
+						<img src="${pageContext.request.contextPath}/resources/upload/car/${map.car_info.car_file_path}/${map.car_info.car_file3}">
 					</div>
 
 					<div class="mySlides">
 						<div class="numbertext">3&nbsp;&nbsp;/&nbsp;&nbsp;5</div>
-						<img src="${pageContext.request.contextPath}/resources/upload/car/${car.car_file_path}/${car.car_file4}">
+						<img src="${pageContext.request.contextPath}/resources/upload/car/${map.car_info.car_file_path}/${map.car_info.car_file4}">
 					</div>
 
 					<div class="mySlides">
 						<div class="numbertext">4&nbsp;&nbsp;/&nbsp;&nbsp;5</div>
-						<img src="${pageContext.request.contextPath}/resources/upload/car/${car.car_file_path}/${car.car_file5}">
+						<img src="${pageContext.request.contextPath}/resources/upload/car/${map.car_info.car_file_path}/${map.car_info.car_file5}">
 					</div>
 
 					<div class="mySlides">
 						<div class="numbertext">5&nbsp;&nbsp;/&nbsp;&nbsp;5</div>
-						<img src="${pageContext.request.contextPath}/resources/upload/car/${car.car_file_path}/${car.car_file6}">
+						<img src="${pageContext.request.contextPath}/resources/upload/car/${map.car_info.car_file_path}/${map.car_info.car_file6}">
 					</div>
 
 					<a class="prev" onclick="plusSlides(-1)">❮</a> <a class="next"
@@ -55,23 +54,23 @@
 
 				<div class="row">
 					<div class="column">
-						<img class="demo cursor" src="${pageContext.request.contextPath}/resources/upload/car/${car.car_file_path}/${car.car_file2}"
+						<img class="demo cursor" src="${pageContext.request.contextPath}/resources/upload/car/${map.car_info.car_file_path}/${map.car_info.car_file2}">
 							onclick="currentSlide(1)">
 					</div>
 					<div class="column">
-						<img class="demo cursor" src="${pageContext.request.contextPath}/resources/upload/car/${car.car_file_path}/${car.car_file3}"
+						<img class="demo cursor" src="${pageContext.request.contextPath}/resources/upload/car/${map.car_info.car_file_path}/${map.car_info.car_file3}">
 							onclick="currentSlide(2)">
 					</div>
 					<div class="column">
-						<img class="demo cursor" src="${pageContext.request.contextPath}/resources/upload/car/${car.car_file_path}/${car.car_file4}"
+						<img class="demo cursor" src="${pageContext.request.contextPath}/resources/upload/car/${map.car_info.car_file_path}/${map.car_info.car_file4}">
 							onclick="currentSlide(3)">
 					</div>
 					<div class="column">
-						<img class="demo cursor" src="${pageContext.request.contextPath}/resources/upload/car/${car.car_file_path}/${car.car_file5}"
+						<img class="demo cursor" src="${pageContext.request.contextPath}/resources/upload/car/${map.car_info.car_file_path}/${map.car_info.car_file5}"
 							onclick="currentSlide(4)">
 					</div>
 					<div class="column">
-						<img class="demo cursor" src="${pageContext.request.contextPath}/resources/upload/car/${car.car_file_path}/${car.car_file6}"
+						<img class="demo cursor" src="${pageContext.request.contextPath}/resources/upload/car/${map.car_info.car_file_path}/${map.car_info.car_file6}"
 							onclick="currentSlide(5)">
 					</div>
 				</div>
@@ -227,7 +226,7 @@
 				<div class="opt_list">
 					<c:forEach var="car_option" items="${map.car_option}">
 					<div>
-						<img alt="" src="${pageContext.request.contextPath }/resources/img/car_img_storage/car_option/${car_option.option_image_url}"/>
+						<img alt="" src="${pageContext.request.contextPath }/resources/upload/car_options/${car_option.option_image_url}"/>
 						<p>${car_option.option_name}</p>
 					</div>
 					</c:forEach>
