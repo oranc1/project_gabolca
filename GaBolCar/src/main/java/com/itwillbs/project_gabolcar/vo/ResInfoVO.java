@@ -21,4 +21,5 @@ public class ResInfoVO {
 	private String lic_num4;//면허증 번호
 	private int mem_idx;//회원 번호
 	private String pay_status;
+	
 }

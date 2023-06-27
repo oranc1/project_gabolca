@@ -76,7 +76,9 @@
 						data:JSON.stringify({
 							merchant_uid: ${resPayInfo.merchant_uid},
 							amount: ${resPayInfo.pay_total},
-							reason: reason
+							reason: reason,
+							res_idx: ${resPayInfo.res_idx}
+							
 						}),
 						contentType:"application/json; charset=utf-8",
 						success: function(result){

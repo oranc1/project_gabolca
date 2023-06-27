@@ -33,8 +33,7 @@
 			<div class="res-detail-cont">
 				<article class="res_detail_article1">
 					<div>
-						<img alt=""
-							src="${pageContext.request.contextPath }/resources/img/car_img_storage/test_img/casper.jpg">
+							<img src="${pageContext.request.contextPath}/resources/upload/car/${car.car_file_path}/${car.car_file1}" alt="${car.car_model}" />
 						<c:set var="today" value="<%=new java.util.Date()%>" />
 						<c:set var="targetDate" value="${resinfo.res_return_date}" />
 						<c:choose>

@@ -81,6 +81,7 @@
 					, r.brc_rent_name
 					, r.brc_return_name
 					, p.pay_status
+					, r.car_idx
 					FROM res_info r join pay_info p
 					on r.res_idx = p.res_idx)
 					AS n1
