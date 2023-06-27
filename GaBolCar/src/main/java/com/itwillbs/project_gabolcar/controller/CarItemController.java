@@ -883,7 +883,7 @@ public class CarItemController {
 			}
 			
 			// 예약번호로 차량 정보 가져오기 
-			map = carItemService.selectResNCarInfo(sId,resIdx);
+			map = carItemService.selectResNCarInfo(null,resIdx);
 			if(map == null) {
 				model.addAttribute("msg", "권한이 없거나 예약 정보를 가져오는중에 문제가 발생되었습니다!");
 				return "html/car_item/review/fail_back";
@@ -899,7 +899,7 @@ public class CarItemController {
 		public String reviewWritePro(HttpSession session,@RequestParam Map<String,Object> map ,  ReviewVO review, Model model ,HttpServletRequest request) {
 			String sId = (String)session.getAttribute("sId");
 			
-			//글쓰기 제어 : admin이 아닐 때 예약이 있을 때
+			// 글쓰기 제어 : admin이 아닐 때 예약이 있을 때
 			if(sId == null || sId.length() == 0)
 			{
 				model.addAttribute("msg", "로그인해 주십시오."); // 로그인 안했을 때

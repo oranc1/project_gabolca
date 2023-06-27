@@ -21,16 +21,11 @@
     </header>
     <div id="notice_cont">
         <section id="sec_con" class="inr">
-            <h1 class="con_title">1:1 문의 게시판</h1>
+            <h1 class="con_title">관리자 페이지</h1>
             <div class="main-content">
             <jsp:include page="../../../inc/adm_sidebar.jsp" />
             <div class="board_container">
-            <form action="QuestionReplyPro" name="QuestionReplyFormPro" method="post" >
-            <input type="hidden" name="qst_idx" value="${param.qst_idx }">
-			<input type="hidden" name="pageNum" value="${param.pageNum }">
-			<input type="hidden" name="board_re_ref" value="${board.qst_board_re_ref }">
-			<input type="hidden" name="board_re_lev" value="${board.qst_board_re_lev }">
-			<input type="hidden" name="board_re_seq" value="${board.qst_board_re_seq }">
+            <form action="QuestionWritePro" name="QuestionWritePro" method="post" >
                 <section id="board_wrap">
                     <section id="board_list" class="notice">
                         <div class="wrapper">
@@ -39,15 +34,15 @@
                                     <li>
                                         <div class="category"><label for="qst_type">분류</label>  
                                             <select name="qst_type" id="qst_type" required="required">
-                                                <option value="예약" <c:if test="${queston.qst_type eq '예약' }">selected</c:if>>예약</option>
-                                                <option value="예약 취소" <c:if test="${queston.qst_type eq '예약 취소' }">selected</c:if>>예약 취소</option>
-                                                <option value="환불" <c:if test="${queston.qst_type eq '환불' }">selected</c:if>>환불</option>
-                                                <option value="기타" <c:if test="${queston.qst_type eq '기타' }">selected</c:if>>기타</option>
+                                                <option value="" selected>선택하세요</option>
+                                                <option value="예약">예약</option>
+                                                <option value="예약 취소">예약 취소</option>
+                                                <option value="환불">환불</option>
+                                                <option value="기타">기타</option>
                                             </select>
                                         </div>
 										<div class="writer">
-<%-- 										    <input type="text" name="mem_name" id="mem_name" class="inputBox" value="${member.mem_name}" readonly > --%>
-										    <input type="text" name="mem_name" id="mem_name" class="inputBox" value="${question.mem_name}" readonly >
+										    <input type="text" name="mem_name" id="mem_name" class="inputBox" value="${member.mem_name}" readonly >
 										</div>
                                     </li>
                                     <li>
@@ -55,19 +50,20 @@
 <!--                                             <input type="password" name="qst_pass" id="qst_pass" placeholder="비밀번호를 입력해주세요" class="inputBox"> -->
 <!--                                         </div> -->
                                         <div class="title">
-                                            <input type="text" name="qst_subject" id="qst_subject" placeholder="제목을 입력해주세요" value="Re: ${question.qst_subject}" class="inputBox">
+                                            <input type="text" name="qst_subject" id="qst_subject" placeholder="제목을 입력해주세요" class="inputBox">
                                         </div>
                                     </li>
                                 </ul>
                                 <div class="write_cont">
                                     <p>
-                                        <textarea name="qst_content" id="qst_content" rows="" cols="" class="inputBox" placeholder="내용을 입력해주세요">${question.qst_content}</textarea>
+                                        <textarea name="qst_content" id="qst_content" rows="" cols="" class="inputBox" placeholder="내용을 입력해주세요"></textarea>
                                     </p>
                                 </div>
                                 <div class="mod_box">
-                                    <input type="submit" class="delete_btn" value="답글등록">&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <input type="reset" class="delete_btn" value="다시쓰기">&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <input type="button" value="취소" onclick="history.back()">
+									<a href="QuestionListForm?qst_idx=${question.qst_idx}&pageNum=${pageNum}">
+									    <input type="button" class="delete_btn" value="목록">
+									</a>                                    
+									<input type="submit" class="delete_btn" value="등록">
                                 </div>
                             </div>
                         </div>
