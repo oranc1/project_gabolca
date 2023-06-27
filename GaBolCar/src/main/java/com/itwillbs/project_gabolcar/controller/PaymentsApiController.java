@@ -57,18 +57,18 @@ public class PaymentsApiController {
 	// 결제 환불
 	@PostMapping("cancelPayments")
 	@ResponseBody
-	public ResponseEntity<?> cancelPayments(@RequestBody Map<String, String> map, PaymentVO payment) throws Exception {
+	public ResponseEntity<?> cancelPayments(@RequestBody Map<String, String> map) throws Exception {
 		
-		System.out.println("취소 맵" + map);
-		System.out.println("payment" + payment);
+		System.out.println("취소 정보" + map);
 		
 		HashMap<String, String> response = new HashMap<>();
         // 캔슬 데이터
-		CancelData cancelData = new CancelData(map.get("merchant_uid"),true);
+		CancelData cancelData = new CancelData(map.get("merchant_uid"), false);
         // 캔슬
 		iamportClientApi.cancelPaymentByImpUid(cancelData);
         // DB 처리(res_cancel insert, pay_info update)
 		response.put("response","success");
+		System.out.println("response" + response);
         return ResponseEntity.ok(response);
 	}
 	

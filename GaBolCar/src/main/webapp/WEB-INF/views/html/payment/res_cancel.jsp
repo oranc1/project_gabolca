@@ -15,15 +15,8 @@
 <%-- 	<script src="${pageContext.request.contextPath }/resources/js/inc/jquery-3.7.0.js"></script> --%>
 	<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
 	<script type="text/javascript">
-    	function removeRes() {
-        	var text = document.getElementsByName("cancel_reason")[0].value;
-        	if (text == null || text.trim() == '') { 
-           	alert("환불 사유를 작성하여주세요!");
-            return false;
-       	}
-        return true;
-    }
-	
+       		
+    </script>
 	
 </head>
 <body>
@@ -70,8 +63,13 @@
 		  	
 		  	<script>
 				function cancelPayments() {
-					alert('cancelPayments');
+					
 					var reason = document.querySelector('.cancel_reason').value;
+		        	if (reason == null || reason.trim() == '') { 
+		           		alert("환불 사유를 작성하여주세요!");
+		            	return false;
+		      		}
+		        	
 					$.ajax({
 						url:"cancelPayments",
 						type: "POST",
@@ -83,7 +81,7 @@
 						contentType:"application/json; charset=utf-8",
 						success: function(result){
 							alert("결제금액 환불완료");
-							//결제 취소화면으로 이동해주기.
+							location.href="MemberRes";
 						},
 						error: function(result){
 							alert("환불 불가 : "+result.responseText);
