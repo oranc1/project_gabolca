@@ -65,9 +65,6 @@
 
 								<div class="write_file">
 									<!-- <input type="file" name="rev_real_image"> -->
-									
-									
-									
 									<input type="file" name="file1" /><br>
 									<input type="file" name="file2" /><br>
 									<input type="file" name="file3" /><br>
