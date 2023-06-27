@@ -49,9 +49,9 @@ public class SendUtil {
 	
 	public static SingleMessageSentResponse sendMsg(String phone,String msg) {
 		final DefaultMessageService messageService;
-		messageService = NurigoApp.INSTANCE.initialize("NCSVZ0RSEVVVJEQH", "1MNJD6QGWRQZNQ8QVXLSAUBOD4J93S8C", "https://api.coolsms.co.kr");
+		messageService = NurigoApp.INSTANCE.initialize("NCSIPQ8LA7BOMO1L", "ZBWVOWHZ6KXBHSNAPNBUUU2A2OTYZLC9", "https://api.coolsms.co.kr");
 		Message message = new Message();
-		message.setFrom("010-7930-5224");
+		message.setFrom("010-4786-7738");
         message.setTo(phone);
         message.setText(msg);
         System.out.println("여긴???");
