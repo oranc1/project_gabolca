@@ -28,7 +28,7 @@
 								<ul class="list">
 									<li>
 										<div class="subject">
-											<input type="text" name="rev_subject" placeholder="제목을 입력해주세요" class="inputBox">
+											<input type="text" name="rev_subject" placeholder="제목을 입력해주세요" class="inputBox" required="required">
 										</div>
 									</li>
 
@@ -59,7 +59,7 @@
 <!-- 									<img src="../img/casper.jpg" alt=""> -->
 									<!-- 작성글 출력! -->
 									<p>
-										<textarea rows="" cols="" class="inputBox" name="rev_content" placeholder="내용을 입력해주세요"></textarea>
+										<textarea rows="" cols="" class="inputBox" name="rev_content" placeholder="내용을 입력해주세요" required="required"></textarea>
 									</p>
 								</div>
 

@@ -132,11 +132,7 @@
 										</li>
 										</c:forEach>
 									</ul>
-									<div class="write_btn">
-										<a href="/project_gabolcar/reviewWriteForm?pageNum=${pageNum}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}">글쓰기</a>
-									</div>
-										
-										
+																			
 									<div class="list_pager_wrap">
 										<nav class="pg_wrap">
 											<span class="pg">
