@@ -84,7 +84,7 @@
                 
      <div id="notice_cont">
         <section id="sec_con" class="inr">
-            <h1 class="con_title">1:1 문의 게시판</h1>
+            <h1 class="con_title">1:1 관리자 문의 게시판</h1>
             <section id="board_list" class="notice">
                 <section id="buttonArea">
 				<form action="QuestionListForm" method="GET" class="search-form">

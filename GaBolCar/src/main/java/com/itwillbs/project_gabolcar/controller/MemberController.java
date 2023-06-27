@@ -391,52 +391,10 @@ public class MemberController {
 
 	    model.addAttribute("qstBoardList", qstBoardList);
 	    model.addAttribute("pageInfo", pageInfo);
-
+	    
+	    // mem_idx = 1(관리자) 면 question_board (관리자 뷰페이지) 아닐경우(회원) question_board_member(회원 뷰페이지) 로 이동
 	    return loggedInUser.getMem_idx() == 1 ? "html/member/question/question_board" : "html/member/question/question_board_member";
 	}
-	
-//	@GetMapping("QuestionListForm")
-//	public String questionBoard(
-//	        MemberVO member,
-//	        @RequestParam(name = "searchType", defaultValue = "") String searchType,
-//	        @RequestParam(name = "searchKeyword", defaultValue = "") String searchKeyword,
-//	        @RequestParam(defaultValue = "1") int pageNum,
-//	        HttpSession session,
-//	        Model model) {
-//
-//	    MemberVO loggedInUser = (MemberVO) session.getAttribute("loggedInUser");
-//
-//	    if (loggedInUser == null) {
-//			model.addAttribute("msg", "로그인 다시 해주세요");
-//	    	return "inc/fail_back"; // 로그인 페이지로 리다이렉트
-//	    }
-//
-//	    int mem_idx = loggedInUser.getMem_idx();
-//	    System.out.println("mem_idx 게시판 : " + mem_idx);
-//	    int listLimit = 6;
-//	    int startRow = (pageNum - 1) * listLimit;
-//
-//	    List<QuestionVO> qstBoardList = qst_service.getQstBoardListForMember(searchType, searchKeyword, startRow, listLimit, mem_idx);
-//
-//	    int listCount = qst_service.getQstBoardListCount(searchType, searchKeyword);
-//
-//	    int pageListLimit = 2;
-//	    int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0);
-//	    int startPage = (pageNum - 1) / pageListLimit * pageListLimit + 1;
-//	    int endPage = startPage + pageListLimit - 1;
-//
-//	    if (endPage > maxPage) {
-//	        endPage = maxPage;
-//	    }
-//
-//	    QstPageInfoVO pageInfo = new QstPageInfoVO(listCount, pageListLimit, maxPage, startPage, endPage);
-//
-//	    model.addAttribute("qstBoardList", qstBoardList);
-//	    model.addAttribute("pageInfo", pageInfo);
-//
-//	    return "html/member/question/question_board";
-//	}
-	
 	
 	
 	// "QuestionDetail" 서블릿 요청에 대한 글 상세정보 조회 요청
@@ -450,16 +408,16 @@ public class MemberController {
 			return "inc/fail_back";
 		}
 		
-		 //  작성자가 맞는 지 확인
-//		if(!sId.equals("admin@admin.com")) {
-//			
-//			boolean isBoardWriter = qst_service.isBoardWriter(qst_idx, sId);
-//		    
-//			if (!isBoardWriter) {
-//				model.addAttribute("msg", "권한이 없습니다!");
-//				return "inc/fail_back";
-//			}
-//		}
+//		   작성자가 맞는 지 확인
+		if(!sId.equals("admin@admin.com")) {
+			
+			boolean isBoardWriter = qst_service.isBoardWriter(qst_idx, sId);
+		    
+			if (!isBoardWriter) {
+				model.addAttribute("msg", "권한이 없습니다!");
+				return "inc/fail_back";
+			}
+		}
 		
 		// 글 작성자 정보 	
 		QuestionVO question = qst_service.getQuestionBoard(qst_idx);

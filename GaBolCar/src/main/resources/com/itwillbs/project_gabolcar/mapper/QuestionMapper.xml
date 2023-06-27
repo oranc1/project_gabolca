@@ -23,68 +23,68 @@
 				)
 	</insert>
 	
-		<!-- 수정 중  -->
-  <select id="getQstBoardListForMember" resultType="com.itwillbs.project_gabolcar.vo.QuestionVO" parameterType="map">
-    SELECT *
-    FROM qst_board
-    WHERE (mem_idx = #{mem_idx} OR (qst_board_re_lev > 0 AND mem_idx = 1))
-            <if test="!searchKeyword.equals('')">
-                <choose>
- 						<when test="searchType.equals('subject')">
-							qst_subject LIKE '%${searchKeyword}%'
-						</when>
-						<when test="searchType.equals('content')">
-							qst_content LIKE '%${searchKeyword}%'
-						</when>
-						<when test="searchType.equals('subject_content')">
-							qst_subject LIKE '%${searchKeyword}%'
-							OR qst_content LIKE '%${searchKeyword}%'
-						</when>
-						<when test="searchType.equals('name')">
-							mem_name LIKE '%${searchKeyword}%'
-						</when>
-                </choose>
-            </if>
-<!--         ) -->
-<!--     </where> -->
-    
-    ORDER BY
-        qst_board_re_ref DESC,
-        qst_board_re_seq ASC
-    LIMIT
-        #{startRow},
-        #{listLimit}
-</select>
+  <!-- 관리자 일 경우 -->
+	<select id="getQstBoardListForMember" resultType="com.itwillbs.project_gabolcar.vo.QuestionVO" parameterType="map">
+	    SELECT *
+	    FROM qst_board
+	    WHERE (mem_idx = #{mem_idx} OR (qst_board_re_lev > 0 AND mem_idx = 1))
+	            <if test="!searchKeyword.equals('')">
+	                <choose>
+	 						<when test="searchType.equals('subject')">
+								qst_subject LIKE '%${searchKeyword}%'
+							</when>
+							<when test="searchType.equals('content')">
+								qst_content LIKE '%${searchKeyword}%'
+							</when>
+							<when test="searchType.equals('subject_content')">
+								qst_subject LIKE '%${searchKeyword}%'
+								OR qst_content LIKE '%${searchKeyword}%'
+							</when>
+							<when test="searchType.equals('name')">
+								mem_name LIKE '%${searchKeyword}%'
+							</when>
+	                </choose>
+	            </if>
+	<!--         ) -->
+	<!--     </where> -->
+	    
+	    ORDER BY
+	        qst_board_re_ref DESC,
+	        qst_board_re_seq ASC
+	    LIMIT
+	        #{startRow},
+	        #{listLimit}
+	</select>
 	
 	
 	<select id="selectQstBoardList" resultType="com.itwillbs.project_gabolcar.vo.QuestionVO">
-			SELECT *
-			FROM qst_board 
-			
-			<if test="!searchKeyword.equals('')">
-					WHERE
-					<choose>
-						<when test="searchType.equals('subject')">
-							qst_subject LIKE '%${searchKeyword}%'
-						</when>
-						<when test="searchType.equals('content')">
-							qst_content LIKE '%${searchKeyword}%'
-						</when>
-						<when test="searchType.equals('subject_content')">
-							qst_subject LIKE '%${searchKeyword}%'
-							OR qst_content LIKE '%${searchKeyword}%'
-						</when>
-						<when test="searchType.equals('name')">
-							mem_name LIKE '%${searchKeyword}%'
-						</when>
-					</choose>
-			</if>
-					ORDER BY 
-						qst_board_re_ref DESC
-						, qst_board_re_seq ASC
-					LIMIT
-						#{startRow}
-						, #{listLimit}
+		SELECT *
+		FROM qst_board 
+		
+		<if test="!searchKeyword.equals('')">
+				WHERE
+				<choose>
+					<when test="searchType.equals('subject')">
+						qst_subject LIKE '%${searchKeyword}%'
+					</when>
+					<when test="searchType.equals('content')">
+						qst_content LIKE '%${searchKeyword}%'
+					</when>
+					<when test="searchType.equals('subject_content')">
+						qst_subject LIKE '%${searchKeyword}%'
+						OR qst_content LIKE '%${searchKeyword}%'
+					</when>
+					<when test="searchType.equals('name')">
+						mem_name LIKE '%${searchKeyword}%'
+					</when>
+				</choose>
+		</if>
+				ORDER BY 
+					qst_board_re_ref DESC
+					, qst_board_re_seq ASC
+				LIMIT
+					#{startRow}
+					, #{listLimit}
 	</select>
 	
 	
