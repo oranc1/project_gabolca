@@ -36,9 +36,9 @@
      <div id="notice_cont">
         <section id="sec_con" class="inr">
             <h1 class="con_title">관리자 페이지</h1>
-                        <div class="main-content">
-			<jsp:include page="../../../inc/adm_sidebar.jsp" />
-                        <section id="board_list" class="notice board_section">
+            <div class="main-content">
+				<jsp:include page="../../../inc/adm_sidebar.jsp" />
+            <section id="board_list" class="notice board_section">
             <section id="board_list" class="notice">
                 <section id="buttonArea">
 				<form action="QuestionListForm" method="GET" class="search-form">
@@ -127,7 +127,7 @@
                                             <!-- 각 페이지마다 하이퍼링크 설정 -->
                                             <c:choose>
                                                 <c:when test="${pageNum eq i }">
-                                                    <b>${i }</b>
+                                                    <b id="number">${i }</b>
                                                 </c:when>
                                                 <c:otherwise>
                                                     <a href="QuestionListForm?pageNum=${i }">${i }</a>

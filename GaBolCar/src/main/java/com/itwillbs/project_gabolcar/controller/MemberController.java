@@ -313,7 +313,16 @@ public class MemberController {
 			model.addAttribute("msg", "로그인이 필요합니다!");
 			return "inc/fail_back";
 		}
+		
+		MemberVO loggedInUser = (MemberVO) session.getAttribute("loggedInUser");
 
+		if (loggedInUser == null) {
+			model.addAttribute("msg", "로그인 다시 해주세요");
+			return "inc/fail_back"; // 로그인 페이지로 리다이렉트
+		}
+		
+		int mem_idx = loggedInUser.getMem_idx();
+		
 		MemberVO member = memberService.getMemberInfo(sId);
 		model.addAttribute("member", member);
 
@@ -327,7 +336,8 @@ public class MemberController {
 //	      System.out.println("mem_name " + mem_name);
 //	      System.out.println("mem_name " + mem_name);
 
-		return "html/member/question/question_write_form";
+		return loggedInUser.getMem_idx() == 1 ? "html/member/question/question_write_form_admin"
+				: "html/member/question/question_write_form_member";
 
 	}
 
@@ -425,7 +435,16 @@ public class MemberController {
 				return "inc/fail_back";
 			}
 		}
+		
+		MemberVO loggedInUser = (MemberVO) session.getAttribute("loggedInUser");
 
+		if (loggedInUser == null) {
+			model.addAttribute("msg", "로그인 다시 해주세요");
+			return "inc/fail_back"; // 로그인 페이지로 리다이렉트
+		}
+
+		int mem_idx = loggedInUser.getMem_idx();
+		
 		// 글 작성자 정보
 		QuestionVO question = qst_service.getQuestionBoard(qst_idx);
 		// 로그인한 회원 정보
@@ -434,7 +453,8 @@ public class MemberController {
 		// 상세정보 조회 결과 저장
 		model.addAttribute("question", question);
 
-		return "html/member/question/question_detail";
+		return loggedInUser.getMem_idx() == 1 ? "html/member/question/question_detail_admin"
+				: "html/member/question/question_detail_member";
 	}
 
 	// "QuestionDelete" 서블릿 요청에 대한 글 삭제 요청
@@ -532,13 +552,47 @@ public class MemberController {
 			model.addAttribute("msg", "잘못된 접근입니다!");
 			return "inc/fail_back";
 		}
+		
+		MemberVO loggedInUser = (MemberVO) session.getAttribute("loggedInUser");
+
+		if (loggedInUser == null) {
+			model.addAttribute("msg", "로그인 다시 해주세요");
+			return "inc/fail_back"; // 로그인 페이지로 리다이렉트
+		}
+
+		int mem_idx = loggedInUser.getMem_idx();
+		
 
 		QuestionVO question = qst_service.getQuestionBoard(qst_idx);
 
 		model.addAttribute("question", question);
 
-		return "html/member/question/question_modify";
+		return loggedInUser.getMem_idx() == 1 ? "html/member/question/question_modify_admin"
+				: "html/member/question/question_modify_member";
 	}
+	
+//	// 문의 게시판 수정 폼
+//	@GetMapping("QuestionModifyForm")
+//	public String qstModiyForm(@RequestParam int qst_idx, @RequestParam(defaultValue = "1") int pageNum,
+//			HttpSession session, Model model) {
+//		
+//		String sId = (String) session.getAttribute("sId");
+//		if (sId == null) {
+//			model.addAttribute("msg", "잘못된 접근입니다!");
+//			return "inc/fail_back";
+//		}
+//		
+//		
+//		
+//		
+//		
+//		
+//		QuestionVO question = qst_service.getQuestionBoard(qst_idx);
+//		
+//		model.addAttribute("question", question);
+//		
+//		return "html/member/question/question_modify";
+//	}
 
 	// 문의 게시판 수정 기능
 	@PostMapping("QuestionModifyPro")
