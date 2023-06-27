@@ -10,7 +10,7 @@
 	<link href="${pageContext.request.contextPath }/resources/css/inc/top.css" rel="styleSheet">
 	<link href="${pageContext.request.contextPath }/resources/css/inc/footer.css" rel="styleSheet">
 	<script src="${pageContext.request.contextPath }/resources/js/inc/jquery-3.7.0.js"></script>
-<title>Insert title here</title>
+<title>리뷰 게시글 상세보기</title>
 <script type="text/javascript">
 	function deleteConfirm() {
 		if(!confirm("게시글을 삭제 하시겠습니까?")) {

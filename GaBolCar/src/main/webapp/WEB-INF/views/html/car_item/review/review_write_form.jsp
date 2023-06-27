@@ -9,7 +9,7 @@
 	<link href="${pageContext.request.contextPath }/resources/css/inc/top.css" rel="styleSheet">
 	<link href="${pageContext.request.contextPath }/resources/css/inc/footer.css" rel="styleSheet">
 	<script src="${pageContext.request.contextPath }/resources/js/inc/jquery-3.7.0.js"></script>
-<title>Insert title here</title>
+<title>리뷰 게시글 작성</title>
 </head>
 <body>
 	<header>
@@ -36,7 +36,7 @@
 										<div id="myform">
 											<!-- DB에서 예약차 이름 가져오기 -->
 											<div class="car_name" name="car_model">
-											
+											${map.car_company}&nbsp;&nbsp;${map.car_model}&nbsp;&nbsp;${map.car_old}년식
 											</div>
 											<fieldset>
 													<input type="radio" name="rev_star" value="5" id="rate1">
@@ -71,10 +71,9 @@
 								</div>
 
 								<div class="mod_box">
+									<input type="button" class="index_btn" value="목록" onclick="window.location.href='/project_gabolcar/reviewList?pageNum=${param.pageNum}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}'" />
 									<input type="submit" class="delete_btn" value="등록">
-									<a class="list_btn" href="/project_gabolcar/reviewList?pageNum=${param.pageNum}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}">목록</a>
 								</div>
-								
 							</div>
 						</div>
 					</section>

@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>리뷰 게시판 목록</title>
 <link href="${pageContext.request.contextPath }/resources/css/common.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath }/resources/css/car_item/review/review_board.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath }/resources/css/inc/top.css" rel="styleSheet">
@@ -33,23 +33,20 @@
 					
 							<%-- 검색타입목록, 검색어입력창 추가 --%>
 								
-							<select name="searchType" id="searchType">
-								<option value="subject" <c:if test="${param.searchType eq 'subject' }">selected</c:if>>제목</option>			
+							<select name="searchType" id="searchType" style= "background-color:white; color:black; padding: 3px 15px; border-radius: 3px; border-color:#ff6600; border:2px solid;">
+								<option value="subject" <c:if test="${param.searchType eq 'subject' }" >selected</c:if>>제목</option>			
 								<option value="content" <c:if test="${param.searchType eq 'content' }">selected</c:if>>내용</option>			
 								<option value="subject_content" <c:if test="${param.searchType eq 'subject_content' }">selected</c:if>>제목&내용</option>			
 								<option value="name" <c:if test="${param.searchType eq 'name' }">selected</c:if>>작성자</option>
 								<option value="star" <c:if test="${param.searchType eq 'star' }">selected</c:if>>별점</option>
 								<option value="carModel" <c:if test="${param.searchType eq 'carModel' }">selected</c:if>>차종</option>
 							</select>
-							<input type="text" name="searchKeyword" value="${param.searchKeyword }" id="searchKeyword">
+								<input type="text" name="searchKeyword" value="${param.searchKeyword }" id="searchKeyword" style= "background-color:white; color:black; padding: 4px 15px; border-radius: 3px; border-color:#ff6600; border:2px solid;">
+								<input type="submit" value="검색" style= "background-color:#0a0a31; color:white; padding: 6px 15px; border-radius: 3px;">
 						
-							<input type="submit" value="검색">
-						
-							
 							<%-- 검색타입목록, 검색어입력창 추가! --%>
-													
-						
-						
+												
+												
 							<div class="wrapper">
 								<div class="list_wrap">
 									<ul class="list">

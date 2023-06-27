@@ -7,7 +7,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>차량정보</title>
+	<title>예약차량 상세정보</title>
 	<link href="${pageContext.request.contextPath }/resources/css/common.css" rel="stylesheet">
 	<link href="${pageContext.request.contextPath }/resources/css/car_item/res/car_res_info.css" rel="stylesheet">
 	<link href="${pageContext.request.contextPath }/resources/css/inc/top.css" rel="styleSheet">
