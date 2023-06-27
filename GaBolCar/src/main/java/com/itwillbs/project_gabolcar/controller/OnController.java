@@ -2,7 +2,6 @@ package com.itwillbs.project_gabolcar.controller;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -25,17 +24,13 @@ import com.itwillbs.project_gabolcar.util.FindUtil;
 import com.itwillbs.project_gabolcar.util.SendUtil;
 import com.itwillbs.project_gabolcar.vo.MemberVO;
 
-import net.nurigo.sdk.NurigoApp;
-import net.nurigo.sdk.message.model.Message;
-import net.nurigo.sdk.message.request.SingleMessageSendingRequest;
 import net.nurigo.sdk.message.response.SingleMessageSentResponse;
-import net.nurigo.sdk.message.service.DefaultMessageService;
+
 
 @Controller
 public class OnController { //나중에 합칠거임
 	@Autowired
 	private MemberService memberService;
-	//여기에 하라고????
 	private Map<String, String> codeMap; 
 	
 		//회원가입
@@ -58,32 +53,24 @@ public class OnController { //나중에 합칠거임
 		//문자인증 작업중 6/21
 		@PostMapping("/send-phone-authentication")
 		@ResponseBody
-	    public String sendOne(@RequestParam("phone") String phone) {
+	    public SingleMessageSentResponse sendOne(@RequestParam("phone") String phone) {
 //		public String sendOne(	@RequestParam(value = "phone1", required=true) String phone1,
 //								@RequestParam(value = "phone2", required=true) String phone2,
 //								@RequestParam(value = "phone3", required=true) String phone3) {
 			//인증번호 필요하고
 			System.out.println("여기까지옴ㅇㅇ");
-			//메세지 보낼 번호 필요함 (폼에서 받아 와야한다)
-			//폰 번호랑 인증번호 저장 해야하고
-			//그리고 sendMsg 불러와서 메세지 전송
-//			String phone = phone1+"-"+phone2+"-"+phone3;
+
 			String code  = FindUtil.getRandomNum();
 			String msg = "[가볼카 회원가입] 인증번호 ["+code+"]를 입력해 주세요.";
-			SendUtil.sendMsg(phone, msg);
+			SingleMessageSentResponse response = SendUtil.sendMsg(phone, msg);
 			
 			//코드랑 번호 저장
 			codeMap = new HashMap<String, String>();
 			codeMap.put("phone", code);
-//			codeMap.put("code", code);
-//	
-//			SendUtil.sendMsg(phone, msg);
-//			System.out.println(code);
+
+//			System.out.println(response);
 			
-			
-//			System.out.println("전송완료");
-			
-			return "0";
+			return response;
 	    }
 	   
 		@PostMapping("/verify-phone-authentication")
@@ -99,10 +86,7 @@ public class OnController { //나중에 합칠거임
 				isCorrectCode = true;
 			}
 			
-//			System.out.println(phone);
-//			System.out.println(code);
-//			System.out.println(newCode);
-			return isCorrectCode;
+			return isCorrectCode;//
 		}
 	   
 	   
@@ -117,15 +101,13 @@ public class OnController { //나중에 합칠거임
 			
 			
 			int insertCount = memberService.registMember(member);
-			// 등록 실패(insertCount == 0) 시 Model 객체에 "등록 실패!" 저장(속성명 msg) 후 fail_back.jsp 로 포워딩
-			if(insertCount > 0) {
-				model.addAttribute("msg", "회원 가입이 완료되었습니다.");
-				return "main";
-			} else {
+			
+			if(insertCount == 0) {
 				model.addAttribute("msg", "회원 가입 실패!");
 				return "html/member/login/fail_back";
 			}
-			
+				
+			return "redirect:/login";
 		}
 		
 		@ResponseBody
@@ -166,8 +148,14 @@ public class OnController { //나중에 합칠거임
 			} else { // 로그인 성공(= 패스워드 일치)
 				// 세션 객체에 아이디 저장(속성명 sId)
 				session.setAttribute("sId", member.getMem_id());
-				session.setAttribute("mem_idx", member.getMem_idx()); // 로그인 후 mem_idx 세션 객체에 저장
 				Cookie cookie = new Cookie("REMEMBER_ID", member.getMem_id());
+				
+				// 김태윤 코드 추가 : 로그인 한 회원의 mem_id 로 로그인 한 회원의 mem_idx 값 넘겨받기
+		        MemberVO loggedInUser = memberService.getMemberInfoById(member.getMem_id());
+		        session.setAttribute("loggedInUser", loggedInUser);
+		        session.setAttribute("mem_idx", loggedInUser.getMem_idx());
+//		        System.out.println("member_idx : " + loggedInUser.getMem_idx());
+				
 				if(rememberId) { // 아이디 저장 체크 시(쿠키 생성)
 					cookie.setMaxAge(60 * 60 * 24 * 30); // 쿠키 유효기간 1개월(30일) 설정
 				} else { // 아이디 저장 체크 해제 시(쿠키 삭제)

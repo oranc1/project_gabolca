@@ -23,6 +23,47 @@
 				)
 	</insert>
 	
+		<!-- 수정 중  -->
+  <select id="getQstBoardListForMember" resultType="com.itwillbs.project_gabolcar.vo.QuestionVO" parameterType="map">
+    SELECT *
+    FROM qst_board
+    
+<!--     <where> -->
+<!--         ( -->
+<!--             mem_idx = #{mem_idx} -->
+<!--             <if test="mem_idx == 1">OR mem_idx = 1</if> -->
+<!--         ) -->
+<!--         AND -->
+<!--         ( -->
+            <if test="!searchKeyword.equals('')">
+                <choose>
+ 						<when test="searchType.equals('subject')">
+							qst_subject LIKE '%${searchKeyword}%'
+						</when>
+						<when test="searchType.equals('content')">
+							qst_content LIKE '%${searchKeyword}%'
+						</when>
+						<when test="searchType.equals('subject_content')">
+							qst_subject LIKE '%${searchKeyword}%'
+							OR qst_content LIKE '%${searchKeyword}%'
+						</when>
+						<when test="searchType.equals('name')">
+							mem_name LIKE '%${searchKeyword}%'
+						</when>
+                </choose>
+            </if>
+<!--         ) -->
+<!--     </where> -->
+    
+    ORDER BY
+        qst_board_re_ref DESC,
+        qst_board_re_seq ASC
+    LIMIT
+        #{startRow},
+        #{listLimit}
+</select>
+	
+	
 	<select id="selectQstBoardList" resultType="com.itwillbs.project_gabolcar.vo.QuestionVO">
 			SELECT *
 			FROM qst_board 
@@ -121,6 +162,23 @@
     <!-- 작성자가 맞는 지 확인 -->
     <select id="getMemNameById" resultType="String" parameterType="String">
     	SELECT mem_name FROM mem_info WHERE mem_id=#{mem_id}
+	</select>
+	
+	
+	<!-- 추가 : 같은 qst_board_re_ref 값을 가진 게시물 목록 조회 -->
+	<select id="selectRelatedQuestions" resultType="com.itwillbs.project_gabolcar.vo.QuestionVO">
+	    SELECT *
+	    FROM qst_board
+	    WHERE
+	        qst_board_re_ref = #{qst_board_re_ref}
+	</select>
+		
+	
+	<!-- 작성자 관리자 비교 폐기대상 -->
+	<select id="getAdminQstReRef" resultType="int" parameterType="int">
+	    SELECT qst_board_re_ref
+	    FROM qst_board
+	    WHERE qst_idx=#{qst_idx} AND mem_name='관리자'
 	</select>
     
 	<!-- 나중에 작성자 이름에 mem_name을 불러올때 쓰이는 구문 -->

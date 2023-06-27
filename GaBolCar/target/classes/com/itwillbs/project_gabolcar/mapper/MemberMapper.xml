@@ -131,4 +131,12 @@
 		SELECT mem_idx, mem_id, mem_name, mem_sign_date
 			FROM mem_info
 	</select>
+	
+	<!-- 로그인한 회원 아이디 조회 - SELECT -->
+    <select id="getMemberInfoById" resultType="com.itwillbs.project_gabolcar.vo.MemberVO" parameterType="string">
+        SELECT *
+        FROM mem_info
+        WHERE mem_id = #{mem_id}
+    </select>
+	
 </mapper>

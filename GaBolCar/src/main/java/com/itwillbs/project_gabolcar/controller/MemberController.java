@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -281,16 +282,16 @@ public class MemberController {
 	// 사이트 1:1 상담 게시판
 	
 	// 1:1 문의 게시판 리스트 클릭
-	@GetMapping("QuestionList")
-	public String quetionListForm(MemberVO member, HttpSession session, Model model) {
-		String sId = (String) session.getAttribute("sId");
-		
-		if (sId == null) {
-			model.addAttribute("msg", "로그인이 필요합니다!");
-			return "inc/fail_back";
-		}
-		return "redirect:/QuestionListForm";
-	}
+//	@GetMapping("QuestionList")
+//	public String quetionListForm(MemberVO member, HttpSession session, Model model) {
+//		String sId = (String) session.getAttribute("sId");
+//		
+//		if (sId == null) {
+//			model.addAttribute("msg", "로그인이 필요합니다!");
+//			return "inc/fail_back";
+//		}
+//		return "redirect:/QuestionListForm";
+//	}
 	
 	
 	@GetMapping("QuestionWriteForm")
@@ -336,54 +337,55 @@ public class MemberController {
 		
 		if(insertCount > 0) {
 			System.out.println("QuestionWrite 성공");
-			return "redirect:/QuestionList";
+			return "redirect:/QuestionListForm";
 		} else {
 			model.addAttribute("msg", "1:1 문의 쓰기 실패!");
 			return "inc/fail_back";
 		}
 	}
 	
-	// 1:1 상담 게시판 리스트
 	@GetMapping("QuestionListForm")
 	public String questionBoard(
-			@RequestParam(name = "searchType", defaultValue = "") String searchType, 
-			@RequestParam(name = "searchKeyword", defaultValue = "") String searchKeyword, 
-			@RequestParam(defaultValue = "1") int pageNum, 
-			Model model) {
-		
-	
-		System.out.println("검색타입 : " + searchType);
-		System.out.println("검색어 : " + searchKeyword);
-		
-		int listLimit = 6; // 한 페이지에서 표시할 목록 갯수 지정
-		int startRow = (pageNum - 1) * listLimit; // 조회 시작 행(레코드) 번호
-		
-		List<QuestionVO> qstBoardList = qst_service.getQstBoardList(searchType, searchKeyword, startRow, listLimit);
-		System.out.println("QuestionListForm : " + qstBoardList);
-		
-		int listCount = qst_service.getQstBoardListCount(searchType, searchKeyword);
-		
-		int pageListLimit = 2;
-		
-		int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0);		
-		
-		int startPage = (pageNum - 1) / pageListLimit * pageListLimit + 1;
-		
-		int endPage = startPage + pageListLimit - 1;
-		
-		if(endPage > maxPage) {
-			endPage = maxPage;
-		}
-		
-		QstPageInfoVO PageInfo = new QstPageInfoVO(listCount, pageListLimit, maxPage, startPage, endPage);
-		
-		model.addAttribute("qstBoardList", qstBoardList);
-		model.addAttribute("pageInfo", PageInfo);
-		
-//		System.out.println(" qstBoardList : " + qstBoardList);
-//		System.out.println(" pageInfo : " + PageInfo);
-		return "html/member/question/question_board";
+	        MemberVO member,
+	        @RequestParam(name = "searchType", defaultValue = "") String searchType,
+	        @RequestParam(name = "searchKeyword", defaultValue = "") String searchKeyword,
+	        @RequestParam(defaultValue = "1") int pageNum,
+	        HttpSession session,
+	        Model model) {
+
+	    MemberVO loggedInUser = (MemberVO) session.getAttribute("loggedInUser");
+
+	    if (loggedInUser == null) {
+			model.addAttribute("msg", "로그인 다시 해주세요");
+	    	return "inc/fail_back"; // 로그인 페이지로 리다이렉트
+	    }
+
+	    int mem_idx = loggedInUser.getMem_idx();
+	    System.out.println("mem_idx 게시판 : " + mem_idx);
+	    int listLimit = 6;
+	    int startRow = (pageNum - 1) * listLimit;
+
+	    List<QuestionVO> qstBoardList = qst_service.getQstBoardListForMember(searchType, searchKeyword, startRow, listLimit, mem_idx);
+
+	    int listCount = qst_service.getQstBoardListCount(searchType, searchKeyword);
+
+	    int pageListLimit = 2;
+	    int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0);
+	    int startPage = (pageNum - 1) / pageListLimit * pageListLimit + 1;
+	    int endPage = startPage + pageListLimit - 1;
+
+	    if (endPage > maxPage) {
+	        endPage = maxPage;
+	    }
+
+	    QstPageInfoVO pageInfo = new QstPageInfoVO(listCount, pageListLimit, maxPage, startPage, endPage);
+
+	    model.addAttribute("qstBoardList", qstBoardList);
+	    model.addAttribute("pageInfo", pageInfo);
+
+	    return "html/member/question/question_board";
 	}
+	
 	
 	
 	// "QuestionDetail" 서블릿 요청에 대한 글 상세정보 조회 요청
@@ -398,15 +400,16 @@ public class MemberController {
 		}
 		
 		 //  작성자가 맞는 지 확인
-		if(!sId.equals("admin@naver.com")) {
-			
-			boolean isBoardWriter = qst_service.isBoardWriter(qst_idx, sId);
-		    
-			if (!isBoardWriter) {
-				model.addAttribute("msg", "권한이 없습니다!");
-				return "inc/fail_back";
-			}
-		}
+//		if(!sId.equals("admin@admin.com")) {
+//			
+//			boolean isBoardWriter = qst_service.isBoardWriter(qst_idx, sId);
+//		    
+//			if (!isBoardWriter) {
+//				model.addAttribute("msg", "권한이 없습니다!");
+//				return "inc/fail_back";
+//			}
+//		}
+		
 		// 글 작성자 정보 	
 		QuestionVO question = qst_service.getQuestionBoard(qst_idx);
 		// 로그인한 회원 정보
@@ -417,6 +420,7 @@ public class MemberController {
 		
 		return "html/member/question/question_detail";
 	}
+	
 	
 	// "QuestionDelete" 서블릿 요청에 대한 글 삭제 요청
 	@GetMapping("QuestionDelete")
@@ -433,7 +437,7 @@ public class MemberController {
 		}
 		
 		 //  작성자가 맞는 지 확인
-		if(!sId.equals("admin@naver.com")) {
+		if(!sId.equals("admin@admin.com")) {
 			
 			boolean isBoardWriter = qst_service.isBoardWriter(qst_idx, sId);
 		    
@@ -450,7 +454,7 @@ public class MemberController {
 			return "inc/fail_back";
 		}
 	
-		return "redirect:/QuestionList?pageNum=" + pageNum;
+		return "redirect:/QuestionListForm?pageNum=" + pageNum;
 	}
 
 	// 1:1 문의 게시판 답변 폼
@@ -504,7 +508,7 @@ public class MemberController {
 		
 		if(insertCount > 0) {
 			System.out.println("답변 성공");
-			return "redirect:/QuestionList";
+			return "redirect:/QuestionListForm";
 		} else {
 			model.addAttribute("msg", "답변 실패!");
 			return "inc/fail_back";
@@ -551,7 +555,7 @@ public class MemberController {
 	    
 	    if(updateCount > 0) {
 	        System.out.println("수정 성공");
-	        return "redirect:/QuestionList?qst_idx=" + question.getQst_idx() + "&pageNum=" + pageNum;
+	        return "redirect:/QuestionListForm?qst_idx=" + question.getQst_idx() + "&pageNum=" + pageNum;
 	    } else {
 	        model.addAttribute("msg", "수정 실패!");
 	        return "inc/fail_back";

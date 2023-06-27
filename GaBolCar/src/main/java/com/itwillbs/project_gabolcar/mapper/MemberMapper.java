@@ -65,4 +65,8 @@ public interface MemberMapper {
 	
 	//회원 목록 조회(관리자모드)
 	List<Map<String, Object>> selectMemList(PageInfo pageInfo, Map<String, Object> map);
+
+	
+	// 로그인된 회원 아이디 조회
+	MemberVO getMemberInfoById(String mem_id);
 }
