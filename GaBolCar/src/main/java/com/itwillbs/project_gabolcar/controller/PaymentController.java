@@ -139,18 +139,4 @@ public class PaymentController {
 		return "html/payment/res_cancel";
 	}
 
-	//
-	@GetMapping("UpdateResPro")
-	public String cancelStatus(@RequestParam int res_idx, Model model, HttpSession session) {
-
-		int updateCount = service.updateStatus(res_idx);
-		if (updateCount == 0) {
-			model.addAttribute("msg", "예약 취소 실패!");
-			return "inc/fail_back";
-
-		}
-
-		return "redirect:/";
-
-	}
 }

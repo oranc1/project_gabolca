@@ -22,11 +22,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.JsonObject;
 import com.itwillbs.project_gabolcar.service.PaymentApiService;
+import com.itwillbs.project_gabolcar.service.PaymentService;
 import com.itwillbs.project_gabolcar.vo.PaymentVO;
 import com.siot.IamportRestClient.IamportClient;
 import com.siot.IamportRestClient.exception.IamportResponseException;
@@ -41,7 +43,9 @@ public class PaymentsApiController {
 	
 	@Autowired
 	private PaymentApiService paymentService;
-
+	@Autowired
+	private PaymentService service;
+	
 	//생성자로 rest api key와 secret을 입력해서 토큰 바로생성.
 	public PaymentsApiController() {
 		this.iamportClientApi = new IamportClient("2404075720330011", "CBluh7MJ0P26LfayrIotawnJ4VuEpkYbp6EDnGTRR2IGiCglzX7KYWYPA5knYg2gGRHqTkeVDPxLVzn1");
@@ -67,6 +71,8 @@ public class PaymentsApiController {
         // 캔슬
 		iamportClientApi.cancelPaymentByImpUid(cancelData);
         // DB 처리(res_cancel insert, pay_info update)
+		int updateCount = service.updateStatus(Integer.parseInt(map.get("res_idx")));
+		
 		
 		
 		response.put("response","success");

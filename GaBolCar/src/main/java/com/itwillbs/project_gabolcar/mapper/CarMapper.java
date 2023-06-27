@@ -92,6 +92,13 @@ public interface CarMapper {
 	CarVO selectDriver(int res_idx);
 
 	List<Map<String, Object>> selectUpdateCar();
+
+	
+	
+	List<Integer> selectCarInfo(List<Integer> collect);
+
+	List<CarVO> selectCarIdx(List<Integer> carIdxList);
+
 	
 
 

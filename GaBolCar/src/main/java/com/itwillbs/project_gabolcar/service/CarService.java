@@ -157,6 +157,22 @@ public class CarService {
 	public List<Map<String, Object>> carList() {
 		return mapper.selectUpdateCar();
 	}
+
+	public List<Integer> insertCar(List<Integer> collect) {
+		
+		return mapper.selectCarInfo(collect);
+	}
+
+	public List<CarVO> selectCarInfo(List<Integer> carIdxList) {
+		
+		return mapper.selectCarIdx(carIdxList);
+	}
+
+
+
+
+
+
 	
 
 

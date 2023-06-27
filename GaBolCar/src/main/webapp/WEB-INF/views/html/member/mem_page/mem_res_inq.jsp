@@ -46,16 +46,23 @@
 							<li>
 								<div class="res_car_img">
 									<div>
-										<img
-											src="${pageContext.request.contextPath }/resources/img/car_img_storage/test_img/casper.jpg"
-											alt="">
+									
+										<c:forEach items="${car }" var="car">
+										
+										<c:if test="${resinfo.car_idx eq car.car_idx }">
+											<img
+												src="${pageContext.request.contextPath}/resources/upload/car/${car.car_file_path}/${car.car_file1}"
+												alt="${car.car_model}" />
+												</c:if>
+												
+										</c:forEach>
 									</div>
 								</div>
 								<div class="list_car_info">
 									<div class="list_res_car">
 										<p>캐스퍼(현대)</p>
 
-										<c:set var="today" value="<%= new java.util.Date() %>" />
+										<c:set var="today" value="<%=new java.util.Date()%>" />
 										<c:set var="targetDate" value="${resinfo.res_return_date}" />
 										<c:choose>
 											<c:when test="${today ge targetDate}">
@@ -67,7 +74,7 @@
 											<c:otherwise>
 												<p>결제 완료</p>
 											</c:otherwise>
-											
+
 										</c:choose>
 
 									</div>
@@ -107,22 +114,24 @@
 									<div class="inq_btn">
 
 
-										<c:set var="today" value="<%= new java.util.Date() %>" />
+										<c:set var="today" value="<%=new java.util.Date()%>" />
 
 										<c:set var="targetDate" value="${resinfo.res_return_date}" />
-										
+
 										<c:choose>
 											<c:when test="${resinfo.pay_status eq '취소' }">
-												<button type="button" id="resc" onclick="location.href='resDetail?res_idx=${resinfo.res_idx}'">취소상세조회</button>
+												<button type="button" id="resc"
+													onclick="location.href='resDetail?res_idx=${resinfo.res_idx}'">취소상세조회</button>
 											</c:when>
 											<c:when test="${today ge targetDate}">
-											<button type="button"
-											onclick="location.href='resDetail?res_idx=${resinfo.res_idx}'">예약상세조회</button>
-												<button class="ret_rev"onclick="location.href='reviewWriteForm'">리뷰 작성</button>
+												<button type="button"
+													onclick="location.href='resDetail?res_idx=${resinfo.res_idx}'">예약상세조회</button>
+												<button class="ret_rev"
+													onclick="location.href='reviewWriteForm'">리뷰 작성</button>
 											</c:when>
 											<c:otherwise>
-											<button type="button"
-											onclick="location.href='resDetail?res_idx=${resinfo.res_idx}'">예약상세조회</button>
+												<button type="button"
+													onclick="location.href='resDetail?res_idx=${resinfo.res_idx}'">예약상세조회</button>
 												<button type="button"
 													onclick="location.href='ResCancel?res_idx=${resinfo.res_idx}'">예약취소</button>
 											</c:otherwise>
@@ -137,16 +146,16 @@
 		</section>
 
 		<script>
-					$('.menu_tit').click(function() {
-						$(this).children('span').addClass('on');
-						if ($(this).siblings('.side_sub').is(':hidden')) {
-							$(this).siblings('.side_sub').slideDown();
-							$(this).children('span').removeClass('on');
-						} else {
-							$(this).siblings('.side_sub').slideUp();
-						}
-					});
-				</script>
+			$('.menu_tit').click(function() {
+				$(this).children('span').addClass('on');
+				if ($(this).siblings('.side_sub').is(':hidden')) {
+					$(this).siblings('.side_sub').slideDown();
+					$(this).children('span').removeClass('on');
+				} else {
+					$(this).siblings('.side_sub').slideUp();
+				}
+			});
+		</script>
 	</form>
 	<footer>
 		<jsp:include page="../../../inc/footer.jsp"></jsp:include>

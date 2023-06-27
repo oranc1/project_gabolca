@@ -606,4 +606,23 @@
 		 	WHERE r.res_idx = #{res_idx};
 	
 	</select>
+	
+	<select id="selectCarInfo"   parameterType="java.util.List" resultType="java.lang.Integer">
+	SELECT c.car_idx
+	FROM car_info c join res_info r
+	on c.car_idx = r.car_idx
+	WHERE r.res_idx IN
+	<foreach item="item" collection="list" open="(" separator="," close=")">
+		#{item}
+	</foreach>
+</select>
+
+<select id="selectCarIdx" parameterType="java.util.List" resultType="com.itwillbs.project_gabolcar.vo.CarVO">
+	SELECT *
+		FROM car_info
+			WHERE car_idx IN
+			<foreach item="carIdxList" collection="list" open="(" separator="," close=")">
+				#{carIdxList}
+			</foreach>
+</select>
 </mapper>
