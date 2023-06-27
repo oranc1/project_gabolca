@@ -20,7 +20,7 @@
 			<h1 class="con_title">리뷰 작성</h1>
 			<form action="/project_gabolcar/reviewWritePro" method="post" enctype="multipart/form-data">
 				<input type="hidden" name="session_id" value="${sessionScope.sId}"/>
-				<input type="hidden" name="res_idx" value="1"/><!-- 예약번호는 임시로 넣었음 차후 수정 필요 -->
+				<input type="hidden" name="res_idx" value="${map.res_idx}"/>
 				<section id="board_wrap">
 					<section id="board_list" class="notice">
 						<div class="wrapper">

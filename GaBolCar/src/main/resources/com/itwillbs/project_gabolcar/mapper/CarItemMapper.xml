@@ -117,14 +117,16 @@
 			res_info ri join car_info ci
 			on ri.car_idx = ci.car_idx
 		where 
-			mem_idx = 
-			(
-				select mem_idx
-				from mem_info
-				where
-					mem_id = #{sId}
-			)
-			AND 
+			<if test="sId != null">
+				mem_idx = 
+				(
+					select mem_idx
+					from mem_info
+					where
+						mem_id = #{sId}
+				)
+				AND 
+			</if>
 			res_idx = #{resIdx}
 		LIMIT 0,1
 	</select>	
@@ -212,10 +214,61 @@
 	
 	<!-- 차량 소개 - 차량 정보 -->
 	<select id="selectCarInfoList" resultType="map">
-		select
-			*
-		from
-			car_info
+		select 
+			ci.car_idx
+			, car_type
+			, car_company
+			, car_model
+			, car_old
+		 	, car_shift_type
+		 	, car_fuel_type
+		 	, car_riding
+			, brc_name
+			, car_status
+		 	, car_riding
+		 	, car_weekend
+		 	, car_weekdays
+			, group_concat(option_name SEPARATOR ', ') AS option_name
+		from 
+			car_info ci 
+			JOIN car_options co ON ci.car_idx = co.car_idx
+			JOIN option_list ol ON co.option_idx = ol.option_idx
+		<choose>
+			<when test="car_type != null and car_fuel != null">
+				where car_type in (
+				<foreach collection="car_type" item="type" separator=",">
+				#{type}
+				</foreach>
+				) and car_fuel_type in (
+				<foreach collection="car_fuel" item="fuel" separator="," >
+				#{fuel}
+				</foreach>
+				)
+			</when>
+			<when test="car_type != null and car_fuel == null">
+				where car_type in (
+				<foreach collection="car_type" item="type" separator=",">
+				#{type}
+				</foreach>
+				)
+			</when>
+			<when test="car_fuel != null and car_type == null">
+				where car_fuel_type in (
+				<foreach collection="car_fuel" item="car_fuel" separator="," >
+				#{car_fuel}
+				</foreach>
+				)
+			</when>
+		</choose>
+		GROUP BY
+			ci.car_idx
+		<if test="startRow != null and listLimit != null">
+		limit
+			#{startRow}
+			, #{listLimit}
+		</if>
+		
+		
 	</select>
 	
 	<!-- 차량 소개 - 각 차량에 등록된 옵션 -->

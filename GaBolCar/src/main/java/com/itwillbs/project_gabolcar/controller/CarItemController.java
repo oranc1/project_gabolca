@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -666,13 +667,6 @@ public class CarItemController {
 	//차량 소개
 	@GetMapping("carInfoList")
 	public String carInfo(Model model) {
-	    List<Map<String, Object>> carInfoList = carItemService.carInfoList();
-	    for (Map<String, Object> carInfo : carInfoList) {
-	        int carIdx = (int) carInfo.get("car_idx");
-	        List<Map<String, Object>> carOptionList = carItemService.carOptionListInfo(carIdx);
-	        carInfo.put("options", carOptionList);
-	    }
-	    model.addAttribute("carInfoList", carInfoList);
 	    return "html/car_item/car_info_list";
 	}
 	
@@ -865,31 +859,31 @@ public class CarItemController {
 			
 			Map<String,Object> map = null;
 			
-//			//글쓰기 제어 : admin이 아닐 때 예약이 있을 때
-//			if(sId == null || sId.length() == 0)
-//			{
-//				model.addAttribute("msg", "로그인해 주십시오."); // 로그인 안했을 때
-//				model.addAttribute("targetURL", "login"); // 로그인 페이지로 이동
-//				// 코드 재사용 원래는 실패지만 
-//				// success_forward가 메시지를 띄우고 원하는 페이지로 이동하기 때문에 사용
-//				return "inc/success_forward";
-//			}
-//			else
-//			{
-//				if(!sId.equals("admin@admin.com")) {
-//					int isBoardWriter = carItemService.isBoardWriter(sId);
-//					
-//					if(isBoardWriter == 0 
-//							|| resIdx < 0 
-//							|| carItemService.isAlreadyWriteRev(resIdx)) {
-//						model.addAttribute("msg", "권한이 없습니다!");
-//						return "html/car_item/review/fail_back";
-//					}
-//				}
-//			}
+			//글쓰기 제어 : admin이 아닐 때 예약이 있을 때
+			if(sId == null || sId.length() == 0)
+			{
+				model.addAttribute("msg", "로그인해 주십시오."); // 로그인 안했을 때
+				model.addAttribute("targetURL", "login"); // 로그인 페이지로 이동
+				// 코드 재사용 원래는 실패지만 
+				// success_forward가 메시지를 띄우고 원하는 페이지로 이동하기 때문에 사용
+				return "inc/success_forward";
+			}
+			else
+			{
+				if(!sId.equals("admin@admin.com")) {
+					int isBoardWriter = carItemService.isBoardWriter(sId);
+					
+					if(isBoardWriter == 0 
+							|| resIdx < 0 
+							|| carItemService.isAlreadyWriteRev(resIdx)) {
+						model.addAttribute("msg", "권한이 없습니다!");
+						return "html/car_item/review/fail_back";
+					}
+				}
+			}
 			
-			// 예약번호로 차량 정보 가져오기
-			map = carItemService.selectResNCarInfo(null,resIdx);
+			// 예약번호로 차량 정보 가져오기 
+			map = carItemService.selectResNCarInfo(sId,resIdx);
 			if(map == null) {
 				model.addAttribute("msg", "권한이 없거나 예약 정보를 가져오는중에 문제가 발생되었습니다!");
 				return "html/car_item/review/fail_back";
@@ -902,30 +896,30 @@ public class CarItemController {
 		
 		// 리뷰게시판 글 작성
 		@PostMapping("reviewWritePro")
-		public String reviewWritePro(HttpSession session, ReviewVO review, Model model, @RequestParam Map<String,Object> map,HttpServletRequest request) {
+		public String reviewWritePro(HttpSession session,@RequestParam Map<String,Object> map ,  ReviewVO review, Model model ,HttpServletRequest request) {
 			String sId = (String)session.getAttribute("sId");
-
-//			//글쓰기 제어 : admin이 아닐 때 예약이 있을 때
-//			if(sId == null || sId.length() == 0)
-//			{
-//				model.addAttribute("msg", "로그인해 주십시오."); // 로그인 안했을 때
-//				model.addAttribute("targetURL", "login"); // 로그인 페이지로 이동
-//				// 코드 재사용 원래는 실패지만 
-//				// success_forward가 메시지를 띄우고 원하는 페이지로 이동하기 때문에 사용
-//				return "inc/success_forward";
-//			}
-//			else
-//			{
-//				if(!sId.equals("admin@naver.com")) {
-//					int isBoardWriter = carItemService.isBoardWriter(sId);
-//					
-//					if(isBoardWriter == 0 ) {
-//						model.addAttribute("msg", "권한이 없습니다!");
-//						return "html/car_item/review/fail_back";
-//					}
-//				}
-//			}
-
+			
+			//글쓰기 제어 : admin이 아닐 때 예약이 있을 때
+			if(sId == null || sId.length() == 0)
+			{
+				model.addAttribute("msg", "로그인해 주십시오."); // 로그인 안했을 때
+				model.addAttribute("targetURL", "login"); // 로그인 페이지로 이동
+				// 코드 재사용 원래는 실패지만 
+				// success_forward가 메시지를 띄우고 원하는 페이지로 이동하기 때문에 사용
+				return "inc/success_forward";
+			}
+			else
+			{
+				if(!sId.equals("admin@naver.com")) {
+					int isBoardWriter = carItemService.isBoardWriter(sId);
+					
+					if(isBoardWriter == 0 ) {
+						model.addAttribute("msg", "권한이 없습니다!");
+						return "html/car_item/review/fail_back";
+					}
+				}
+			}
+			
 			
 			String uploadDir = "/resources/upload";
 			//String saveDir = request.getServletContext().getRealPath(uploadDir); // 사용 가능
@@ -1065,7 +1059,7 @@ public class CarItemController {
 			System.out.println("실제 업로드 파일명1 : " + review.getRev_file1());
 			System.out.println("실제 업로드 파일명2 : " + review.getRev_file2());
 			System.out.println("실제 업로드 파일명3 : " + review.getRev_file3());
-			System.out.println(review);
+			
 			int insertCount = carItemService.insertReview(review);
 			
 			if(insertCount > 0) {
@@ -1239,5 +1233,55 @@ public class CarItemController {
 		return result;
 	}
 	
-
+	// 차량리스트 조회
+    @ResponseBody
+    @RequestMapping(value= "carInfoList.ajax", method = RequestMethod.GET, produces = "application/text; charset=UTF-8")
+    public String carInfoListAjax(
+    		@RequestParam Map<String, Object> map
+    		,@RequestParam(value="car_type[]", required = false) String[] car_type
+    		,@RequestParam(value="car_fuel[]", required = false) String[] car_fuel ) {
+    	// 차종, 연료 맵 추가
+    	map.put("car_type",car_type);
+    	map.put("car_fuel",car_fuel);
+    	
+    	// 출력할 데이터 정의
+		int pageNum = Integer.parseInt(String.valueOf(map.get("pageNum")));
+		int listLimit = 4;
+		int startRow = (pageNum -1) * listLimit;
+		
+		// 출력할 데이터 가져오기
+		map.put("startRow", startRow);
+		map.put("listLimit", listLimit);
+		List<Map<String, Object>> carList = carItemService.carInfoList(map);
+		
+		// 출력할 데이터 사이즈
+		map.remove("startRow");
+		map.remove("listLimit");
+		int listCount = carItemService.carInfoList(map).size();
+		
+		//한 페이지에서 표시할 페이지 목록 갯수 설정
+		int pageListLimit = 4;
+		// 3. 전체 페이지 목록 수 계산
+		int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0);
+		// 4. 시작 페이지 번호 계산
+		int startPage = (pageNum - 1) / pageListLimit * pageListLimit + 1;
+		// 5. 끝 페이지 번호 계산
+		int endPage = startPage + pageListLimit - 1;
+		if(endPage > maxPage) {
+			endPage = maxPage;
+		}
+		
+		Map<String, Object> pageInfo = new HashMap<String, Object>();
+		pageInfo.put("listCount", listCount);
+		pageInfo.put("pageListLimit", pageListLimit);
+		pageInfo.put("maxPage", maxPage);
+		pageInfo.put("startPage", startPage);
+		pageInfo.put("endPage", endPage);
+		pageInfo.put("pageNum", pageNum);
+		
+		carList.add(pageInfo);
+		
+		JSONArray jsonArray = new JSONArray(carList);
+    	return jsonArray.toString();
+    }
 }

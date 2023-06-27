@@ -245,3 +245,20 @@ input[type="checkbox"]:checked {
 		padding: 0;
 	}
 }
+
+.res_btn {
+	margin-top: 20px;
+	width: 100px;
+	text-align: center;
+	padding: 17px 0;
+	font-size: 19px;
+	font-weight: bold;
+	background-color: #ff6600;
+	border-radius: 5px;
+	color: white;
+}
+
+#pageArea {
+	width: 100%;
+	text-align: center;
+}
