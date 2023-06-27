@@ -7,65 +7,16 @@
 <html>
 <head>
 <style>
-.list_head,
-.list_cont {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-}
 
-.list_num,
-.list_car,
-.txt_prev,
-.writter_name,
-.writter,
-.readcount,
-.date {
-  text-align: center;
-}
 
-.list_car {
-    flex: 1;
-}
-
-.txt_prev {
-    flex: 6;
-    text-align: left;
-    margin-left: 20px;
-}
-
-.writter_name {
-    flex: 1;
-}
-
-.writter {
-    flex: 1;
-}
-
-.readcount {
-    flex: 1;
-}
-
-.date {
-    flex: 2;
-}
-
-.subject-align {
-    display: block;
-    width: 100%;
-    height: 100%;
-    text-align: left;
-}
-.subject-align img {
-    width: 25px;
-    height: 25px;
-}
 </style>
 
     <meta charset="UTF-8">
     <title>Insert title here</title>
-    <link href="${pageContext.request.contextPath}/resources/css/inc/top.css" rel="styleSheet">
-    <link href="${pageContext.request.contextPath}/resources/css/inc/footer.css" rel="styleSheet">
+    <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/admin/adm_sidebar.css">
+    
+<%--     <link href="${pageContext.request.contextPath}/resources/css/inc/top.css" rel="styleSheet"> --%>
+<%--     <link href="${pageContext.request.contextPath}/resources/css/inc/footer.css" rel="styleSheet"> --%>
     <link href="${pageContext.request.contextPath}/resources/css/common.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/resources/css/member/question/question_board.css" rel="stylesheet">
 
@@ -79,12 +30,15 @@
 	</c:if>
 
     <header>
-        <jsp:include page="../../../inc/top1.jsp"></jsp:include>
+<%--         <jsp:include page="../../../inc/top1.jsp"></jsp:include> --%>
     </header>
                 
      <div id="notice_cont">
         <section id="sec_con" class="inr">
-            <h1 class="con_title">1:1 관리자 문의 게시판</h1>
+            <h1 class="con_title">관리자 페이지</h1>
+                        <div class="main-content">
+			<jsp:include page="../../../inc/adm_sidebar.jsp" />
+                        <section id="board_list" class="notice board_section">
             <section id="board_list" class="notice">
                 <section id="buttonArea">
 				<form action="QuestionListForm" method="GET" class="search-form">
@@ -95,7 +49,7 @@
 				        <option value="name" <c:if test="${param.searchType eq 'name' }">selected</c:if>>작성자</option>        
 				    </select>
 				    <input type="text" name="searchKeyword" value="${param.searchKeyword }" id="searchKeyword">
-				    <input type="submit" value="검색">
+				    <input type="submit" id="search" value="검색">
 				</form>
                 </section>
                 <section id="board_wrap">    
@@ -104,31 +58,27 @@
                             <ul class="list">
                                 <li class="list_head">
 <!--                                     <p class="list_num">번호</p> -->
-                                    <p class="list_car">&nbsp;&nbsp;&nbsp;구분</p>
+                                    <p class="list_car">구분</p>
                                     <div class="txt_prev">
                                         <h4>제목</h4>
                                     </div>
                                     <p class="writter">
                                         <span class="writter_name">
-                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        
                                         글쓴이
                                         </span>
                                     </p>     
                                     <p class="writter">조회수</p>
                                     <p class="date">날짜</p>
                                 </li>
-                                <c:set var="loggedInUser" value="${sessionScope.loggedInUser}" />
-                                
 							<c:forEach var="question" items="${qstBoardList}">
-<%-- 							    <c:if test="${question.mem_idx eq loggedInUser.mem_idx or question.mem_idx eq 1}"> --%>
 								<li class="list_cont">
 								    <p class="list_car">${question.qst_type}</p>
 								    <div class="txt_prev">
 								        <c:if test="${question.qst_board_re_lev > 0 }">
 								            <c:forEach var="i" begin="1" end="${question.qst_board_re_lev }">
 								            </c:forEach>
-								            <img class="subject-align" src="${pageContext.request.contextPath }/resources/img/re.gif" style= "width: 25px;">
+<%-- 								            <img class="subject-align" src="${pageContext.request.contextPath }/resources/img/re.gif" style= "width: 25px;"> --%>
 								        </c:if>
 								        <h4 class="subject-align">
 								            <%-- 인라인 스타일을 사용하여 전체 h4 영역이 링크로 작동하도록 함. --%>
@@ -146,8 +96,7 @@
 								    <p class="date">
 								        <fmt:formatDate value="${question.qst_date}" pattern="yyyy-MM-dd HH:mm"/>
 								    </p>
-								</li>		
-<%-- 								</c:if>	 --%>
+								</li>			
 							</c:forEach>
                             </ul>
                         </div>
@@ -160,18 +109,18 @@
                                 <section id="pageList">
                                         <c:choose>
                                             <c:when test="${pageNum > 1 }">
-                                                <a href="QuestionListForm?pageNum=1" class="pg_page pg_start">맨처음</a>
+                                                <a href="QuestionListForm?pageNum=1" class="pg_page pg_start" id="begin">맨처음</a>
                                             </c:when>
                                             <c:otherwise>
-                                                <a class="pg_page pg_start disabled" disabled>맨처음</a>
+                                                <a class="pg_page pg_start disabled" disabled id="begin">맨처음</a>
                                             </c:otherwise>
                                         </c:choose>
                                         <c:choose>
                                             <c:when test="${pageNum > 1 }">
-                                                <input type="button" value="이전" onclick="location.href='QuestionListForm?pageNum=${pageNum - 1}'">
+                                                <input type="button" value="이전" onclick="location.href='QuestionListForm?pageNum=${pageNum - 1}'" id="previous">
                                             </c:when>
                                             <c:otherwise>
-                                                <input type="button" value="이전" disabled="disabled">
+                                                <input type="button" value="이전" disabled="disabled" id="previous">
                                             </c:otherwise>
                                         </c:choose>     
                                         <c:forEach var="i" begin="${pageInfo.startPage }" end="${pageInfo.endPage }">
@@ -187,18 +136,18 @@
                                         </c:forEach> 
                                         <c:choose>
                                             <c:when test="${pageNum < pageInfo.maxPage }">
-                                                <input type="button" value="다음" onclick="location.href='QuestionListForm?pageNum=${pageNum + 1}'">
+                                                <input type="button" value="다음" onclick="location.href='QuestionListForm?pageNum=${pageNum + 1}'" id="next">
                                             </c:when>
                                             <c:otherwise>
-                                                <input type="button" value="다음" disabled="disabled">
+                                                <input type="button" value="다음" disabled="disabled" id="next">
                                             </c:otherwise>
                                         </c:choose>
                                         <c:choose>
                                             <c:when test="${pageNum < pageInfo.maxPage }">
-                                                <a href="QuestionListForm?pageNum=${pageInfo.maxPage }" class="pg_page pg_end">맨끝</a>
+                                                <a href="QuestionListForm?pageNum=${pageInfo.maxPage }" class="pg_page pg_end" id="end">맨끝</a>
                                             </c:when>
                                             <c:otherwise>
-                                                <a class="pg_page pg_end disabled" disabled>맨끝</a>
+                                                <a class="pg_page pg_end disabled" disabled id="end">맨끝</a>
                                             </c:otherwise>
                                         </c:choose>
                                     </section>
@@ -208,10 +157,14 @@
                     </div>
                 </section>
             </section>
+ 
+            
+            </section>
+            </div>
         </section>
     </div>
     <footer>
-        <jsp:include page="../../../inc/footer.jsp"></jsp:include>
+<%--         <jsp:include page="../../../inc/footer.jsp"></jsp:include> --%>
     </footer>
 </body>
 </html>

@@ -44,9 +44,9 @@
 										</div>
                                     </li>
                                     <li>
-                                        <div class="password">
-                                            <input type="password" name="qst_pass" id="qst_pass" placeholder="비밀번호를 입력해주세요" class="inputBox">
-                                        </div>
+<!--                                         <div class="password"> -->
+<!--                                             <input type="password" name="qst_pass" id="qst_pass" placeholder="비밀번호를 입력해주세요" class="inputBox"> -->
+<!--                                         </div> -->
                                         <div class="title">
                                             <input type="text" name="qst_subject" id="qst_subject" placeholder="제목을 입력해주세요" value="${question.qst_subject }" class="inputBox">
                                         </div>
