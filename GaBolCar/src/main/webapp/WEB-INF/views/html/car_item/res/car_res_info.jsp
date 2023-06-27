@@ -136,7 +136,7 @@
 			const dateB = new Date('${map.res_rental_date}');
 			const diffMSec = dateA.getTime() - dateB.getTime();
 			
-			var diffTime = (dateA.getTime() - dateB.getTime()) / (10006060);
+			var diffTime = (dateA.getTime() - dateB.getTime()) / (1000*60*60);
             $("#rental_time").html(diffTime);
             rental_day = parseInt(diffTime/24);
             rental_time = parseInt(diffTime%24);
