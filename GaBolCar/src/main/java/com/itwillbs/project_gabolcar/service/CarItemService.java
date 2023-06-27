@@ -173,8 +173,8 @@ public class CarItemService {
 	
 // ============ 차량 소개 ==================================
 	// 차량소개 - 차량정보
-	public List<Map<String, Object>> carInfoList() {
-		return carItemMapper.selectCarInfoList();
+	public List<Map<String, Object>> carInfoList(Map<String, Object> map) {
+		return carItemMapper.selectCarInfoList(map);
 	}
 	// 차량소개 - 차량에 등록된 옵션
 	public List<Map<String, Object>> carOptionListInfo(int carIdx) {

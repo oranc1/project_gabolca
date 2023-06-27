@@ -78,7 +78,7 @@ public interface CarItemMapper {
 	
 	
 	// 차량 소개 - 차량정보
-	List<Map<String, Object>> selectCarInfoList();
+	List<Map<String, Object>> selectCarInfoList(Map<String, Object> map);
 	
 	// 차량 소개 - 차량에 등록된 옵션
 	List<Map<String, Object>> selectCarOptionListInfo(int carIdx);
