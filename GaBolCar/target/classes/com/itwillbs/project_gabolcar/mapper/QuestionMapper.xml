@@ -27,14 +27,7 @@
   <select id="getQstBoardListForMember" resultType="com.itwillbs.project_gabolcar.vo.QuestionVO" parameterType="map">
     SELECT *
     FROM qst_board
-    
-<!--     <where> -->
-<!--         ( -->
-<!--             mem_idx = #{mem_idx} -->
-<!--             <if test="mem_idx == 1">OR mem_idx = 1</if> -->
-<!--         ) -->
-<!--         AND -->
-<!--         ( -->
+    WHERE (mem_idx = #{mem_idx} OR (qst_board_re_lev > 0 AND mem_idx = 1))
             <if test="!searchKeyword.equals('')">
                 <choose>
  						<when test="searchType.equals('subject')">

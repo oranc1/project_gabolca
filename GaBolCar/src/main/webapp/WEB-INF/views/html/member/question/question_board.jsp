@@ -121,7 +121,7 @@
                                 <c:set var="loggedInUser" value="${sessionScope.loggedInUser}" />
                                 
 							<c:forEach var="question" items="${qstBoardList}">
-							    <c:if test="${question.mem_idx eq loggedInUser.mem_idx or question.mem_idx eq 1}">
+<%-- 							    <c:if test="${question.mem_idx eq loggedInUser.mem_idx or question.mem_idx eq 1}"> --%>
 								<li class="list_cont">
 								    <p class="list_car">${question.qst_type}</p>
 								    <div class="txt_prev">
@@ -147,7 +147,7 @@
 								        <fmt:formatDate value="${question.qst_date}" pattern="yyyy-MM-dd HH:mm"/>
 								    </p>
 								</li>		
-								</c:if>	
+<%-- 								</c:if>	 --%>
 							</c:forEach>
                             </ul>
                         </div>
