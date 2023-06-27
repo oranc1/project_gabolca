@@ -888,7 +888,7 @@ public class CarItemController {
 				}
 			}
 			
-			// 예약번호로 차량 정보 가져오기
+			// 예약번호로 차량 정보 가져오기 
 			map = carItemService.selectResNCarInfo(sId,resIdx);
 			if(map == null) {
 				model.addAttribute("msg", "권한이 없거나 예약 정보를 가져오는중에 문제가 발생되었습니다!");
