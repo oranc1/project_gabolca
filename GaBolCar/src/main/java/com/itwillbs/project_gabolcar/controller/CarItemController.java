@@ -869,7 +869,10 @@ public class CarItemController {
 			if(sId == null || sId.length() == 0)
 			{
 				model.addAttribute("msg", "로그인해 주십시오."); // 로그인 안했을 때
-				return "redirect:/login";
+				model.addAttribute("targetURL", "login"); // 로그인 페이지로 이동
+				// 코드 재사용 원래는 실패지만 
+				// success_forward가 메시지를 띄우고 원하는 페이지로 이동하기 때문에 사용
+				return "inc/success_forward";
 			}
 			else
 			{
@@ -906,7 +909,10 @@ public class CarItemController {
 			if(sId == null || sId.length() == 0)
 			{
 				model.addAttribute("msg", "로그인해 주십시오."); // 로그인 안했을 때
-				return "redirect:/login";
+				model.addAttribute("targetURL", "login"); // 로그인 페이지로 이동
+				// 코드 재사용 원래는 실패지만 
+				// success_forward가 메시지를 띄우고 원하는 페이지로 이동하기 때문에 사용
+				return "inc/success_forward";
 			}
 			else
 			{
@@ -1137,7 +1143,10 @@ public class CarItemController {
 			if(sId == null || sId.length() == 0)
 			{
 				model.addAttribute("msg", "로그인해 주십시오."); // 로그인 안했을 때
-				return "redirect:/login";
+				model.addAttribute("targetURL", "login"); // 로그인 페이지로 이동
+				// 코드 재사용 원래는 실패지만 
+				// success_forward가 메시지를 띄우고 원하는 페이지로 이동하기 때문에 사용
+				return "inc/success_forward";
 			}
 			else
 			{
@@ -1176,7 +1185,10 @@ public class CarItemController {
 			if(sId == null || sId.length() == 0)
 			{
 				model.addAttribute("msg", "로그인해 주십시오."); // 로그인 안했을 때
-				return "redirect:/login";
+				model.addAttribute("targetURL", "login"); // 로그인 페이지로 이동
+				// 코드 재사용 원래는 실패지만 
+				// success_forward가 메시지를 띄우고 원하는 페이지로 이동하기 때문에 사용
+				return "inc/success_forward";
 			}
 			else
 			{
