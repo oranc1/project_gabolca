@@ -32,7 +32,7 @@ public class BoardController {
 	@GetMapping("noticeWriteForm")
 	public String noticeWriteForm(HttpSession session, Model model) {
 		String sId = (String)session.getAttribute("sId");
-		if(sId == null || !sId.equals("admin")) {
+		if(sId == null || !sId.equals("admin@admin.com")) {
 			model.addAttribute("msg", "잘못된 접근입니다");
 			return "html/member/notice/fail_back";
 		}
@@ -44,7 +44,7 @@ public class BoardController {
 	@PostMapping("noticeWritePro")
 	public String noticeWritePro(HttpSession session, NoticeVO notice, Model model) {
 		String sId = (String)session.getAttribute("sId");
-		if(sId == null || !sId.equals("admin")) {
+		if(sId == null || !sId.equals("admin@admin.com")) {
 			model.addAttribute("msg", "잘못된 접근입니다");
 			return "html/member/notice/fail_back";
 		}
@@ -118,7 +118,7 @@ public class BoardController {
 	@GetMapping("noticeModify")
 	public String noticeModify(HttpSession session, NoticeVO notice, Model model, Criteria cri) {
 		String sId = (String)session.getAttribute("sId");
-		if(sId == null || !sId.equals("admin")) {
+		if(sId == null || !sId.equals("admin@admin.com")) {
 			model.addAttribute("msg", "잘못된 접근입니다");
 			return "html/member/notice/fail_back";
 		}
@@ -134,7 +134,7 @@ public class BoardController {
 	@PostMapping("noticeModifyPro")
 	public String noticeModifyPro(HttpSession session, NoticeVO notice, Model model, Criteria cri) {
 		String sId = (String)session.getAttribute("sId");
-		if(sId == null || !sId.equals("admin")) {
+		if(sId == null || !sId.equals("admin@admin.com")) {
 			model.addAttribute("msg", "잘못된 접근입니다");
 			return "html/member/notice/fail_back";
 		}
@@ -153,7 +153,7 @@ public class BoardController {
 	@GetMapping("noticeDelete")
 	public String noticeDelete(HttpSession session, NoticeVO notice, Model model) {
 		String sId = (String)session.getAttribute("sId");
-		if(sId == null || !sId.equals("admin")) {
+		if(sId == null || !sId.equals("admin@admin.com")) {
 			model.addAttribute("msg", "잘못된 접근입니다");
 			return "html/member/notice/fail_back";
 		}

@@ -61,7 +61,7 @@
 								</ul>
 								
 								<div class="write_btn">
-									<c:if test="${sessionScope.sId eq 'admin'}">
+									<c:if test="${sessionScope.sId eq 'admin@admin.com'}">
 										<a href="noticeWriteForm">글쓰기</a>
 									</c:if>
 								</div>

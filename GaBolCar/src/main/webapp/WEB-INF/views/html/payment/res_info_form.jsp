@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:setLocale value="ko_KR" />
 <!-- 원본 파일 이름 4-3 -->
 <!DOCTYPE html>
 <html>
@@ -44,8 +46,8 @@
 					<ul class="side_sub">
 						<li>
 							<label for="rentdate">대여 날짜</label>
-							<span class="drv_80">${map.res_rental_date }</span>
-<!-- 							<span class="drv_80">2023. 05.28(일) 13:00</span> -->
+							<fmt:parseDate value="${map.res_rental_date }" pattern="yyyy-MM-dd HH:mm" var="res_restal_date"/>
+							<span class="drv_80"><fmt:formatDate value="${res_restal_date }" pattern="yyyy-MM-dd HH:mm" /></span>
 						</li>
 						<li>
 							<label for="rental_area">대여 지점</label>
@@ -58,8 +60,8 @@
 						</li>
 						<li>
 							<label for="returndate">반납 날짜</label>
-							<span class="drv_80">${map.res_return_date }</span>
-<!-- 							<span class="drv_80">2023. 05. 28(일) 13:30</span> -->
+							<fmt:parseDate value="${map.res_return_date }" pattern="yyyy-MM-dd HH:mm" var="res_return_date"/>
+							<span class="drv_80"><fmt:formatDate value="${res_return_date }" pattern="yyyy-MM-dd HH:mm" /></span>
 						</li>
 						<li>
 							<label for="rental_area">반납 지점</label>
@@ -353,7 +355,7 @@
                             </textarea>
                             <br>
                             <p class="terms_p">
-	                             <input type="checkbox" name="agreeBtn">이용약관에 동의합니다.
+	                             <input type="checkbox" name="agreeBtn" class="agreeBtns">이용약관에 동의합니다.
 	                             <br>
                             </p>
 							</li>
@@ -380,7 +382,7 @@
                            		<tr>
                             </table>
                                <p class="terms_p">
-	                               <input type="checkbox" id="agree" name="agreeCheckbox">환불규정에 동의합니다.<br>
+	                               <input type="checkbox" id="agree" name="agreeCheckbox" class="agreeBtns">환불규정에 동의합니다.<br>
                                </p>
 							</li>
 					</ul>
@@ -425,16 +427,14 @@
 				// 결제 금액 계산
 				var totalAmount = 0; // 총 결제 금액 초기값
 				
-				if(weekdayRent == '0' || weekdayRent == '6') {
-					totalAmount = Math.round((${carInfo.car_weekend} * (hours / 24)) + ${carInfo.car_weekend} * days);
-				} else {
-					totalAmount = Math.round((${carInfo.car_weekdays} * (hours / 24)) + ${carInfo.car_weekdays} * days);
-				}
-				
-				console.log(totalAmount);
+// 				if(weekdayRent == '0' || weekdayRent == '6') {
+// 					totalAmount = Math.ceil((${carInfo.car_weekend} * (hours / 24)) + ${carInfo.car_weekend} * days);
+// 				} else {
+// 					totalAmount = Math.ceil((${carInfo.car_weekdays} * (hours / 24)) + ${carInfo.car_weekdays} * days);
+// 				}
 				
 				document.addEventListener('DOMContentLoaded', function() {
-					  
+					  totalAmount = ${rentPrice};
 					  var formattedTotalAmount = addCommas(totalAmount);
 					  document.querySelector('.resAmount b').innerText = formattedTotalAmount;
 				});
@@ -449,7 +449,8 @@
 						     plusTotalAmount = totalAmount + 0;
 					    	 document.querySelector('#ins_result').innerText = addCommas(notSelect);
 					    } else {
-					    	 plusTotalAmount = totalAmount + 10000;
+					    	 insuSelect = 10000 * (days + 1);
+					    	 plusTotalAmount = totalAmount + 10000 * (days + 1);
 					    	 document.querySelector('#ins_result').innerText = addCommas(insuSelect);
 					    }
 					    

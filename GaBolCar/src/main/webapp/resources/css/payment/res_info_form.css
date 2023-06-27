@@ -351,6 +351,19 @@ li.lic_num_inp select, li.lic_num_inp input{
 	margin-top: 40px;
 }
 
+/* 추가 */
+.car_insurance {
+	width: 18px;
+    height: 18px;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+.agreeBtns {
+	width: 20px;
+    height: 20px;
+    vertical-align: middle;
+}
 
 
 

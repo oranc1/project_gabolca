@@ -1,6 +1,7 @@
 package com.itwillbs.project_gabolcar.controller;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.itwillbs.project_gabolcar.handler.CarResHandler;
 import com.itwillbs.project_gabolcar.service.PaymentService;
 import com.itwillbs.project_gabolcar.vo.CarVO;
 import com.itwillbs.project_gabolcar.vo.DriverVO;
@@ -24,6 +26,9 @@ public class PaymentController {
 
 	@Autowired
 	PaymentService service;
+	
+	// 핸들러 객체 생성
+	CarResHandler carResHandler = new CarResHandler();
 
 	// 차량 예약 정보 작성 폼
 	@GetMapping("carRes/resPayment")
@@ -39,15 +44,27 @@ public class PaymentController {
 
 		MemberVO member = service.getMemberInfo(id);
 		model.addAttribute("member", member);
-
+		
+		
+		
 		// 파라미터로 넘긴 예약 정보 저장
 		model.addAttribute("map", map);
+		System.out.println("맵" + map);
 
 		// 선택한 자동차 정보 가져오기
 		CarVO carInfo = service.getCarName(map.get("car_idx"));
 		model.addAttribute("carInfo", carInfo);
 
 //		System.out.println(map);
+		
+		// 렌트 시간, 비용 계산
+		String[] rentSplit = map.get("res_rental_date").toString().split(" ");
+		String[] returnSplit = map.get("res_return_date").toString().split(" ");
+		LocalDateTime resRentalDate = carResHandler.str2Ldt(rentSplit[0], "-", rentSplit[1], ":");
+		LocalDateTime resReturnDate = carResHandler.str2Ldt(returnSplit[0], "-", returnSplit[1], ":");
+		int rentPrice = carResHandler.resPriceCal(resRentalDate, resReturnDate, (int)carInfo.getCar_weekdays(), (int)carInfo.getCar_weekend());
+		//렌트 비용 집어 넣기
+		model.addAttribute("rentPrice", rentPrice);
 
 		return "html/payment/res_info_form";
 	}
