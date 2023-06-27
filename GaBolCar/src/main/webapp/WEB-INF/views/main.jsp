@@ -217,7 +217,7 @@
 			<c:choose>
 				<c:when test="${!empty map.car_rev_list}">
 					<c:forEach var="rev_car"  items="${map.car_rev_list }" varStatus="i">
-						<div class="mt-2 col-2  d-flex align-items-center justify-content-center review-wrap1">
+						<div class="mt-2 col-2  d-flex align-items-center justify-content-center review-wrap${i.index + 1 }">
 							<div class="">
 								<span class="review-star">
 									<c:forEach var="star" begin="1" end="${rev_car.rev_star }" >
@@ -226,7 +226,7 @@
 <%-- 									<c:forEach var="unStar" begin="1" end="${ 5 - rev_car.rev_star }" > --%>
 <!-- 										<span>★</span> -->
 <%-- 									</c:forEach>	 --%>
-								</span> 
+								</span> <br>
 								<span class="review-car-name">${rev_car.car_model }(${rev_car.car_company })</span>
 								<div class="review-content">
 									<p>${rev_car.rev_subject}</p>

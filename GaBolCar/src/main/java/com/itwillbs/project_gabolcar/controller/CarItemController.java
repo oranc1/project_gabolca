@@ -857,9 +857,14 @@ public class CarItemController {
 		public String reviewWriteForm(HttpSession session, Model model, @RequestParam(defaultValue = "") String searchType, 
 				@RequestParam(defaultValue = "") String searchKeyword, 
 				@RequestParam(defaultValue = "1") int pageNum, 
-				@RequestParam(defaultValue = "1") int rev_idx) {
+				@RequestParam(defaultValue = "-1") int rev_idx) {
+			
+			// 예약 번호 저장
+			int revIdx = rev_idx;
 			String sId = (String)session.getAttribute("sId");
-
+			
+			Map<String,Object> map = null;
+			
 			//글쓰기 제어 : admin이 아닐 때 예약이 있을 때
 			if(sId == null || sId.length() == 0)
 			{
@@ -868,15 +873,26 @@ public class CarItemController {
 			}
 			else
 			{
-				if(!sId.equals("admin@naver.com")) {
+				if(!sId.equals("admin@admin.com")) {
 					int isBoardWriter = carItemService.isBoardWriter(sId);
 					
-					if(isBoardWriter == 0 ) {
+					if(isBoardWriter == 0 
+							|| revIdx < 0 
+							|| carItemService.isAlreadyWriteRev(revIdx)) {
 						model.addAttribute("msg", "권한이 없습니다!");
 						return "html/car_item/review/fail_back";
 					}
 				}
 			}
+			
+			// 예약번호로 차량 정보 가져오기
+			map = carItemService.selectResNCarInfo(sId,revIdx);
+			if(map == null) {
+				model.addAttribute("msg", "예약 정보를 가져오는중에 문제가 발생되었습니다!");
+				return "html/car_item/review/fail_back";
+			}
+			
+			model.addAttribute("map", map);
 
 			return "html/car_item/review/review_write_form";
 		}
@@ -1043,7 +1059,7 @@ public class CarItemController {
 			System.out.println("실제 업로드 파일명1 : " + review.getRev_file1());
 			System.out.println("실제 업로드 파일명2 : " + review.getRev_file2());
 			System.out.println("실제 업로드 파일명3 : " + review.getRev_file3());
-			
+			System.out.println(review);
 			int insertCount = carItemService.insertReview(review);
 			
 			if(insertCount > 0) {
@@ -1124,10 +1140,11 @@ public class CarItemController {
 			}
 			else
 			{
-				if(!sId.equals("admin@naver.com")) {
+				if(!sId.equals("admin@admin.com")) {
 					int isBoardWriter = carItemService.isBoardWriter(sId);
 					
-					if(isBoardWriter == 0 ) {
+					if(isBoardWriter == 0 
+							|| carItemService.isAlreadyWriteRev(revIdx)) {
 						model.addAttribute("msg", "권한이 없습니다!");
 						return "html/car_item/review/fail_back";
 					}

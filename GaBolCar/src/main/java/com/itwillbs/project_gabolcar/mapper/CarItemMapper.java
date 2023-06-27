@@ -73,7 +73,17 @@ public interface CarItemMapper {
 		
 		//=========================================================================================
 		
+	//========== 0627 경인 추가 ===========
 	
+	// 리뷰 게시판 - 멤버의 이름으로 검색하여
+	// 최신 예약건과 차량이름, 모델, 년도 들고오기
+	Map<String,Object> selectResNCarInfo(@Param("sId") String sId,@Param("resIdx") int resIdx );
+	
+	/*
+	 * 리뷰 게시판 - 현재 리뷰를 작성할 예약 번호로
+		리뷰가 이미 작성이 되어 있는지 확인하기 
+	 */
+	int selectIsAlreadyWriteRev(int resIdx);
 	
 	
 	
