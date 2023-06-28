@@ -817,7 +817,7 @@ public class CarItemController {
 			if(map == null) {
 				model.addAttribute("msg", "권한이 없거나 예약 정보를 가져오는중에 문제가 발생되었습니다!");
 				return "html/car_item/review/fail_back";
-			}
+				}
 			
 			model.addAttribute("map", map);
 
@@ -838,17 +838,17 @@ public class CarItemController {
 				// success_forward가 메시지를 띄우고 원하는 페이지로 이동하기 때문에 사용
 				return "inc/success_forward";
 			}
-			else
-			{
-				if(!sId.equals("admin@admin.com")) {
-					int isBoardWriter = carItemService.isBoardWriter(sId);
-					
-					if(isBoardWriter == 0 ) {
-						model.addAttribute("msg", "권한이 없습니다!");
-						return "html/car_item/review/fail_back";
+				else
+				{
+					if(!sId.equals("admin@admin.com")) {
+						int isBoardWriter = carItemService.isBoardWriter(sId);
+						
+						if(isBoardWriter == 0 ) {
+							model.addAttribute("msg", "권한이 없습니다!");
+							return "html/car_item/review/fail_back";
+						}
 					}
 				}
-			}
 			
 			
 			String uploadDir = "/resources/upload";
@@ -990,6 +990,13 @@ public class CarItemController {
 			System.out.println("실제 업로드 파일명2 : " + review.getRev_file2());
 			System.out.println("실제 업로드 파일명3 : " + review.getRev_file3());
 			
+			int rev_star = review.getRev_star();
+		
+			if(rev_star == 0) {
+				model.addAttribute("msg", "별점을 입력해주세요");
+				return "html/car_item/review/fail_back";
+			} 			
+			
 			int insertCount = carItemService.insertReview(review);
 			
 			if(insertCount > 0) {
@@ -1019,7 +1026,7 @@ public class CarItemController {
 				}
 			}
 						
-			int rev_star = review.getRev_star();
+			
 			if(insertCount < 0) {
 				model.addAttribute("msg", "등록 실패");
 				return "html/car_item/review/fail_back";

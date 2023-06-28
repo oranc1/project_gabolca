@@ -18,7 +18,7 @@
 	<div id="notice_cont">
 		<section id="sec_con" class="inr">
 			<h1 class="con_title">리뷰 작성</h1>
-			<form action="reviewWritePro" method="post" enctype="multipart/form-data">
+			<form action="${pageContext.request.contextPath}reviewWritePro" method="post" enctype="multipart/form-data">
 				<input type="hidden" name="session_id" value="${sessionScope.sId}"/>
 				<input type="hidden" name="res_idx" value="${map.res_idx}"/>
 				<section id="board_wrap">
@@ -39,7 +39,7 @@
 											${map.car_company}&nbsp;&nbsp;${map.car_model}&nbsp;&nbsp;${map.car_old}년식
 											</div>
 											<fieldset>
-													<input type="radio" name="rev_star" value="5" id="rate1">
+													<input type="radio" name="rev_star" value="5" id="rate1" selected="selected">
 													<label for="rate1">⭐</label>
 													<input type="radio" name="rev_star" value="4" id="rate2">
 													<label for="rate2">⭐</label>
@@ -71,7 +71,7 @@
 								</div>
 
 								<div class="mod_box">
-									<input type="button" class="index_btn" value="목록" onclick="window.location.href='/project_gabolcar/reviewList?pageNum=${param.pageNum}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}'" />
+									<input type="button" class="index_btn" value="목록" onclick="window.location.href='${pageContext.request.contextPath}reviewList?pageNum=${param.pageNum}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}'" />
 									<input type="submit" class="delete_btn" value="등록">
 								</div>
 							</div>

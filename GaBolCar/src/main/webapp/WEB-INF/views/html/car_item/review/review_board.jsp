@@ -60,7 +60,7 @@
 										</li>
 										<c:forEach var="reviewList" items="${reviewListP}">
 										<li class="list_cont">
-											<a href="/project_gabolcar/reviewDetail?rev_idx=${reviewList.rev_idx}&pageNum=${pageNum}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}">
+											<a href="${pageContext.request.contextPath}reviewDetail?rev_idx=${reviewList.rev_idx}&pageNum=${pageNum}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}">
 												<p class="list_num">${reviewList.rev_idx}</p>
 												<p class="list_scope">
 												<!-- 별점 구현 -->
