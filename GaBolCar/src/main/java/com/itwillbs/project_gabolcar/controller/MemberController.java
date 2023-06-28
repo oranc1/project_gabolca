@@ -328,7 +328,7 @@ public class MemberController {
 //	      System.out.println("mem_name " + mem_name);
 //	      System.out.println("mem_name " + mem_name);
 
-		return loggedInUser.getMem_idx() == 1 ? "html/member/question/question_write_form_admin"
+		return loggedInUser.getMem_idx() == 1 && sId == "admin@admin.com" ? "html/member/question/question_write_form_admin"
 				: "html/member/question/question_write_form_member";
 
 	}

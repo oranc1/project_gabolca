@@ -47,6 +47,7 @@ public class CarVO {
 	
 	private int car_file_index;
 	
+	
 	// 파일명을 carFile1 ~ carFile6 변수에 셋팅
     public void setCarFileAt(int index, String carFile){
         switch (index) {
@@ -96,6 +97,25 @@ public class CarVO {
             case 4: setCar_file4(carFile); break;
             case 5: setCar_file5(carFile); break;
             default: setCar_file6(carFile); break;
+        }
+    }
+
+    public boolean checkCarFileAt(int index) {
+        switch (index) {
+            case 1:
+                return car_file1 != null && !car_file1.isEmpty();
+            case 2:
+                return car_file2 != null && !car_file2.isEmpty();
+            case 3:
+                return car_file3 != null && !car_file3.isEmpty();
+            case 4:
+                return car_file4 != null && !car_file4.isEmpty();
+            case 5:
+                return car_file5 != null && !car_file5.isEmpty();
+            case 6:
+                return car_file6 != null && !car_file6.isEmpty();
+            default:
+                return false;
         }
     }
 
