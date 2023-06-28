@@ -4,14 +4,21 @@ package com.itwillbs.project_gabolcar.service;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.net.http.HttpRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -160,7 +167,7 @@ public class MemberService{
 		        BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
 		        String sb = "grant_type=authorization_code" +
 		                "&client_id=95e47f76b9c01aeee37be0fc58f153e8" + // REST_API_KEY
-		                "&redirect_uri=http://localhost:8080/project_gabolcar/kakaoLogin" + // REDIRECT_URI
+		                "&redirect_uri=http://localhost:8089/project_gabolcar/kakaoLogin" + // REDIRECT_URI
 		                "&code=" + code;
 		        bufferedWriter.write(sb);
 		        bufferedWriter.flush();
@@ -237,4 +244,139 @@ public class MemberService{
 
 		    return userInfo;
 		}
+			
+
+		// ======== 0628 배경인 추가 =======
+		// 네이버 로그인 회원 조회
+		public Map<String,Object> getUserInfoNaver(HttpServletRequest request, String clientId, String clientSecret){
+			
+			// 토큰 받아오기
+			Map<String, Object> resultMap = new HashMap<>();
+		    String code = request.getParameter("code");
+		    String state = request.getParameter("state");
+		    String redirectURI = "";
+		    try {		    	
+		    	redirectURI = URLEncoder.encode("http://localhost:8089/project_gabolcar/login/oauth2/code/naver", "UTF-8");
+		    }
+		    catch(Exception e) {
+		    	System.out.println(e);
+		    	return null;
+		    }
+		    String apiURL;
+		    apiURL = "https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&";
+		    apiURL += "client_id=" + clientId;
+		    apiURL += "&client_secret=" + clientSecret;
+		    apiURL += "&redirect_uri=" + redirectURI;
+		    apiURL += "&code=" + code;
+		    apiURL += "&state=" + state;
+		    String access_token = "";
+		    String refresh_token = "";
+		    System.out.println("apiURL="+apiURL);
+		    try {
+		      URL url = new URL(apiURL);
+		      HttpURLConnection con = (HttpURLConnection)url.openConnection();
+		      con.setRequestMethod("GET");
+		      int responseCode = con.getResponseCode();
+		      BufferedReader br;
+		      System.out.print("responseCode="+responseCode);
+		      if(responseCode==200) { // 정상 호출
+		        br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+		      } else {  // 에러 발생
+		        br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+		      }
+		      String inputLine;
+		      StringBuffer res = new StringBuffer();
+		      while ((inputLine = br.readLine()) != null) {
+		        res.append(inputLine);
+		      }
+		      br.close();
+		      if(responseCode==200) {
+		    	  // 토큰 받아왔으면 로그인 정보 받아오기
+		    	  // json 분리
+		    	  JsonParser parsing = new JsonParser();
+		    	  JsonElement jsonObj = parsing.parse(res.toString());
+		    	  
+		    	  // 정보 받기위한 토큰 셋팅
+		    	  Map<String, String> setTokenMap =  new HashMap<>();
+		    	  setTokenMap.put("Authorization", "Bearer "+ jget(jsonObj,"access_token"));
+		    	  JsonElement infoObj = parsing.parse(getNaverLoginInfo("https://openapi.naver.com/v1/nid/me",setTokenMap));
+		    	  // 해당 Json 에서 response 만 가져오기
+		    	  JsonElement responseObj = infoObj.getAsJsonObject().get("response");
+		    	  
+		    	  resultMap.put("id",jget(responseObj,"id"));
+		    	  resultMap.put("email",jget(responseObj,"email"));
+		    	  resultMap.put("gender",jget(responseObj,"gender"));
+		    	  resultMap.put("mobile",jget(responseObj,"mobile"));
+		    	  resultMap.put("name",jget(responseObj,"name"));
+		    	  resultMap.put("birthday",jget(responseObj,"birthday"));
+		    	  resultMap.put("birthyear",jget(responseObj,"birthyear"));
+		    	  System.out.println(resultMap);
+		      }
+		    } catch (Exception e) {
+		      System.out.println(e);
+		      return null;
+		    }
+		    return resultMap;
+		}
+		
+		// getUserInfoNaver() 에서 받은 토큰값을 토대로 info 찾기 
+	    private String getNaverLoginInfo(String apiUrl, Map<String, String> requestHeaders){
+	        HttpURLConnection con = connect(apiUrl);
+	        try {
+	            con.setRequestMethod("GET");
+	            for(Map.Entry<String, String> header :requestHeaders.entrySet()) {
+	                con.setRequestProperty(header.getKey(), header.getValue());
+	            }
+
+
+	            int responseCode = con.getResponseCode();
+	            if (responseCode == HttpURLConnection.HTTP_OK) { // 정상 호출
+	                return readBody(con.getInputStream());
+	            } else { // 에러 발생
+	                return readBody(con.getErrorStream());
+	            }
+	        } catch (IOException e) {
+	            throw new RuntimeException("API 요청과 응답 실패", e);
+	        } finally {
+	            con.disconnect();
+	        }
+	    }
+	    
+	    private HttpURLConnection connect(String apiUrl){
+	        try {
+	            URL url = new URL(apiUrl);
+	            return (HttpURLConnection)url.openConnection();
+	        } catch (MalformedURLException e) {
+	            throw new RuntimeException("API URL이 잘못되었습니다. : " + apiUrl, e);
+	        } catch (IOException e) {
+	            throw new RuntimeException("연결이 실패했습니다. : " + apiUrl, e);
+	        }
+	    }
+	    
+	    private String readBody(InputStream body){
+	        InputStreamReader streamReader = new InputStreamReader(body);
+
+
+	        try (BufferedReader lineReader = new BufferedReader(streamReader)) {
+	            StringBuilder responseBody = new StringBuilder();
+
+
+	            String line;
+	            while ((line = lineReader.readLine()) != null) {
+	                responseBody.append(line);
+	            }
+
+
+	            return responseBody.toString();
+	        } catch (IOException e) {
+	            throw new RuntimeException("API 응답을 읽는데 실패했습니다.", e);
+	        }
+	    }
+	    
+	    //============ 네이버 로그인 api 끝 ============
+	    
+	    public String jget(JsonElement json,String key) {
+	    	return json.getAsJsonObject().get(key).getAsString();
+	    }
+		
 }
