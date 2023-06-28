@@ -152,7 +152,7 @@
 	function loginWithKakao() {
 		Kakao.init('f1a47a651626dab122ca303d5b28aeda'); // JavaScript 키 입력
 		Kakao.Auth.authorize({
-			redirectUri: 'http://localhost:8089/project_gabolcar/kakaoLogin',
+			redirectUri: 'http://c5d2302t3.itwillbs.com/project_gabolcar/kakaoLogin',
 		});
 	}
 </script>

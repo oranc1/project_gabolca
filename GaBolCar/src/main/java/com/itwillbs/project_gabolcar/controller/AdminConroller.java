@@ -262,18 +262,15 @@ public class AdminConroller {
 			return "inc/fail_back";
 		}
 	    // 차량 옵션 삭제 추가
-	    int optionDeleteCount = car_service.carOptionDelete(car_idx);
+//	    int optionDeleteCount = car_service.carOptionDelete(car_idx);
+//
+//	    if (optionDeleteCount > 0) {
+//	        System.out.println("차량 옵션 삭제 성공");
+//	    } else {
+//	        System.out.println("차량 옵션 삭제 실패");
+//	    }
 
-	    if (optionDeleteCount > 0) {
-	        System.out.println("차량 옵션 삭제 성공");
-	    } else {
-	        System.out.println("차량 옵션 삭제 실패");
-	    }
-
-	    int deleteCount = car_service.carDelete(car_idx);
-
-	    if (deleteCount > 0) {
-	        model.addAttribute("msg", "삭제 완료");
+	    if (car_service.carDelete(car_idx) > 0) {
 	        return "redirect:/admCarList";
 	    } else {
 	        model.addAttribute("msg", "삭제 실패");
