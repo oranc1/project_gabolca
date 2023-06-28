@@ -3,6 +3,7 @@ package com.itwillbs.project_gabolcar.mapper;
 import java.util.*;
 
 import org.apache.ibatis.annotations.*;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.itwillbs.project_gabolcar.vo.*;
 
@@ -73,18 +74,30 @@ public interface CarItemMapper {
 		
 		//=========================================================================================
 		
+	//========== 0627 경인 추가 ===========
 	
+	// 리뷰 게시판 - 멤버의 이름으로 검색하여
+	// 최신 예약건과 차량이름, 모델, 년도 들고오기
+	Map<String,Object> selectResNCarInfo(@Param("sId") @RequestParam(required = false) String sId,@Param("resIdx") int resIdx );
+	
+	/*
+	 * 리뷰 게시판 - 현재 리뷰를 작성할 예약 번호로
+		리뷰가 이미 작성이 되어 있는지 확인하기 
+	 */
+	int selectIsAlreadyWriteRev(int resIdx);
 	
 	
 	
 	// 차량 소개 - 차량정보
-	List<Map<String, Object>> selectCarInfoList();
+	List<Map<String, Object>> selectCarInfoList(Map<String, Object> map);
 	
 	// 차량 소개 - 차량에 등록된 옵션
 	List<Map<String, Object>> selectCarOptionListInfo(int carIdx);
 
 	
-	
+	// =============== 0626 경인 추가 ================
+	// main에 리뷰 항목들 추가
+	List<Map<String,Object>> getReviewListMain();
 
 
 }

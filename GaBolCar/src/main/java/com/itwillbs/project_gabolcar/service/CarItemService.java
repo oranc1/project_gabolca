@@ -158,9 +158,25 @@ public class CarItemService {
 	}
 		//==========================================================
 		
+	//========== 0627 경인 추가 ===========
+	
+	/*
+	 * 리뷰 게시판 - 현재 리뷰를 작성할 예약 번호로
+		리뷰가 이미 작성이 되어 있는지 확인하기 
+	 */
+	public boolean isAlreadyWriteRev(int resIdx) {
+		if(carItemMapper.selectIsAlreadyWriteRev(resIdx) > 0) {
+			return true;
+		}
+		return false;
+	}
+	
+	// 리뷰 게시판 - 멤버의 이름과 받아온 resIdx 로 검색하여
+	// 최신 예약건과 차량이름, 모델, 년도 들고오기
 		
-		
-		
+	public Map<String,Object> selectResNCarInfo(String sId, int resIdx){
+		return carItemMapper.selectResNCarInfo(sId, resIdx);
+	}
 		
 		
 		
@@ -173,8 +189,8 @@ public class CarItemService {
 	
 // ============ 차량 소개 ==================================
 	// 차량소개 - 차량정보
-	public List<Map<String, Object>> carInfoList() {
-		return carItemMapper.selectCarInfoList();
+	public List<Map<String, Object>> carInfoList(Map<String, Object> map) {
+		return carItemMapper.selectCarInfoList(map);
 	}
 	// 차량소개 - 차량에 등록된 옵션
 	public List<Map<String, Object>> carOptionListInfo(int carIdx) {
@@ -184,7 +200,11 @@ public class CarItemService {
 
 
 	
-
+	// ========== 0626 경인 추가 ===========
+	// 매인 페이지에 리뷰 항목 추가
+	public List<Map<String,Object>> getReviewForMain(){
+		return carItemMapper.getReviewListMain();
+	}
 	
 }
 

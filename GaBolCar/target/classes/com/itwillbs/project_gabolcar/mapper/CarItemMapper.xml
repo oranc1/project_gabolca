@@ -101,8 +101,45 @@
 	
 	<!-- 예약 조회 - SELECT -->
 	<select id="selectBoard" resultType="int">
-		select count(*) from res_info ri join mem_info mi on ri.mem_idx = mi.mem_idx where mi.mem_id = #{sId} 
+		select count(*) 
+		from 
+			res_info ri join mem_info mi 
+			on ri.mem_idx = mi.mem_idx 
+		where 
+			mi.mem_id = #{sId} 
 	</select>
+	
+	<!-- 리뷰 게시판 - 멤버의 이름으로 검색하여
+	 최신 예약건과 차량이름, 모델, 년도 들고오기 -->
+	<select id="selectResNCarInfo" resultType="map">
+		select res_idx , car_model, car_company , car_old
+		from 
+			res_info ri join car_info ci
+			on ri.car_idx = ci.car_idx
+		where 
+			<if test="sId != null">
+				mem_idx = 
+				(
+					select mem_idx
+					from mem_info
+					where
+						mem_id = #{sId}
+				)
+				AND 
+			</if>
+			res_idx = #{resIdx}
+		LIMIT 0,1
+	</select>	
+	
+	<!-- 리뷰 게시판 - 현재 리뷰를 작성할 예약 번호로
+		리뷰가 이미 작성이 되어 있는지 확인하기 -->
+	<select id="selectIsAlreadyWriteRev" resultType="int">
+		SELECT count(*) 
+		FROM rev_car rc 
+		WHERE 
+			res_idx = #{resIdx}
+	</select>
+		
 	
 	<!-- 리뷰 게시판 뷰 -->
 	<select id="reviewDetail" resultType="com.itwillbs.project_gabolcar.vo.ReviewVO">
@@ -177,10 +214,63 @@
 	
 	<!-- 차량 소개 - 차량 정보 -->
 	<select id="selectCarInfoList" resultType="map">
-		select
-			*
-		from
-			car_info
+		select 
+			ci.car_idx
+			, car_type
+			, car_company
+			, car_model
+			, car_old
+		 	, car_shift_type
+		 	, car_fuel_type
+		 	, car_file_path
+		 	, car_file1
+		 	, car_riding
+			, brc_name
+			, car_status
+		 	, car_riding
+		 	, car_weekend
+		 	, car_weekdays
+			, group_concat(option_name SEPARATOR ', ') AS option_name
+		from 
+			car_info ci 
+			JOIN car_options co ON ci.car_idx = co.car_idx
+			JOIN option_list ol ON co.option_idx = ol.option_idx
+		<choose>
+			<when test="car_type != null and car_fuel != null">
+				where car_type in (
+				<foreach collection="car_type" item="type" separator=",">
+				#{type}
+				</foreach>
+				) and car_fuel_type in (
+				<foreach collection="car_fuel" item="fuel" separator="," >
+				#{fuel}
+				</foreach>
+				)
+			</when>
+			<when test="car_type != null and car_fuel == null">
+				where car_type in (
+				<foreach collection="car_type" item="type" separator=",">
+				#{type}
+				</foreach>
+				)
+			</when>
+			<when test="car_fuel != null and car_type == null">
+				where car_fuel_type in (
+				<foreach collection="car_fuel" item="car_fuel" separator="," >
+				#{car_fuel}
+				</foreach>
+				)
+			</when>
+		</choose>
+		GROUP BY
+			ci.car_idx
+		<if test="startRow != null and listLimit != null">
+		limit
+			#{startRow}
+			, #{listLimit}
+		</if>
+		
+		
 	</select>
 	
 	<!-- 차량 소개 - 각 차량에 등록된 옵션 -->
@@ -192,4 +282,20 @@
 	
 	
 	
+	<!-- ==== 0626 경인수정 main 페이지 리뷰 띄울항목 검색 -->
+	<select id="getReviewListMain" resultType="map">
+		SELECT rev_idx, res_idx, rev_star ,rev_subject, rev_date ,car_model, car_company
+		FROM 
+			(
+				SELECT rc.rev_idx, rc.res_idx, rev_subject , car_idx, rev_star ,rev_date  
+				FROM 
+				rev_car rc JOIN res_info ri ON rc.res_idx = ri.res_idx
+			) 
+			rev_res 
+			JOIN car_info ci ON ci.car_idx = rev_res.car_idx
+		WHERE 
+			rev_star >= 4
+		ORDER BY rev_date DESC 
+		LIMIT 0, 4
+	</select>
 </mapper>

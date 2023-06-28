@@ -88,6 +88,7 @@ table, td {
 	flex-direction: column;
 	border-top: 2px solid #222;
 	border-bottom: 2px solid #222;
+	width: 100%;
 }
 
 #car_title {
@@ -120,22 +121,26 @@ table, td {
 	width: 5%;
 }
 .car_title_carType {
-	width: 5%;
+	width: 7%;
 }
 .car_title_old {
 	width: 5%;	
 }
 .car_title_brcN {
-	width: 5%;	
+	width: 7%;	
 }
 .car_title_option {
-	width: 58%;	
+	width: 54%;	
 }
 .car_title_status {
 	width: 5%;	
 }
 .car_title_btn {
 	width: 5%;	
+}
+
+.car_content {
+	height: 40px;
 }
 
 .car_content:hover {

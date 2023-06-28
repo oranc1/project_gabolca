@@ -23,7 +23,7 @@
 		<jsp:include page="../../../inc/top1.jsp"></jsp:include>
 	</header>
 	<div id="contents">
-		<form action="MemberJoinPro" method="post" name="fr">
+		<form action="MemberJoinPro" method="post" name="fr" id="fr">
 			<section id="sec_con" class="inr signup_wrap">
 			 	<h1 class="con_title">가볼카 회원가입</h1>
 			 	<div class="signup_cont">
@@ -31,7 +31,7 @@
 				        <div class="email">
 				        	<p>아이디(이메일)</p>
 				        	<span class="sign_mark">*</span><br>
-				            <input id="mem_id" name="mem_id" type="text" onchange='checkId()' placeholder="이메일을 입력해 주세요." required="required">
+				            <input id="mem_id" name="mem_id" type="text" onchange='checkId()' oninput='checkEmail()' placeholder="이메일을 입력해 주세요." required="required">
 	<!-- 			            <div class="id_ok">사용 가능한 이메일 입니다.</div> -->
 	<!-- 						<div class="id_already">이미 사용중인 이메일 입니다.</div> -->
 <!-- 							<span class="id_ok">사용 가능한 이메일입니다.</span> -->
@@ -43,28 +43,28 @@
 				        <div class="password">
 				        	<p>비밀번호</p>
 				        	<span class="sign_mark">*</span><br>
-				            <input id="mem_passwd" name="mem_passwd" type="password" placeholder="영문,숫자,특수문자 포함 8~20글자 이상."   required="required" autoComplete="off">
+				            <input id="mem_passwd" name="mem_passwd" type="password" placeholder="영문,숫자,특수문자 포함 8~20글자 이상." required="required" autoComplete="off" oninput='validatePw()'>
 				            <div id="passwordError" class="error"></div>
 				        </div>
 				        <div class="passwordCheck">
 				        	<p>비밀번호 확인</p>
 				        	<span class="sign_mark">*</span><br>
-				            <input id="passwordCheck" oninput='validatePassword()' type="password" placeholder="비밀번호를 다시 입력해 주세요."  required="required" onchange="validatePassword()" autoComplete="off">
+				            <input id="passwordCheck" oninput='passwordConfirm()' type="password" placeholder="비밀번호를 다시 입력해 주세요."  required="required" onchange="validatePassword()" autoComplete="off">
 				            <div id="passwordCheckError" class="error"></div>
 				        </div>
 				        
 				        <div class="name">
 				        	<p>이름</p>
 				        	<span class="sign_mark">*</span><br>
-				            <input id="mem_name"  name="mem_name" type="text" placeholder="이름을 입력해 주세요." required="required">
+				            <input id="mem_name"  name="mem_name" type="text"  placeholder="이름을 입력해 주세요." required="required" oninput="validateName()">
 				            <div id="nameError" class="error"></div>
 				        </div>
 				        
 				        <div class="birthDate">
 				        	<p>생년월일</p>
 				        	<span class="sign_mark">*</span><br>
-				            <input id="mem_birthday" name="mem_birthday" type="date" required="required">
-				            <div id="nameError" class="error"></div>
+				            <input id="mem_birthday" name="mem_birthday" type="date" required="required" min="1990-01-01" onblur='validateBirth()' >
+				            <div id="birthError" class="error"></div>
 				        </div>
 				        
 				        <div class="addr">
@@ -75,7 +75,7 @@
 				            <input type="text" id="sample6_address" name="sample6_address" placeholder="주소"><br>
 							<input type="text" id="sample6_detailAddress" name="sample6_detailAddress" placeholder="상세주소">
 							<input type="text" id="sample6_extraAddress" name="sample6_extraAddress" placeholder="참고항목">
-				            <div id="nameError" class="error"></div>
+				            <div id="addrError" class="error"></div>
 				        </div>
 				        
 				        
@@ -119,7 +119,7 @@
 				            <hr>
 				        </div>
 				        <div class="signUp">
-				           <button id="signUpButton">가입하기</button>
+				           <button type="button" id="signUpButton" onclick='signUpCheck()'>가입하기</button>
 				        </div>
 			 	</div>
 			 	</div>

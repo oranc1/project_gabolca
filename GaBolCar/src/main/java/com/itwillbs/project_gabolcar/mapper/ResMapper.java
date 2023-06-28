@@ -27,9 +27,24 @@ public interface ResMapper {
 	
 	// 대시보드 지점별 월 매출액
 	List<Map<String, Object>> dsbBrcMonthlySale(List<Map<String, Object>> brcList);
+	
+	// 예약 목록 조회 (관리자)
+	List<ResInfoVO> selectResList(
+			@Param("searchType") String searchType, 
+			@Param("searchKeyword") String searchKeyword, 
+			@Param("startRow") int startRow, 
+			@Param("listLimit") int listLimit);
+	
+	// 목록 갯수 조회 요청 (관리자)
+	int selectResListCount(
+			@Param("searchType") String searchType, 
+			@Param("searchKeyword") String searchKeyword);
+	
+	// 예약 상세 조회 (관리자)
+	public ResInfoVO selectResDetail(int res_idx);
 
-	//예약 목록 조회(관리자모드)
-	List<Map<String, Object>> selectResList(PageInfo pageInfo, Map<String, Object> map);
+
+	
 
 
 	

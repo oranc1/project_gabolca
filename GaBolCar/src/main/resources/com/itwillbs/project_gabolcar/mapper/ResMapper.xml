@@ -75,12 +75,15 @@
 			FROM(
 				SELECT
 					mem_idx
-					, res_rental_date
-					, res_return_date 
-					, res_idx
-					, brc_rent_name
-					, brc_return_name
-					FROM res_info)
+					, r.res_rental_date
+					, r.res_return_date 
+					, r.res_idx
+					, r.brc_rent_name
+					, r.brc_return_name
+					, p.pay_status
+					, r.car_idx
+					FROM res_info r join pay_info p
+					on r.res_idx = p.res_idx)
 					AS n1
 					WHERE mem_idx=(select mem_idx 
 									from mem_info 
@@ -90,11 +93,13 @@
 	
 	</select>
 	
+	<!--  예약 상세 조회 -->
 	<select id="selectDetail" resultType="com.itwillbs.project_gabolcar.vo.ResInfoVO">
 	  	SELECT *
 		FROM res_info
 		WHERE res_idx=#{res_idx};
 	</select>
+	
 	<select id="dsbBrcMonthlySale" resultType="map">
 		SELECT
 			CASE
@@ -137,10 +142,63 @@
 
 <!-- </select> -->
 
-	<!-- 예약 목록 조회(관리자모드) - SELECT -->
+	<!-- 예약 목록 조회(관리자) -->
 	<select id="selectResList" resultType="com.itwillbs.project_gabolcar.vo.ResInfoVO">
 		SELECT res_idx, res_time, car_idx, mem_idx, res_rental_date,  res_return_date
 			FROM res_info
+			
+		<if test="!searchKeyword.equals('')">
+				WHERE
+				<choose>
+					<when test="searchType.equals('res_idx')">
+						res_idx = #{searchKeyword}
+					</when>
+					<when test="searchType.equals('car_idx')">
+						car_idx = #{searchKeyword}
+					</when>
+					<when test="searchType.equals('mem_idx')">
+						mem_idx = #{searchKeyword}
+					</when>
+				</choose>
+		</if>						
+					LIMIT
+						#{startRow}
+						, #{listLimit}
 	</select>
+	<update id="deleteRes">
+	UPDATE pay_info
+		SET pay_status = '취소' WHERE res_idx=#{res_idx}
+
+	</update>
+	
+	<!-- 목록 갯수 조회(관리자)-->
+	<select id="selectResListCount" resultType="int">
+		SELECT COUNT(*)
+			FROM res_info
+			
+			<if test="!searchKeyword.equals('')">
+				WHERE
+				
+				<choose>
+					<when test="searchType.equals('res_idx')">
+						res_idx = #{searchKeyword}
+					</when>
+					<when test="searchType.equals('car_idx')">
+						car_idx = #{searchKeyword}
+					</when>
+					<when test="searchType.equals('mem_idx')">
+						mem_idx = #{searchKeyword}
+					</when>
+				</choose>
+			</if>
+	</select>
+	
+	<!-- 예약 상세 조회(관리자)  -->
+	<select id="selectResDetail" parameterType="java.lang.Integer" resultType="com.itwillbs.project_gabolcar.vo.ResInfoVO">
+	  	SELECT *
+			FROM res_info
+				WHERE res_idx=#{res_idx}
+	</select>
+	
 	
 </mapper>

@@ -69,7 +69,7 @@
 							</div>
 							<div class="mod_box">
 									<a class="list_btn" href="noticeList?pageNum=${cri.pageNum }">목록</a>
-								<c:if test="${sessionScope.sId eq 'admin' }">								
+								<c:if test="${sessionScope.sId eq 'admin@admin.com' }">								
 									<a class="modify_btn" href="noticeModify?pageNum=${cri.pageNum }&bo_idx=${noticeDetail.bo_idx }">수정</a>
 									<a class="delete_btn" href="#" onclick="deleteConfirm()">삭제</a>
 								</c:if>

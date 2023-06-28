@@ -33,8 +33,20 @@
 			<div class="res-detail-cont">
 				<article class="res_detail_article1">
 					<div>
-						<img alt="" src="${pageContext.request.contextPath }/resources/img/car_img_storage/test_img/casper.jpg">
-						<b>렌트중</b>
+							<img src="${pageContext.request.contextPath}/resources/upload/car/${car.car_file_path}/${car.car_file1}" alt="${car.car_model}" />
+						<c:set var="today" value="<%=new java.util.Date()%>" />
+						<c:set var="targetDate" value="${resinfo.res_return_date}" />
+						<c:choose>
+							<c:when test="${today ge targetDate}">
+								<b>반납 완료</b>
+							</c:when>
+							<c:when test="${payment.pay_status eq '취소' }">
+							<p></p>
+							</c:when>
+							<c:otherwise>
+								<b>결제 완료</b>
+							</c:otherwise>
+						</c:choose>
 					</div>
 				</article>
 				
@@ -132,21 +144,37 @@
 								</ul>
 							</div>
 							<script type="text/javascript">
+	                        
+	                     // 총 대여 시간 계산
+	                        // 두 날짜 파싱
+	                        var dateString1 = '${resinfo.res_rental_date }';
+	                        var dateString2 = '${resinfo.res_return_date }';
 
-								var selectedValue = "${resinfo.car_insurance}";
+	                        var date1 = new Date(dateString1);
+	                        var date2 = new Date(dateString2);
 
-								var notSelect = 0;
-								var insuSelect = 10000;
-								
-								
-								if (selectedValue == '선택안함') {
+	                        // 밀리초 단위로 두 날짜의 차이 계산
+	                        var timeDiff = Math.abs(date2 - date1);
 
-									document.querySelector('.insuAmount').innerText = 0;
-								} else {
+	                        // 차이를 요일과 시간으로 변환
+	                        var days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+	                        var hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+							
+	                        var selectedValue =  "${resinfo.car_insurance}";
+	                        var notSelect = 0;
+	                        var insuSelect = 10000;
 
-									 var formattedAmount = insuSelect.toLocaleString(); 
-									 document.querySelector('.insuAmount').innerText = formattedAmount;
-								}
+	                        var plusTotalAmount;
+	                        if(selectedValue == '선택안함') {
+	                             plusTotalAmount = 0;
+	                             document.querySelector('.insuAmount').innerText = 0;
+	                        } else {
+	                             insuSelect = 10000 * (days + 1);
+	                             plusTotalAmount = 10000 * (days + 1);
+	                             document.querySelector('.insuAmount').innerText = plusTotalAmount;
+	                             document.querySelector('.insuAmount').innerText = plusTotalAmount.toLocaleString();
+	                        }
+							
 							</script>
 						</li>
 					</ul>

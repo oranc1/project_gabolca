@@ -97,7 +97,7 @@
 #faq_wrap .faq_list ul li .question .q_arrow i {
 	width: 15px;
 	height: 9px;
-	background: url(../../../img/arrow.png) no-repeat;
+	background: url(../../../img/__dummy/arrow.png) no-repeat;
 	background-size: cover;
 	background-position: center;
 	transition: 0.3s;

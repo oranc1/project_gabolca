@@ -63,6 +63,13 @@ public class PaymentService {
 		return mapper.selectTotal(res_idx);
 	}
 
+	// 예약 취소
+	public int updateStatus(int res_idx) {
+
+		return mapper.updateResInfo(res_idx);
+	}
+
+
 
 	
 	

@@ -8,8 +8,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-    <link href="${pageContext.request.contextPath }/resources/css/inc/top.css" rel="styleSheet">
-    <link href="${pageContext.request.contextPath }/resources/css/inc/footer.css" rel="styleSheet">
+    <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/admin/adm_sidebar.css">
+<%--     <link href="${pageContext.request.contextPath }/resources/css/inc/top.css" rel="styleSheet"> --%>
+<%--     <link href="${pageContext.request.contextPath }/resources/css/inc/footer.css" rel="styleSheet"> --%>
     <link href="${pageContext.request.contextPath }/resources/css/common.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath }/resources/css/member/question/question_detail.css" rel="stylesheet">
 
@@ -24,15 +25,18 @@
 		}
 	}
 </script> 
-<title>1:1 문의 게시판 상세보기</title>
+<title>관리자 페이지</title>
 </head>
 <body>
     <header>
-        <jsp:include page="../../../inc/top1.jsp"></jsp:include>
+<%--         <jsp:include page="../../../inc/top1.jsp"></jsp:include> --%>
     </header>
     <div id="notice_cont">
         <section id="sec_con" class="inr">
-            <h1 class="con_title">1:1 문의 게시판</h1>
+            <h1 class="con_title">관리자 페이지</h1>
+            <div class="main-content">
+			<jsp:include page="../../../inc/adm_sidebar.jsp" />
+			<div class="board_container">
             <form action="" method="get">
                 <c:set var="loginId" value="${member.mem_id}"/>
                 <section id="board_wrap">
@@ -70,7 +74,7 @@
 
                                 <div class="mod_box">
                                     <a href="QuestionListForm?qst_idx=${question.qst_idx}&pageNum=${pageNum}" class="modify_btn">목록</a>
-					                <c:if test="${loginId eq 'admin@naver.com'}">
+					                <c:if test="${loginId eq 'admin@admin.com'}">
 					                    <a href="QuestionReplyForm?qst_idx=${question.qst_idx}&pageNum=${pageNum}" class="modify_btn">답변</a>&nbsp;&nbsp;&nbsp;&nbsp;
 					                </c:if>
                                     <a href="QuestionModifyForm?qst_idx=${question.qst_idx}&pageNum=${pageNum}" class="modify_btn">수정</a>&nbsp;&nbsp;&nbsp;&nbsp;
@@ -82,10 +86,12 @@
                     </section>
                 </section>
             </form>
+            </div>
+            </div>
         </section>
     </div>
     <footer>
-        <jsp:include page="../../../inc/footer.jsp"></jsp:include>
+<%--         <jsp:include page="../../../inc/footer.jsp"></jsp:include> --%>
     </footer>
 </body>
 </html>

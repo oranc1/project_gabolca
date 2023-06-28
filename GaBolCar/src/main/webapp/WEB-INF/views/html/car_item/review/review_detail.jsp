@@ -10,7 +10,7 @@
 	<link href="${pageContext.request.contextPath }/resources/css/inc/top.css" rel="styleSheet">
 	<link href="${pageContext.request.contextPath }/resources/css/inc/footer.css" rel="styleSheet">
 	<script src="${pageContext.request.contextPath }/resources/js/inc/jquery-3.7.0.js"></script>
-<title>Insert title here</title>
+<title>리뷰 게시글 상세보기</title>
 <script type="text/javascript">
 	function deleteConfirm() {
 		if(!confirm("게시글을 삭제 하시겠습니까?")) {
@@ -158,22 +158,30 @@
 								
 								<div class="mod_box">
 									<a class="list_btn" href="/project_gabolcar/reviewList?pageNum=${param.pageNum}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}">목록</a>
-									<c:if test="${reviewDetail.mem_id == sId }">
-										<a class="modify_btn" href="/project_gabolcar/reviewModify?pageNum=${param.pageNum}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}&rev_idx=${reviewDetail.rev_idx}">수정</a>
-										<a class="modify_delete" href="#" onclick="deleteConfirm()">삭제</a>
-									</c:if>
-									
+										 <c:choose>
+										 		<c:when test="${sId eq null}">  												
+    											</c:when>
+    											<c:when test="${reviewDetail.mem_id eq sId }">
+    												<a class="modify_btn" href="/project_gabolcar/reviewModify?pageNum=${param.pageNum}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}&rev_idx=${reviewDetail.rev_idx}">수정</a>
+													<a class="modify_delete" href="#" onclick="deleteConfirm()">삭제</a>
+    											</c:when>
+    											<c:when test="${sId eq 'admin@admin.com' }">
+  													<a class="modify_delete" href="#" onclick="deleteConfirm()">삭제</a>
+    											</c:when>
+   												 <c:otherwise>
+												 </c:otherwise>
+											</c:choose>
+										</div>
+									</div>
 								</div>
-								
-							</div>
-						</div>
-					</section>
+							</section>
+						</section>
+					</form>
 				</section>
-			</form>
-		</section>
-	</div>
-	<footer>
-		<jsp:include page="../../../inc/footer.jsp"></jsp:include>
-	</footer>
-</body>
-</html>
+			</div>
+		<footer>
+			<jsp:include page="../../../inc/footer.jsp"></jsp:include>
+		</footer>
+	</body>
+	</html>
+							

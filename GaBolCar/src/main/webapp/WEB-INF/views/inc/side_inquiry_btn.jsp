@@ -9,7 +9,7 @@
 		</div>
 
 		<div class="quick_menu contact_btn">
-			<a href=""> <img src="${pageContext.request.contextPath }/resources/img/inc/side_inquiry_btn/icn_contact.png" />
+			<a href="QuestionListForm"> <img src="${pageContext.request.contextPath }/resources/img/inc/side_inquiry_btn/icn_contact.png" />
 			</a>
 		</div>
 

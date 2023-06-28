@@ -10,7 +10,7 @@
 	<link href="${pageContext.request.contextPath }/resources/css/inc/top.css" rel="styleSheet">
 	<link href="${pageContext.request.contextPath }/resources/css/inc/footer.css" rel="styleSheet">
 	<script src="${pageContext.request.contextPath }/resources/js/inc/jquery-3.7.0.js"></script>
-<title>Insert title here</title>
+<title>리뷰 게시글 수정</title>
 
 <c:if test="${reviewDetail.mem_id != sId}">
 	<script type="text/javascript">
@@ -27,7 +27,7 @@
 	</header>
 	<div id="notice_cont">
 		<section id="sec_con" class="inr">
-			<h1 class="con_title">리뷰 게시판</h1>
+			<h1 class="con_title">리뷰 수정</h1>
 				<section id="board_wrap">
 					<section id="board_list" class="notice">
 						<div class="wrapper">

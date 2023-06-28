@@ -15,8 +15,8 @@
     <title>Insert title here</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/admin/adm_sidebar.css">
     
-<%--     <link href="${pageContext.request.contextPath}/resources/css/inc/top.css" rel="styleSheet"> --%>
-<%--     <link href="${pageContext.request.contextPath}/resources/css/inc/footer.css" rel="styleSheet"> --%>
+    <link href="${pageContext.request.contextPath}/resources/css/inc/top.css" rel="styleSheet">
+    <link href="${pageContext.request.contextPath}/resources/css/inc/footer.css" rel="styleSheet">
     <link href="${pageContext.request.contextPath}/resources/css/common.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/resources/css/member/question/question_board.css" rel="stylesheet">
 
@@ -30,15 +30,14 @@
 	</c:if>
 
     <header>
-<%--         <jsp:include page="../../../inc/top1.jsp"></jsp:include> --%>
+        <jsp:include page="../../../inc/top1.jsp"></jsp:include>
     </header>
                 
      <div id="notice_cont">
         <section id="sec_con" class="inr">
-            <h1 class="con_title">관리자 페이지</h1>
-            <div class="main-content">
-				<jsp:include page="../../../inc/adm_sidebar.jsp" />
-            <section id="board_list" class="notice board_section">
+            <h1 class="con_title">1:1 문의 게시판</h1>
+                        <div class="main-content">
+                        <section id="board_list" class="notice board_section">
             <section id="board_list" class="notice">
                 <section id="buttonArea">
 				<form action="QuestionListForm" method="GET" class="search-form">
@@ -126,7 +125,7 @@
                                         <c:forEach var="i" begin="${pageInfo.startPage }" end="${pageInfo.endPage }">
                                             <!-- 각 페이지마다 하이퍼링크 설정 -->
                                             <c:choose>
-                                                <c:when test="${pageNum eq i }">
+                                                <c:when test="${pageNum eq i }" >
                                                     <b id="number">${i }</b>
                                                 </c:when>
                                                 <c:otherwise>
@@ -164,7 +163,7 @@
         </section>
     </div>
     <footer>
-<%--         <jsp:include page="../../../inc/footer.jsp"></jsp:include> --%>
+        <jsp:include page="../../../inc/footer.jsp"></jsp:include>
     </footer>
 </body>
 </html>

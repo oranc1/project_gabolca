@@ -1,6 +1,25 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<%-- 네이버 로그인 관련 모듈 --%>
+<%@ page import="java.net.URLEncoder" %>
+<%@ page import="java.security.SecureRandom" %>
+<%@ page import="java.math.BigInteger" %>
+
+<%-- 0627 배경인 수정 네이버 로그인 --%>
+  <%
+    String clientId = "iyG93Byk9xPFZKJeZAaH";//애플리케이션 클라이언트 아이디값";
+    String redirectURI = URLEncoder.encode("http://localhost:8089/project_gabolcar/login/oauth2/code/naver", "UTF-8");
+    SecureRandom random = new SecureRandom();
+    String state = new BigInteger(130, random).toString();
+    String apiURL = "https://nid.naver.com/oauth2.0/authorize?response_type=code";
+    apiURL += "&client_id=" + clientId;
+    apiURL += "&redirect_uri=" + redirectURI;
+    apiURL += "&state=" + state;
+    session.setAttribute("state", state);
+ %>
+ <%-- ======================= --%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,8 +33,12 @@
     <link href="${pageContext.request.contextPath }/resources/css/inc/footer.css" rel="styleSheet">
 
     <script src="${pageContext.request.contextPath }/resources/js/inc/jquery-3.7.0.js"></script>
+    
+    <%-- 0627 배경인 수정 네이버 로그인 js --%>
+<!--     <script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script> -->
 </head>
 <body>
+
     <header>
 		<jsp:include page="../../../inc/top1.jsp"></jsp:include>
 	</header>
@@ -73,14 +96,24 @@
                                 <div class="login_other">
                                     <ul class="clear">
                                         <li>
-                                            <a href="" onclick="" class="naver">
-                                                <span></span>
-                                                <span>네이버로 로그인</span>
-                                            </a>
+<!--                                             <a href="" onclick="" class="naver"> -->
+<!--                                                 <span></span> -->
+<!--                                                 <span>네이버로 로그인</span> -->
+<!--                                             </a> -->
+
+											<!-- 네이버 로그인 버튼 노출 영역 -->
+<!-- 										    <div id="naver_id_login"></div> -->
+  											<a href="<%=apiURL%>"><img height="50" src="http://static.nid.naver.com/oauth/small_g_in.PNG"/></a>
+										    <!-- //네이버 로그인 버튼 노출 영역 -->
+                                        </li>
+                                        <li>
+											<a id="kakao-login-btn" href="javascript:loginWithKakao()">
+											  <img src="https://k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg" width="222"
+											    alt="카카오 로그인 버튼" />
+											</a>
                                         </li>
                                     </ul>
                                 </div>
-
                                 <div class="join">
                                     <p>아이디가 없으신가요? </p>
                                     <a href="signup">회원가입</a>
@@ -101,7 +134,29 @@
 		<jsp:include page="../../../inc/footer.jsp"></jsp:include>
 	</footer>
 
-
+<%-- 0627 배경인 수정 네이버 로그인 --%>
+<%-- 네이버 로그인 --%>
+    <script type="text/javascript">
+//         var naver_id_login = new naver_id_login("iyG93Byk9xPFZKJeZAaH", "http://localhost:8089/project_gabolcar/login/oauth2/code/naver");
+//         var state = naver_id_login.getUniqState();
+//         naver_id_login.setButton("white", 2,40);
+//         naver_id_login.setDomain("http://localhost:8089/");
+//         naver_id_login.setState(state);
+//         naver_id_login.setPopup();
+//         naver_id_login.init_naver_id_login();
+    </script>
+<%-- /카카오 로그인 --%>
+<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.2.0/kakao.min.js" 
+	integrity="sha384-x+WG2i7pOR+oWb6O5GV5f1KN2Ko6N7PTGPS7UlasYWNxZMKQA63Cj/B2lbUmUfuC" crossorigin="anonymous"></script>
+<script>
+	function loginWithKakao() {
+		Kakao.init('f1a47a651626dab122ca303d5b28aeda'); // JavaScript 키 입력
+		Kakao.Auth.authorize({
+			redirectUri: 'http://localhost:8080/project_gabolcar/kakaoLogin',
+		});
+	}
+</script>
+<%-- 카카오 로그인/ --%>
 
 </body>
 

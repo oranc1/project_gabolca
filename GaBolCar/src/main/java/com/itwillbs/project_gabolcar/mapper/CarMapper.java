@@ -21,6 +21,9 @@ public interface CarMapper {
 	// 차량수정 - 기존에 선택된 옵션을 삭제합니다
 	int deletUpdateCarOption(int car_idx);
 
+	// 차량수정 - 수정할 해당 차량 car_file1..6 배열로 들고오기
+	List<CarVO> selectCarFiles(CarVO car);
+	
 	// 차량수정 - 차량에 옵션 추가
 	int insertUpdateCarOption(CarOptionVO carOption);
 	
@@ -37,7 +40,7 @@ public interface CarMapper {
 	int deleteCarOption(int car_idx);
 	
 	// 차량 수정 - 등록된 파일 삭제
-	int deletCarFile(int car_idx);
+	int deleteCarFile(CarVO car);
 	
 	// --------------------------------------------------------------------------------------------------------------
 	
@@ -89,6 +92,16 @@ public interface CarMapper {
 	CarVO selectDriver(int res_idx);
 
 	List<Map<String, Object>> selectUpdateCar();
+
+	
+	
+	List<Integer> selectCarInfo(List<Integer> collect);
+
+	List<CarVO> selectCarIdx(List<Integer> carIdxList);
+
+	
+
+
 
 
 	

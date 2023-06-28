@@ -1,13 +1,3 @@
-/* @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css'); */
-
-/* * { */
-/*     box-sizing: border-box; */
-/*     margin: 0; */
-/*     padding: 0; */
-/*     list-style: none; */
-/*     font-family: Pretendard, sans-serif; */
-/* } */
-
 @charset "UTF-8";
 
 #adm_car_list,#adm_car_list td,#adm_car_list th {
@@ -17,6 +7,11 @@
 	text-align: center;
 }
 
+.pageMove {
+	margin-left: 0.5%;
+	margin-right: 0.5%;
+	cursor: pointer;
+}
 
 table.adm_res_list {
   border-collapse: separate;
@@ -51,7 +46,7 @@ table.adm_res_list td {
 	width: 100%;
 }
 
-#adm_car_bottom {
+#adm_car_top {
 	width: inherit;
 	display: flex;
 	justify-content: center;
@@ -68,31 +63,6 @@ table.adm_res_list td {
     cursor: pointer;
     font-weight: bold;
     border-radius: 5px;
-}
-
-#adm_car_top {
-	min-width: 450px;
-}
-
-#adm_car_top input[type="checkbox"] {
-	display: none;
-      }
-
-#adm_car_top label { /*최신순 / 오래된순 우측으로 변경해야함!*/
-	font-weight: bold;
-	text-align: center;
-	font-size: 18px;
-	color: #000;
-/* 	height: 20px; */
-	min-width: 50px;
-	padding: 2px 6px;
-	border-radius: 15px;
-	cursor: pointer;
-	background-color: #fff;
-	border: 1px solid rgb(28, 28, 80);
-	display: inline-block;
-	margin-top: 1em;
-	margin-bottom: 1em;
 }
 
 #car_title td:nth-child(1), #car_title td:nth-child(3), #car_title td:nth-child(8) {
@@ -112,7 +82,6 @@ table.adm_res_list td {
 }
 
 #car_title {
-    background: rgb(28, 28, 80);
     color: #fff;
     font-size: 1.5em;
     font-weight: bold;
@@ -135,10 +104,6 @@ table.adm_res_list td {
 	font-size: 1.5em;
 	margin: 1em auto;
 	display: block;
-}
-
-#search_cate,#search_box {
-	border-radius: 5px;
 }
 
 .inr {

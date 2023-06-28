@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.itwillbs.project_gabolcar.vo.MemberVO;
 import com.itwillbs.project_gabolcar.vo.PageInfo;
@@ -63,6 +64,23 @@ public interface MemberMapper {
 	//회원 이름 가져오기
 	MemberVO getMemName(String sId);
 	
-	//회원 목록 조회(관리자모드)
-	List<Map<String, Object>> selectMemList(PageInfo pageInfo, Map<String, Object> map);
+	
+	// 로그인된 회원 아이디 조회
+	MemberVO getMemberInfoById(String mem_id);
+
+	//회원 목록 조회 (관리자)
+	List<MemberVO> selectMemList(
+			@Param("searchType") String searchType, 
+			@Param("searchKeyword") String searchKeyword, 
+			@Param("startRow") int startRow, 
+			@Param("listLimit") int listLimit);
+
+	// 목록 갯수 조회 요청 (관리자)
+	int selectMemListCount(
+			@Param("searchType") String searchType, 
+			@Param("searchKeyword") String searchKeyword);
+	
+	//회원 상세 조회 (관리자)
+	MemberVO selectMemDetail(int mem_idx);
+
 }

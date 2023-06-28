@@ -87,14 +87,18 @@ public class HomeController {
 			}
 			
 			map.put("car_populer_list", pCarDataList);
+			
+			// 리뷰 항목들 받아오기
+			map.put("car_rev_list", carItemService.getReviewForMain());
 		}
 		else{
 			brc_name_list = brcNameDummy;
 		}
-
+		
 		map.put("DUMMY_DATA_FLAG", DUMMY_DATA_FLAG);
 		map.put("isMapHaveParams", false);
 		map.put("brc_name_list", brc_name_list);
+	
 		return new ModelAndView("main","map",map);
 	}
 	
