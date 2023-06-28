@@ -18,7 +18,7 @@
 	<div id="notice_cont">
 		<section id="sec_con" class="inr">
 			<h1 class="con_title">리뷰 작성</h1>
-			<form action="/project_gabolcar/reviewWritePro" method="post" enctype="multipart/form-data">
+			<form action="reviewWritePro" method="post" enctype="multipart/form-data">
 				<input type="hidden" name="session_id" value="${sessionScope.sId}"/>
 				<input type="hidden" name="res_idx" value="${map.res_idx}"/>
 				<section id="board_wrap">
