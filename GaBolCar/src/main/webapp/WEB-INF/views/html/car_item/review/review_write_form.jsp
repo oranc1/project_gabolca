@@ -4,11 +4,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
-	<link href="${pageContext.request.contextPath }/resources/css/common.css" rel="stylesheet">
-	<link href="${pageContext.request.contextPath }/resources/css/car_item/review/review_write_form.css" rel="stylesheet">
-	<link href="${pageContext.request.contextPath }/resources/css/inc/top.css" rel="styleSheet">
-	<link href="${pageContext.request.contextPath }/resources/css/inc/footer.css" rel="styleSheet">
-	<script src="${pageContext.request.contextPath }/resources/js/inc/jquery-3.7.0.js"></script>
+	<link href="${pageContext.request.contextPath}/resources/css/common.css" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/resources/css/car_item/review/review_write_form.css" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/resources/css/inc/top.css" rel="styleSheet">
+	<link href="${pageContext.request.contextPath}/resources/css/inc/footer.css" rel="styleSheet">
+	<script src="${pageContext.request.contextPath}/resources/js/inc/jquery-3.7.0.js"></script>
 <title>리뷰 게시글 작성</title>
 </head>
 <body>
