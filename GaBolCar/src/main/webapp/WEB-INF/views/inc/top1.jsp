@@ -140,7 +140,7 @@
 			let isLogout = confirm("로그아웃 하시겠습니까?");
 			
 			if(isLogout){
-				kakaoLogout();
+// 				kakaoLogout();
 				location.href="Logout";
 			}
 					}
@@ -195,21 +195,18 @@
     		location.href="adminCheck?data="+data;
     	}
         
-        
-        
-        
-    	function kakaoLogout() {
-    		Kakao.init('f1a47a651626dab122ca303d5b28aeda'); // JavaScript 키 입력
-    	    Kakao.isInitialized();
+//     	function kakaoLogout() {
+//     		Kakao.init('f1a47a651626dab122ca303d5b28aeda'); // JavaScript 키 입력
+//     	    Kakao.isInitialized();
 
-    	    if (!Kakao.Auth.getAccessToken()) { // 토큰이 있는지 확인 (토큰 가져와보기)
-				console.log('Not logged in.');
-				return;
-    	    }
+//     	    if (!Kakao.Auth.getAccessToken()) { // 토큰이 있는지 확인 (토큰 가져와보기)
+// 				console.log('Not logged in.');
+// 				return;
+//     	    }
 
-    	    Kakao.Auth.logout(function() { // 카카오 로그아웃
-				console.log(Kakao.Auth.getAccessToken());
-    	    });
-    	 };
+//     	    Kakao.Auth.logout(function() { // 카카오 로그아웃
+// 				console.log(Kakao.Auth.getAccessToken());
+//     	    });
+// 		};
     </script>
 

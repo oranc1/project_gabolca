@@ -672,49 +672,6 @@ public class CarItemController {
 	
 	//============ 리뷰 ==================
 	
-		// 리뷰 게시판
-		/*@GetMapping("review")
-		public String reviewBoard(@RequestParam Map<String, String> map, Model model, PageInfo pageInfo, ReviewVO review) {
-			
-			int pageNum = 1;
-			if(map.get("pageNum") != null) {
-				pageNum = Integer.parseInt(map.get("pageNum"));
-			}
-					
-			int listLimit = 10; // 한 페이지에서 표시할 목록 갯수 지정
-			int startRow = (pageNum - 1 ) * listLimit; //조회 행번호 지정
-		
-		List<ReviewVO> reviewList = carItemService.getReviewList(startRow, listLimit);
-		int listCount = carItemService.getReviewListCount();
-		System.out.println("리스트카운트"+listCount);
-			
-		int pageListLimit = 3;
-		int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0);
-		int startPage = (pageNum - 1) / pageListLimit * pageListLimit + 1;
-		int endPage = startPage + pageListLimit - 1;
-		if(endPage > maxPage) {
-			endPage = maxPage;
-		}
-		
-		
-		pageInfo.getListCount();
-		pageInfo.setPageListLimit(pageListLimit);
-		pageInfo.setMaxPage(maxPage);
-		pageInfo.setStartPage(startPage);
-		pageInfo.setEndPage(endPage);
-		
-		
-		model.addAttribute("reviewList", reviewList);
-		model.addAttribute("pageInfo", pageInfo);
-		
-		System.out.println(reviewList);
-		System.out.println("페이지 인포"+pageInfo);
-		
-		
-			return "html/car_item/review/review_board";
-		}*/
-		//car_res_info에서 리뷰리스트 3개 가져오기
-		
 		
 		@GetMapping("reviewListSmall")
 		public String reviewListSmall(ReviewVO review, Model model, String car_model) {
@@ -731,34 +688,7 @@ public class CarItemController {
 		// 리뷰게시판 글 목록, 페이지 나눔
 		
 		
-		
-	/*	@GetMapping("reviewList")
-		public String reviewList(@RequestParam(defaultValue = "") String searchType, 
-				@RequestParam(defaultValue = "") String searchKeyword, Model model, Criteria cri) {
-
-			System.out.println("검색타입 : " + searchType);
-			System.out.println("검색어 : " + searchKeyword);
-			System.out.println("cri"+cri);
-			
-			List<ReviewVO> reviewListWithPaging = carItemService.getReviewListPaging(searchType, searchKeyword,cri);
-		
-			
-			
-			model.addAttribute("reviewListP", reviewListWithPaging);
-			
-			int total = carItemService.getTotal(searchType, searchKeyword);
-			PageDTO pageMaker = new PageDTO(cri, total);
-			model.addAttribute("pageMaker", pageMaker);		
-			
-			return "html/car_item/review/review_board";
-			
-		}*/
-		
-		// "BoardList" 서블릿 요청에 대해 글목록 조회 비즈니스 로직 요청
-		// => 파라미터 : 검색타입(searchType) => 기본값 널스트링("") 으로 설정
-		//               검색어(searchKeyword) => 기본값 널스트링("") 으로 설정
-		//               페이지번호(pageNum) => 기본값 0 으로 설정
-		//               데이터공유객체(model)
+	
 		@GetMapping("reviewList")
 		public String reviewList(
 				@RequestParam(defaultValue = "") String searchType, 
@@ -910,7 +840,7 @@ public class CarItemController {
 			}
 			else
 			{
-				if(!sId.equals("admin@naver.com")) {
+				if(!sId.equals("admin@admin.com")) {
 					int isBoardWriter = carItemService.isBoardWriter(sId);
 					
 					if(isBoardWriter == 0 ) {
@@ -1103,11 +1033,11 @@ public class CarItemController {
 		// 리뷰 글 삭제
 		@GetMapping("reviewDelete")
 		public String reviewDelete(HttpSession session, ReviewVO review, Model model) {
-//			String sId = (String)session.getAttribute("sId");
-//			if(sId == null || !sId.equals("admin")) {
-//				model.addAttribute("msg", "잘못된 접근입니다");
-//				return "html/member/review/fail_back";
-//			}
+			String sId = (String)session.getAttribute("sId");
+			if(sId == null || !sId.equals("admin@admin.com")) {
+				model.addAttribute("msg", "잘못된 접근입니다");
+				return "html/member/review/fail_back";
+			}
 			
 			int deleteReviewCount = carItemService.deleteReview(review);
 			
@@ -1186,7 +1116,7 @@ public class CarItemController {
 			}
 			else
 			{
-				if(!sId.equals("admin@naver.com")) {
+				if(!sId.equals("admin@admin.com")) {
 					int isBoardWriter = carItemService.isBoardWriter(sId);
 					
 					if(isBoardWriter == 0 ) {

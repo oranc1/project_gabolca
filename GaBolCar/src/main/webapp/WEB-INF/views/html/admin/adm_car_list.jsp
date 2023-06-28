@@ -79,7 +79,7 @@
 							</tr>
 						</table>
 						<button name="item_insert" class="adm_car_button">
-							상품등록
+							차량등록
 						</button>
 						<button name="option_list" class="adm_car_button">
 							옵션관리

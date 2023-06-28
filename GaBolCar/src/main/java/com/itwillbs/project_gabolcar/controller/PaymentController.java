@@ -36,7 +36,7 @@ public class PaymentController {
 
 		// 세션 회원 정보 가져오기
 		String id = (String) session.getAttribute("sId");
-
+		
 		if (id == null) {
 			model.addAttribute("msg", "로그인 후 예약 가능합니다");
 			return "html/member/notice/fail_back";

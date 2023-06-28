@@ -185,5 +185,8 @@
 				WHERE mem_idx=#{mem_idx}
 	</select>
 		
-	
+    <!-- 핸드폰 번호 중복 확인 -->
+   	<select id="phoneCheck" parameterType="String" resultType="int">
+		SELECT COUNT(mem_mtel) FROM mem_info WHERE mem_mtel=#{mem_mtel}
+	</select>
 </mapper>

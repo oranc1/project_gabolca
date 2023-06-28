@@ -1,38 +1,18 @@
-let check = false;
-//이메일 유효성 검사
-//$(function(){
-//  const eAdress = document.getElementById("mem_id");
-//  const validateMessage = document.getElementById('emailError');
-//  eAdress.addEventListener("input", function() {
-//    const email = eAdress.value;
-//    if (validateEmail(email)) {
-//      validateMessage.textContent = '';
-//      return true;
-//    } else {
-//      validateMessage.textContent ='메일 주소를 정확히 입력하세요.';
-//      email.value=null;
-//      return false;
-//    }
-//  });
-//  
-//  function validateEmail(email) { // RFC 5322에 명시된 이메일 형태보다 더 강하게 유효성 여부 따져주는것같다
-//    const re = /([!#-'+/-9=?A-Z^-~-]+(.[!#-'+/-9=?A-Z^-~-]+)|"([]!#-[^-~ \t]|([\t -~]))+")@([!#-'+/-9=?A-Z^-~-]+(.[!#-'+/-9=?A-Z^-~-]+)|[[\t -Z^-~]*])+$/;
-//    const hasKorean = /[ㄱ-ㅎㅏ-ㅣ가-힣]/;
-//    return re.test(String(email).toLowerCase()) && !hasKorean.test(email);
-//  }
-//});
+let check = false; //submit 단계에서 확인할 변수
+
 
 //이메일 시도
+var emailC = false;
 function checkEmail() {
   var memEmail = document.getElementById("mem_id").value;
   var emailError = document.getElementById("emailError");
 
   if (validateEmail(memEmail)) {
     emailError.textContent = '';
-    check = true;
+    emailC = true;
   } else {
     emailError.textContent = '메일 주소를 정확히 입력하세요.';
-    check = false;
+    emailC = false;
   }
 }
 
@@ -43,7 +23,7 @@ function validateEmail(email) {
 }
 
 
-//이메일 중복확인
+//이메일 중복확인 - alert으로 중복창 띄움
 function checkId(){
  var id = $('#mem_id').val(); //id값이 "id"인 입력란의 값을 저장
  $.ajax({
@@ -66,40 +46,20 @@ function checkId(){
  });
 };
 
-//비밀번호 유효성 검사
-//
-//$(function(){
-//  const passWd = document.getElementById("mem_passwd");
-//  const validateMessage = document.getElementById('passwordError');
-//
-//  passWd.addEventListener("input", function() {
-//    const pass = passWd.value;
-//    if (validatePassword(pass)) {
-//      validateMessage.textContent = '';
-//      return true;
-//    } else {
-//      validateMessage.textContent = '영문,숫자,특수문자 포함 8~20글자 이상 입력 해주세요.';
-//      return false;
-//    }
-//  });
-//  
-//  function validatePassword(pass) {
-//    const re = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,20}$/;
-//    return re.test(pass);
-//  }
-//});
 
-//비번ㅇㅎ성 2
+
+//비밀번호 유효성 검사
+var passC = false;
 function validatePw() {
   var memPw = document.getElementById("mem_passwd").value;
   var pwError = document.getElementById("passwordError");
 
   if (validatePassword(memPw)) {
     pwError.textContent = '';
-    check = true;
+    passC = true;
   } else {
     pwError.textContent = '영문, 숫자, 특수문자 포함 8~20글자 이상 입력해주세요.';
-    check = false;
+    passC = false;
   }
 }
 
@@ -110,49 +70,34 @@ function validatePassword(password) {
 
 //비밀번호 중복 확인검사 
 
+var passD = false;
 function passwordConfirm() {
   var passwd = document.getElementById("mem_passwd").value;
   var repeatPasswd = document.getElementById("passwordCheck").value;
   var span = document.querySelector("#passwordCheckError");
   if (passwd != repeatPasswd) {
 	span.innerHTML= '패스워드가 일치하지 않습니다.'; 
-    check = false;
+    passD = false;
   }else{
 	span.innerHTML= '';
-  check = true;
+    passD = true;
 }
 
 }
-
-//이름 확인 한글만,2글자 이상 자음,모음만 입력 안됨
-//function validateName() {
-//    var name = document.getElementById("mem_name").value.trim();
-//    var span = document.querySelector("#nameError");
-//    var regex = /^[가-힣]{2,}$/;
-//    
-//    if (regex.test(name)) {
-//        span.innerHTML = '';
-//        return true;
-//    } else {
-//        span.innerHTML = '유효한 이름을 입력 해 주세요';
-//        document.getElementById("mem_name").value = "";
-//        document.getElementById("mem_name").focus();
-//        return false;
-//    }
-//}
 
 //이름 확인 한글만,2글자 이상 10글자 미만, 자음,모음만 입력 안됨
+var nameC = false;
 function validateName(){
 	const name = document.getElementById("mem_name").value.trim();
 	const span = document.querySelector("#nameError");
   		if (!/^[\uAC00-\uD7A3]{2,10}$/.test(name) || /[\u314F-\u3163]/.test(name)) {
 		    span.innerHTML= '유효한 이름을 입력 해 주세요'
-		    name.value = "";
-		    document.getElementById("mem_name").focus();
-		    check = false;}
+		    name.value = "";//얘네 왜 안될까 
+		    document.getElementById("mem_name").focus();//얘네 왜 안될까 
+		    nameC = false;}
 		    else{
 		 	span.innerHTML= '';
-		 	check = true;
+		 	nameC = true;
 			}
 }
 
@@ -165,6 +110,7 @@ $(function(){
     });
 });
 
+var birC = false;
 function validateBirth(){
 	const birthDate = document.getElementById("mem_birthday").value;
 	
@@ -172,10 +118,11 @@ function validateBirth(){
 	console.log(birthDate);
 	if(birthDate<'1900-01-01'||birthDate>maxDate){
 		span.innerHTML= '유효한 생년월일을 입력해 주세요';
-		check = false;
+		document.getElementById("mem_birthday").value = "";
+		birC = false;
 	}else{
 		span.innerHTML= '';
-		check = true;
+		birC = true;
 	}
 }
 
@@ -259,16 +206,14 @@ function changePhone3(){
     
 }
 
-//타이머자리
-
-
 //핸드폰 번호 유효성 검사 및 인증번호 전송
 function sendMsg(){
 	var phone =$("#phone1").val()+"-"+$("#phone2").val()+"-"+$("#phone3").val();
 	//패턴 확인용
 	var patternPhone = /01[016789]-[^0][0-9]{2,3}-[0-9]{3,4}/;
+	
 	 if(!patternPhone.test(phone)){
-		alert('유효한 핸드폰 번호를 입력 해 주세요')
+		alert('유효한 핸드폰 번호를 입력 해 주세요.')
    		document.getElementById("sendMessage").disabled = true;
 		document.getElementById("phone1").value = ""; // phone1 입력란 내용 지우기
 		document.getElementById("phone2").value = ""; // phone1 입력란 내용 지우기
@@ -277,31 +222,49 @@ function sendMsg(){
    		
    		return false;
 		}else{
+	  $.ajax({ //중복 확인 시작
+	     url:'./phondCheck', //Controller에서 요청 받을 주소
+	     type:'post', //POST 방식으로 전달
+	     data:{phone:phone},
+		 success:function(data){ //컨트롤러에서 넘어온 cnt값을 받는다 
+         const count = data;
+	         if(count == 0){ //cnt가 0일경우 -> 사용 가능한 아이디 
+	             $.ajax({//메세지 전송 시작
+				     url:'./send-phone-authentication', //Controller에서 요청 받을 주소
+				     type:'post', //POST 방식으로 전달
+				     data:{phone:phone},
+				     success:function(phone){ 
+				    	 console.log("서버 응답 데이터:", phone); // 디버깅용 로그 출력
+				          alert("인증번호가 전송되었습니다.");
+				          $("#cert").attr("disabled", false);
+				          $("#certifyCheck").attr("disabled", false);
+				          $("#phone1").attr("readonly", true);
+				          $("#phone2").attr("readonly", true);
+				          $("#phone3").attr("readonly", true);
+				          //타이머 작동
+				          startTimer();
+	          
+	         			  return true;
+			    					 },
+				     error:function(){
+				         alert("에러입니다");
+				     }
+ 						});
+        	   }else{
+				  alert("이미 사용중인 번호 입니다.");
+	              $('#phone1').val('');
+	              $('#phone2').val('');
+	              $('#phone3').val('');
+				  $('#phone1').focus();
+    			  check = false;}
+    		 },
+	     error:function(){
+	         alert("에러입니다");
+	     }
+ 		});
+	};
+}
 	
-	 $.ajax({
-     url:'./send-phone-authentication', //Controller에서 요청 받을 주소
-     type:'post', //POST 방식으로 전달
-     data:{phone:phone},
-     success:function(phone){ 
-         console.log("서버 응답 데이터:", phone); // 디버깅용 로그 출력
-          alert("인증번호가 전송되었습니다.");
-          $("#cert").attr("disabled", false);
-          $("#certifyCheck").attr("disabled", false);
-          $("#phone1").attr("readonly", true);
-          $("#phone2").attr("readonly", true);
-          $("#phone3").attr("readonly", true);
-          //타이머 작동 시켜야 할것같다
-          startTimer();
-          
-          return true;
-     },
-     error:function(){
-         alert("에러입니다");
-     }
- });
-}
-		
-}
 
 //인증번호 확인
 var vCheck = false;
@@ -363,81 +326,103 @@ function startTimer() {
 // 회원가입 버튼
 
 function signUpCheck(){
-
   let email = document.getElementById("mem_id").value
   let password = document.getElementById("mem_passwd").value
   let passwordCheck = document.getElementById("passwordCheck").value
   let name = document.getElementById("mem_name").value
+  let phone1 = document.getElementById("phone1").value
+  let phone2 = document.getElementById("phone2").value
+  let phone3 = document.getElementById("phone3").value
   let addr1 = document.getElementById("sample6_postcode").value
   let addr2 = document.getElementById("sample6_address").value
   let birthDate = document.getElementById("mem_birthday").value
-  let check = true;
-  
+//  let check = true;
 
-  // 이메일확인
-  if(email===""){
-	  alert("유효한 이메일을 입력해 주세요");
-	  check = false;
-  }else{
-	  document.getElementById("emailError").innerHTML=""
-  }
-
-
-  // 이름확인
-  if(name===""){
-	  alert("유효한 이름을 입력해 주세요");
-//    document.getElementById("nameError").innerHTML="이름이 올바르지 않습니다."
-    check = false;
-  }
-  else{
-    document.getElementById("nameError").innerHTML=""
-  }
+  // 이메일 확인
+  if (email === "") {
+    alert("이메일을 입력해 주세요");
+    document.getElementById("mem_id").focus();
+    return;
+  } else if(emailC==false){
+	document.getElementById("mem_id").focus();
+	birthDate == "";
+	return;
+}
 
 
   // 비밀번호 확인
-  if(password !== passwordCheck){
-	  alert("동일한 비밀번호를 입력해 주세요");
-   	  check = false;
-  }else{
-    document.getElementById("passwordError").innerHTML=""
-    document.getElementById("passwordCheckError").innerHTML=""
+ 
+  if (password === "") {
+    document.getElementById("mem_passwd").focus();
+    alert("비밀번호를 입력해 주세요.");
+    return;
+  } else if(passC==false){
+    document.getElementById("mem_passwd").focus();
+    return;
   }
 
-  if(password===""){
-    alert("비밀번호를 입력해 주세요");
-    check = false;
-  }else{
-    document.getElementById("passwordError").innerHTML=""
-  }
-  if(passwordCheck===""){
-    check = false;
-  }else{
-    document.getElementById("passwordCheckError").innerHTML=""
-  }
-
-
-  // 주소
-  if(addr1 === "" && addr2 === ""){
-	alert("주소를 입력해 주세요");
-    check = false;
-  }else{
-    document.getElementById("addrError").innerHTML=""
-  }
-
-  // 생일
-  if(birthDate === ""){
-	 alert("생년월일을 입력해 주세요");
-    check = false;
-  }else{
-    document.getElementById("birthError").innerHTML=""
+  if (passwordCheck === "") {
+    alert("비밀번호 확인을 입력해 주세요.");
+    document.getElementById("passwordCheck").focus();
+    return;
+  }else if(passD==false){
+    document.getElementById("passwordCheck").focus();
+    return;
   }
   
-    let checkAll = check; // vCheck 변수에 check 값을 할당
+   if (password !== passwordCheck) {
+    alert("동일한 비밀번호를 입력해 주세요");
+    document.getElementById("passwordCheck").focus();
+    return;
+  } else if(passD==false){
+    document.getElementById("passwordCheck").focus();
+    return;
+  }
 
-  if (checkAll === true && vCheck === true) {
+  // 이름 확인
+  if (name === "") {
+    alert("이름을 입력해 주세요");
+    document.getElementById("mem_name").focus();
+    return;
+  } else if(nameC == false){
+    document.getElementById("mem_name").focus();
+    return;
+}
+
+  //생년월일 확인 
+    if (birthDate === "") {
+    alert("생년월일을 입력해 주세요");
+    document.getElementById("birthDate").focus();
+    return;
+  } else if(birC == false){
+    document.getElementById("mem_name").focus();
+    return;
+}
+  // 주소 확인
+  if (addr1 === "" && addr2 === "") {
+    alert("주소를 입력해 주세요.");
+    document.getElementById("sample6_postcode").focus();
+    return;
+  } 
+
+
+  // 핸드폰 번호 확인
+  if (phone1 === "" || phone2 === "" || phone3 === "") {
+    document.getElementById("phone1").focus();
+    alert("핸드폰 번호를 입력해 주세요.");
+    return;
+  }
+
+  // 인증 확인
+  if (phone1 !== "" && phone2 !== "" && phone3 !== "" && vCheck === false) {
+    document.getElementById("phone1").focus();
+    alert("핸드폰 인증을 진행해 주세요.");
+    return;
+  }
+
     // 모든 항목이 유효할 때 폼 제출
     document.getElementById("fr").submit();
     alert("회원가입이 완료되었습니다.");
   }
-}
+
   

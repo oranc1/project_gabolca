@@ -16,8 +16,10 @@ import com.itwillbs.project_gabolcar.vo.PageInfo;
 @Mapper
 public interface MemberMapper {
 
+	//아이디 중복확인
 	int idCheck(String id);
 
+	//회원가입
 	int insertMember(MemberVO member);
 
 	// 로그인(아이디와 패스워드가 일치하는 레코드 조회)
@@ -83,4 +85,6 @@ public interface MemberMapper {
 	//회원 상세 조회 (관리자)
 	MemberVO selectMemDetail(int mem_idx);
 
+	//폰번호 중복확인
+	int phoneCheck(String phone);
 }

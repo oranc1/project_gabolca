@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonObject;
 import com.itwillbs.project_gabolcar.service.PaymentApiService;
 import com.itwillbs.project_gabolcar.service.PaymentService;
@@ -63,17 +64,22 @@ public class PaymentsApiController {
 	@ResponseBody
 	public ResponseEntity<?> cancelPayments(@RequestBody Map<String, String> map) throws Exception {
 		
-		System.out.println("취소 정보" + map);
-		
 		HashMap<String, String> response = new HashMap<>();
+		
+		String pay_status = service.getPayStatus(map.get("merchant_uid"));
+		if (pay_status.equals("취소")) {
+	        // 이미 취소된 내역이므로 오류 처리
+			response.put("error", "이미 취소된 내역입니다");
+		    ObjectMapper objectMapper = new ObjectMapper();
+		    String responseBody = objectMapper.writeValueAsString(response);
+		    return ResponseEntity.badRequest().header("Content-Type", "application/json;charset=UTF-8").body(responseBody);	    
+		}
         // 캔슬 데이터
 		CancelData cancelData = new CancelData(map.get("merchant_uid"), false);
         // 캔슬
 		iamportClientApi.cancelPaymentByImpUid(cancelData);
         // DB 처리(res_cancel insert, pay_info update)
 		int updateCount = service.updateStatus(Integer.parseInt(map.get("res_idx")));
-		
-		
 		
 		response.put("response","success");
 		System.out.println("response" + response);

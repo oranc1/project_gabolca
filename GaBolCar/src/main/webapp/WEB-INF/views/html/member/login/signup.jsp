@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<title>회원가입</title>
 
@@ -32,12 +32,8 @@
 				        	<p>아이디(이메일)</p>
 				        	<span class="sign_mark">*</span><br>
 				            <input id="mem_id" name="mem_id" type="text" onchange='checkId()' oninput='checkEmail()' placeholder="이메일을 입력해 주세요." required="required">
-	<!-- 			            <div class="id_ok">사용 가능한 이메일 입니다.</div> -->
-	<!-- 						<div class="id_already">이미 사용중인 이메일 입니다.</div> -->
-<!-- 							<span class="id_ok">사용 가능한 이메일입니다.</span> -->
-							
-				            <div id="emailError" class="error"><span class="id_already"></span></div> 
 				            <div id="emailError" class="error"></div> 
+				            <div id="emailError" class="error"><span class="id_already"></span></div> 
 				        </div>
 				        
 				        <div class="password">
@@ -45,6 +41,9 @@
 				        	<span class="sign_mark">*</span><br>
 				            <input id="mem_passwd" name="mem_passwd" type="password" placeholder="영문,숫자,특수문자 포함 8~20글자 이상." required="required" autoComplete="off" oninput='validatePw()'>
 				            <div id="passwordError" class="error"></div>
+
+				            
+				            
 				        </div>
 				        <div class="passwordCheck">
 				        	<p>비밀번호 확인</p>
@@ -87,30 +86,12 @@
 				            <input id="phone1"  name="phone1" type="text" size="1" maxlength="3" oninput="changePhone1()" required="required"> -
 				            <input id="phone2" name="phone2" type="text" size="3" maxlength="4" oninput="changePhone2()" required="required"> -
 				            <input id="phone3" name="phone3" type="text" size="3" maxlength="4" oninput="changePhone3()" required="required">
-<!-- 				        </div> -->
 				            <button type="button" disabled id="sendMessage" onclick="sendMsg()">인증번호 전송</button>
-<!-- 				            <button type="button"  id="sendMessage" onclick="location.href=/send-phone-authentication?phone1'" >인증번호 전송</button> -->
-<!-- 				        <div class="auth"> -->
-				        
-<!-- 				        <div class="phone" > -->
-<!-- 				            <input id="phone1"  name="phone1" type="text" size="1" maxlength="3" oninput="changePhone1()" required="required"> - -->
-<!-- 				            <input id="phone2" name="phone2" type="text" size="3" maxlength="4" oninput="changePhone2()" required="required"> - -->
-<!-- 				            <input id="phone3" name="phone3" type="text" size="3" maxlength="4" oninput="changePhone3()" required="required"> -->
-<!-- <!-- 				        </div> --> 
-<!-- 				            <button type="button" disabled id="sendMessage"  onclick="sendMsg()">인증번호 전송</button> -->
-<!-- 				        <div class="auth"> -->
-<!-- 				        </div> -->
 				       			        
 				       </div>
-<!-- 				        <div class="timer ph_cert">  -->
-<!-- 				        여기 수정 해야함 ㅡㅡ -->
-<!-- 				            <div id="timeLimit"> -->
 						<div class="confirm">
 				            <input type="text" id="cert" name="memberPhoneCertify" maxlength="4"  required disabled placeholder="인증번호를 입력 해주세요">
-<!-- 				            <input type="text" id="cert" name="memberPhoneCertify" maxlength="4"  required  placeholder="인증번호를 입력 해주세요"> -->
-				         
 				            <button type="button" disabled id="certifyCheck" onclick="verifyCode()" >인증확인</button>
-<!-- 				            <button type="button" id="certifyCheck" onclick="location.href='/verify-phone-authentication'">인증확인</button> -->
 				        </div>
 				        
 				        </div>
@@ -126,7 +107,6 @@
 			</section>
 		</form>
 				    </div>
-<!-- 	</div> -->
 	<footer>
 		<jsp:include page="../../../inc/footer.jsp"></jsp:include>
 	</footer>
