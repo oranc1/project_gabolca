@@ -35,7 +35,7 @@
 							<div class="list_wrap">
 								<ul class="list">
 									<li>
-										<div class="subject">
+										<div class="subject" style="word-break:break-all;">
 											${reviewDetail.rev_subject}
 										</div>
 									</li>
@@ -137,7 +137,7 @@
 									<img src="../img/casper.jpg" alt="">
 									<!-- 작성글 출력! -->
 									<p>
-										<div>
+										<div style="word-break:break-all;">
 										${reviewDetail.rev_content}
 										</div>
 										<c:if test="${not empty reviewDetail.rev_file1}">
