@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.2.0/kakao.min.js" 
+	integrity="sha384-x+WG2i7pOR+oWb6O5GV5f1KN2Ko6N7PTGPS7UlasYWNxZMKQA63Cj/B2lbUmUfuC" crossorigin="anonymous"></script>
 	<header id="header">
 		<div class="top_wrapper">
 			<h1 class="h_logo">
@@ -139,6 +140,7 @@
 			let isLogout = confirm("로그아웃 하시겠습니까?");
 			
 			if(isLogout){
+				kakaoLogout();
 				location.href="Logout";
 			}
 					}
@@ -185,11 +187,29 @@
                 $nav.toggleClass("scroll", $(this).scrollTop() > $nav.height()*0.5);
             });
         });
-    </script>
-    <script>
+        
+        // 0626 성혁 업데이트
+        //		관리자페이지 이동
     	function Check() {
     		let data = window.prompt("키워드 입력");
     		location.href="adminCheck?data="+data;
     	}
+        
+        
+        
+        
+    	function kakaoLogout() {
+    		Kakao.init('f1a47a651626dab122ca303d5b28aeda'); // JavaScript 키 입력
+    	    Kakao.isInitialized();
+
+    	    if (!Kakao.Auth.getAccessToken()) { // 토큰이 있는지 확인 (토큰 가져와보기)
+				console.log('Not logged in.');
+				return;
+    	    }
+
+    	    Kakao.Auth.logout(function() { // 카카오 로그아웃
+				console.log(Kakao.Auth.getAccessToken());
+    	    });
+    	 };
     </script>
 

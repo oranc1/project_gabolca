@@ -154,7 +154,7 @@ public class MemberService{
 		        BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
 		        String sb = "grant_type=authorization_code" +
 		                "&client_id=95e47f76b9c01aeee37be0fc58f153e8" + // REST_API_KEY
-		                "&redirect_uri=http://localhost:8080/project_gabolcar/kakaoLogin" + // REDIRECT_URI
+		                "&redirect_uri=http://localhost:8089/project_gabolcar/kakaoLogin" + // REDIRECT_URI
 		                "&code=" + code;
 		        bufferedWriter.write(sb);
 		        bufferedWriter.flush();
