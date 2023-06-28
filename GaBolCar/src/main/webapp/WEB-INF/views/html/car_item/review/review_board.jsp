@@ -28,10 +28,10 @@
 				<section id="board_list" class="notice">
 					<form name="fboardlist" id="fboardlist" action="" method="get">
 						<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}"/>
-						<input type="hidden" name="amount" value="${pageMaker.cri.amount}"/>
-						
-					
-							<%-- 검색타입목록, 검색어입력창 추가 --%>
+						<input type="hidden" name="amount" value="${pageMaker.cri.amount}"/>							
+							<div class="wrapper">
+								<div class="list_wrap">
+								<%-- 검색타입목록, 검색어입력창 추가 --%>
 							<div class="search_wrap" style="text-align: right; margin-bottom: 20px; display: flex; justify-content: flex-end;">	
 								<select name="searchType" id="searchType" style="border: 1px solid #ddd; padding: 5px; border-radius: 3px;">
 									<option value="subject" <c:if test="${param.searchType eq 'subject'}" >selected</c:if>>제목</option>			
@@ -45,10 +45,6 @@
 								<input type="submit" value="검색" class="searchSubmit" style="margin-left: 5px; padding: 0 20px; border-radius: 3px;">
 							</div>	
 						<%-- 검색타입목록, 검색어입력창 추가! --%>
-												
-												
-							<div class="wrapper">
-								<div class="list_wrap">
 									<ul class="list">
 										<li class="list_head">
 											<p class="list_num">번호</p>
