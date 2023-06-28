@@ -25,7 +25,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -40,10 +39,7 @@ import com.itwillbs.project_gabolcar.service.MemberService;
 import com.itwillbs.project_gabolcar.service.ResService;
 import com.itwillbs.project_gabolcar.vo.CarOptionVO;
 import com.itwillbs.project_gabolcar.vo.CarVO;
-import com.itwillbs.project_gabolcar.vo.MemberVO;
 import com.itwillbs.project_gabolcar.vo.PageInfo;
-import com.itwillbs.project_gabolcar.vo.QstPageInfoVO;
-import com.itwillbs.project_gabolcar.vo.ResInfoVO;
 
 @Controller
 public class AdminConroller {
@@ -722,57 +718,30 @@ public class AdminConroller {
 			model.addAttribute("msg","접근권한이 없습니다.");
 			return "inc/fail_back";
 		}
-		return "redirect:/ResListForm";
+		return "html/admin/adm_res_list";
 	}
 
 	// 예약리스트 조회
-	@GetMapping("ResListForm")
-	public String resList(
-		@RequestParam(name = "searchType", defaultValue = "") String searchType, 
-		@RequestParam(name = "searchKeyword", defaultValue = "") String searchKeyword, 
-		@RequestParam(defaultValue = "1") int pageNum,
-		HttpSession session, Model model) {
+    @ResponseBody
+    @RequestMapping(value= "resList.ajax", method = RequestMethod.GET, produces = "application/text; charset=UTF-8")
+    public String resSearch(@RequestParam Map<String, Object> map,HttpSession session, Model model) {
 		String sId = (String)session.getAttribute("sId");
 		if (sId == null || !sId.equals("admin@admin.com")) {
 			model.addAttribute("msg","접근권한이 없습니다.");
 			return "inc/fail_back";
 		}
+		System.out.println(map);
 		
-		int listLimit = 10; // 한 페이지에서 표시할 목록 갯수 지정
-		int startRow = (pageNum - 1) * listLimit; // 조회 시작 행(레코드) 번호
+		int listLimit = 15;
+		int pageNum = Integer.parseInt(String.valueOf(map.get("pageNum")));
+		int startRow = (pageNum -1) * listLimit;
 		
-		List<ResInfoVO> resList = res_service.getResList(searchType, searchKeyword, startRow, listLimit);
+		map.put("startRow", startRow);
+		map.put("listLimit", listLimit);
+		List<Map<String, Object>> resList = res_service.resList(map);
 		
-		int listCount = res_service.getResListCount(searchType, searchKeyword);
-		
-		int pageListLimit = 50;
-		
-		int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0);		
-		
-		int startPage = (pageNum - 1) / pageListLimit * pageListLimit + 1;
-		
-		int endPage = startPage + pageListLimit - 1;
-		
-		if(endPage > maxPage) {
-			endPage = maxPage;
-		}
-		QstPageInfoVO PageInfo = new QstPageInfoVO(listCount, pageListLimit, maxPage, startPage, endPage);
-		
-		model.addAttribute("resList", resList);
-		model.addAttribute("pageInfo", PageInfo);
-		
-		return "html/admin/adm_res_list";
-		}
-	
-	
-	// 예약 상세
-    @RequestMapping(value = "AdmResDetail", method = RequestMethod.GET)
-    public String admResDetail(@ModelAttribute("searchVO") ResInfoVO searchVO, @RequestParam("res_idx") int res_idx, Model model) {
-    	
-    	ResInfoVO resDetail = res_service.getResDetail(res_idx);
-    	model.addAttribute("resDetail", resDetail);
-    	
-    	return "html/admin/adm_res_detail";
+		JSONArray jsonArray = new JSONArray(resList);
+    	return jsonArray.toString();
     }
 
 	// 회원리스트 이동
@@ -783,58 +752,30 @@ public class AdminConroller {
 			model.addAttribute("msg","접근권한이 없습니다.");
 			return "inc/fail_back";
 		}
-		return "redirect:/MemListForm";     	
+		return "html/admin/adm_mem_list";    	
 	}
 
 	// 회원리스트 조회
-	@GetMapping("MemListForm")
-	public String memList(
-			@RequestParam(name = "searchType", defaultValue = "") String searchType, 
-			@RequestParam(name = "searchKeyword", defaultValue = "") String searchKeyword, 
-			@RequestParam(defaultValue = "1") int pageNum, 
-			HttpSession session,
-			Model model) {
+    @ResponseBody
+    @RequestMapping(value= "memList.ajax", method = RequestMethod.GET, produces = "application/text; charset=UTF-8")
+    public String memSearch(@RequestParam Map<String, Object> map, HttpSession session, Model model) {
 		String sId = (String)session.getAttribute("sId");
 		if (sId == null || !sId.equals("admin@admin.com")) {
 			model.addAttribute("msg","접근권한이 없습니다.");
 			return "inc/fail_back";
 		}
+		System.out.println(map);
 		
-		int listLimit = 5; // 한 페이지에서 표시할 목록 갯수 지정
-		int startRow = (pageNum - 1) * listLimit; // 조회 시작 행(레코드) 번호
+		int listLimit = 15;
+		int pageNum = Integer.parseInt(String.valueOf(map.get("pageNum")));
+		int startRow = (pageNum -1) * listLimit;
 		
-		List<MemberVO> memList = mem_service.getMemList(searchType, searchKeyword, startRow, listLimit);
+		map.put("startRow", startRow);
+		map.put("listLimit", listLimit);
+		List<Map<String, Object>> memList = mem_service.memList(map);
 		
-		int listCount = mem_service.getMemListCount(searchType, searchKeyword);
-		
-		int pageListLimit = 2;
-		
-		int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0);		
-		
-		int startPage = (pageNum - 1) / pageListLimit * pageListLimit + 1;
-		
-		int endPage = startPage + pageListLimit - 1;
-		
-		if(endPage > maxPage) {
-			endPage = maxPage;
-		}
-		
-		QstPageInfoVO PageInfo = new QstPageInfoVO(listCount, pageListLimit, maxPage, startPage, endPage);
-		
-		model.addAttribute("memList", memList);
-		model.addAttribute("pageInfo", PageInfo);
-		
-		return "html/admin/adm_mem_list";
-	}
-	
-	// 회원 상세
-    @RequestMapping(value = "AdmMemDetail", method = RequestMethod.GET)
-    public String admMemDetail(@ModelAttribute("searchVO") MemberVO searchVO, @RequestParam("mem_idx") int mem_idx, Model model) {
-    	
-    	MemberVO memDetail = mem_service.getMemDetail(mem_idx);
-    	model.addAttribute("memDetail", memDetail);
-    	
-    	return "html/admin/adm_mem_detail";
+		JSONArray jsonArray = new JSONArray(memList);
+    	return jsonArray.toString();
     }
     
 }

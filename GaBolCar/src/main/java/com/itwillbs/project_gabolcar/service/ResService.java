@@ -26,8 +26,8 @@ public class ResService {
 		return mapper.selectResInfo(sId);
 	}
 
-	// 예약 조회 (회원)
 	public ResInfoVO detail(int res_idx) {
+		// TODO Auto-generated method stub
 		return mapper.selectDetail(res_idx);
 	}
 
@@ -35,23 +35,18 @@ public class ResService {
 		return mapper.dsbBrcMonthlySale(brcList);
 	}
 
-	// 예약 목록 조회 (관리자)
-	public List<ResInfoVO> getResList(String searchType, String searchKeyword, int startRow, int listLimit) {
-		return mapper.selectResList(searchType, searchKeyword, startRow, listLimit);
-	}
-	
-	// 목록 갯수 조회 요청 (관리자)
-	public int getResListCount(String searchType, String searchKeyword) {
-		return mapper.selectResListCount(searchType, searchKeyword);
-	}
-	// 예약 상세 조회 (관리자)
-	public ResInfoVO getResDetail(int res_idx) {
-		return mapper.selectResDetail(res_idx);
+	// 예약 목록 조회
+	public List<Map<String, Object>> resList(Map<String, Object> map) {
+		PageInfo pageInfo = null;
+		if(map.get("pageInfo") != null) {			
+			pageInfo = (PageInfo)map.get("pageInfo");
+			map.put("pageItemStart", pageInfo.getNowPage() * pageInfo.getPageListLimit());
+		}
+		
+		return mapper.selectResList(pageInfo,map);
 	}
 
 	
 
 
-
-	
 }

@@ -192,6 +192,11 @@
 				</choose>
 			</if>
 	</select>
+	<update id="deleteRes">
+	UPDATE pay_info
+		SET pay_status = '취소' WHERE res_idx=#{res_idx}
+
+	</update>
 	
 	<!-- 예약 상세 조회(관리자)  -->
 	<select id="selectResDetail" parameterType="java.lang.Integer" resultType="com.itwillbs.project_gabolcar.vo.ResInfoVO">
