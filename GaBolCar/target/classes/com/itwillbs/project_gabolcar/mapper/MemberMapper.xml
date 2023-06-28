@@ -129,10 +129,27 @@
 	<select id="getMemName">
 	SELECT * FROM mem_info WHERE mem_id = #{mem_id} 
 	</select>
-		<!-- 회원 목록 조회(관리자모드) - SELECT -->
+	
+	
+	<!-- 회원 목록 조회(관리자)  -->
 	<select id="selectMemList" resultType="com.itwillbs.project_gabolcar.vo.MemberVO">
 		SELECT mem_idx, mem_id, mem_name, mem_sign_date
 			FROM mem_info
+			
+		<if test="!searchKeyword.equals('')">
+				WHERE
+				<choose>
+					<when test="searchType.equals('mem_idx')">
+						mem_idx = #{searchKeyword}
+					</when>
+					<when test="searchType.equals('mem_name')">
+						mem_name LIKE '%${searchKeyword}%'
+					</when>
+				</choose>
+		</if>						
+					LIMIT
+						#{startRow}
+						, #{listLimit}
 	</select>
 	
 	<!-- 로그인한 회원 아이디 조회 - SELECT -->
@@ -141,5 +158,32 @@
         FROM mem_info
         WHERE mem_id = #{mem_id}
     </select>
+    
+	<!-- 목록 갯수 조회(관리자) -->
+	<select id="selectMemListCount" resultType="int">
+		SELECT COUNT(*)
+			FROM mem_info -- FROM 절 이후 작업 분기 일어남(= 동적 SQL문 작성 필요)
+			
+			<if test="!searchKeyword.equals('')">
+				WHERE
+				<!-- 2. 검색타입(searchType)에 따른 WHERE 절 조건 대상 변경 -->
+				<choose>
+					<when test="searchType.equals('mem_idx')">
+						mem_idx = #{searchKeyword}
+					</when>
+					<when test="searchType.equals('mem_name')">
+						mem_name LIKE CONCAT('%', #{searchKeyword} ,'%')
+					</when>
+				</choose>
+			</if>
+	</select>
+	
+	<!-- 회원 상세 조회(관리자)  -->
+	<select id="selectMemDetail" parameterType="java.lang.Integer" resultType="com.itwillbs.project_gabolcar.vo.MemberVO">
+	  	SELECT mem_idx, mem_id, mem_name, mem_mtel, mem_addr, mem_birthday, mem_sign_date
+			FROM mem_info
+				WHERE mem_idx=#{mem_idx}
+	</select>
+		
 	
 </mapper>

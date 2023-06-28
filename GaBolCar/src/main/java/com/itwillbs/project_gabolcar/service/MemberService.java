@@ -126,16 +126,21 @@ public class MemberService{
 			return mapper.getMemNameByMemIdx(mem_idx);
 		}
 		
-	
-		// 회원 목록 조회
-		public List<Map<String, Object>> memList(Map<String, Object> map) {
-			PageInfo pageInfo = null;
-			if(map.get("pageInfo") != null) {			
-				pageInfo = (PageInfo)map.get("pageInfo");
-				map.put("pageItemStart", pageInfo.getNowPage() * pageInfo.getPageListLimit());
-			}
-			
-			return mapper.selectMemList(pageInfo,map);
+		//-----------------------------------------------------------
+		
+		// 회원 목록 조회 (관리자)
+		public List<MemberVO> getMemList(String searchType, String searchKeyword, int startRow, int listLimit) {			
+			return mapper.selectMemList(searchType, searchKeyword, startRow, listLimit);
+		}
+
+		// 목록 갯수 조회 요청 (관리자)
+		public int getMemListCount(String searchType, String searchKeyword) {
+			return mapper.selectMemListCount(searchType, searchKeyword);
+		}
+
+		// 회원 상세 정보 조회 (관리자)
+		public MemberVO getMemDetail(int mem_idx) {
+			return mapper.selectMemDetail(mem_idx);
 		}
 		
 		// 로그인된 회원 아이디 조회
@@ -151,6 +156,7 @@ public class MemberService{
 		    try {
 		        URL url = new URL(requestURL);
 		        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
 
 		        conn.setRequestMethod("POST");
 		        // setDoOutput()은 OutputStream으로 POST 데이터를 넘겨 주겠다는 옵션이다.
