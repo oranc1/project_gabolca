@@ -245,7 +245,7 @@ public class MemberService{
 		public Map<String,Object> getUserInfoNaver(HttpServletRequest request, String clientId, String clientSecret){
 			
 			// 토큰 받아오기
-			Map<String, String> result = new HashMap<>();
+			Map<String, Object> resultMap = new HashMap<>();
 		    String code = request.getParameter("code");
 		    String state = request.getParameter("state");
 		    String redirectURI = "";
@@ -291,18 +291,29 @@ public class MemberService{
 		    	  JsonElement jsonObj = parsing.parse(res.toString());
 		    	  
 		    	  // 정보 받기위한 토큰 셋팅
-		    	  result.put("Authorization", "Bearer "+ jget(jsonObj,"access_token"));
-		    	  JsonElement infoObj = parsing.parse(getNaverLoginInfo("https://openapi.naver.com/v1/nid/me",result));
+		    	  Map<String, String> setTokenMap =  new HashMap<>();
+		    	  setTokenMap.put("Authorization", "Bearer "+ jget(jsonObj,"access_token"));
+		    	  JsonElement infoObj = parsing.parse(getNaverLoginInfo("https://openapi.naver.com/v1/nid/me",setTokenMap));
 		    	  // 해당 Json 에서 response 만 가져오기
-		    	  System.out.println(infoObj);
-		    	  System.out.println(jget(infoObj, "response"));
+		    	  JsonElement responseObj = infoObj.getAsJsonObject().get("response");
+		    	  
+		    	  resultMap.put("id",jget(responseObj,"id"));
+		    	  resultMap.put("email",jget(responseObj,"email"));
+		    	  resultMap.put("gender",jget(responseObj,"gender"));
+		    	  resultMap.put("mobile",jget(responseObj,"mobile"));
+		    	  resultMap.put("name",jget(responseObj,"name"));
+		    	  resultMap.put("birthday",jget(responseObj,"birthday"));
+		    	  resultMap.put("birthyear",jget(responseObj,"birthyear"));
+		    	  System.out.println(resultMap);
 		      }
 		    } catch (Exception e) {
 		      System.out.println(e);
+		      return null;
 		    }
-		    return null;
+		    return resultMap;
 		}
 		
+		// getUserInfoNaver() 에서 받은 토큰값을 토대로 info 찾기 
 	    private String getNaverLoginInfo(String apiUrl, Map<String, String> requestHeaders){
 	        HttpURLConnection con = connect(apiUrl);
 	        try {
@@ -356,6 +367,7 @@ public class MemberService{
 	        }
 	    }
 	    
+	    //============ 네이버 로그인 api 끝 ============
 	    
 	    public String jget(JsonElement json,String key) {
 	    	return json.getAsJsonObject().get(key).getAsString();

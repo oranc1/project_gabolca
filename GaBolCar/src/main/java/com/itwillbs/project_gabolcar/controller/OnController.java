@@ -135,18 +135,20 @@ public class OnController { //나중에 합칠거임
 			return "html/member/login/login";
 		}
 		
+		// 네이버 로그인
 	    @GetMapping("login/oauth2/code/naver")
 	    public String loginGetNaver(HttpServletRequest request,HttpSession session,Model model) {
 	    	Map<String,Object> map = memberService.getUserInfoNaver(request, "iyG93Byk9xPFZKJeZAaH", "0jr6g97yTD");
 	        System.out.println("네이버 콜백 값 : " + map);
+	        if(map == null || memberService.getMemberInfo((String)map.get("email")) == null) {
+	        	model.addAttribute("msg","가입되지 않은 네이버 email 주소 이거나, 정보를 받아오는데 문제가 발생했습니다 !");
+	        	return "inc/fail_back";
+	        }
 	        return "";
 	    }
 	    
-	    @GetMapping("callback")
-	    public String loginNaverCallback(HttpServletRequest request, HttpSession session) {
-	    	
-	        return "html/member/login/naver_callback";
-	    }
+
+
 	    
 		//로그인 db
 		@PostMapping("MemberLoginPro")
