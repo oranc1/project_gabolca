@@ -58,6 +58,8 @@
 								<td>
 								<input type="button" value="상세" class="adm_car_button" 
 									onclick="window.open('AdmResDetail?res_idx=${res.res_idx}','예약상세','width=700, height=700');">									
+								<input type="button" value="차량상세" class="adm_car_button" 
+									onclick="openCarUpdateWindow(${res.car_idx})">									
 								</td>
 								</tr>	
 							</c:forEach>	
@@ -80,5 +82,13 @@
 			</div>
 		</div>
    	</section>
+   	
+   	<script type="text/javascript">
+   	
+   		function openCarUpdateWindow(car_idx){
+   			window.open('carUpdate?car_idx='+ car_idx + '&other_window=ture','예약차량상세','width=700, height=700');
+   		}
+   	</script>
+   	
 </body>
 </html>

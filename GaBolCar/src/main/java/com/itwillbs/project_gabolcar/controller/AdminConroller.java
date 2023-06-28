@@ -436,11 +436,12 @@ public class AdminConroller {
 	@Transactional
 	@PostMapping("carUpdatePro")
 	public String carUpdatePro(
+			@RequestParam(value = "other_window", required = false) String other_window,
 	        @RequestParam(value = "option_idx", required = false) List<Integer> optionIdxList,
 	        CarVO car, HttpSession session,
 	        Model model) {
 	    // car_idx 에 있는 car_file 이 있으면 파일 넣기 수행 x 없으면 수행 O
-		
+		System.out.println("otherWindow : " + other_window);
 		// 해당 차량 car_file1..6  들고오기
 	    List<CarVO> car_files = car_service.selectCarfiles(car);
 	    System.out.println("car_files 차량에 등록된 파일 : "  + car_files);

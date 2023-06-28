@@ -240,7 +240,7 @@ public class CarItemController {
 						Integer.parseInt(returnSplit[2]),
 						returnHour,returnMinute,0);	
 				
-				if(res_rental_date.isAfter(res_return_date) && !res_return_date.isAfter(res_rental_date.plusDays(1))) {
+				if(res_rental_date.isAfter(res_return_date) || !res_return_date.isAfter(res_rental_date.plusDays(1).minusMinutes(1))) {
 					// 에러 메시지 추가 후 fail_back 이동
 					model.addAttribute("msg", "기간이 허용되지 않는 값 이거나 최소 예약일(24시간) 미만으로 선택되었습니다! 다시 선택해주세요");
 					return new ModelAndView("inc/fail_back","map",resultMap);
@@ -422,7 +422,7 @@ public class CarItemController {
 		// 만약 셋팅 조건이 없을 시 가격순 셋팅
 		if(resultMap.get("car_order_by") == null)		
 			resultMap.put("car_order_by","price");
-
+		
 		
 		//차량 검색 시작
 		if(!DUMMY_DATA_FLAG) {
@@ -443,6 +443,9 @@ public class CarItemController {
 				resultMap.put("carRes", "true");
 				// 차량 종류를 정해서 찾는다는 확인 문구 보내기
 				resultMap.put("search", "carRes");			
+				System.out.println("resultMap : " + resultMap);
+				System.out.println("res_rental_date : " + res_rental_date);
+				System.out.println("res_return_date : " + res_return_date);
 				resultMap.put("car_search_list", carService.carList(resultMap));
 				
 			}
