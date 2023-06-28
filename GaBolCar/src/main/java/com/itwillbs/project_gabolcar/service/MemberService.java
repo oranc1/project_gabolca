@@ -77,7 +77,6 @@ public class MemberService{
 		
 		//회원 탈퇴
 		public int removeMember(MemberVO member) {
-			
 			return mapper.deleteMember(member);
 		}
 		
@@ -88,7 +87,6 @@ public class MemberService{
 		}
 
 		public int changePw(MemberVO member) {
-			// TODO Auto-generated method stub
 			return mapper.changePw(member);
 		}
 

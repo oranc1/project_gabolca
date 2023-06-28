@@ -155,8 +155,6 @@ public class MemberController {
 		List<ResInfoVO> resinfo;
 		try {
 			resinfo = resService.getResInfo(sId);
-//					List<Integer> resIdxList = resinfo.stream().map(ResInfoVO::getRes_idx).collect(Collectors.toList());
-//					model.addAttribute("resIdxList",resIdxList);
 
 			if (resinfo.isEmpty()) {
 				model.addAttribute("msg", "예약 내역이 없습니다!");
@@ -173,17 +171,13 @@ public class MemberController {
 		model.addAttribute("member", member);
 		System.out.println(member);
 
+		// CarVO
 		List<Integer> resIdxList = resinfo.stream().map(ResInfoVO::getRes_idx).collect(Collectors.toList());
-//				System.out.println("나와줘" +  resIdxList );
+
 		List<Integer> carIdxList = carService.insertCar(resIdxList);
 		List<CarVO> car = carService.selectCarInfo(carIdxList);
 		model.addAttribute("carIdxList", carIdxList);
 		model.addAttribute("car", car);
-		System.out.println("이거임" + resinfo);
-//				System.out.println("나나나난"+carIdxList);
-//				List<CarVO> car = carService.insertcar(resIdxList);
-//				model.addAttribute("car",car);
-//				System.out.println("차차차" + car);
 
 		return "html/member/mem_page/mem_res_inq";
 	}
@@ -206,16 +200,13 @@ public class MemberController {
 		model.addAttribute("payment", payment);
 
 		DriverVO driver = driService.driverInfo(res_idx);
-//						System.out.println(driver);
 		model.addAttribute("driver", driver);
 
 		CarVO car = carService.carInfo(res_idx);
-//				System.out.println(car);
 		model.addAttribute("car", car);
 
 		MemberVO member = memberService.memName(sId);
 		model.addAttribute("member", member);
-//				System.out.println(member);
 
 		return "html/member/mem_page/mem_res_detail";
 
@@ -257,8 +248,7 @@ public class MemberController {
 		} else {
 			// 세션 초기화
 			session.invalidate();
-//							session.setAttribute("msg", "회원 탈퇴 성공!");
-//							
+
 			// 메인페이지로 리다이렉트
 			return "redirect:/";
 		}
