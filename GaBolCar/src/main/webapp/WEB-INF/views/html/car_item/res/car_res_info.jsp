@@ -238,7 +238,7 @@
 		<div class="review_wrap more_wrap_box">
 			<div class="view_tit_sec">
 				<p class="view_tit">고객 리뷰</p>
-				<a href="${pageContext.request.contextPath}/reviewList">더보기</a>
+				<a href="${pageContext.request.contextPath}/reviewList?pageNum=&amount=&searchType=carModel&searchKeyword=${map.car_info.car_model}">더보기</a>
 			</div>
 			<div class="more_cont">
 				<div class="rev_cont">
@@ -294,7 +294,7 @@
 											</c:choose>
 											<!-- 별점 구현 -->
 											</span></span>
-							<span class="rev_name">${reviewListS.rev_name}</span>
+							<span class="rev_name">&nbsp;&nbsp;&nbsp;&nbsp; ${reviewListS.rev_name}</span>
 							<span class="rev_txt">${reviewListS.rev_content}</span>
 						</li>
 						</c:forEach>
