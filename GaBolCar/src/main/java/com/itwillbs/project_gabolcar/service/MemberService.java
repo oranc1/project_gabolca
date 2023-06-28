@@ -8,10 +8,15 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.net.http.HttpRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -233,4 +238,77 @@ public class MemberService{
 
 		    return userInfo;
 		}
+			
+
+		// ======== 0628 배경인 추가 =======
+		// 네이버 로그인 회원 조회
+		public Map<String,Object> getUserInfoNaver(HttpServletRequest request, String clientId, String clientSecret){
+			
+			// 정보 받아서 반환해주는 객체
+			Map<String,Object> map = null;
+			
+		    String code = request.getParameter("code");
+		    String state = request.getParameter("state");
+		    String apiURL;
+		    String redirectURI = "";
+		    try {		    	
+		    	redirectURI = URLEncoder.encode("http://localhost:8089/project_gabolcar/login/oauth2/code/naver", "UTF-8");
+		    }
+		    catch(Exception e) {
+		    	return null;
+		    }
+		    
+		    apiURL = "https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&";
+		    apiURL += "client_id=" + clientId;
+		    apiURL += "&client_secret=" + clientSecret;
+		    apiURL += "&redirect_uri=" + redirectURI;
+		    apiURL += "&code=" + code;
+		    apiURL += "&state=" + state;
+		    String access_token = "";
+		    String refresh_token = ""; 
+		    
+		    try {
+		      URL url = new URL(apiURL);
+		      HttpURLConnection con = (HttpURLConnection)url.openConnection();
+		      con.setRequestMethod("GET");
+		      int responseCode = con.getResponseCode();
+		      BufferedReader br;
+		      System.out.print("responseCode="+responseCode);
+		      if(responseCode==200) { // 정상 호출
+		        br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+		      } else {  // 에러 발생
+		        br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+		      }
+		      String inputLine;
+		      StringBuffer res = new StringBuffer();
+		      while ((inputLine = br.readLine()) != null) {
+		        res.append(inputLine);
+		      }
+		      br.close();
+		      if(responseCode==200) {
+		    	  //받아온 데이터를 파싱
+		    	  JsonParser pasing = new JsonParser();
+		    	  // Object 형식으로 넣어준다음 JSONObject 방식으로 변환
+		    	  Object obj = pasing.parse(res.toString());
+		    	  JSONObject jsonObj = (JSONObject)obj;
+		    	  
+		    	  //필요한 response만 받아오기
+		    	  JSONObject resObj = (JSONObject)jsonObj.get("response");
+		    	  
+		    	  //반환값 보내줄 map 초기화
+		    	  map = new HashMap<String,Object>();
+		    	  
+		    	  //값 받아서 map 에 셋팅
+		    	  map.get((String)resObj.get("id"));
+		    	  map.get((String)resObj.get("email"));
+		    	  map.get((String)resObj.get("name"));
+		    	  map.get((String)resObj.get("nickname"));
+		      }
+		    } catch (Exception e) {
+		      System.out.println(e);
+		    }
+		    
+		    return map;
+		}
+		
 }

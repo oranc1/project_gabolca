@@ -141,9 +141,10 @@ public class OnController { //나중에 합칠거임
 	    }
 	    
 	    @GetMapping("callback")
-	    public String loginNaverCallback(HttpSession session) {
-	    	
-	        return "html/member/login/naver_callback";
+	    public String loginNaverCallback(HttpServletRequest request, HttpSession session, Model model) {
+	    	Map<String,Object> map = memberService.getUserInfoNaver(request, "iyG93Byk9xPFZKJeZAaH", "0jr6g97yTD");
+	        System.out.println(map);
+	    	return "";
 	    }
 	    
 		//로그인 db
