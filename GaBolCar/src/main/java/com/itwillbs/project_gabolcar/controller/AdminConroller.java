@@ -358,14 +358,21 @@ public class AdminConroller {
 			model.addAttribute("msg","접근권한이 없습니다.");
 			return "inc/fail_back";
 		}
-		int deleteCount = brc_service.brcDelete(brc_idx);
-		if (deleteCount > 0) {
-			return "redirect:/admBrcList";
-		} else {
-			model.addAttribute("msg","삭제 실패");
-			return "inc/fail_back";
-		}
-	}
+        
+        if (car_service.getCarBrcNameCount(brc_idx) > 0) {
+            model.addAttribute("msg","지점에 소속된 차량이 있습니다.");
+            return "inc/fail_back";
+        } else {
+            int deleteCount = brc_service.brcDelete(brc_idx);
+            if (deleteCount > 0) {
+                return "redirect:/admBrcList";
+            } else {
+                model.addAttribute("msg","삭제 실패");
+                return "inc/fail_back";
+            }
+        }
+        
+    }
 	
 	// 차량수정폼 이동
 	@GetMapping("carUpdate")
