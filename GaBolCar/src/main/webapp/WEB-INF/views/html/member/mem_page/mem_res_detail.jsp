@@ -54,8 +54,7 @@
 							<c:when test="${payment.pay_status eq '취소' }">
 								<p></p>
 							</c:when>
-							<c:when
-								test="${today ge resinfo.res_rental_date and today lt targetDate}">
+							<c:when test="${today ge resinfo.res_rental_date and today lt targetDate}">
 								<b>렌트 중</b>
 							</c:when>
 							<c:otherwise>
@@ -83,8 +82,7 @@
 								</ul>
 
 								<ul class="side_sub ss_r">
-									<li>${resinfo.res_idx}<br>
-									<br></li>
+									<li>${resinfo.res_idx}<br> <br></li>
 									<li>${resinfo.brc_rent_name }</li>
 									<li><fmt:formatDate value="${resinfo.res_rental_date}"
 											pattern="yyyy-MM-dd HH:mm" /><br> <br></li>
