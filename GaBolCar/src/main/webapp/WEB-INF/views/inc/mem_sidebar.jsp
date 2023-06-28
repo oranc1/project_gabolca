@@ -13,7 +13,7 @@
 				</dt>
 				<dd>${sessionScope.sId }</dd>
 			</dl>
-			<button class="info_manage" onclick="location.href='MemberUpdatePro'">내 정보 관리</button>
+			<p class="info_manage" >마이페이지</p>
 		</div>
 
 		<ul class="side_menu">
@@ -30,7 +30,7 @@
 					<span>내 정보 관리</span>
 				</div>
 				<ul class="side_sub">
-					<li><a href="MemberUpdatePro">내 정보 수정</a></li>
+					<li><a href="MemberUpdatePro">내 정보 관리</a></li>
 					<li><a href="MemberDeleteForm">회원탈퇴</a></li>
 				</ul>
 			</li>

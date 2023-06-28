@@ -3,6 +3,7 @@ package com.itwillbs.project_gabolcar.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.itwillbs.project_gabolcar.vo.Criteria;
 import com.itwillbs.project_gabolcar.vo.NoticeVO;
@@ -16,7 +17,7 @@ public interface BoardMapper {
 	int insertNotice(NoticeVO notice);
 
 	// 공지사항 목록(페이징 적용)
-	List<NoticeVO> getNoticeListPaging(Criteria cri);
+	List<NoticeVO> getNoticeListPaging(@Param("cri") Criteria cri, @Param("searchType") String searchType, @Param("searchKeyword") String searchKeyword);
 
 	// 게시판 총 갯수
 	int getTotal();

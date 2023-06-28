@@ -61,9 +61,9 @@ public class BoardController {
 	
 	// 공지사항 글 목록
 	@GetMapping("noticeList")
-	public String noticeList(Model model, Criteria cri) {
+	public String noticeList(Model model, Criteria cri, @RequestParam(defaultValue = "") String searchType, @RequestParam(defaultValue = "") String searchKeyword) {
 
-		List<NoticeVO> noticeListWithPaging = service.getNoticeListPaging(cri);
+		List<NoticeVO> noticeListWithPaging = service.getNoticeListPaging(cri, searchType, searchKeyword);
 		model.addAttribute("noticeListP", noticeListWithPaging);
 		
 		int total = service.getTotal();

@@ -37,7 +37,7 @@ $(function(){
 	function doneResult(carList) {
 		let pageInfo = carList.pop();
 		let path = window.location.pathname.substring(0, window.location.pathname.indexOf("/",2));
-		console.log(path);
+//		console.log(path);
 		console.log(pageInfo)
 		for (let car of carList) {
 			let result =
@@ -94,7 +94,9 @@ $(function(){
 			$("#itemList").append(result);
 		}
 		
-		if(pageNum != pageInfo.maxPage) {
+		if (pageInfo.maxPage == 0) {
+			$("#nextPage").css("display","none");
+		} else if (pageNum != pageInfo.maxPage) {
 			$("#nextPage").css("display","");
 		} else {
 			$("#nextPage").css("display","none");

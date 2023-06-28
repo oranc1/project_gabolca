@@ -22,8 +22,8 @@ public class BoardService {
 	}
 
 	// 공지사항 목록(페이징 적용)
-	public List<NoticeVO> getNoticeListPaging(Criteria cri) {
-		return mapper.getNoticeListPaging(cri);
+	public List<NoticeVO> getNoticeListPaging(Criteria cri, String searchType, String searchKeyword) {
+		return mapper.getNoticeListPaging(cri, searchType, searchKeyword);
 	}
 
 	// 공지사항 게시판 총 갯수

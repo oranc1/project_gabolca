@@ -38,7 +38,7 @@
 							<c:choose>
 								<c:when test="${sessionScope.sId eq 'admin@admin.com' }">
 									<li>
-										<a href="javascript:Check('${sessionScope.sId}')" > <i class="xi-user"></i> ${sessionScope.sId } 님
+										<a href="javascript:Check()" > <i class="xi-user"></i> ${sessionScope.sId } 님
 										</a>
 									</li>
 								</c:when>
@@ -107,7 +107,7 @@
 								<c:choose>
 									<c:when test="${sessionScope.sId eq 'admin@admin.com' }">
 										<li>
-											<a href="javascript:Check('${sessionScope.sId}')" > <i class="xi-user"></i> ${sessionScope.sId } 님
+											<a href="javascript:Check()" > <i class="xi-user"></i> ${sessionScope.sId } 님
 											</a>
 										</li>
 									</c:when>
@@ -187,23 +187,9 @@
         });
     </script>
     <script>
-    	function Check(id) {
-    		let data = window.prompt("접속 키워드 입력");
-    		$.ajax({
-    			url: "adminCheck",
-    			type: "get",
-				data: {
-					id: id,
-					data: data
-				},
-    		}).done(function(result) {
-    			if ($.trim(result) == 'true') {
-    				location.href="admDash";
-    			} else {
-    				alert("접근권한이 없습니다.")
-    				history.back();
-    			}
-    		})
+    	function Check() {
+    		let data = window.prompt("키워드 입력");
+    		location.href="adminCheck?data="+data;
     	}
     </script>
 

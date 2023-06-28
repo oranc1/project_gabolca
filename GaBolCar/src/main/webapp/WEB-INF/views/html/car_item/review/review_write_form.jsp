@@ -28,7 +28,7 @@
 								<ul class="list">
 									<li>
 										<div class="subject">
-											<input type="text" name="rev_subject" placeholder="제목을 입력해주세요" class="inputBox" required="required">
+											<input type="text" name="rev_subject" placeholder="제목을 50자 이내로 입력해주세요" class="inputBox" required="required" style="word-break:break-all;">
 										</div>
 									</li>
 
@@ -59,7 +59,7 @@
 <!-- 									<img src="../img/casper.jpg" alt=""> -->
 									<!-- 작성글 출력! -->
 									<p>
-										<textarea rows="" cols="" class="inputBox" name="rev_content" placeholder="내용을 입력해주세요" required="required"></textarea>
+										<textarea rows="" cols="" class="inputBox" name="rev_content" placeholder="내용을 4000자 이내로 입력해주세요. 남을 비방하는 말, 비속어, 음란성 글, 광고성이 포함된 글은 관리자 임의로 삭제될 수 있습니다." required="required" style="word-break:break-all;"></textarea>
 									</p>
 								</div>
 

@@ -258,18 +258,11 @@ public class AdminConroller {
 			return "inc/fail_back";
 		}
 	    // 차량 옵션 삭제 추가
-	    int optionDeleteCount = car_service.carOptionDelete(car_idx);
-
-	    if (optionDeleteCount > 0) {
-	        System.out.println("차량 옵션 삭제 성공");
-	    } else {
-	        System.out.println("차량 옵션 삭제 실패");
-	    }
+//	    int optionDeleteCount = car_service.carOptionDelete(car_idx);
 
 	    int deleteCount = car_service.carDelete(car_idx);
 
 	    if (deleteCount > 0) {
-	        model.addAttribute("msg", "삭제 완료");
 	        return "redirect:/admCarList";
 	    } else {
 	        model.addAttribute("msg", "삭제 실패");
@@ -354,13 +347,21 @@ public class AdminConroller {
 			model.addAttribute("msg","접근권한이 없습니다.");
 			return "inc/fail_back";
 		}
-		int deleteCount = brc_service.brcDelete(brc_idx);
-		if (deleteCount > 0) {
-			return "redirect:/admBrcList";
-		} else {
-			model.addAttribute("msg","삭제 실패");
+		
+		if (car_service.getCarBrcNameCount(brc_idx) > 0) {
+			System.out.println("여기");
+			model.addAttribute("msg","지점에 소속된 차량이 있습니다.");
 			return "inc/fail_back";
+		} else {
+			int deleteCount = brc_service.brcDelete(brc_idx);
+			if (deleteCount > 0) {
+				return "redirect:/admBrcList";
+			} else {
+				model.addAttribute("msg","삭제 실패");
+				return "inc/fail_back";
+			}
 		}
+		
 	}
 	
 	// 차량수정폼 이동

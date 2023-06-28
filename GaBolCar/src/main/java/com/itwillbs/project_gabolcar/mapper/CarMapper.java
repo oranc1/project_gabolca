@@ -99,6 +99,8 @@ public interface CarMapper {
 
 	List<CarVO> selectCarIdx(List<Integer> carIdxList);
 
+	int selectCarBrcNameCount(int brc_name);
+
 	
 
 
