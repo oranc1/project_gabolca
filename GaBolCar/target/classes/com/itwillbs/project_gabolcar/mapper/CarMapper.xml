@@ -461,7 +461,9 @@
 			car_info
 			<choose>
 				<when test="car_model != null"> <!-- 0619 경인 추가 -->
-				where car_model = #{car_model}
+				where 
+					car_status not in ("삭제")
+					AND car_model = #{car_model}
 				order by car_old desc
 				limit 0,1
 				</when>

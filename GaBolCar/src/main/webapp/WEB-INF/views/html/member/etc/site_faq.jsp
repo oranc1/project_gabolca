@@ -23,7 +23,7 @@
 				<div class="faq_list">
 					<ul>
 						<li>
-							<div class="question">
+							<div class="question question1">
 								<span class="q_num">01</span>
 								<span class="q_icn">Q</span>
 								<span class="q_question">예약취소 했는데 언제 환불 되나요?</span>
@@ -40,7 +40,7 @@
 							</div>
 						</li>
 						<li>
-							<div class="question">
+							<div class="question question2">
 								<span class="q_num">02</span>
 								<span class="q_icn">Q</span>
 								<span class="q_question">카시트 등 부가서비스는 어떻게 이용하나요?</span>
@@ -57,7 +57,7 @@
 		
 						</li>
 						<li>
-							<div class="question">
+							<div class="question question3">
 								<span class="q_num">03</span>
 								<span class="q_icn">Q</span>
 								<span class="q_question">해외에 거주하고 있는데 예약 및 이용이 가능한가요?</span>
@@ -80,7 +80,7 @@
 		
 						</li>
 						<li>
-							<div class="question">
+							<div class="question question4">
 								<span class="q_num">04</span>
 								<span class="q_icn">Q</span>
 								<span class="q_question">현금영수증 발급이 가능한가요?</span>
@@ -97,7 +97,7 @@
 		
 						</li>
 						<li>
-							<div class="question">
+							<div class="question question5">
 								<span class="q_num">05</span>
 								<span class="q_icn">Q</span>
 								<span class="q_question">사고 또는 고장 발생시 어떻게 해야하나요?</span>
@@ -114,7 +114,7 @@
 
 						</li>
 						<li>
-							<div class="question">
+							<div class="question question6">
 								<span class="q_num">06</span>
 								<span class="q_icn">Q</span>
 								<span class="q_question">보험보상 및 차량손해보상제도(자차보험) 규정이 궁금합니다.</span>
@@ -145,7 +145,7 @@
 		
 						</li>
 						<li>
-							<div class="question">
+							<div class="question question7">
 								<span class="q_num">07</span>
 								<span class="q_icn">Q</span>
 								<span class="q_question">취소, 변경 등 환불수수료는 얼마인가요?</span>
@@ -166,7 +166,7 @@
 		
 						</li>
 						<li>
-							<div class="question">
+							<div class="question question8">
 								<span class="q_num">08</span>
 								<span class="q_icn">Q</span>
 								<span class="q_question">운전면허증을 분실했는데 어떻게 하나요?</span>
@@ -185,7 +185,7 @@
 		
 						</li>
 						<li>
-							<div class="question">
+							<div class="question question9">
 								<span class="q_num">09</span><span class="q_icn">Q</span><span
 									class="q_question">운전자 등록 인원은 몇 명까지 가능합니까?</span><span
 									class="q_arrow"><i></i></span>
@@ -202,7 +202,7 @@
 		
 						</li>
 						<li>
-							<div class="question">
+							<div class="question question10">
 								<span class="q_num">10</span>
 								<span class="q_icn">Q</span>
 								<span class="q_question">대여자격 기준이 어떻게 되나요?</span>
@@ -238,6 +238,7 @@
 		$('#faq_wrap .faq_list ul li .question').click(function() {
 			$('.answer').slideUp();
 			$('.question').removeClass('open');
+			console.log($(this))
 			if ($(this).next().is(':hidden')) {
 				$(this).next().slideDown();
 				$(this).addClass('open');
@@ -246,6 +247,26 @@
 				//$(this).children('.question').removeClass('open');
 			}
 		});
+		
+		// FAQ 페이지로 이동할 때 파라미터 있으면 동작
+		function initParam(param) {
+			if(param == null || param == "") return;
+			
+			$('.answer').slideUp();
+			$('.question').removeClass('open');
+			if ($('.question' + param).next().is(':hidden')) {
+				$('.question' + param).next().slideDown();
+				$('.question' + param).addClass('open');
+				
+				// 해당 파라미터에 해당하는 FAQ 자리로 이동
+				$('.question' + param).attr("tabindex", -1).focus();
+			} else {
+				$('.question' + param).next().slideUp();
+				//$(this).children('.question').removeClass('open');
+			}
+		}
+		
+		initParam('${param.FAQ}');
 	</script>
 	
 	<footer>

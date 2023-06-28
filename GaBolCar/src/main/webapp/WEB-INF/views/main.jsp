@@ -52,7 +52,7 @@
 	</nav>
 	
 
-		<form action="carRes" method="post" onsubmit="return menuCheck()">
+		<form id="car_search_form" action="carRes" method="post" onsubmit="return menuCheck()">
 
 			<div class="main_visual">
 				<div class="main_cont inr">
@@ -115,19 +115,19 @@
 					<c:forEach var="populer_car"  items="${map.car_populer_list }" varStatus="i">			
 					<div
 						class="mt-2 col-2 d-flex align-items-center justify-content-center car_recom_item${i.index + 1 }">
-						<a href="">
-						</a>
-						<div>
-							<img class="car_recom_img" alt=""
-								src="${pageContext.request.contextPath}/resources/upload/car/${populer_car.car_file_path}/${populer_car.car_file1}" >
-							<div class="car_recom_info_wrap">
-								<p class="car_recom_info_model">${populer_car.car_model}(${populer_car.car_company})</p>
-								<div class="car_recom_info_list">
-									<span>${populer_car.car_old}년식</span><span>${populer_car.car_fuel_type}</span>
+						<a href="javascript:populerCarSearch('${populer_car.car_type }', '${populer_car.car_fuel_type }')">
+							<div>
+								<img class="car_recom_img" alt=""
+									src="${pageContext.request.contextPath}/resources/upload/car/${populer_car.car_file_path}/${populer_car.car_file1}" >
+								<div class="car_recom_info_wrap">
+									<p class="car_recom_info_model">${populer_car.car_model}(${populer_car.car_company})</p>
+									<div class="car_recom_info_list">
+										<span>${populer_car.car_old}년식</span><span>${populer_car.car_fuel_type}</span>
+									</div>
+									<p class="car_recom_info_price">일 ${populer_car.car_weekdays} 원</p>
 								</div>
-								<p class="car_recom_info_price">일 ${populer_car.car_weekdays} 원</p>
 							</div>
-						</div>
+						</a>
 					</div>
 					</c:forEach>
 				</c:when> <%-- map.car_populer_list 있을때 --%>
@@ -332,6 +332,56 @@
 
 	<jsp:include page="inc/side_inquiry_btn.jsp"></jsp:include>
 
-
+	<%-- 추천 차량 항목 선택시 해당 차 타입에 맞춰서 검색하도록 구현 --%>
+	<script type="text/javascript">
+	function populerCarSearch(carType, carFuelType){
+		let form = document.querySelector("#car_search_form");
+		let submitBtn = document.querySelector(".submit_btn");
+		let car_typeCheckBox = document.querySelectorAll(".car_type");
+		let car_fuel_typeCheckBox = document.querySelectorAll(".car_fuel_type");
+		
+		console.log(carType + carFuelType);
+		
+		//체크박스 체크해제
+		for(let d of car_typeCheckBox){
+			d.checked = false;
+		}		
+		
+		for(let d of car_fuel_typeCheckBox){
+			d.checked = false;
+		}		
+		
+		 // ============= 차량타입, 연료 체크 =============
+		
+		if(carType.length > 0){
+			for(let d of car_typeCheckBox){
+				if(d.value == carType){
+					d.checked = true;
+					break;
+				}	
+			}		
+		}
+		else{ // 만약 차량타입 파라미터값 없을때 전부 체크로 되돌리기
+			for(let d of car_typeCheckBox){
+				d.checked = true;
+			}		
+		}
+		
+		if(carFuelType.length > 0){
+			for(let d of car_fuel_typeCheckBox){
+				if(d.value == carFuelType){
+					d.checked = true;
+					break;
+				}
+			}
+		}				
+		else{ // 만약 차량연료 파라미터값 없을때 전부 체크로 되돌리기
+			for(let d of car_fuel_typeCheckBox){
+				d.checked = true;
+			}		
+		}
+		form.submit();
+	}
+	</script>
 </body>
 </html>

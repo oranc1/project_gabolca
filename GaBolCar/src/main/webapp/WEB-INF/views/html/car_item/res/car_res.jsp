@@ -91,54 +91,44 @@
 					
 				<!-- 검색 목록 리스트 -->
 				<div class="col-md-12 col-lg-8 res_list">
-					<ul class="res_list_ul">
 						<%-- 검색 결과 출력 --%>
 						<c:choose>
 							<c:when test="${!empty map.car_search_list  }">
-								<c:forEach var="car" items="${map.car_search_list }">
-								<li> <%-- 0620 경인 추가 주소 설정 --%>
-									<a href="carRes/carResInfo?car_idx=${fn:split(car.car_idx_list,',')[0] }
-									&res_rental_date=${map.res_rental_date}&res_return_date=${map.res_return_date}
-									&brc_rent_name=${map.brc_rent_name}&brc_return_name=${map.brc_return_name}">
-										<div class="res_list_img">
-											<img
-												src="${pageContext.request.contextPath}/resources/upload/car/${car.car_file_path}/${car.car_file1}" 
-												alt="${car.car_model}">
-										</div>
-										<div class="res_list_txt">
-											<h4>${car.car_model}(${car.car_company})</h4>
-											<p class="car_info_p">${car.car_old} 년식 / ${car.car_shift_type} / ${car.car_riding} 인승 / ${car.car_fuel_type} / 만 ${car.car_age}세 이상</p>
-											<p class="car_amount_p">
-												<span>최저가</span> <span><b>${car.car_weekdays}</b>원</span>
-											</p>
-										</div>
-										<p class="res_btn">예약 하러가기</p>
-									</a>
-								</li>
-								</c:forEach>
+								<ul class="res_list_ul">
+									<c:forEach var="car" items="${map.car_search_list }">
+									<li> <%-- 0620 경인 추가 주소 설정 --%>
+										<a href="carRes/carResInfo?car_idx=${fn:split(car.car_idx_list,',')[0] }
+										&res_rental_date=${map.res_rental_date}&res_return_date=${map.res_return_date}
+										&brc_rent_name=${map.brc_rent_name}&brc_return_name=${map.brc_return_name}">
+											<div class="res_list_img">
+												<img
+													src="${pageContext.request.contextPath}/resources/upload/car/${car.car_file_path}/${car.car_file1}" 
+													alt="${car.car_model}">
+											</div>
+											<div class="res_list_txt">
+												<h4>${car.car_model}(${car.car_company})</h4>
+												<p class="car_info_p">${car.car_old} 년식 / ${car.car_shift_type} / ${car.car_riding} 인승 / ${car.car_fuel_type} / 만 ${car.car_age}세 이상</p>
+												<p class="car_amount_p">
+													<span>최저가</span> <span><b>${car.car_weekdays}</b>원</span>
+												</p>
+											</div>
+											<p class="res_btn">예약 하러가기</p>
+										</a>
+									</li>
+									</c:forEach>
+					 			</ul>
 							</c:when>
 
-							<%-- 더미데이터 --%>
-							<c:otherwise> * 더미데이터
-								<li><a href="carRes/carResInfo">
-										<div class="res_list_img">
-											<img
-												src="${pageContext.request.contextPath }/resources/img/car_img_storage/test_img/casper.jpg"
-												alt="캐스퍼">
-										</div>
-										<div class="res_list_txt">
-											<h4>캐스퍼(현대)</h4>
-											<p class="car_info_p">자동 / 4인승 / 가솔린 / 만23세이상</p>
-											<p class="car_amount_p">
-												<span>최저가</span> <span><b>50000</b>원</span>
-											</p>
-										</div>
-										<p class="res_btn">예약 하러가기</p>
-								</a></li>
+							<c:otherwise>
+							
+								<div align="center">
+									<p class="con_title">해당 조건의 차량이 현재 없거나 예약중입니다.</p>
+									<p>불편을 드려 죄송합니다.</p>
+								</div>
+						
 							</c:otherwise>
 						</c:choose>
 
-					</ul>
 				</div><!-- 검색목록 리스트 끝 -->
 				
 			</div><!-- div row 끝 -->
