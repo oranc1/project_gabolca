@@ -161,15 +161,7 @@
 		    <artifactId>spring-boot-starter-validation</artifactId>
 		    <version>3.1.0</version>
 		</dependency>
-		
-		<!-- 타임리프 -->
-		<dependency>
-		    <groupId>org.springframework.boot</groupId>
-		    <artifactId>spring-boot-starter-thymeleaf</artifactId>
-		    <version>3.1.0</version>
-		</dependency>
-
-		
+				
 		<!-- https://mvnrepository.com/artifact/net.nurigo/sdk -->
 		<!-- CoolSMS 문자인증 이온 -->
 		<dependency>

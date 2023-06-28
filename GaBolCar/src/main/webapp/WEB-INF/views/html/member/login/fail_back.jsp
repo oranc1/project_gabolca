@@ -8,7 +8,7 @@
 <script type="text/javascript">
 	// 요청 작업 실패 시 전달받은 오류 메세지 출력 후 이전페이지로 돌아가기
 	alert("${msg}");
-	history.back();
+	 window.location.href = document.referrer;
 </script>
 </head>
 <body>
