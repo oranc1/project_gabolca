@@ -24,11 +24,20 @@
 			<h1 class="con_title">공지사항</h1>
 			<section id="board_wrap">
 				<section id="board_list" class="notice">
-					<form name="fboardlist" id="fboardlist" action="" method="post">
+					<form name="fboardlist" id="fboardlist" action="" method="get">
 						<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum }">
 						<input type="hidden" name="amount" value="${pageMaker.cri.amount }">
 						<div class="wrapper">
 							<div class="list_wrap">
+								<div class="search_wrap">
+									<select name="searchType" id="searchType">
+										<option value="subject" <c:if test="${param.searchType eq 'subject'}" >selected</c:if>>제목</option>			
+										<option value="content" <c:if test="${param.searchType eq 'content'}">selected</c:if>>내용</option>			
+										<option value="subject_content" <c:if test="${param.searchType eq 'subject_content'}">selected</c:if>>제목&내용</option>			
+									</select>
+									<input type="text" name="searchKeyword" value="${param.searchKeyword}" id="searchKeyword" >
+									<input type="submit" value="검색" class="searchSubmit">
+								</div>
 								<ul class="list">
 									<li class="list_head">
 										<p class="list_num">번호</p>

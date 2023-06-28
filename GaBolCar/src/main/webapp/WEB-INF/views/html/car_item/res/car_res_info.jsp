@@ -8,11 +8,11 @@
 <head>
 	<meta charset="UTF-8">
 	<title>예약차량 상세정보</title>
-	<link href="${pageContext.request.contextPath }/resources/css/common.css" rel="stylesheet">
-	<link href="${pageContext.request.contextPath }/resources/css/car_item/res/car_res_info.css" rel="stylesheet">
-	<link href="${pageContext.request.contextPath }/resources/css/inc/top.css" rel="styleSheet">
-	<link href="${pageContext.request.contextPath }/resources/css/inc/footer.css" rel="styleSheet">
-	<script src="${pageContext.request.contextPath }/resources/js/inc/jquery-3.7.0.js"></script>
+	<link href="${pageContext.request.contextPath}/resources/css/common.css" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/resources/css/car_item/res/car_res_info.css" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/resources/css/inc/top.css" rel="styleSheet">
+	<link href="${pageContext.request.contextPath}/resources/css/inc/footer.css" rel="styleSheet">
+	<script src="${pageContext.request.contextPath}/resources/js/inc/jquery-3.7.0.js"></script>
 </head>
 <body>
 	<header>
@@ -119,7 +119,7 @@
 					<p class="view_amount">
 						  <b><fmt:formatNumber value="${map.rentPrice}" pattern="#,###" />원</b>
 					</p>
-					<a href="resPayment?car_idx=${map.car_idx }
+					<a href="resPayment?car_idx=${map.car_idx}
                                     &res_rental_date=${map.res_rental_date}&res_return_date=${map.res_return_date}
                                     &brc_rent_name=${map.brc_rent_name}&brc_return_name=${map.brc_return_name}" class="view_res_btn">
                                     예약하러 가기</a>
@@ -226,7 +226,7 @@
 				<div class="opt_list">
 					<c:forEach var="car_option" items="${map.car_option}">
 					<div>
-						<img alt="" src="${pageContext.request.contextPath }/resources/upload/car_options/${car_option.option_image_url}"/>
+						<img alt="" src="${pageContext.request.contextPath}/resources/upload/car_options/${car_option.option_image_url}"/>
 						<p>${car_option.option_name}</p>
 					</div>
 					</c:forEach>
@@ -238,46 +238,46 @@
 		<div class="review_wrap more_wrap_box">
 			<div class="view_tit_sec">
 				<p class="view_tit">고객 리뷰</p>
-				<a href="${pageContext.request.contextPath }/reviewList">더보기</a>
+				<a href="${pageContext.request.contextPath}/reviewList?pageNum=1&amount=&searchType=carModel&searchKeyword=${map.car_info.car_model}">더보기</a>
 			</div>
 			<div class="more_cont">
 				<div class="rev_cont">
 					<ul class=""> 
-					<c:forEach var="reviewListS" items="${map.reviewListS }">
+					<c:forEach var="reviewListS" items="${map.reviewListS}">
 						<li class="">
 							<span class="write_s"><span>
-												<!-- 별점 구현 초보, 새로운 거 알면 바꾸기-->
+												<!-- 별점 구현 -->
 											<c:set var="starLank" value="${reviewListS.rev_star}"/>
 											 <c:choose>
-    											<c:when test="${starLank eq 0 }">
+    											<c:when test="${starLank eq 0}">
   													<span>★</span>
 													<span>★</span>
 													<span>★</span>
 													<span>★</span>
 													<span>★</span>
     											</c:when>
-    											<c:when test="${starLank eq 1 }">
+    											<c:when test="${starLank eq 1}">
   													<span class="fill">★</span>
 													<span>★</span>
 													<span>★</span>
 													<span>★</span>
 													<span>★</span>
     											</c:when>
-    											<c:when test="${starLank eq 2 }">
+    											<c:when test="${starLank eq 2}">
   													<span class="fill">★</span>
 													<span class="fill">★</span>
 													<span>★</span>
 													<span>★</span>
 													<span>★</span>
     											</c:when>
-    											<c:when test="${starLank eq 3 }">
+    											<c:when test="${starLank eq 3}">
   													<span class="fill">★</span>
 													<span class="fill">★</span>
 													<span class="fill">★</span>
 													<span>★</span>
 													<span>★</span>
     											</c:when>
-    											<c:when test="${starLank eq 4 }">
+    											<c:when test="${starLank eq 4}">
   													<span class="fill">★</span>
 													<span class="fill">★</span>
 													<span class="fill">★</span>
@@ -292,10 +292,11 @@
 													<span class="fill">★</span>
 												 </c:otherwise>
 											</c:choose>
-											<!-- 별점 구현 초보 -->
+											<!-- 별점 구현 -->
 											</span></span>
-							<span class="rev_name">${reviewListS.rev_name }</span>
-							<span class="rev_txt">${reviewListS.rev_content }</span>
+							<span class="rev_name">&nbsp;&nbsp;&nbsp;&nbsp; ${reviewListS.rev_name}</span>
+							<span class="rev_txt">${reviewListS.rev_content}</span>
+							<span class="rev_txt_hobertext">${reviewListS.rev_content}</span>
 						</li>
 						</c:forEach>
 					</ul>

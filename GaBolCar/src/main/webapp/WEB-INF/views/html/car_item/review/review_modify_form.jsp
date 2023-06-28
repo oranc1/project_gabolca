@@ -5,11 +5,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
-	<link href="${pageContext.request.contextPath }/resources/css/common.css" rel="stylesheet">
-	<link href="${pageContext.request.contextPath }/resources/css/car_item/review/review_write_form.css" rel="stylesheet">
-	<link href="${pageContext.request.contextPath }/resources/css/inc/top.css" rel="styleSheet">
-	<link href="${pageContext.request.contextPath }/resources/css/inc/footer.css" rel="styleSheet">
-	<script src="${pageContext.request.contextPath }/resources/js/inc/jquery-3.7.0.js"></script>
+	<link href="${pageContext.request.contextPath}/resources/css/common.css" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/resources/css/car_item/review/review_write_form.css" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/resources/css/inc/top.css" rel="styleSheet">
+	<link href="${pageContext.request.contextPath}/resources/css/inc/footer.css" rel="styleSheet">
+	<script src="${pageContext.request.contextPath}/resources/js/inc/jquery-3.7.0.js"></script>
 <title>리뷰 게시글 수정</title>
 
 <c:if test="${reviewDetail.mem_id != sId}">
@@ -37,7 +37,7 @@
 									<ul class="list">
 										<li>
 											<div class="subject">
-												<input type="text" class="inputBox" name="rev_subject" value="${reviewDetail.rev_subject}">
+												<input type="text" class="inputBox" name="rev_subject" value="${reviewDetail.rev_subject}" style="word-break:break-all;">
 											</div>
 										</li>
 
@@ -69,35 +69,35 @@
 	<!-- 									<img src="../img/casper.jpg" alt=""> -->
 										<!-- 작성글 출력! -->
 										<p>
-											<textarea class="inputBox" name="rev_content">${reviewDetail.rev_content}</textarea>
+											<textarea class="inputBox" name="rev_content" style="word-break:break-all;">${reviewDetail.rev_content}</textarea>
 										</p>
 									</div>
 	
 									<div class="write_file">
 										<c:choose>
-											<c:when test="${empty reviewDetail.rev_file1 }">
+											<c:when test="${empty reviewDetail.rev_file1}">
 												<!-- <input type="file" name="file1" /><br> -->
 											</c:when>
 											<c:otherwise>
-												${fn:split(reviewDetail.rev_file1, '_')[1] }
+												${fn:split(reviewDetail.rev_file1, '_')[1]}
 												<!-- <input type="button" value="삭제"> --><br>
 											</c:otherwise>
 										</c:choose>
 										<c:choose>
-											<c:when test="${empty reviewDetail.rev_file2 }">
+											<c:when test="${empty reviewDetail.rev_file2}">
 												<!-- <input type="file" name="file2" /><br> -->
 											</c:when>
 											<c:otherwise>
-												${fn:split(reviewDetail.rev_file2, '_')[1] }
+												${fn:split(reviewDetail.rev_file2, '_')[1]}
 												<!-- <input type="button" value="삭제"> --><br>
 											</c:otherwise>
 										</c:choose>
 										<c:choose>
-											<c:when test="${empty reviewDetail.rev_file3 }">
+											<c:when test="${empty reviewDetail.rev_file3}">
 												<!-- <input type="file" name="file3" /><br> -->
 											</c:when>
 											<c:otherwise>
-												${fn:split(reviewDetail.rev_file3, '_')[1] }
+												${fn:split(reviewDetail.rev_file3, '_')[1]}
 												<!-- <input type="button" value="삭제"> --><br>
 											</c:otherwise>
 										</c:choose>

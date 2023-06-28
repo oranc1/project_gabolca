@@ -104,12 +104,16 @@
 											<!-- 네이버 로그인 버튼 노출 영역 -->
 <!-- 										    <div id="naver_id_login"></div> -->
   											<a href="<%=apiURL%>"><img height="50" src="http://static.nid.naver.com/oauth/small_g_in.PNG"/></a>
-  
 										    <!-- //네이버 로그인 버튼 노출 영역 -->
+                                        </li>
+                                        <li>
+											<a id="kakao-login-btn" href="javascript:loginWithKakao()">
+											  <img src="https://k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg" width="222"
+											    alt="카카오 로그인 버튼" />
+											</a>
                                         </li>
                                     </ul>
                                 </div>
-
                                 <div class="join">
                                     <p>아이디가 없으신가요? </p>
                                     <a href="signup">회원가입</a>
@@ -141,6 +145,18 @@
 //         naver_id_login.setPopup();
 //         naver_id_login.init_naver_id_login();
     </script>
+<%-- /카카오 로그인 --%>
+<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.2.0/kakao.min.js" 
+	integrity="sha384-x+WG2i7pOR+oWb6O5GV5f1KN2Ko6N7PTGPS7UlasYWNxZMKQA63Cj/B2lbUmUfuC" crossorigin="anonymous"></script>
+<script>
+	function loginWithKakao() {
+		Kakao.init('f1a47a651626dab122ca303d5b28aeda'); // JavaScript 키 입력
+		Kakao.Auth.authorize({
+			redirectUri: 'http://localhost:8080/project_gabolcar/kakaoLogin',
+		});
+	}
+</script>
+<%-- 카카오 로그인/ --%>
 
 </body>
 
