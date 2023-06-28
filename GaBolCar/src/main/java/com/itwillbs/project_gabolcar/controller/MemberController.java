@@ -625,10 +625,10 @@ public class MemberController {
 		return "html/member/etc/site_faq";
 	}
 	
-//	// 이용약관
-//	@GetMapping("UseAgree")
-//	public String UseAgree() {
-//		return "html/member/etc/use_agree";
-//	}
+	// 이용약관
+	@GetMapping("UseAgree")
+	public String UseAgree() {
+		return "html/member/etc/use_agree";
+	}
 		
 }

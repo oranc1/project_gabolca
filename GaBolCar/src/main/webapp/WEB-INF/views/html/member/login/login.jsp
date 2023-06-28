@@ -10,7 +10,7 @@
 <%-- 0627 배경인 수정 네이버 로그인 --%>
   <%
     String clientId = "iyG93Byk9xPFZKJeZAaH";//애플리케이션 클라이언트 아이디값";
-    String redirectURI = URLEncoder.encode("http://localhost:8089/project_gabolcar/login/oauth2/code/naver", "UTF-8");
+    String redirectURI = URLEncoder.encode("http://c5d2302t3.itwillbs.com/gabolcar/login/oauth2/code/naver", "UTF-8");
     SecureRandom random = new SecureRandom();
     String state = new BigInteger(130, random).toString();
     String apiURL = "https://nid.naver.com/oauth2.0/authorize?response_type=code";
@@ -103,12 +103,10 @@
 
 											<!-- 네이버 로그인 버튼 노출 영역 -->
 <!-- 										    <div id="naver_id_login"></div> -->
-  											<a href="<%=apiURL%>"><img height="50" src="http://static.nid.naver.com/oauth/small_g_in.PNG"/></a>
+  											<a href="<%=apiURL%>"><img src="${pageContext.request.contextPath }/resources/img/member/login/login/naver_login.png"/></a>
 										    <!-- //네이버 로그인 버튼 노출 영역 -->
-                                        </li>
-                                        <li>
 											<a id="kakao-login-btn" href="javascript:loginWithKakao()">
-											  <img src="https://k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg" width="222"
+											  <img src="${pageContext.request.contextPath }/resources/img/member/login/login/kakao_login.png" 
 											    alt="카카오 로그인 버튼" />
 											</a>
                                         </li>
@@ -152,7 +150,7 @@
 	function loginWithKakao() {
 		Kakao.init('f1a47a651626dab122ca303d5b28aeda'); // JavaScript 키 입력
 		Kakao.Auth.authorize({
-			redirectUri: 'http://c5d2302t3.itwillbs.com/project_gabolcar/kakaoLogin',
+			redirectUri: 'http://c5d2302t3.itwillbs.com/gabolcar/kakaoLogin',
 		});
 	}
 </script>
