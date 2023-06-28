@@ -499,3 +499,29 @@
 	background: #ff6600;
 }
 
+/* 추가 */
+.search_wrap {
+	text-align: right;
+	margin-bottom: 20px;
+	display: flex;
+	justify-content: flex-end;
+}
+#searchType, #searchKeyword {
+	border: 1px solid #ddd;
+    padding: 5px;
+    border-radius: 3px;
+}
+#searchKeyword {
+	margin-left: 5px;
+}
+.searchSubmit {
+	margin-left: 5px;
+    padding: 0 20px;
+    border-radius: 3px;
+}
+
+
+
+
+
+
