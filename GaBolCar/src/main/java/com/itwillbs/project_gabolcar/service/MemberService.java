@@ -11,7 +11,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.net.http.HttpRequest;
+
 
 import java.util.HashMap;
 import java.util.List;
@@ -19,7 +19,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.json.JSONObject;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
@@ -31,7 +31,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.itwillbs.project_gabolcar.mapper.MemberMapper;
 import com.itwillbs.project_gabolcar.vo.MemberVO;
-import com.itwillbs.project_gabolcar.vo.PageInfo;
+
 
 
 
@@ -187,7 +187,7 @@ public class MemberService{
 		        BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
 		        String sb = "grant_type=authorization_code" +
 		                "&client_id=95e47f76b9c01aeee37be0fc58f153e8" + // REST_API_KEY
-		                "&redirect_uri=http://c5d2302t3.itwillbs.com/project_gabolcar/kakaoLogin" + // REDIRECT_URI
+		                "&redirect_uri=http://c5d2302t3.itwillbs.com/gabolcar/kakaoLogin" + // REDIRECT_URI
 		                "&code=" + code;
 		        bufferedWriter.write(sb);
 		        bufferedWriter.flush();
@@ -276,7 +276,7 @@ public class MemberService{
 		    String state = request.getParameter("state");
 		    String redirectURI = "";
 		    try {		    	
-		    	redirectURI = URLEncoder.encode("http://localhost:8089/project_gabolcar/login/oauth2/code/naver", "UTF-8");
+		    	redirectURI = URLEncoder.encode("http://c5d2302t3.itwillbs.com/gabolcar/login/oauth2/code/naver", "UTF-8");
 		    }
 		    catch(Exception e) {
 		    	System.out.println(e);
