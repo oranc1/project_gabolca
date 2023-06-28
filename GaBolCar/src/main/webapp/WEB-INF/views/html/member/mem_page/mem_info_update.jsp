@@ -82,7 +82,7 @@ function validatePassword() {
 					<li>
 						<label for="name">이름</label>
 						<div class="form-input">
-							<input type="text" name="mem_name" id="name" class="form-control" value="${member.mem_name }">
+							<input type="text" name="mem_name" id="name" class="form-control" value="${member.mem_name }"  readonly="readonly">
 						</div>
 					</li>
 					<li>
@@ -137,7 +137,7 @@ function validatePassword() {
 						<label for="name">휴대폰번호</label>
 						<div class="form-input">
 							<div class="form-select">
-								<select name="phone1" title="월" id="phoneType" class="form-phone" value="${member.phone1}">
+								<select name="phone1" title="월" id="phoneType" class="form-phone" value="${member.phone1}"  readonly="readonly">
 									<option value="010">010</option>
 									<option value="011">011</option>
 									<option value="016">016</option>
@@ -146,9 +146,12 @@ function validatePassword() {
 									<option value="019">019</option>
 								</select>
 								-
-								<input type="text" name="phone2" id="phone2" type="text" maxlength="4" class="form-phone1" value="${member.phone2}">
+								<input type="text" name="phone2" id="phone2" type="text" maxlength="4" class="form-phone1" value="${member.phone2}" readonly="readonly">
 								-
-								<input type="text" name="phone3" id="phone3" type="text" maxlength="4" class="form-phone1" value="${member.phone3}">
+								<input type="text" name="phone3" id="phone3" type="text" maxlength="4" class="form-phone1" value="${member.phone3}" readonly="readonly"
+								
+								\
+								>
 							</div>
 						</div>
 					</li>

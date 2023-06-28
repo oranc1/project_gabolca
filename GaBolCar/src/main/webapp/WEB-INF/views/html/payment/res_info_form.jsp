@@ -555,19 +555,24 @@
 					var agreeBtn = document.querySelector('input[name="agreeBtn"]');
 					
 					var agreeCheckbox = document.getElementById('agree');
-
+					
+					
+					
+					var regex = /^\d{4}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])$/; // 날짜 형식
 					// 운전자명
 					if(dri_name.value == "" || containsNumber) {
 						alert('운전자명을 올바르게 입력해주세요');
 				        dri_name.focus();
 						return false;
 					}
+					
 					// 생년월일
-					if(isNaN(dri_birthday.value) || dri_birthday.value == "" || dri_birthday.value.length != 8) {
+					if(isNaN(dri_birthday.value) || dri_birthday.value == "" || dri_birthday.value.length != 8 || !regex.test(dri_birthday.value)) {
 						alert('생년월일 8자리를 올바르게 작성해주세요');
 				        dri_birthday.focus();
 				        return false;
 				    }
+
 					// 휴대폰번호
 					if(dri_tel1.value == "" || isNaN(dri_tel1.value) || dri_tel1.value != "010" && dri_tel1.value != "011") {
 						alert('휴대폰 번호를 올바르게 입력해주세요');
@@ -601,14 +606,18 @@
 				        return false;
 					}
 					// 발급일자
-					if (lic_issue_date.value === "" || !(/^\d{8}$/.test(lic_issue_date.value)) || lic_issue_date.value.length != 8) {
+					if (lic_issue_date.value === "" || !(/^\d{8}$/.test(lic_issue_date.value)) || lic_issue_date.value.length != 8 || !regex.test(lic_issue_date.value)) {
 					    alert('발급일자 8자리를 올바르게 입력해주세요');
 					    lic_issue_date.focus();
 					    return false;
 					}
 
 					// 만료일자
-					if (lic_expiration_date.value === "" || !(/^\d{8}$/.test(lic_expiration_date.value)) || lic_expiration_date.value.length != 8) {
+					var expirationDate = new Date(lic_expiration_date.value.slice(0, 4), parseInt(lic_expiration_date.value.slice(4, 6)) - 1, lic_expiration_date.value.slice(6));
+					var issueDate = new Date(lic_issue_date.value.slice(0, 4), parseInt(lic_issue_date.value.slice(4, 6)) - 1, lic_issue_date.value.slice(6));
+					var minimumExpirationDate = new Date(issueDate.getFullYear() + 10, issueDate.getMonth(), issueDate.getDate());
+					
+					if (lic_expiration_date.value === "" || !(/^\d{8}$/.test(lic_expiration_date.value)) || lic_expiration_date.value.length != 8 || !regex.test(lic_expiration_date.value) || expirationDate < minimumExpirationDate) {
 					    alert('만료일자 8자리를 올바르게 입력해주세요');
 					    lic_expiration_date.focus();
 					    return false;

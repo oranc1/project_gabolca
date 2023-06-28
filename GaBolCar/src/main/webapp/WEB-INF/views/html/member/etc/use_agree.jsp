@@ -2,12 +2,11 @@
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
-<!-- 원본 파일 이름 page7 -->
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gabolcar - 이용안내</title>
+<title>Gabolcar - 이용약관</title>
 
 <%-- css --%>
 <link href="${pageContext.request.contextPath }/resources/css/inc/top.css" rel="stylesheet">
@@ -16,7 +15,7 @@
 <link href="${pageContext.request.contextPath }/resources/css/inc/bootstrap.min.css" rel="stylesheet">
 
 <link href="${pageContext.request.contextPath }/resources/css/common.css" rel="stylesheet">
-<link href="${pageContext.request.contextPath }/resources/css/member/etc/use_agree.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath }/resources/css/member/etc/clause.css" rel="stylesheet">
 
 <%-- js --%>
 <script src="${pageContext.request.contextPath }/resources/js/inc/bootstrap.bundle.min.js"></script>
@@ -28,191 +27,58 @@
 	<header>
 		<jsp:include page="../../../inc/top1.jsp"></jsp:include>
 	</header>
-	<div id="sec_con" class="inr">
-		<h1 class="con_title">이용약관</h1>
-
-
-		<div class="rent_cond rent_int_wrap">
-			<h2 class="h2_t">대여 조건</h2>
-			<span class="line"></span>
-			<div class="first_table">
-				<table class="int_table">
-	
-					<thead>
-						<tr>
-							<th>내국인</th>
-							<th>외국인</th>
-						</tr>
-						<tr>
-							<td>도로교통법상 유효한 운전면허증 소지자</td>
-							<td id="la_td">-제네바협약, 비엔나협약, SOFA 가입국에서 발행한 국제운전면허증과 개인여권
-								소지자<br> -운전면허증을 소지한 내국인과 동행하여 공동임차인으로 계약서를 작성
-							</td>
-						</tr>
-					</thead>
-					<tbody></tbody>
-	
-				</table>
-			</div>
-	
-			<div class="t_table rent_int_wrap" >
-				<table class="else_table">
-	
-					<tr>
-						<th colspan="2" class="ln">차량종류</th>
-						<th>나이제한</th>
-						<th>운전경력</th>
-						<th>면허증별</th>
-						<th class="noline">비고</th>
-					</tr>
-					<tr class="fff">
-						<td colspan="2">수입차량</td>
-						<td>만26세 이상</td>
-						<td>3년 이상</td>
-						<td>2종보통이상</td>
-						<td>-</td>
-					</tr>
-					<tr class="fff">
-						<td rowspan="3" class="fff">국산차량</td>
-						<td>대형승용차량</td>
-						<td>만26세 이상</td>
-						<td>3년 이상</td>
-						<td>2종보통 이상</td>
-						<td>-</td>
-					</tr>
-					<tr>
-						<td>승합차량</td>
-						<td>만26세 이상</td>
-						<td>3년 이상</td>
-						<td>1종보통</td>
-						<td>9인승은 2종보통 가능</td>
-					</tr>
-					<tr>
-						<td>그 외 기타</td>
-						<td>24세 이상</td>
-						<td>1년 이상</td>
-						<td>2종보통 이상</td>
-						<td>-</td>
-					</tr>
-				</table>
-			</div>
-		</div>
-
-		<div class="rent_proc rent_int_wrap">
-			<h2 class="h2">대여인수 절차</h2>
-			<span class="line"></span>
-
-			<div class="mt-5">
-				<div class="row_i">
-					<div class="col-3">
-						<img class="card-img-top" src="${pageContext.request.contextPath }/resources/img/member/etc/site_guide/building.png">
-						<h4 class="my-3">1. 지점방문</h4>
-						<p>직원에게 예약번호 또는<br> 예약자 성명을 말씀해주세요.<br> (외국인일 경우 여권 및 국제면허증
-						지참)</p>
-					</div>
-					<div class="col-3">
-						<img class="card-img-top" src="${pageContext.request.contextPath }/resources/img/member/etc/site_guide/loyalty-card.png">
-						<h4 class="my-3">2. 고객 정보 확인</h4>
-						<p>예약사항을 확인 후,<br> 차량임대차 계약서 작성을 위해<br> 면허증을 담당직원에게 제시해
-						주세요.<br> (모바일 PASS 면허는 불가)</p>
-					</div>
-					<div class="col-3">
-						<img class="card-img-top" src="${pageContext.request.contextPath }/resources/img/member/etc/site_guide/customer.png">
-						<h4 class="my-3">3. 대여료 결제</h4>
-						<p>대여기간 및 차종, 옵션 등<br> 최종 확인한 후<br> 차량 대여료를 결제해주세요.</p>
-					</div>
-					<div class="col-3">
-						<img class="card-img-top" src="${pageContext.request.contextPath }/resources/img/member/etc/site_guide/listing.png">
-						<h4 class="my-3">4. 차량 확인 및 계약서 작성</h4>
-						<p>직원을 따라 주차장으로 이동하신 후<br> 차량 상태를 확인하시고<br> 차량 임대차 계약서에
-						서명해주세요.</p>
-					</div>
+	<section id="sec_con" class="inr out_con">
+		<h1 class="con_title">이용 약관</h1>
+		<div id="out_wrapper">
+			<div id="content">
+				<div class="c_delete">
+					<p class="coment">제 1 조 (목적)</p>
+					이 약관은 가볼카(이하 ”회사”라 한다)가 운영하는 가볼카 인터넷사이트(이하 “사이트”라 한다)에서 제공하는 인터넷 관련 서비스(이하 “서비스”라 한다)를 이용함에 있어 회원의 권리·의무 및 책임사항을 규정함을 목적으로 합니다.
+					*「인터넷, 정보통신망, 모바일 및 스마트 장치 등을 이용하는 전자상거래에 대하여도 그 성질에 반하지 않는 한 이 약관을 준용합니다」
+					<br>
+					<p class="coment">제 2 조 (용어의 정의)</p>
+					- “사이트”란 회사가 렌트카 차량 예약 (이하 “차량 등”이라 함)을 회원에게 제공하기 위하여 컴퓨터 등 정보통신설비를 이용하여 차량 예약 등을 거래할 수 있도록 설정한 가상의 영업장을 의미합니다.<br>
+					- “회원”이라 함은 사이트에 회원등록을 한 자로서, 계속적으로 사이트에서 제공하는 서비스를 이용할 수 있는 자를 말합니다.<br>
+					- “아이디(ID)”라 함은 회원의 식별과 서비스 이용을 위하여 회원이 설정하고 회사가 승인하여 등록된 전자우편주소를 말합니다.<br>
+					- “비밀번호(Password)”라 함은 회원의 동일성 확인과 회원의 권익 및 비밀보호를 위하여 회원 스스로가 설정하여 사이트에 등록한 문자와 숫자의 조합을 말합니다.<br>
+					<br>
+					<p class="coment">제 3 조 (약관의 명시와 설명 및 개정)</p>
+					- 회사는 이 약관의 내용과 상호 및 대표자 성명, 영업소 소재지 주소(소비자의 불만을 처리할 수 있는 주소를 포함), 전화번호, 전자우편주소, 사업자등록번호, 통신판매업신고번호, 개인정보관리책임자 등을 회원이 쉽게 확인할 수 있도록 사이트의 초기 서비스 화면에 게시합니다. 다만, 약관의 구체적 내용은 회원이 연결화면을 통하여 볼 수 있도록 할 수 있습니다.<br>
+					- 회사는 『전자상거래 등에서의 소비자보호에 관한 법률』, 『약관의 규제에 관한 법률』, 『전자문서 및 전자거래기본법』, 『전자금융거래법』, 『전자서명법』, 『정보통신망 이용촉진 및 정보보호 등에 관한 법률』, 『소비자기본법』 등 관련법령을 위배하지 않는 범위에서 이 약관을 개정할 수 있습니다.<br>
+					- 회사가 약관을 개정할 경우에는 적용일자 및 개정사유를 명시하여 현행 약관과 함께 사이트의 초기화면에 그 적용일자 7일(다만, 회원에게 불리한 내용으로 변경하는 경우에는 30일) 이전부터 적용일자 전일까지 공지합니다.<br>
+					- 제3항에 의해 변경된 약관은 법령에 특별한 규정 기타 부득이한 사유가 없는 한 그 적용일자 이전으로 소급하여 적용되지 아니합니다.<br>
+					- 제3항에 따라 공지된 적용일자 이후에 회원이 명시적으로 거부의사를 표명하지 않을 경우에는 개정된 약관에 동의하는 것으로 봅니다.<br>
+					- 회사는 제공하는 서비스 내의 개별 서비스에 대한 별도의 약관 및 이용조건을 둘 수 있으며 개별 서비스에서 별도로 적용되는 약관에 대한 동의는 회원이 개별 서비스를 최초로 이용할 경우 별도의 동의절차를 거치게 됩니다. 이 경우 개별 서비스에 대한 이용약관 등이 이 약관에 우선합니다.<br>
+					- 이 약관에서 정하지 아니한 사항과 이 약관의 해석에 관하여는 전자상거래 등에서의 소비자 보호에 관한 법률, 약관의 규제에 관한 법률, 공정거래위원회가 정하는 전자상거래 등에서의 소비자 보호지침 및 관계법령 및 상관례에 따릅니다.
+					<br>
+					<p class="coment">제 4 조 (서비스의 제공 및 변경)</p>
+					- 회사는 다음과 같은 업무를 수행합니다.<br>
+					　* 렌트카 등에 대한 정보 제공 및 예약계약의 체결<br>
+					　* 예약계약이 체결된 렌트카 등의 예약<br>
+					　* 기타 회사가 정하는 업무<br>
+					- 회사는 예약된 차량의 품절 또는 기술적 사양의 변경 등의 경우에는 장차 체결되는 계약에 의해 제공할 차량 등의 내용을 변경할 수 있습니다. 이 경우에는 변경된 차량 등의 내용 및 제공일자를 명시하여 현재의 차량 등의 내용을 게시한 곳에 즉시 공지합니다.<br>
+					- 회사가 제공하기로 회원과 계약을 체결한 서비스의 내용을 차량 등의 품절 또는 기술적 사양의 변경 등의 사유로 변경할 경우에는 그 사유를 회원에게 통지 가능한 주소로 즉시 통지합니다.<br>
+					<br>
+					<p class="coment">제 5 조 (서비스의 중단)</p>
+					- 회사는 컴퓨터 등 정보통신설비의 보수점검·교체 및 고장, 통신의 두절 등의 사유가 발생한 경우에는 서비스의 제공을 일시적으로 중단할 수 있습니다.<br>
+					- 회사는 제1항의 사유로 서비스의 제공이 일시적으로 중단됨으로 인하여 이용자 또는 제3자가 입은 손해에 대하여 배상합니다. 단, 회사가 고의 또는 과실이 없음을 입증하는 경우에는 그러하지 아니합니다.<br>
+					- 사업종목의 전환, 사업의 포기, 업체간의 통합 등의 이유로 서비스를 제공할 수 없게 되는 경우에는 회사는 제8조에 정한 방법으로 이용자에게 통지하고 당초 회사에서 제시한 조건에 따라 소비자에게 보상합니다. 다만, 회사가 보상기준 등을 고지하지 아니한 경우에는 이용자들의 마일리지 또는 적립금 등을 회사에서 통용되는 통화가치에 상응하는 현물 또는 현금으로 이용자에게 지급합니다.<br>
+					<br>
+					<p class="coment">제 6 조 (회원가입)</p>
+					- 이용자는 회사가 정한 가입양식에 따라 회원정보를 기입한 후 이 약관에 동의한다는 의사표시를 함으로써 회원가입을 신청합니다. 회사는 이러한 신청에 있어 전문기관을 통한 실명확인 및 본인인증을 요청할 수 있습니다.<br>
+					- 회사는 제1항과 같이 회원으로 가입할 것을 신청한 이용자 중 다음 각 호에 해당하지 않는 한 회원으로 등록합니다. 회사가 회원가입신청의 승인을 거부하거나 유보하는 경우 원칙적으로 이를 회원에게 알립니다.<br>
+					　* 가입신청자가 이 약관 제7조 제3항에 의하여 이전에 회원자격을 상실한 적이 있는 경우. 다만, 제7조 제3항에 의한 회원자격 상실 후 3년이 경과한 자로서 회사의 회원 재가입 승낙을 얻은 경우에는 예외로 한다.<br>
+					　* 등록내용에 허위, 기재 누락, 오기가 있는 경우<br>
+					　* 기타 회원으로 등록하는 것이 쇼핑몰의 기술상 현저히 지장이 있다고 판단되는 경우<br>
+					　* 회원가입 및 전자상거래상의 계약에 관한 서비스는 만 14세 이상인 자에 한함<br>
+					- 회원가입계약의 성립시기는 회사의 승낙이 이용신청자에게 도달한 시점으로 합니다.<br>
+					- 회원은 회원가입 시 등록한 사항에 변경이 있는 경우 상당한 기간 이내에 회사에 대하여 회원정보 수정 등의 방법으로 그 변경사항을 알려야 합니다.<br>
+					- 회사는 회원에 대하여 『청소년 보호법』 등에 따른 등급 및 연령 준수를 위해 이용제한이나 등급별 제한을 할 수 있습니다.<br>
+					<br>									
 				</div>
-			</div>
+			</div>			
 		</div>
-
-		<div class="ret_proc rent_int_wrap">
-			<h2 class="h2">반납 절차</h2>
-			<span class="line"></span>
-
-			<div class="mt-5">
-				<div class="row_i">
-					<div class="col-3">
-						<img class="card-img-top" src="${pageContext.request.contextPath }/resources/img/member/etc/site_guide/building.png">
-						<h4 class="my-3">1. 지점방문</h4>
-						<p>반납지점 주차장에 차량을 주차하고<br> 시동을 완전히 끈 후 차량 Key 와<br> 소지품을 챙겨
-						지점 사무실로 들어갑니다.</p>
-					</div>
-					<div class="col-3">
-						<img class="card-img-top" src="${pageContext.request.contextPath }/resources/img/member/etc/site_guide/key-features.png">
-						<h4 class="my-3">2. 자동차 키 반납</h4>
-						<p>담당직원에게<br> 차량 Key를 반납하세요.</p>
-					</div>
-					<div class="col-3">
-						<img class="card-img-top" src="${pageContext.request.contextPath }/resources/img/member/etc/site_guide/car.png">
-						<h4 class="my-3">3. 차량 확인</h4>
-						<p>담당직원과 함께 차량이 주차된 곳으로<br> 이동하여 차량 상태,<br> 유류상태 등을 확인해
-						주세요.</p>
-					</div>
-					<div class="col-3">
-						<img class="card-img-top" src="${pageContext.request.contextPath }/resources/img/member/etc/site_guide/customer.png">
-						<h4 class="my-3">4. 추가 비용 정산</h4>
-						<p>반납시간 초과, 차량의 손망실,<br> 유류비, 범칙금 등 추가금이<br> 발생한 경우 추가비용을
-						정산해주세요.</p>
-					</div>
-				</div>
-			</div>
-		</div>
-		
-		<div class="ret_proc rent_int_wrap">
-            <h2 class="h2">추가 요금</h2>
-            <span class="line"></span>
-            <table class="int_table int_t2">
-
-                <tr>
-                    <th>차종</th>
-                    <th>승용</th>
-                    <th>승합,SUV</th>
-                    <th>대형차량</th>
-                    <th>수입차량</th>
-                </tr>
-
-                <tr>
-                    <td>1시간</td>
-                    <td>5,000원</td>
-                    <td>10,000원</td>
-                    <td>20,000원</td>
-                    <td>20,000원</td>
-                </tr>
-
-                </table>
-                <p class="add_text">* 추가 이용 시간은 21:00 이전 까지만 가능하며, 이후는 1일 연장 됩니다.</p>
-        </div>
-		
-		<div class="ret_rule rent_int_wrap">
-			<h2 class="h2">환불규정</h2>
-			<span class="line"></span>
-			<label>
-				<input type="checkbox" checked="checked" disabled="disabled">&nbsp;&nbsp;
-				<b>꼭! 확인하세요</b>
-			</label>
-			<p class="text_return">＊저희 위드렌터카는 고객님의 부득이한 사정으로 예약하신 차량의 예약을
-				취소할 경우, 다음과 같은 환불규정을 준수합니다.</p>
-			<table class="la_table">
-				<tr>
-					<th>사용개시일로부터 48시간 전 취소시</th>
-					<th>24시간~48시간 이내 취소시</th>
-					<th class="la_noline">24시간 이내 취소시</th>
-				</tr>
-
-				<tr>
-					<td>전액환불(타행거래시 송금수수료 500원 공제)</td>
-					<td>전체요금의 10% 공제후, 나머지 전액환불가</td>
-					<td class="la_noline">환불불가</td>
-				</tr>
-			</table>
-		</div>
-	</div>
+	</section>
 	<footer>
 		<jsp:include page="../../../inc/footer.jsp"></jsp:include>
 	</footer>

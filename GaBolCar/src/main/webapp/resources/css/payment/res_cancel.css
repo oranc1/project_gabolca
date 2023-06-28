@@ -127,3 +127,8 @@
 		margin-bottom: 7px;
 	}
 }
+
+input::placeholder {
+  color: red;
+
+}
