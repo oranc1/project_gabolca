@@ -23,7 +23,7 @@
 				)
 	</insert>
 	
-  <!-- 관리자 일 경우 -->
+  	<!-- 관리자 일 경우 -->
 	<select id="getQstBoardListForMember" resultType="com.itwillbs.project_gabolcar.vo.QuestionVO" parameterType="map">
 	    SELECT *
 	    FROM qst_board

@@ -59,7 +59,7 @@
                 	<a href="#">리뷰 리스트</a>
                 </li>
                 <li>
-                    <a href="#">1:1 문의사항</a>
+                    <a href="QuestionListForm">1:1 문의사항</a>
                 </li>
             </ul>
         </li>

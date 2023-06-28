@@ -222,6 +222,8 @@
 			, car_old
 		 	, car_shift_type
 		 	, car_fuel_type
+		 	, car_file_path
+		 	, car_file1
 		 	, car_riding
 			, brc_name
 			, car_status
