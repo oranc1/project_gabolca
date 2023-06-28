@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/admin/adm_sidebar.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/admin/adm_res_list.css">
 <script src="${pageContext.request.contextPath }/resources/js/inc/jquery-3.7.0.js"></script>
-<script src="${pageContext.request.contextPath }/resources/js/admin/adm_res_list.js"></script>
+<%-- <script src="${pageContext.request.contextPath }/resources/js/admin/adm_res_list.js"></script> --%>
 </head>
 <body>
     <section id="sec_con" class="inr">
@@ -25,28 +25,17 @@
 			<div class="content_view">
 				<section id="adm_car">
 					<span id="adm_car_title">[관리자] 예약리스트</span>	
-					<article id="adm_car_bottom">
-						<span id="adm_search">
-							<select id="search_cate">
-								<option value="">검색 옵션</option>
-								<option value="res_idx">예약번호</option>
-								<option value="car_idx">차량코드</option>
-								<option value="mem_idx">회원번호</option>
-							</select> 
-							<input type="search" name="search_keyword" id="search_box">
-							<button name="item_search" class="adm_car_button">
-								검색
-							</button>
-						</span>
+					<article id="adm_car_top">
+						<form action="ResListForm" method="GET" class="search-form">
+							<select name="searchType" id="searchType" >
+								<option value="res_idx" <c:if test="${param.searchType eq 'res_idx' }">selected</c:if>>예약번호</option>
+								<option value="car_idx" <c:if test="${param.searchType eq 'car_idx' }">selected</c:if>>차량코드</option>
+								<option value="mem_idx" <c:if test="${param.searchType eq 'mem_idx' }">selected</c:if>>회원번호</option>
+							</select>
+							<input type="text" name="searchKeyword" value="${param.searchKeyword }"  id="searchKeyword">
+							<input type="submit" value="검색" class="adm_car_button">				
+						</form>
 					</article>				
-<!-- 					<article id="adm_car_top"> -->
-<!-- 						<label> -->
-<!-- 							<input type="checkbox" name="date_type" class="adm_res_date" value="최신순">최신순 -->
-<!-- 						</label> -->
-<!-- 						<label> -->
-<!-- 							<input type="checkbox" name="date_type" class="adm_res_date" value="오래된순">오래된순 -->
-<!-- 						</label> -->
-<!-- 					</article> -->
 					<article id="adm_car_center">
 						<table id="adm_res_list" class="adm_res_list">
 							<tr id="adm_res_title">
@@ -56,15 +45,37 @@
 								<td>회원번호</td>
 								<td>대여일시</td>
 								<td>반납일시</td>
-							</tr>		
+								<td>상세보기</td>						
+							</tr>	
+							<c:forEach var="res" items="${resList }">
+								<tr>
+								<td>${res.res_idx }</td>
+								<td>${res.res_time }</td>
+								<td>${res.car_idx }</td>
+								<td>${res.mem_idx }</td>
+								<td>${res.res_rental_date }</td>
+								<td>${res.res_return_date }</td>
+								<td>
+								<input type="button" value="상세" class="adm_car_button" 
+									onclick="window.open('AdmResDetail?res_idx=${res.res_idx}','예약상세','width=700, height=700');">									
+								</td>
+								</tr>	
+							</c:forEach>	
 						</table>
 					</article>
 					<article id="pageList">
-						<input type="button" id="prvsPage"class="adm_car_button" value="이전">
-						<span id="nowPage"></span>
-						<input type="button" id="nextPage" class="adm_car_button" value="다음">
-                     </article>
-
+                       <c:forEach var="i" begin="${pageInfo.startPage }" end="${pageInfo.endPage }">
+                           <!-- 각 페이지마다 하이퍼링크 설정 -->
+                           <c:choose>
+                               <c:when test="${pageNum eq i }">
+                                   <b>${i }</b>
+                               </c:when>
+                               <c:otherwise>
+                                   <a href="ResListForm?pageNum=${i }">${i }</a>
+                               </c:otherwise>
+                           </c:choose>
+                       </c:forEach> 
+                    </article>
 				</section>
 			</div>
 		</div>
