@@ -172,6 +172,13 @@ public class CarService {
 		return mapper.selectCarBrcNameCount(brc_idx);
 	}
 
+	
+	public CarVO carDetails(int car_idx) {
+		// TODO Auto-generated method stub
+        return mapper.carDetails(car_idx);
+
+	}
+
 
 
 

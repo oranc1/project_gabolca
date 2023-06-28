@@ -49,6 +49,13 @@
 	        option_idx = option_idx;
 	</insert>
 	
+	<!-- 차량수정 폐기예약 0628 -->
+    <select id="carDetails" resultType="com.itwillbs.project_gabolcar.vo.CarVO">
+        SELECT * FROM car_info WHERE car_idx = #{car_idx}
+    </select>
+	
+	
+	
 	<!-- 차량수정 - 수정차량 차량파일 셀렉 -->
 	<select id="selectCarFiles" resultType="com.itwillbs.project_gabolcar.vo.CarVO">
 	    SELECT car_file1, car_file2, car_file3, car_file4, car_file5, car_file6

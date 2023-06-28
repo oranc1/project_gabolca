@@ -101,6 +101,8 @@ public interface CarMapper {
 
 	int selectCarBrcNameCount(int brc_name);
 
+	CarVO carDetails(int car_idx);
+
 	
 
 
