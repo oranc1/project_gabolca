@@ -8,7 +8,7 @@
 	<meta charset="UTF-8">
 	<title>예약 완료</title>
 	<link href="${pageContext.request.contextPath }/resources/css/common.css" rel="stylesheet">
-	<link href="${pageContext.request.contextPath }/resources/css/payment/res_com.css" rel="styleSheet">
+	<link href="${pageContext.request.contextPath }/resources/css/payment/res_cancel.css" rel="styleSheet">
 	<link href="${pageContext.request.contextPath }/resources/css/inc/top.css" rel="styleSheet">
 	<link href="${pageContext.request.contextPath }/resources/css/inc/footer.css" rel="styleSheet">
 
@@ -101,7 +101,7 @@
 				<ul>
 					<li>
 						<em>환불 사유</em>
-							<span><input type="text" name="cancel_reason" placeholder="환불사유를 입력해주세요" required="required" class="cancel_reason"></span>
+							<span><input type="text" class="cancel" name="cancel_reason" placeholder="환불사유를 입력해주세요" required="required" class="cancel_reason"></span>
 					</li>
 					<li>
 						<em>환불 수단</em>
