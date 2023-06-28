@@ -69,6 +69,10 @@ public class PaymentService {
 		return mapper.updateResInfo(res_idx);
 	}
 
+	public String getPayStatus(String merchant_uid) {
+		return mapper.getPayStatus(merchant_uid);
+	}
+
 
 
 	

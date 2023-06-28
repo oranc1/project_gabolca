@@ -102,14 +102,10 @@
 	
 	</update>
 	
-<!-- 	<select id="selectResCancel"> -->
-<!-- 	SELECT * -->
-<!-- 			FROM res_info AS r -->
-<!-- 			JOIN pay_info AS p -->
-<!-- 				ON r.res_idx = p.res_idx -->
-<!-- 					WHERE p.pay_status = #{pay_status} -->
-
-	
-<!-- 	</select> -->
+	<select id="getPayStatus" resultType="String">
+		SELECT pay_status
+			FROM pay_info
+				WHERE merchant_uid = #{merchant_uid}
+	</select>
 	
 </mapper>

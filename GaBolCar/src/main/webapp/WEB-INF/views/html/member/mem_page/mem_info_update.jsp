@@ -88,9 +88,7 @@ function validatePassword() {
 					<li>
 						<label for="name">현재 비밀번호</label>
 						<div class="form-input">
-						
 							<input type="password" name="mem_passwd"  class="form-control" >
-							
 						</div>
 					</li>
 					<li>

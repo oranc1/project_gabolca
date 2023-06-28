@@ -119,7 +119,7 @@ public class MemberController {
 				model.addAttribute("msg", "패스워드 입력 필수!");
 				return "inc/fail_back";
 			} else if (!passwordEncoder.matches(member.getMem_passwd(), securePasswd)) {
-				model.addAttribute("msg", "패스워드 불일치!");
+				model.addAttribute("msg", "현재 비밀번호 불일치!");
 				return "inc/fail_back";
 			} else if (!newPasswd.equals(newPasswd1)) {
 				model.addAttribute("msg", "비밀번호 확인 불일치!");
@@ -239,6 +239,7 @@ public class MemberController {
 				model.addAttribute("msg", "패스워드 불일치!");
 				return "inc/fail_back";
 			}
+		
 		}
 
 		int deleteCount = memberService.removeMember(member);
@@ -248,9 +249,10 @@ public class MemberController {
 		} else {
 			// 세션 초기화
 			session.invalidate();
-
-			// 메인페이지로 리다이렉트
-			return "redirect:/";
+			model.addAttribute("msg", "회원 탈퇴가 완료되었습니다!");
+			model.addAttribute("targetURL", "login");
+			
+			return "inc/success_forward";
 		}
 
 	}
@@ -622,5 +624,11 @@ public class MemberController {
 	public String siteFAQ() {
 		return "html/member/etc/site_faq";
 	}
-
+	
+//	// 이용약관
+//	@GetMapping("UseAgree")
+//	public String UseAgree() {
+//		return "html/member/etc/use_agree";
+//	}
+		
 }

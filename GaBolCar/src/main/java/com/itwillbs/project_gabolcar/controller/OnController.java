@@ -44,7 +44,6 @@ public class OnController { //나중에 합칠거임
 		@PostMapping("/idCheck")
 		@ResponseBody
 		public int idCheck(@RequestParam("id") String id) {
-			System.out.println("컨트롤러까지 옴");
 			int cnt = memberService.idCheck(id);
 			return cnt;
 		}
@@ -53,22 +52,16 @@ public class OnController { //나중에 합칠거임
 		@PostMapping("/phondCheck")
 		@ResponseBody
 		public int phoneCheck(@RequestParam("phone") String phone) {
-			System.out.println("컨트롤러까지 옴");
 			int cnt = memberService.phoneCheck(phone);
 			return cnt;
 		}
 		
-		
-		//문자인증 작업중 6/21
+		//문자인증
 		@PostMapping("/send-phone-authentication")
 		@ResponseBody
 	    public SingleMessageSentResponse sendOne(@RequestParam("phone") String phone) {
-//		public String sendOne(	@RequestParam(value = "phone1", required=true) String phone1,
-//								@RequestParam(value = "phone2", required=true) String phone2,
-//								@RequestParam(value = "phone3", required=true) String phone3) {
-			//인증번호 필요하고
-			System.out.println("여기까지옴ㅇㅇ");
-
+			
+			//인증번호 생성
 			String code  = FindUtil.getRandomNum();
 			String msg = "[가볼카 회원가입] 인증번호 ["+code+"]를 입력해 주세요.";
 			SingleMessageSentResponse response = SendUtil.sendMsg(phone, msg);
@@ -77,7 +70,6 @@ public class OnController { //나중에 합칠거임
 			codeMap = new HashMap<String, String>();
 			codeMap.put("phone", code);
 
-//			System.out.println(response);
 			
 			return response;
 	    }
@@ -103,7 +95,7 @@ public class OnController { //나중에 합칠거임
 		@PostMapping("MemberJoinPro")
 		public String memberJoin(MemberVO member, Model model) {
 			
-			
+			//비밀번호 암호화
 			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 			String securePasswd = passwordEncoder.encode(member.getMem_passwd());
 			member.setMem_passwd(securePasswd);
