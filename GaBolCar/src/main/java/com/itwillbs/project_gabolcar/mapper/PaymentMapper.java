@@ -39,6 +39,6 @@ public interface PaymentMapper {
 
 	ResInfoVO selectResInfo(int res_idx);
 
-
+	String getPayStatus(String merchant_uid);
 	
 }

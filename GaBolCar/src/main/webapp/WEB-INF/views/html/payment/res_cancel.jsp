@@ -70,6 +70,10 @@
 		            	return false;
 		      		}
 		        	
+		        	if(!confirm('정말 예약을 취소하시겠습니까?')) {
+		        		return false;
+		        	}
+		        	
 					$.ajax({
 						url:"cancelPayments",
 						type: "POST",
@@ -82,7 +86,7 @@
 						}),
 						contentType:"application/json; charset=utf-8",
 						success: function(result){
-							alert("결제금액 환불완료");
+							alert("예약 취소 및 환불 요청 완료 - 결제 당일 제외 환불은 1~3일 소요");
 							location.href="MemberRes";
 						},
 						error: function(result){
