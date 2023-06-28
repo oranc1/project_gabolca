@@ -50,11 +50,11 @@
 							<c:forEach var="res" items="${resList }">
 								<tr>
 								<td>${res.res_idx }</td>
-								<td>${res.res_time }</td>
+								<td><fmt:formatDate value="${res.res_time }" pattern="yy-MM-dd HH:mm" /></td>
 								<td>${res.car_idx }</td>
 								<td>${res.mem_idx }</td>
-								<td>${res.res_rental_date }</td>
-								<td>${res.res_return_date }</td>
+								<td><fmt:formatDate value="${res.res_rental_date }" pattern="yy-MM-dd HH:mm" /></td>
+								<td><fmt:formatDate value="${res.res_return_date }" pattern="yy-MM-dd HH:mm" /></td>
 								<td>
 								<input type="button" value="상세" class="adm_car_button" 
 									onclick="window.open('AdmResDetail?res_idx=${res.res_idx}','예약상세','width=700, height=700');">									
