@@ -32,19 +32,19 @@
 						
 					
 							<%-- 검색타입목록, 검색어입력창 추가 --%>
-								
-							<select name="searchType" id="searchType" style= "background-color:white; color:black; padding: 3px 15px; border-radius: 3px; border-color:#ff6600; border:2px solid;">
-								<option value="subject" <c:if test="${param.searchType eq 'subject'}" >selected</c:if>>제목</option>			
-								<option value="content" <c:if test="${param.searchType eq 'content'}">selected</c:if>>내용</option>			
-								<option value="subject_content" <c:if test="${param.searchType eq 'subject_content'}">selected</c:if>>제목&내용</option>			
-								<option value="name" <c:if test="${param.searchType eq 'name'}">selected</c:if>>작성자</option>
-								<option value="star" <c:if test="${param.searchType eq 'star'}">selected</c:if>>별점</option>
-								<option value="carModel" <c:if test="${param.searchType eq 'carModel'}">selected</c:if>>차종</option>
-							</select>
-								<input type="text" name="searchKeyword" value="${param.searchKeyword}" id="searchKeyword" style= "background-color:white; color:black; padding: 4px 15px; border-radius: 3px; border-color:#ff6600; border:2px solid;">
-								<input type="submit" value="검색" style= "background-color:#0a0a31; color:white; padding: 6px 15px; border-radius: 3px;">
-						
-							<%-- 검색타입목록, 검색어입력창 추가! --%>
+							<div class="search_wrap" style="text-align: right; margin-bottom: 20px; display: flex; justify-content: flex-end;">	
+								<select name="searchType" id="searchType" style="border: 1px solid #ddd; padding: 5px; border-radius: 3px;">
+									<option value="subject" <c:if test="${param.searchType eq 'subject'}" >selected</c:if>>제목</option>			
+									<option value="content" <c:if test="${param.searchType eq 'content'}">selected</c:if>>내용</option>			
+									<option value="subject_content" <c:if test="${param.searchType eq 'subject_content'}">selected</c:if>>제목&내용</option>			
+									<option value="name" <c:if test="${param.searchType eq 'name'}">selected</c:if>>작성자</option>
+									<option value="star" <c:if test="${param.searchType eq 'star'}">selected</c:if>>별점</option>
+									<option value="carModel" <c:if test="${param.searchType eq 'carModel'}">selected</c:if>>차종</option>
+								</select>
+								<input type="text" name="searchKeyword" value="${param.searchKeyword}" id="searchKeyword" style="border: 1px solid #ddd; padding: 5px; border-radius: 3px; margin-left: 5px;">
+								<input type="submit" value="검색" class="searchSubmit" style="margin-left: 5px; padding: 0 20px; border-radius: 3px;">
+							</div>	
+						<%-- 검색타입목록, 검색어입력창 추가! --%>
 												
 												
 							<div class="wrapper">
