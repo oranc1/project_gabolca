@@ -1078,7 +1078,7 @@ public class CarItemController {
 					int isBoardWriter = carItemService.isBoardWriter(sId);
 					
 					if(isBoardWriter == 0 ) {
-						model.addAttribute("msg", "권한이 없습니다!");
+						model.addAttribute("msg", "이미 리뷰가 작성된 예약 내역입니다!");
 						return "html/car_item/review/fail_back";
 					}
 				}
