@@ -44,7 +44,7 @@
 							<p></p>
 							</c:when>
 							<c:when test="${today ge resinfo.res_rental_date and today lt targetDate}">
-							<b>렌트 중 </b>
+							<b>렌트 중</b>
 							</c:when>
 							<c:otherwise>
 								<b>결제 완료</b>
