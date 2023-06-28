@@ -60,7 +60,7 @@
 										</li>
 										<c:forEach var="reviewList" items="${reviewListP}">
 										<li class="list_cont">
-											<a href="${pageContext.request.contextPath}reviewDetail?rev_idx=${reviewList.rev_idx}&pageNum=${pageNum}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}">
+											<a href="${pageContext.request.contextPath}/reviewDetail?rev_idx=${reviewList.rev_idx}&pageNum=${pageNum}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}">
 												<p class="list_num">${reviewList.rev_idx}</p>
 												<p class="list_scope">
 												<!-- 별점 구현 -->
@@ -135,7 +135,7 @@
 												--%>
 												<c:choose>
 													<c:when test="${pageNum > 1}">
-														<input type="button" value="이전"  class="pg_page pg_prev" onclick="location.href='reviewList?pageNum=${pageNum - 1}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}'">
+														<input type="button" value="이전"  class="pg_page pg_prev" onclick="location.href='${pageContext.request.contextPath}/reviewList?pageNum=${pageNum - 1}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}'">
 													</c:when>
 													<c:otherwise>
 														<input type="button" value="이전"  class="pg_page pg_prev" disabled="disabled">
@@ -153,7 +153,7 @@
 															<strong class="pg_current">${i}</strong>
 														</c:when>
 														<c:otherwise>
-															<a href="reviewList?pageNum=${i}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}" class="pg_page">${i}</a>
+															<a href="${pageContext.request.contextPath}/reviewList?pageNum=${i}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}" class="pg_page">${i}</a>
 														</c:otherwise>
 													</c:choose>
 												</c:forEach>		
@@ -164,7 +164,7 @@
 												--%>
 												<c:choose>
 													<c:when test="${pageNum < pageInfo.maxPage}">
-														<input type="button" value="다음" class="pg_page pg_next"  onclick="location.href='reviewList?pageNum=${pageNum + 1}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}'">
+														<input type="button" value="다음" class="pg_page pg_next"  onclick="location.href='${pageContext.request.contextPath}/reviewList?pageNum=${pageNum + 1}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}'">
 													</c:when>
 													<c:otherwise>
 														<input type="button" value="다음" class="pg_page pg_next"  disabled="disabled">

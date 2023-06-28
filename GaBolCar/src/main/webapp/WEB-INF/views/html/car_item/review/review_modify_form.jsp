@@ -32,7 +32,7 @@
 					<section id="board_list" class="notice">
 						<div class="wrapper">
 							<div class="list_wrap">
-								<form action="${pageContext.request.contextPath}reviewModifyPro?pageNum=${param.pageNum}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}" method="post">
+								<form action="${pageContext.request.contextPath}/reviewModifyPro?pageNum=${param.pageNum}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}" method="post">
 									<input type="hidden" name="rev_idx" value="${reviewDetail.rev_idx}">
 									<ul class="list">
 										<li>
@@ -104,7 +104,7 @@
 	
 									<div class="mod_box">
 										<input type="submit" class="delete_btn" value="등록">
-										<a class="list_btn" href="${pageContext.request.contextPath}reviewList?pageNum=${param.pageNum}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}">목록</a>
+										<a class="list_btn" href="${pageContext.request.contextPath}/reviewList?pageNum=${param.pageNum}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}">목록</a>
 									</div>
 								</form>
 							</div>

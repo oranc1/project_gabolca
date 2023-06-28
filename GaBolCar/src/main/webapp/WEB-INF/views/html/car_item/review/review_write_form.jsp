@@ -18,7 +18,7 @@
 	<div id="notice_cont">
 		<section id="sec_con" class="inr">
 			<h1 class="con_title">리뷰 작성</h1>
-			<form action="${pageContext.request.contextPath}reviewWritePro" method="post" enctype="multipart/form-data">
+			<form action="${pageContext.request.contextPath}/reviewWritePro" method="post" enctype="multipart/form-data">
 				<input type="hidden" name="session_id" value="${sessionScope.sId}"/>
 				<input type="hidden" name="res_idx" value="${map.res_idx}"/>
 				<section id="board_wrap">
@@ -71,7 +71,7 @@
 								</div>
 
 								<div class="mod_box">
-									<input type="button" class="index_btn" value="목록" onclick="window.location.href='${pageContext.request.contextPath}reviewList?pageNum=${param.pageNum}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}'" />
+									<input type="button" class="index_btn" value="목록" onclick="window.location.href='${pageContext.request.contextPath}/reviewList?pageNum=${param.pageNum}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}'" />
 									<input type="submit" class="delete_btn" value="등록">
 								</div>
 							</div>
