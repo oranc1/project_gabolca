@@ -1,7 +1,6 @@
 
 package com.itwillbs.project_gabolcar.service;
 
-<<<<<<< Updated upstream
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -13,8 +12,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.net.http.HttpRequest;
-=======
->>>>>>> Stashed changes
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -153,16 +151,6 @@ public class MemberService{
 			return mapper.getMemberInfoById(mem_id);
 		}
 
-<<<<<<< Updated upstream
-		// 카카오 로그인 액세스 토큰 발급
-		public String getKakaoAccessToken(String code) {
-			String accessToken = "";
-		    String refreshToken = "";
-		    String requestURL = "https://kauth.kakao.com/oauth/token";
-		    try {
-		        URL url = new URL(requestURL);
-		        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-=======
 		//valid 이온
 		public Map<String, String> validateHandling(Errors errors) {
 			Map<String, String> validatorResult = new HashMap<>();
@@ -181,8 +169,14 @@ public class MemberService{
 			return cnt;
 		}
 
->>>>>>> Stashed changes
-
+		// 카카오 로그인 액세스 토큰 발급
+		public String getKakaoAccessToken(String code) {
+			String accessToken = "";
+		    String refreshToken = "";
+		    String requestURL = "https://kauth.kakao.com/oauth/token";
+		    try {
+		        URL url = new URL(requestURL);
+		        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
 		        conn.setRequestMethod("POST");
 		        // setDoOutput()은 OutputStream으로 POST 데이터를 넘겨 주겠다는 옵션이다.

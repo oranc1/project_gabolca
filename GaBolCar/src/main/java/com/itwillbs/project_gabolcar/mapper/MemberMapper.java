@@ -70,7 +70,6 @@ public interface MemberMapper {
 	// 로그인된 회원 아이디 조회
 	MemberVO getMemberInfoById(String mem_id);
 
-<<<<<<< Updated upstream
 	//회원 목록 조회 (관리자)
 	List<MemberVO> selectMemList(
 			@Param("searchType") String searchType, 
@@ -86,8 +85,6 @@ public interface MemberMapper {
 	//회원 상세 조회 (관리자)
 	MemberVO selectMemDetail(int mem_idx);
 
-=======
 	//폰번호 중복확인
 	int phoneCheck(String phone);
->>>>>>> Stashed changes
 }
