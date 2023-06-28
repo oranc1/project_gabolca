@@ -15,6 +15,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -110,15 +112,16 @@ public class OnController { //나중에 합칠거임
 			return "redirect:/login";
 		}
 		
-		@ResponseBody
-		@GetMapping("adminCheck")
-		public String adminPasswdChk(
+		@RequestMapping(value = "adminCheck", method = RequestMethod.GET)
+		public String adminCheck(
 				@RequestParam String data
 				, Model model) {
+			System.out.println(data);
 			if (data.equals("c5d2302t3")) {
-				return "true";
+				return "redirect:/admDash";
 			} else {
-				return "false";
+				model.addAttribute("msg","접근권한이 없습니다.");
+				return "inc/fail_back";
 			}
 		}
 		

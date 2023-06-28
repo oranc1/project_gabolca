@@ -41,7 +41,7 @@ function drawChart() {
   chart.draw(data, google.charts.Bar.convertOptions(options));
 };
 
-// 열차트(지점별 인기차량) // 지점별 인기차량 열차트 표현불가
+// 열차트(월 지점별 렌트수) //
 function drawChart2() {
 	let jsonData = $.ajax({
 		type: 'get',
@@ -59,7 +59,7 @@ function drawChart2() {
 	chart.draw(data, google.charts.Bar.convertOptions(options));
 };
 
-// 열차트(월별 렌트수)
+// 열차트(지점별 보유차량)
 function drawChart3() {
  	let jsonData = $.ajax({
 		type: 'get',
@@ -114,7 +114,7 @@ function drawChart5() {
   chart.draw(data, options);
 }
 
-// 도넛차트(연령별 인기차량) // 차량 모델은 원형으로 표현 불가
+// 도넛차트(연령대별 이용자)
 function drawChart6() {
  	let jsonData = $.ajax({
 		type: 'get',

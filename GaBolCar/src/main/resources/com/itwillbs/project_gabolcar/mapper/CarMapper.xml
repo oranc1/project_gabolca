@@ -126,12 +126,14 @@
 	</update>
 	
 	<!-- 차량 삭제 -->
-	<delete id="deleteCar" parameterType="int">
-		delete from
+	<update id="deleteCar" parameterType="int">
+		update
 			car_info
+		set
+			car_status = "삭제"
 		where
 			car_idx=#{car_idx}
-	</delete>
+	</update>
 	
 	<!-- 차량 수정 -->
 		<update id="updateCar" parameterType="com.itwillbs.project_gabolcar.vo.CarVO">
@@ -289,44 +291,44 @@
 			</when>
 			<!-- 관리자 where -->
 			<when test="map.admin != null">
+				where car_status != "삭제"
 				<if test="!map.chk_type.equals('') and map.search_keyword.equals('')">
-					where car_type = #{map.chk_type}
+					and car_type = #{map.chk_type}
 				</if>
 				<if test="!map.search_keyword.equals('')">
-					where
 					<choose>
 						<when test="map.search_type.equals('car_idx')">
-							ci.car_idx = #{map.search_keyword}
+							and ci.car_idx = #{map.search_keyword}
 							<if test="!map.chk_type.equals('')">
 								AND car_type = #{map.chk_type}
 							</if>
 						</when>
 						<when test="map.search_type.equals('car_company')">
-							car_company like concat('%',#{map.search_keyword},'%')
+							and car_company like concat('%',#{map.search_keyword},'%')
 							<if test="!map.chk_type.equals('')">
 								AND car_type = #{map.chk_type}
 							</if>
 						</when>
 						<when test="map.search_type.equals('car_model')">
-							car_model like concat('%',#{map.search_keyword},'%')
+							and car_model like concat('%',#{map.search_keyword},'%')
 							<if test="!map.chk_type.equals('')">
 								AND car_type = #{map.chk_type}
 							</if>							
 						</when>
 						<when test="map.search_type.equals('car_old')">
-							car_old = #{map.search_keyword}
+							and car_old = #{map.search_keyword}
 							<if test="!map.chk_type.equals('')">
 								AND car_type = #{map.chk_type}
 							</if>							
 						</when>
 						<when test="map.search_type.equals('brc_name')">
-							brc_name like concat('%',#{map.search_keyword},'%')
+							and brc_name like concat('%',#{map.search_keyword},'%')
 							<if test="!map.chk_type.equals('')">
 								AND car_type = #{map.chk_type}
 							</if>							
 						</when>
 						<when test="map.search_type.equals('option_name')">
-								ci.car_idx in (
+								and ci.car_idx in (
 									select
 										ci2.car_idx
 									from 
@@ -335,6 +337,7 @@
 										JOIN option_list ol ON co.option_idx = ol.option_idx
 									where
 										option_name like concat('%',#{map.search_keyword},'%'))
+										and car_status != "삭제"
 									<if test="!map.chk_type.equals('')">
 										AND car_type = #{map.chk_type}
 									</if>
@@ -425,7 +428,7 @@
 		from
 			car_info
 		WHERE 
-		    car_status not in ("점검", "대여") -- 차량 상태
+		    car_status not in ("점검", "대여", "삭제") -- 차량 상태
 		    <if test="car_type != null
 		    		and car_type.size() > 0">
 				AND car_type in  -- 차종
@@ -540,6 +543,8 @@
 			count(car_status) state_total
 		FROM
 			car_info
+		where
+			car_status != "삭제"
 		GROUP BY car_status
 	</select>
 	<select id="dsbCarType" resultType="map">
@@ -554,17 +559,6 @@
 		GROUP BY
 			car_type
 	</select>
-	
-	<!-- 지점 차량 보유현황 -->
-<!-- 	<select id="dsbBrcHoldStatus" resultType="map"> -->
-<!-- 		SELECT -->
-<!-- 			brc_name  -->
-<!-- 			, count(brc_name) AS count -->
-<!-- 		FROM -->
-<!-- 			car_info -->
-<!-- 		GROUP BY  -->
-<!-- 			brc_name -->
-<!-- 	</select> -->
 
 	<!-- 지점 차종별 차량 보유현황 -->
 	<select id="dsbBrcHoldStatus" resultType="map">
@@ -584,7 +578,9 @@
 			</foreach>
 		FROM
 			car_info ci
-			JOIN brc_info bi ON ci.brc_name = bi.brc_name 
+			JOIN brc_info bi ON ci.brc_name = bi.brc_name
+		where
+			car_status != "삭제"
 		GROUP BY
 			차종
 	</select>
@@ -612,17 +608,25 @@
 	FROM car_info c join res_info r
 	on c.car_idx = r.car_idx
 	WHERE r.res_idx IN
-	<foreach item="item" collection="list" open="(" separator="," close=")">
-		#{item}
-	</foreach>
-</select>
+		<foreach item="item" collection="list" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
 
-<select id="selectCarIdx" parameterType="java.util.List" resultType="com.itwillbs.project_gabolcar.vo.CarVO">
-	SELECT *
-		FROM car_info
-			WHERE car_idx IN
-			<foreach item="carIdxList" collection="list" open="(" separator="," close=")">
-				#{carIdxList}
-			</foreach>
-</select>
+	<select id="selectCarIdx" parameterType="java.util.List" resultType="com.itwillbs.project_gabolcar.vo.CarVO">
+		SELECT *
+			FROM car_info
+				WHERE car_idx IN
+				<foreach item="carIdxList" collection="list" open="(" separator="," close=")">
+					#{carIdxList}
+				</foreach>
+	</select>
+	<select id="selectCarBrcNameCount" resultType="int">
+		select
+			count(*)
+		from
+			car_info
+		where
+			brc_name = (select brc_name from brc_info where brc_idx = #{brc_idx})
+	</select>
 </mapper>
