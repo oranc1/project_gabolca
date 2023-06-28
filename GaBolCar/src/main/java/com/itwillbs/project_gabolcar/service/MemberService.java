@@ -1,6 +1,7 @@
 
 package com.itwillbs.project_gabolcar.service;
 
+<<<<<<< Updated upstream
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -12,6 +13,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.net.http.HttpRequest;
+=======
+>>>>>>> Stashed changes
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +24,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.Errors;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.google.gson.JsonElement;
@@ -148,6 +153,7 @@ public class MemberService{
 			return mapper.getMemberInfoById(mem_id);
 		}
 
+<<<<<<< Updated upstream
 		// 카카오 로그인 액세스 토큰 발급
 		public String getKakaoAccessToken(String code) {
 			String accessToken = "";
@@ -156,6 +162,26 @@ public class MemberService{
 		    try {
 		        URL url = new URL(requestURL);
 		        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+=======
+		//valid 이온
+		public Map<String, String> validateHandling(Errors errors) {
+			Map<String, String> validatorResult = new HashMap<>();
+			 
+	        for (FieldError error : errors.getFieldErrors()) {
+	            String validKeyName = String.format("valid_%s", error.getField());
+	            validatorResult.put(validKeyName, error.getDefaultMessage());
+	        }
+	        return validatorResult;
+		}
+		
+		//핸드폰 중복확인
+		public int phoneCheck(String phone) {
+			int cnt = mapper.phoneCheck(phone);
+			System.out.println("cnt: " + cnt);
+			return cnt;
+		}
+
+>>>>>>> Stashed changes
 
 
 		        conn.setRequestMethod("POST");

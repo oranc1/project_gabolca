@@ -49,6 +49,14 @@ public class OnController { //나중에 합칠거임
 			return cnt;
 		}
 		
+		//폰 중복 확인
+		@PostMapping("/phondCheck")
+		@ResponseBody
+		public int phoneCheck(@RequestParam("phone") String phone) {
+			System.out.println("컨트롤러까지 옴");
+			int cnt = memberService.phoneCheck(phone);
+			return cnt;
+		}
 		
 		
 		//문자인증 작업중 6/21
@@ -135,6 +143,7 @@ public class OnController { //나중에 합칠거임
 			return "html/member/login/login";
 		}
 		
+<<<<<<< Updated upstream
 		// 네이버 로그인
 	    @GetMapping("login/oauth2/code/naver")
 	    public String loginGetNaver(HttpServletRequest request,HttpSession session,Model model) {
@@ -156,6 +165,19 @@ public class OnController { //나중에 합칠거임
 	    
 
 
+=======
+	    @GetMapping("login/oauth2/code/naver")
+	    public String loginGetNaver(HttpSession session) {
+	        System.out.println("callback controller");
+	        return "html/member/login/naver_callback";
+	    }
+	    
+	    @GetMapping("callback")
+	    public String loginNaverCallback(HttpSession session) {
+	    	
+	        return "html/member/login/naver_callback";
+	    }
+>>>>>>> Stashed changes
 	    
 		//로그인 db
 		@PostMapping("MemberLoginPro")
@@ -270,6 +292,7 @@ public class OnController { //나중에 합칠거임
 			
 			return "html/member/login/find_pw";
 		}
+<<<<<<< Updated upstream
 		
 //	@ResponseBody
 	@RequestMapping(value = "kakaoLogin", method = RequestMethod.GET)
@@ -299,4 +322,36 @@ public class OnController { //나중에 합칠거임
 		}
 		
 	}
+=======
+>>>>>>> Stashed changes
 }
+		
+////	@ResponseBody
+//	@RequestMapping(value = "kakaoLogin", method = RequestMethod.GET)
+//	public String kakaoLogin(
+//			@RequestParam(required = false) String code
+//			,HttpSession session
+//			,Model model) {
+//		System.out.println(code);
+//		
+//		String accessToken = memberService.getKakaoAccessToken(code);
+//		
+//		Map<String, Object> map = memberService.getUserInfo(accessToken);
+//		System.out.println(map);
+//		
+//		MemberVO member = memberService.getMemberInfo(String.valueOf(map.get("email")));
+//		System.out.println(member);
+//		
+//		if(member == null) { // 로그인 실패
+//			model.addAttribute("msg", "비즈앱인증이 안되어 이메일밖에 조회가 안됨");
+//			return "html/inc/fail_back";
+//		} else { // 로그인 성공
+//			// 세션 객체에 아이디 저장(속성명 sId)
+//			session.setAttribute("sId", member.getMem_id());
+//			session.setAttribute("mem_idx", member.getMem_idx());
+////			Cookie cookie = new Cookie("REMEMBER_ID", member.getMem_id());
+//			return "redirect:/"; // 메인페이지(루트)로 리다이렉트
+//		}
+//		
+//	}
+//}
