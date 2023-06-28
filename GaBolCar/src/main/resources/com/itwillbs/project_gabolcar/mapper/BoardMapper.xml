@@ -29,8 +29,23 @@
                 	, bo_readcount
               	FROM board_notice
               	) AS n1
+              	<if test="!searchKeyword.equals('')">
+					WHERE 
+					<choose>
+						<when test="searchType.equals('subject')">
+							bo_title LIKE CONCAT('%', #{searchKeyword},'%')
+						</when>
+						<when test="searchType.equals('content')">
+							bo_content LIKE CONCAT('%', #{searchKeyword},'%')
+						</when>
+						<when test="searchType.equals('subject_content')">
+							bo_title LIKE CONCAT('%', #{searchKeyword},'%')
+							OR bo_content LIKE CONCAT('%', #{searchKeyword},'%')
+						</when>
+					</choose>
+				</if>
               	ORDER BY bo_idx DESC 
-		        LIMIT #{skip}, #{amount}
+		        LIMIT #{cri.skip}, #{cri.amount}
 	</select>
 	
 	<select id="getTotal" resultType="int">
