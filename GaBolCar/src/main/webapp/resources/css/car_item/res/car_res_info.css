@@ -435,7 +435,7 @@
 }
 
 .ins_int table th, .ins_int table td {
-	border-bottom: 1px solid #ddd;
+	border: 1px solid #ddd;
 }
 
 .ins_int table th {
