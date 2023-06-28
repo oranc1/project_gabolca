@@ -1,26 +1,44 @@
 	// 열차트(지점별 매출액)
 	google.charts.load('current', {'packages':['bar'],'language': 'ko'});
 	google.charts.setOnLoadCallback(drawChart);
+//	setInterval(function() {
+//		google.charts.setOnLoadCallback(drawChart);
+//	}, 2000);
 	
 	// 열차트(지점별 인기차량) // 지점별 인기차량 열차트 표현불가
 	google.charts.load('current', {'packages':['bar'],'language': 'ko'});
 	google.charts.setOnLoadCallback(drawChart2);
+//	setInterval(function() {
+//		google.charts.setOnLoadCallback(drawChart2);
+//	}, 2000);
 	
 	// 열차트(월별 렌트수)
 	google.charts.load('current', {'packages':['bar'],'language': 'ko'});
 	google.charts.setOnLoadCallback(drawChart3);
+//	setInterval(function() {
+//		google.charts.setOnLoadCallback(drawChart3);
+//	}, 2000)
 	
 	// 도넛차트(차량 상태)
 	google.charts.load("current", {packages:["corechart"],'language': 'ko'});
 	google.charts.setOnLoadCallback(drawChart4);
+//	setInterval(function() {
+//		google.charts.setOnLoadCallback(drawChart4);
+//	}, 2000)
 	
 	// 도넛차트(차 종별 렌트수)
 	google.charts.load("current", {packages:["corechart"],'language': 'ko'});
 	google.charts.setOnLoadCallback(drawChart5);
+//	setInterval(function() {
+//		google.charts.setOnLoadCallback(drawChart5);
+//	}, 2000)
 	
 	// 도넛차트(연령별 인기차량) // 차량 모델은 원형으로 표현 불가
 	google.charts.load("current", {packages:["corechart"],'language': 'ko'});
 	google.charts.setOnLoadCallback(drawChart6);
+//	setInterval(function() {
+//		google.charts.setOnLoadCallback(drawChart6);
+//	}, 2000)
 
 // 열차트(지점별 매출액)
 function drawChart() {
