@@ -135,16 +135,16 @@ public class OnController { //나중에 합칠거임
 		}
 		
 	    @GetMapping("login/oauth2/code/naver")
-	    public String loginGetNaver(HttpSession session) {
-	        System.out.println("callback controller");
-	        return "html/member/login/naver_callback";
+	    public String loginGetNaver(HttpServletRequest request,HttpSession session,Model model) {
+	    	Map<String,Object> map = memberService.getUserInfoNaver(request, "iyG93Byk9xPFZKJeZAaH", "0jr6g97yTD");
+	        System.out.println("네이버 콜백 값 : " + map);
+	        return "";
 	    }
 	    
 	    @GetMapping("callback")
-	    public String loginNaverCallback(HttpServletRequest request, HttpSession session, Model model) {
-	    	Map<String,Object> map = memberService.getUserInfoNaver(request, "iyG93Byk9xPFZKJeZAaH", "0jr6g97yTD");
-	        System.out.println(map);
-	    	return "";
+	    public String loginNaverCallback(HttpServletRequest request, HttpSession session) {
+	    	
+	        return "html/member/login/naver_callback";
 	    }
 	    
 		//로그인 db

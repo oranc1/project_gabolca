@@ -4,9 +4,11 @@ package com.itwillbs.project_gabolcar.service;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.net.http.HttpRequest;
@@ -244,20 +246,19 @@ public class MemberService{
 		// 네이버 로그인 회원 조회
 		public Map<String,Object> getUserInfoNaver(HttpServletRequest request, String clientId, String clientSecret){
 			
-			// 정보 받아서 반환해주는 객체
-			Map<String,Object> map = null;
-			
+			// 토큰 받아오기
+			Map<String, String> result = new HashMap<>();
 		    String code = request.getParameter("code");
 		    String state = request.getParameter("state");
-		    String apiURL;
 		    String redirectURI = "";
 		    try {		    	
 		    	redirectURI = URLEncoder.encode("http://localhost:8089/project_gabolcar/login/oauth2/code/naver", "UTF-8");
 		    }
 		    catch(Exception e) {
+		    	System.out.println(e);
 		    	return null;
 		    }
-		    
+		    String apiURL;
 		    apiURL = "https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&";
 		    apiURL += "client_id=" + clientId;
 		    apiURL += "&client_secret=" + clientSecret;
@@ -265,8 +266,8 @@ public class MemberService{
 		    apiURL += "&code=" + code;
 		    apiURL += "&state=" + state;
 		    String access_token = "";
-		    String refresh_token = ""; 
-		    
+		    String refresh_token = "";
+		    System.out.println("apiURL="+apiURL);
 		    try {
 		      URL url = new URL(apiURL);
 		      HttpURLConnection con = (HttpURLConnection)url.openConnection();
@@ -286,29 +287,80 @@ public class MemberService{
 		      }
 		      br.close();
 		      if(responseCode==200) {
-		    	  //받아온 데이터를 파싱
-		    	  JsonParser pasing = new JsonParser();
-		    	  // Object 형식으로 넣어준다음 JSONObject 방식으로 변환
-		    	  Object obj = pasing.parse(res.toString());
-		    	  JSONObject jsonObj = (JSONObject)obj;
+		    	  // 토큰 받아왔으면 로그인 정보 받아오기
+		    	  // json 분리
+		    	  JsonParser parsing = new JsonParser();
+		    	  JsonElement jsonObj = parsing.parse(res.toString());
 		    	  
-		    	  //필요한 response만 받아오기
-		    	  JSONObject resObj = (JSONObject)jsonObj.get("response");
-		    	  
-		    	  //반환값 보내줄 map 초기화
-		    	  map = new HashMap<String,Object>();
-		    	  
-		    	  //값 받아서 map 에 셋팅
-		    	  map.get((String)resObj.get("id"));
-		    	  map.get((String)resObj.get("email"));
-		    	  map.get((String)resObj.get("name"));
-		    	  map.get((String)resObj.get("nickname"));
+		    	  // 정보 받기위한 토큰 셋팅
+		    	  result.put("Authorization", "Bearer "+ jget(jsonObj,"access_token"));
+		    	  JsonElement infoObj = parsing.parse(getNaverLoginInfo("https://openapi.naver.com/v1/nid/me",result));
+		    	  // 해당 Json 에서 response 만 가져오기
+		    	  System.out.println(infoObj);
+		    	  System.out.println(jget(infoObj, "response"));
 		      }
 		    } catch (Exception e) {
 		      System.out.println(e);
 		    }
-		    
-		    return map;
+		    return null;
 		}
+		
+	    private String getNaverLoginInfo(String apiUrl, Map<String, String> requestHeaders){
+	        HttpURLConnection con = connect(apiUrl);
+	        try {
+	            con.setRequestMethod("GET");
+	            for(Map.Entry<String, String> header :requestHeaders.entrySet()) {
+	                con.setRequestProperty(header.getKey(), header.getValue());
+	            }
+
+
+	            int responseCode = con.getResponseCode();
+	            if (responseCode == HttpURLConnection.HTTP_OK) { // 정상 호출
+	                return readBody(con.getInputStream());
+	            } else { // 에러 발생
+	                return readBody(con.getErrorStream());
+	            }
+	        } catch (IOException e) {
+	            throw new RuntimeException("API 요청과 응답 실패", e);
+	        } finally {
+	            con.disconnect();
+	        }
+	    }
+	    
+	    private HttpURLConnection connect(String apiUrl){
+	        try {
+	            URL url = new URL(apiUrl);
+	            return (HttpURLConnection)url.openConnection();
+	        } catch (MalformedURLException e) {
+	            throw new RuntimeException("API URL이 잘못되었습니다. : " + apiUrl, e);
+	        } catch (IOException e) {
+	            throw new RuntimeException("연결이 실패했습니다. : " + apiUrl, e);
+	        }
+	    }
+	    
+	    private String readBody(InputStream body){
+	        InputStreamReader streamReader = new InputStreamReader(body);
+
+
+	        try (BufferedReader lineReader = new BufferedReader(streamReader)) {
+	            StringBuilder responseBody = new StringBuilder();
+
+
+	            String line;
+	            while ((line = lineReader.readLine()) != null) {
+	                responseBody.append(line);
+	            }
+
+
+	            return responseBody.toString();
+	        } catch (IOException e) {
+	            throw new RuntimeException("API 응답을 읽는데 실패했습니다.", e);
+	        }
+	    }
+	    
+	    
+	    public String jget(JsonElement json,String key) {
+	    	return json.getAsJsonObject().get(key).getAsString();
+	    }
 		
 }
