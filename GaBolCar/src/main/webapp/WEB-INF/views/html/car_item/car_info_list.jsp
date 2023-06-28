@@ -50,8 +50,8 @@
 					    SUV
 					</label>
 					<label for="selectCarType_5"> 
-					    <input name="selectCarType" id="selectCarType_5" type="checkbox" value="전기">
-					    전기
+					    <input name="selectCarType" id="selectCarType_5" type="checkbox" value="승합">
+					    승합
 					</label>
 					<label for="selectCarType_6"> 
 					    <input name="selectCarType" id="selectCarType_6" type="checkbox" value="수입">

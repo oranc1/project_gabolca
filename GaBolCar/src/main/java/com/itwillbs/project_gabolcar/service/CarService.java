@@ -168,6 +168,10 @@ public class CarService {
 		return mapper.selectCarIdx(carIdxList);
 	}
 
+	public int getCarBrcNameCount(int brc_idx) {
+		return mapper.selectCarBrcNameCount(brc_idx);
+	}
+
 
 
 

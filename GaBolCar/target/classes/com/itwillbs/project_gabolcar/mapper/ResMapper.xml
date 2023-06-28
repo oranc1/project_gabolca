@@ -98,6 +98,8 @@
 		FROM res_info
 		WHERE res_idx=#{res_idx};
 	</select>
+	
+<!-- 	지점별 월 매출액 -->
 	<select id="dsbBrcMonthlySale" resultType="map">
 		SELECT
 			CASE

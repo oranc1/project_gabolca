@@ -37,7 +37,7 @@
 									<ul class="list">
 										<li>
 											<div class="subject">
-												<input type="text" class="inputBox" name="rev_subject" value="${reviewDetail.rev_subject}">
+												<input type="text" class="inputBox" name="rev_subject" value="${reviewDetail.rev_subject}" style="word-break:break-all;">
 											</div>
 										</li>
 
@@ -69,7 +69,7 @@
 	<!-- 									<img src="../img/casper.jpg" alt=""> -->
 										<!-- 작성글 출력! -->
 										<p>
-											<textarea class="inputBox" name="rev_content">${reviewDetail.rev_content}</textarea>
+											<textarea class="inputBox" name="rev_content" style="word-break:break-all;">${reviewDetail.rev_content}</textarea>
 										</p>
 									</div>
 	
