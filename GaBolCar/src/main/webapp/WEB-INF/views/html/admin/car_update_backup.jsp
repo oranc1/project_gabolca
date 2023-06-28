@@ -74,7 +74,6 @@ function deleteFile(car_file_value, car_file_index) {
     	</div>
 		<form action="carUpdatePro" name="writeForm" method="post" enctype="multipart/form-data">
 	  		<input type="hidden" name="car_idx" value="${car.car_idx }" />
-	  		<input type="hidden" name="other_window" value="${param.other_window }" />
 	  		<div id="modifyForm">
 	    		<table>
 	      			<tr>
@@ -315,18 +314,11 @@ function deleteFile(car_file_value, car_file_index) {
 							</select>
 	        			</td>
 	      			</tr>
-				</table> 
+				</table>
 		    <div id="commandCell">
 		      	<input type="submit" value="수정" class="btn btn-warning">&nbsp;&nbsp;
 		      	<input type="reset" value="다시쓰기" class="btn btn-secondary">&nbsp;&nbsp;
-		      	<c:choose>
-		      		<c:when test="${! empty param.other_window  }">
-				      	<input type="button" value="취소" onclick="window.close()" class="btn btn-secondary">
-		      		</c:when>
-		      		<c:otherwise>
-				      	<input type="button" value="취소" onclick="history.back()" class="btn btn-secondary">
-		      		</c:otherwise>
-		      	</c:choose>
+		      	<input type="button" value="취소" onclick="history.back()" class="btn btn-secondary">
 		    </div>
 		</div>
 		</form>

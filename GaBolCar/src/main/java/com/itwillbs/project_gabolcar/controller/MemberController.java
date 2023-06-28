@@ -328,7 +328,7 @@ public class MemberController {
 //	      System.out.println("mem_name " + mem_name);
 //	      System.out.println("mem_name " + mem_name);
 
-		return loggedInUser.getMem_idx() == 1 ? "html/member/question/question_write_form_admin"
+		return loggedInUser.getMem_idx() == 1 && sId == "admin@admin.com" ? "html/member/question/question_write_form_admin"
 				: "html/member/question/question_write_form_member";
 
 	}
@@ -612,7 +612,7 @@ public class MemberController {
 		List<Map<String, Object>> brcList = brc_service.brcList();
 		return new ModelAndView("html/member/etc/branch_location", "brcList", brcList);
 	}
-
+	
 	// 사이트 이용 안내
 	@GetMapping("siteGuide")
 	public String siteHowTo() {
@@ -629,6 +629,24 @@ public class MemberController {
 	@GetMapping("UseAgree")
 	public String UseAgree() {
 		return "html/member/etc/use_agree";
+	}
+	
+	// 개인정보처리방침
+	@GetMapping("PerInfo")
+	public String PerInfo() {
+		return "html/member/etc/per_info";
+	}
+	
+	// 이메일 수집거부
+	@GetMapping("EmailRej")
+	public String EmailRej() {
+		return "html/member/etc/email_rej";
+	}
+	
+	// 자동차 대여약관
+	@GetMapping("CarClause")
+	public String CarClause() {
+		return "html/member/etc/car_clause";
 	}
 		
 }

@@ -60,10 +60,10 @@
                                     </p>
                                 </div>
                                 <div class="mod_box">
+									<input type="submit" class="delete_btn" value="등록">
 									<a href="QuestionListForm?qst_idx=${question.qst_idx}&pageNum=${pageNum}">
 									    <input type="button" class="delete_btn" value="목록">
 									</a>                                    
-									<input type="submit" class="delete_btn" value="등록">
                                 </div>
                             </div>
                         </div>

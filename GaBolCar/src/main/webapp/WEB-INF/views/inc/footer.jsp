@@ -5,9 +5,9 @@
 		<div class="inr">
 			<ul class="ft_utill">
 				<li><a href="UseAgree" class="sp-blue">이용약관</a></li>
-				<li><a href="#">개인정보보호정책</a></li>
-				<li><a href="#">이메일수집거부</a></li>
-				<li><a href="#">자동차대여약관</a></li>
+				<li><a href="PerInfo">개인정보처리방침</a></li>
+				<li><a href="EmailRej">이메일수집거부</a></li>
+				<li><a href="CarClause">자동차대여약관</a></li>
 			</ul>
 		</div>
 

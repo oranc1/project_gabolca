@@ -1,0 +1,47 @@
+@charset "UTF-8";
+
+#sec_con.out_con {
+	max-width: 100%;
+	background: #f5f5f5;
+}
+
+#out_wrapper {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 70px;
+	background: #fff;
+	border-radius: 15px;
+}
+
+.c_header {
+	text-align: center;
+}
+
+.c_header p {
+	font-size: 22px;
+	margin-top: 20px;
+}
+
+.contxt span {
+	color: #0080ff;
+	font-size: 22px;
+	font-weight: 600;
+}
+
+.c_delete {
+	font-size: 17px;
+	width: 90%;
+	margin: 0 auto;
+	padding: 20px;
+	border: 1px solid #ddd;
+	margin-top: 30px;
+}
+
+.coment{
+	font-weight: bold;
+	color: #f13035;
+	font-size: 17px;
+	margin-top: 8px;
+}
+
+

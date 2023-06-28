@@ -482,34 +482,48 @@ public class AdminConroller {
 	    MultipartFile[] mFiles = car.getFiles();
 	    if (mFiles != null && mFiles.length > 0) {
 	        int fileCount = Math.min(mFiles.length, 6); // 파일 수를 6개로 제한
-	        
+
 	        for (int i = 0; i < fileCount; i++) {
 	            MultipartFile mFile = mFiles[i];
 	            String originalFileName = mFile.getOriginalFilename();
-	            
+
 	            if (originalFileName != null && !originalFileName.isEmpty()) {
 	                String uuid = UUID.randomUUID().toString();
 	                String carFileName = uuid.substring(0, 8) + "_" + originalFileName;
 	                
-	                car.setCarFileAt(i + 1, carFileName); // 파일명을 해당 car_file에 저장
-	                fileAdded[i] = true;
-	                
-	                System.out.println("실제 업로드 될 파일명: " + carFileName);
-	                
-	                try {
-	                    mFile.transferTo(new File(saveDir, carFileName));
-	                } catch (IllegalStateException e) {
-	                    e.printStackTrace();
-	                    model.addAttribute("msg", "파일 업로드 실패!");
-	                    return "inc/fail_back";
-	                } catch (IOException e) {
-	                    e.printStackTrace();
-	                    model.addAttribute("msg", "파일 업로드 실패!");
-	                    return "inc/fail_back";
-	                }
+	                    // 이미지가 있는 가장 처음의 빈 slot 찾기
+	                    int targetSlot = -1;
+	                    for (int slot = 1; slot <= 6; ++slot) {
+	                        if (car_files.get(0).getUpdateCarFileAt(slot) == null || car_files.get(0).getUpdateCarFileAt(slot).isEmpty()) {
+	                            targetSlot = slot;
+	                            break;
+	                        }
+	                    }
+
+	                    // 빈 slot이 찾아졌다면 이미지를 추가
+	                    if (targetSlot != -1) {
+	                        car.setCarFileAt(targetSlot, carFileName); // 파일명을 해당 car_file에 저장
+	                        fileAdded[targetSlot - 1] = true;
+
+	                        System.out.println("실제 업로드 될 파일명: " + carFileName);
+
+	                        try {
+	                            mFile.transferTo(new File(saveDir, carFileName));
+	                        } catch (IllegalStateException e) {
+	                            e.printStackTrace();
+	                            model.addAttribute("msg", "파일 업로드 실패!");
+	                            return "inc/fail_back";
+	                        } catch (IOException e) {
+	                            e.printStackTrace();
+	                            model.addAttribute("msg", "파일 업로드 실패!");
+	                            return "inc/fail_back";
+	                        }
+	                    }
 	            }
 	        }
 	    }
+
+
 
 	    // 기존 등록된 파일을 누락된 파일에 대해서 사용
 	    for (int i = 0; i < 6; i++) {
@@ -546,6 +560,121 @@ public class AdminConroller {
         }
         return "redirect:/admCarList";
     }
+	
+	
+//	// 차량수정
+//	@Transactional
+//	@PostMapping("carUpdatePro")
+//	public String carUpdatePro(
+//			@RequestParam(value = "option_idx", required = false) List<Integer> optionIdxList,
+//			CarVO car, HttpSession session,
+//			Model model) {
+//		// car_idx 에 있는 car_file 이 있으면 파일 넣기 수행 x 없으면 수행 O
+//		
+//		// 해당 차량 car_file1..6  들고오기
+//		List<CarVO> car_files = car_service.selectCarfiles(car);
+//		System.out.println("car_files 차량에 등록된 파일 : "  + car_files);
+//		
+//		if (car_files == null || car_files.isEmpty() || car_files.stream().allMatch(c -> c == null)) {
+//			car_files = new ArrayList<>();
+//			CarVO defaultCarFile = new CarVO();
+//			defaultCarFile.setCar_file1(null);
+//			defaultCarFile.setCar_file2(null);
+//			defaultCarFile.setCar_file3(null);
+//			defaultCarFile.setCar_file4(null);
+//			defaultCarFile.setCar_file5(null);
+//			defaultCarFile.setCar_file6(null);
+//			car_files.add(defaultCarFile);
+//		}
+//		
+//		String uploadDir = "/resources/upload/car"; // 서버 이미지 저장 경로
+//		String saveDir = session.getServletContext().getRealPath(uploadDir);
+//		
+//		if (car_files != null && !car_files.isEmpty() && car_files.get(0).getCar_file_path() != null) {
+//			car.setCar_file_path(car_files.get(0).getCar_file_path());
+//		} else {
+//			Date date = new Date();
+//			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+//			car.setCar_file_path("/" + sdf.format(date));
+//		}
+//		
+//		saveDir = saveDir + car.getCar_file_path();
+//		Path path = Paths.get(saveDir);
+//		try {
+//			Files.createDirectories(path);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		
+//		boolean[] fileAdded = new boolean[6];
+//		
+//		MultipartFile[] mFiles = car.getFiles();
+//		if (mFiles != null && mFiles.length > 0) {
+//			int fileCount = Math.min(mFiles.length, 6); // 파일 수를 6개로 제한
+//			
+//			for (int i = 0; i < fileCount; i++) {
+//				MultipartFile mFile = mFiles[i];
+//				String originalFileName = mFile.getOriginalFilename();
+//				
+//				if (originalFileName != null && !originalFileName.isEmpty()) {
+//					String uuid = UUID.randomUUID().toString();
+//					String carFileName = uuid.substring(0, 8) + "_" + originalFileName;
+//					
+//					car.setCarFileAt(i + 1, carFileName); // 파일명을 해당 car_file에 저장
+//					fileAdded[i] = true;
+//					
+//					System.out.println("실제 업로드 될 파일명: " + carFileName);
+//					
+//					try {
+//						mFile.transferTo(new File(saveDir, carFileName));
+//					} catch (IllegalStateException e) {
+//						e.printStackTrace();
+//						model.addAttribute("msg", "파일 업로드 실패!");
+//						return "inc/fail_back";
+//					} catch (IOException e) {
+//						e.printStackTrace();
+//						model.addAttribute("msg", "파일 업로드 실패!");
+//						return "inc/fail_back";
+//					}
+//				}
+//			}
+//		}
+//		
+//		// 기존 등록된 파일을 누락된 파일에 대해서 사용
+//		for (int i = 0; i < 6; i++) {
+//			if (!fileAdded[i] && car_files != null && !car_files.isEmpty()) {
+//				car.setCarFileAt(i + 1, car_files.get(0).getUpdateCarFileAt(i + 1));
+//			}
+//		}
+//		
+//		int updateCount = car_service.carUpdate(car);
+//		
+//		if (updateCount > 0) {
+//			System.out.println("차량 수정 성공");
+//			car.setCar_idx((int) car_service.carSelect(car).get("car_idx"));
+//			System.out.println("selectcar : " + car.getCar_idx());
+//			// 기존에 선택된 옵션을 삭제
+//			int deletOption = car_service.deleteCarOptionsByCarIdx(car.getCar_idx());
+//			System.out.println("deletOption : " + deletOption);
+//			// 새로 선택된 옵션을 추가
+//			if (optionIdxList != null && !optionIdxList.isEmpty()) {
+//				for (Integer optionIdx : optionIdxList) {
+//					CarOptionVO carOption = new CarOptionVO();
+//					carOption.setCar_idx(car.getCar_idx());
+//					carOption.setOption_idx(optionIdx);
+//					int optionUpdateResult = car_service.carUpdateOptionRegister(carOption);
+//					
+//					if (optionUpdateResult <= 0) {
+//						System.out.println("옵션 수정 실패: " + optionIdx);
+//					}
+//				}
+//			}
+//		} else {
+//			model.addAttribute("msg", "차량 수정 실패!");
+//			return "inc/fail_back";
+//		}
+//		return "redirect:/admCarList";
+//	}
 	
 	
 	
