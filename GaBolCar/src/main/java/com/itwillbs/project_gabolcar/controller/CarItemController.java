@@ -660,8 +660,30 @@ public class CarItemController {
 				
 				map.put("car_search_list", "");
 				
-				System.out.println(carService.carList(map));
-				map.put("car_search_list", carService.carList(map));
+				List<Map<String,Object>> carSearchList = carService.carList(map);
+				
+				
+				// 렌트 비용 계산 하기
+				// 문자열로 있는 날짜를 변환
+				String[] rentSplit = map.get("res_rental_date").toString().split(" ");
+				String[] returnSplit = map.get("res_return_date").toString().split(" ");
+				LocalDateTime resRentalDate = carResHandler.str2Ldt(rentSplit[0], "-", rentSplit[1], ":");
+				LocalDateTime resReturnDate = carResHandler.str2Ldt(returnSplit[0], "-", returnSplit[1], ":");
+				
+				int priceCount = 0;
+				for(Map<String,Object> carData : carSearchList) {					
+					int rentPrice = carResHandler.resPriceCal(
+							resRentalDate
+							, resReturnDate
+							, (int)carData.get("car_weekdays")
+							, (int)carData.get("car_weekend"));
+					//렌트 비용 집어 넣기
+					carSearchList.get(priceCount).put("rentPrice", rentPrice);
+					priceCount++;
+					System.out.println("rentPrice : " +rentPrice);
+				}
+				
+				map.put("car_search_list", carSearchList);
 				
 			}
 			catch(Exception e) {

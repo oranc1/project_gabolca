@@ -87,7 +87,7 @@ function addItems(dataObj){
         div2_p2.setAttribute("class", "car_amount_p");
         
         p2_span1.innerText = "최저가 ";
-        p2_span2.innerHTML = "<b>" + car.car_weekdays + "</b>원";
+        p2_span2.innerHTML = "<b>" + car.rentPrice + "</b>원";
 
         p.setAttribute("class","res_btn");
         p.innerText = "예약 하러가기";
