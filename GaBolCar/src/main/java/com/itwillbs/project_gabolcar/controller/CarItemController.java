@@ -526,8 +526,8 @@ public class CarItemController {
 			//데이터 넣기
 			resultMap.put("car_info", carInfo);
 			// 콤마( , ) 로 날짜 분리해서 넣기
-			resultMap.put("res_rental_date", map.get("res_rental_date").toString().replace("%",","));
-			resultMap.put("res_return_date", map.get("res_return_date").toString().replace("%",","));
+			resultMap.put("res_rental_date", map.get("res_rental_date").toString().replace(".0",""));
+			resultMap.put("res_return_date", map.get("res_return_date").toString().replace(".0",""));
 			resultMap.put("brc_rent_name", map.get("brc_rent_name"));
 			resultMap.put("brc_return_name", map.get("brc_return_name"));
 			resultMap.put("car_option", carItemService.getCarOptionList((String)map.get("car_idx")));
