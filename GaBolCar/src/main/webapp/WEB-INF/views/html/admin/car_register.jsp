@@ -194,6 +194,28 @@
 	      });
 	    });
 	  });
+	  
+	  $(function() {
+		  $("input[name=car_number]").on("blur",function() {
+				let carNum = $(this).val();
+				if (carNum != '') {
+					$.ajax({
+						type: "get",
+						url: "carCheckRdndn",
+						data: {
+							'car_number': $(this).val()
+						}
+					}).done(function(result) {
+						if (result == '1') {
+							$("input[name=car_number]").attr("placeholder",carNum+"은 중복되는 차량번호입니다.");
+							$("input[name=car_number]").val('').focus();
+						} else {
+							isChecked = true;
+						}
+					});
+				}
+			});
+	  })
 	</script>
 </body>
 </html>
