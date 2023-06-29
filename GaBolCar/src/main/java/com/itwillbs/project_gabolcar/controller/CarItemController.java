@@ -675,7 +675,7 @@ public class CarItemController {
 	
 	//================================================================ 리뷰 ==============================================================
 	
-	//car res Info용
+	//car res Info용 작은 리뷰 게시판
 	@GetMapping("reviewListSmall")
 	public String reviewListSmall(ReviewVO review, Model model, String car_model) {
 
@@ -688,7 +688,7 @@ public class CarItemController {
 	}
 			
 			
-	// 리뷰게시판 글 목록, 페이지 나눔========
+	// 리뷰게시판 글 목록 나열 및 페이징 처리========
 			
 	@GetMapping("reviewList")
 	public String reviewList(@RequestParam(defaultValue = "") String searchType, 
@@ -774,7 +774,7 @@ public class CarItemController {
 	
 //===================================
 			
-			
+  //리뷰 작성 폼으로 이동	
 			
 	@GetMapping("reviewWriteForm")
 	public String reviewWriteForm(HttpSession session, Model model, @RequestParam(defaultValue = "") String searchType, 
@@ -788,7 +788,7 @@ public class CarItemController {
 		
 		Map<String,Object> map = null;
 		
-		//글쓰기 제어 : admin이 아닐 때 예약이 있을 때
+		//글쓰기 제어 : 세션아이디가 없을 때
 		if(sId == null || sId.length() == 0)
 		{
 			model.addAttribute("msg", "로그인해 주십시오."); // 로그인 안했을 때
@@ -797,16 +797,15 @@ public class CarItemController {
 			// success_forward가 메시지를 띄우고 원하는 페이지로 이동하기 때문에 사용
 			return "inc/success_forward";
 		}
-		else
-		{
-			if(!sId.equals("admin@admin.com")) {
-				int isBoardWriter = carItemService.isBoardWriter(sId);
+			else	{ // 관리자가 아닐 때 작성 권한이 있는지
+				if(!sId.equals("admin@admin.com")) {
+					int isBoardWriter = carItemService.isBoardWriter(sId);
 				
-				if(isBoardWriter == 0 
-						|| resIdx < 0 
-						|| carItemService.isAlreadyWriteRev(resIdx)) {
-					model.addAttribute("msg", "권한이 없습니다!");
-					return "html/car_item/review/fail_back";
+					if(isBoardWriter == 0 
+							|| resIdx < 0 
+							|| carItemService.isAlreadyWriteRev(resIdx)) {
+						model.addAttribute("msg", "현재 완료된 대여 건이 없거나 예약정보를 가져오는 중에 문제가 발생하였습니다.");
+						return "html/car_item/review/fail_back";
 				}
 			}
 		}
@@ -814,7 +813,7 @@ public class CarItemController {
 	// 예약번호로 차량 정보 가져오기  
 	map = carItemService.selectResNCarInfo(null,resIdx);
 	if(map == null) {
-		model.addAttribute("msg", "권한이 없거나 예약 정보를 가져오는중에 문제가 발생되었습니다!");
+		model.addAttribute("msg", "해당 대여 건에 대한 리뷰 작성 권한이 없거나 예약 정보를 가져오는중에 문제가 발생되었습니다!");
 		return "html/car_item/review/fail_back";
 		}
 	
@@ -822,33 +821,33 @@ public class CarItemController {
 
 	return "html/car_item/review/review_write_form";
 }
+	
 	//===========================================================		
 	// 리뷰게시판 글 작성
 	@PostMapping("reviewWritePro")
-	public String reviewWritePro(HttpSession session,@RequestParam Map<String,Object> map ,  ReviewVO review, Model model ,HttpServletRequest request) {
+	public String reviewWritePro(HttpSession session, @RequestParam Map<String,Object> map, ReviewVO review, Model model, HttpServletRequest request) {
 		String sId = (String)session.getAttribute("sId");
-//				
-		 //글쓰기 제어 : admin이 아닐 때 예약이 있을 때
-		if(sId == null || sId.length() == 0)
-		{
+				
+	//글쓰기 제어 : 세션아이디 유무
+		if(sId == null || sId.length() == 0){
 			model.addAttribute("msg", "로그인해 주십시오."); // 로그인 안했을 때
 			model.addAttribute("targetURL", "login"); // 로그인 페이지로 이동
 			// 코드 재사용 원래는 실패지만 
 			// success_forward가 메시지를 띄우고 원하는 페이지로 이동하기 때문에 사용
 			return "inc/success_forward";
 		}
-			else
-			{
-				if(!sId.equals("admin@admin.com")) {
-					int isBoardWriter = carItemService.isBoardWriter(sId);
-					
-					if(isBoardWriter == 0 ) {
-						model.addAttribute("msg", "권한이 없습니다!");
-						return "html/car_item/review/fail_back";
+			else { //세션아이디가 관리자가 아닐 때 작성권한이 있는가 판단
+					if(!sId.equals("admin@admin.com")) {
+						int isBoardWriter = carItemService.isBoardWriter(sId);
+				
+						if(isBoardWriter == 0 ) {
+							model.addAttribute("msg", "해당 대여 건에 대한 리뷰 작성 권한이 없거나 예약 정보를 가져오는중에 문제가 발생되었습니다!");
+							return "html/car_item/review/fail_back";
+						}
 					}
 				}
-			}
 		
+		//업로드 파일 관련
 		
 		String uploadDir = "/resources/upload";
 		//String saveDir = request.getServletContext().getRealPath(uploadDir); // 사용 가능
@@ -988,16 +987,17 @@ public class CarItemController {
 		System.out.println("실제 업로드 파일명2 : " + review.getRev_file2());
 		System.out.println("실제 업로드 파일명3 : " + review.getRev_file3());
 		
+		//별점 확인
 		int rev_star = review.getRev_star();
 	
 		if(rev_star == 0) {
 			model.addAttribute("msg", "별점을 입력해주세요");
 			return "html/car_item/review/fail_back";
 		} 			
-		//필터링 후 저장
+		
+		//필터링 후 저장 String trashArr[] ReviewVO.java에 선언
 		String rev_content = review.getRev_content();
 		
-		//String trashArr[] ReviewVO.java에 선언
 		String trashArr[] = review.getTrashArr();
 
 		int len = trashArr.length;   
@@ -1008,11 +1008,13 @@ public class CarItemController {
 			rev_content = rev_content.replaceAll(trashArr[i], "*");
 		}
 		review.setRev_content(rev_content);
-	    
+	   
+		// 작성 작업 시작
 		int insertCount = carItemService.insertReview(review);
 		
 		if(insertCount > 0) {
-		 // 성공
+		
+		// 성공
 			try {
 				// 업로드 된 파일은 MultipartFile 객체에 의해 임시 디렉토리에 저장되어 있으며
 				// 글쓰기 작업 성공 시 임시 디렉토리 -> 실제 디렉토리로 이동 작업 필요
@@ -1044,6 +1046,7 @@ public class CarItemController {
 			return "html/car_item/review/fail_back";
 		
 		}				
+		
 		return "redirect:/reviewList";
 	}
 	
@@ -1053,11 +1056,12 @@ public class CarItemController {
 	@GetMapping("reviewDelete")
 	public String reviewDelete(HttpSession session, ReviewVO review, Model model) {
 		String sId = (String)session.getAttribute("sId");
+		//세션아이디가 없거나 관리자가 아닐 때 (미일치 시는 뷰에서 버튼이 사라짐)
 		if(sId == null || !sId.equals("admin@admin.com")) {
 			model.addAttribute("msg", "잘못된 접근입니다");
 			return "html/member/review/fail_back";
 		}
-		
+	//삭제 작업 시작
 		int deleteReviewCount = carItemService.deleteReview(review);
 		
 		if(deleteReviewCount < 0) {
@@ -1075,7 +1079,7 @@ public class CarItemController {
 	}
 	//===========================
 	
-	//리뷰게시판 글 수정 폼
+	//리뷰게시판 글 수정 폼으로 이동
 	@GetMapping("reviewModify")
 	public String reviewModify(HttpSession session, ReviewVO review, Model model, @RequestParam(defaultValue = "") String searchType, 
 			@RequestParam(defaultValue = "") String searchKeyword, 
@@ -1083,7 +1087,7 @@ public class CarItemController {
 		String sId = (String)session.getAttribute("sId");
 		Map<String,Object> map = null;
 		
-		//글쓰기 제어 : admin이 아닐 때 예약이 있을 때
+	//글쓰기 제어 : 세션아이디가 없을 때 (미일치 시는 뷰에서 버튼이 사라짐)
 		if(sId == null || sId.length() == 0)
 		{
 			model.addAttribute("msg", "로그인해 주십시오."); // 로그인 안했을 때
@@ -1093,7 +1097,9 @@ public class CarItemController {
 			return "inc/success_forward";
 		}
 		else
-		{
+			{
+			
+	//관리자가 임의로 수정 못하도록 막을 때 
 			if(!sId.equals("admin@admin.com")) {
 				int isBoardWriter = carItemService.isBoardWriter(sId);
 				
@@ -1104,7 +1110,7 @@ public class CarItemController {
 			}
 		}
 		
-		// 예약번호로 차량 정보 가져오기
+	// 예약번호로 차량 정보 가져오기
 		map = carItemService.selectResNCarInfo(sId,review.getRes_idx());
 		if(map == null) {
 			model.addAttribute("msg", "권한이 없거나 예약 정보를 가져오는중에 문제가 발생되었습니다!");
@@ -1171,7 +1177,7 @@ public class CarItemController {
 		}
 		review.setRev_content(rev_content);
 		
-		//수정작업 시작	
+		//수정 작업 시작	
 		int ModifySuccess = carItemService.modifyReview(review);
 	
 		if(ModifySuccess < 0) {
