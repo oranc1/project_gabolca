@@ -18,8 +18,7 @@ public interface CarMapper {
 	// 차량 수정 폼 - 옵션 선택된 차량 검색
 	Map<String, Object> selectCar(CarVO car);
 
-	// 차량수정 - 기존에 선택된 옵션을 삭제합니다
-	int deletUpdateCarOption(int car_idx);
+
 
 	// 차량수정 - 수정할 해당 차량 car_file1..6 배열로 들고오기
 	List<CarVO> selectCarFiles(CarVO car);
@@ -102,6 +101,8 @@ public interface CarMapper {
 	CarVO carDetails(int car_idx);
 
 	int selectCarCheck(Map<String, String> map);
+	
+	// 차량수정 - 기존에 선택된 옵션을 삭제합니다
 
 	int deletUpdateCarOption(int car_idx);
 }
@@ -111,11 +112,6 @@ public interface CarMapper {
 
 
 
-	
-	
-
 
 	
 
-
-}
