@@ -89,7 +89,7 @@
 									from mem_info 
 									where mem_id = #{sId})
 					
-			ORDER BY res_rental_date DESC
+			ORDER BY res_idx DESC
 	
 	</select>
 	
