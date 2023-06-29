@@ -93,8 +93,6 @@ public interface CarMapper {
 
 	List<Map<String, Object>> selectUpdateCar();
 
-	
-	
 	List<Integer> selectCarInfo(List<Integer> collect);
 
 	List<CarVO> selectCarIdx(List<Integer> carIdxList);
@@ -102,6 +100,8 @@ public interface CarMapper {
 	int selectCarBrcNameCount(int brc_name);
 
 	CarVO carDetails(int car_idx);
+
+	int selectCarCheck(Map<String, String> map);
 
 	
 

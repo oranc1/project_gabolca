@@ -630,4 +630,15 @@
 		where
 			brc_name = (select brc_name from brc_info where brc_idx = #{brc_idx})
 	</select>
+	<select id="selectCarCheck">
+		select
+			count(*)
+		from
+			car_info
+			<choose>
+				<when test="!car_number.equals('')">
+					where car_number = #{car_number}					
+				</when>
+			</choose>
+	</select>
 </mapper>

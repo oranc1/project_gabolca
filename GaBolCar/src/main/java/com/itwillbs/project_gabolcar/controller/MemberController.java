@@ -323,8 +323,7 @@ public class MemberController {
 //	      System.out.println("mem_name " + mem_name);
 //	      System.out.println("mem_name " + mem_name);
 
-		return loggedInUser.getMem_idx() == 1 && sId == "admin@admin.com" ? "html/member/question/question_write_form_admin"
-				: "html/member/question/question_write_form_member";
+		return "admin@admin.com".equals(sId) ? "html/member/question/question_write_form_admin" : "html/member/question/question_write_form_member";
 
 	}
 
@@ -332,6 +331,8 @@ public class MemberController {
 	@PostMapping("QuestionWritePro")
 	public String quetionWritePro(@RequestParam String mem_name, QuestionVO question, HttpSession session,
 			Model model) {
+		String sId = (String) session.getAttribute("sId");
+
 		// 로그인한 사용자의 mem_idx를 가져오기
 		int mem_idx = memberService.getCurrentUserMemIdx(mem_name);
 
@@ -354,6 +355,8 @@ public class MemberController {
 			@RequestParam(name = "searchType", defaultValue = "") String searchType,
 			@RequestParam(name = "searchKeyword", defaultValue = "") String searchKeyword,
 			@RequestParam(defaultValue = "1") int pageNum, HttpSession session, Model model) {
+		
+		String sId = (String) session.getAttribute("sId");
 
 		MemberVO loggedInUser = (MemberVO) session.getAttribute("loggedInUser");
 
@@ -370,14 +373,14 @@ public class MemberController {
 //	    List<QuestionVO> qstBoardList = qst_service.getQstBoardListForMember(searchType, searchKeyword, startRow, listLimit, mem_idx);
 		List<QuestionVO> qstBoardList;
 
-		if (mem_idx == 1) {
-			// 관리자인 경우: 모든 게시글 가져오기
-			qstBoardList = qst_service.getQstBoardList(searchType, searchKeyword, startRow, listLimit);
-		} else {
-			// 일반 사용자인 경우: 자신이 작성한 글과 관리자가 작성한 답변 글만 가져오기
-			qstBoardList = qst_service.getQstBoardListForMember(searchType, searchKeyword, startRow, listLimit,
-					mem_idx);
-		}
+	    if ("admin@admin.com".equals(sId)) {
+	        // 관리자인 경우: 모든 게시글 가져오기
+	        qstBoardList = qst_service.getQstBoardList(searchType, searchKeyword, startRow, listLimit);
+	    } else {
+	        // 일반 사용자인 경우: 자신이 작성한 글과 관리자가 작성한 답변 글만 가져오기
+	        qstBoardList = qst_service.getQstBoardListForMember(searchType, searchKeyword, startRow, listLimit,
+	                mem_idx);
+	    }
 
 		int listCount = qst_service.getQstBoardListCount(searchType, searchKeyword);
 
@@ -397,8 +400,7 @@ public class MemberController {
 
 		// mem_idx = 1(관리자) 면 question_board (관리자 뷰페이지) 아닐경우(회원)
 		// question_board_member(회원 뷰페이지) 로 이동
-		return loggedInUser.getMem_idx() == 1 ? "html/member/question/question_board"
-				: "html/member/question/question_board_member";
+		return "admin@admin.com".equals(sId) ? "html/member/question/question_board" : "html/member/question/question_board_member";
 	}
 
 	// "QuestionDetail" 서블릿 요청에 대한 글 상세정보 조회 요청
@@ -440,8 +442,9 @@ public class MemberController {
 		// 상세정보 조회 결과 저장
 		model.addAttribute("question", question);
 
-		return loggedInUser.getMem_idx() == 1 ? "html/member/question/question_detail_admin"
-				: "html/member/question/question_detail_member";
+		return "admin@admin.com".equals(sId) ? "html/member/question/question_detail_admin" : "html/member/question/question_detail_member";
+
+		
 	}
 
 	// "QuestionDelete" 서블릿 요청에 대한 글 삭제 요청
@@ -554,8 +557,8 @@ public class MemberController {
 
 		model.addAttribute("question", question);
 
-		return loggedInUser.getMem_idx() == 1 ? "html/member/question/question_modify_admin"
-				: "html/member/question/question_modify_member";
+		return "admin@admin.com".equals(sId) ? "html/member/question/question_modify_admin" : "html/member/question/question_modify_member";
+
 	}
 	
 //	// 문의 게시판 수정 폼
