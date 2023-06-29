@@ -12,7 +12,7 @@
 	<link href="${pageContext.request.contextPath }/resources/css/inc/top.css" rel="styleSheet">
 	<link href="${pageContext.request.contextPath }/resources/css/inc/footer.css" rel="styleSheet">
 
-<%-- 	<script src="${pageContext.request.contextPath }/resources/js/inc/jquery-3.7.0.js"></script> --%>
+	<script src="${pageContext.request.contextPath }/resources/js/inc/jquery-3.7.0.js"></script>
 	<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
 	<script type="text/javascript">
        		
@@ -63,10 +63,11 @@
 		  	
 		  	<script>
 				function cancelPayments() {
-					
-					var reason = document.querySelector('.cancel_reason').value;
-		        	if (reason == null || reason.trim() == '') { 
+					var reason = $("input[name=cancel_reason]").val();
+		        	if (reason == null || reason.trim() == '') {
+		        		$("input[name=cancel_reason]").focus();
 		           		alert("환불 사유를 작성하여주세요!");
+		           		document.querySelector('.cancel_reason').focus();
 		            	return false;
 		      		}
 		        	
@@ -101,7 +102,7 @@
 				<ul>
 					<li>
 						<em>환불 사유</em>
-							<span><input type="text" class="cancel" name="cancel_reason" placeholder="환불사유를 입력해주세요" required="required" class="cancel_reason"></span>
+							<span><input type="text" class="cancel_reason" name="cancel_reason" placeholder="환불사유를 입력해주세요" required="required" class="cancel_reason"></span>
 					</li>
 					<li>
 						<em>환불 수단</em>

@@ -69,7 +69,7 @@ public class MemberController {
 		String sId = (String) session.getAttribute("sId");
 
 		if (sId == null) {
-			model.addAttribute("msg", "잘못된 접근입니다!");
+			model.addAttribute("msg", "로그인 후 이용가능!");
 			return "inc/fail_back";
 		}
 
@@ -89,10 +89,8 @@ public class MemberController {
 
 		if (member.getMem_addr().toString().split("/").length > 2) {
 			member.setSample6_detailAddress(member.getMem_addr().toString().split("/")[2]);
-
 		}
 		if (member.getMem_addr().toString().split("/").length > 3) {
-
 			member.setSample6_extraAddress(member.getMem_addr().toString().split("/")[3]);
 		}
 
@@ -103,36 +101,33 @@ public class MemberController {
 	}
 
 	@PostMapping("MemberModify")
-	public String MemberModify(MemberVO member, @RequestParam String newPasswd, @RequestParam String newPasswd1,
-			HttpSession session, Model model) {
+	public String MemberModify(MemberVO member, @RequestParam String newPasswd, @RequestParam String newPasswd1,HttpSession session, Model model) {
 
 		String sId = (String) session.getAttribute("sId");
 		String securePasswd = memberService.getPasswd(member);
-		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(); //비밀번호 암호화
 
 		if (sId == null) {
-			model.addAttribute("msg", "잘못된 접근입니다!");
+			model.addAttribute("msg", "로그인 후 이용 가능!");
 			return "inc/fail_back";
 		} else if (!sId.equals("admin")) {
 
 			if (member.getMem_passwd() == null || member.getMem_passwd().equals("")) { // 패스워드가 입력되지 않았을 경우
 				model.addAttribute("msg", "패스워드 입력 필수!");
 				return "inc/fail_back";
-			} else if (!passwordEncoder.matches(member.getMem_passwd(), securePasswd)) {
+			} else if (!passwordEncoder.matches(member.getMem_passwd(), securePasswd)) { // 현재 비밀번호가 일치하지 않았을 경우
 				model.addAttribute("msg", "현재 비밀번호 불일치!");
 				return "inc/fail_back";
-			} else if (!newPasswd.equals(newPasswd1)) {
-				model.addAttribute("msg", "비밀번호 확인 불일치!");
+			} else if (!newPasswd.equals(newPasswd1)) { // 새로운 비밀번호 두개가 일치하지 않았을 경우
+				model.addAttribute("msg", "비밀번호 확인 불일치!"); 
 				return "inc/fail_back";
 
 			}
 
 		}
 
-		// 일반 회원이 패스워드가 일치하거나, 관리자일 때
-		// MemberService - ModifyMember() 메서드 호출하여 회원 정보 수정 요청
+		// 일반 회원이 패스워드가 일치하거나, 관리자일 때 ModifyMember() 메서드 호출하여 회원 정보 수정 요청
 		memberService.ModifyMember(member, newPasswd1, passwordEncoder.encode(newPasswd));
-
 		// " 회원 정보 수정 성공! " 메세지 출력 및 포워딩
 		model.addAttribute("msg", "회원 정보 수정 성공!");
 		model.addAttribute("targetURL", "MemberUpdatePro");
@@ -148,7 +143,7 @@ public class MemberController {
 		String sId = (String) session.getAttribute("sId");
 
 		if (sId == null) {
-			model.addAttribute("msg", "잘못된 접근입니다!");
+			model.addAttribute("msg", "로그인 후 이용 가능!");
 			return "inc/fail_back";
 		}
 
@@ -228,7 +223,7 @@ public class MemberController {
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 		if (sId == null) {
-			model.addAttribute("msg", "잘못된 접근입니다!");
+			model.addAttribute("msg", "로그인 후 이용 가능!");
 			return "inc/fail_back";
 		} else if (!sId.equals("admin")) {
 

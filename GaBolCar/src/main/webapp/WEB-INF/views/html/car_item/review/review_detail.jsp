@@ -133,26 +133,23 @@
 								</ul>
 
 								<div class="write_cont">
-									<!-- 이미지 파일 출력 -->
-									<img src="../img/casper.jpg" alt="">
 									<!-- 작성글 출력! -->
 									<p>
-										<div style="word-break:break-all;">
-										${reviewDetail.rev_content}
-										</div>
 										<c:if test="${not empty reviewDetail.rev_file1}">
-											<img src="${pageContext.request.contextPath}/resources/upload/${reviewDetail.rev_file1}"/>
+											<img src="${pageContext.request.contextPath}/resources/upload/${reviewDetail.rev_file1}" style="width:320px; height:167px;"/>
 											
 										</c:if>
 										<c:if test="${not empty reviewDetail.rev_file2}">
 											<br>
-											<img src="${pageContext.request.contextPath}/resources/upload/${reviewDetail.rev_file2}"/>
+											<img src="${pageContext.request.contextPath}/resources/upload/${reviewDetail.rev_file2}" style="width:32px; height:167px;"/>
 										</c:if>
 										<c:if test="${not empty reviewDetail.rev_file3}">
 											<br>
-											<img src="${pageContext.request.contextPath}/resources/upload/${reviewDetail.rev_file3}"/>
+											<img src="${pageContext.request.contextPath}/resources/upload/${reviewDetail.rev_file3}" style="width:320px; height:167px;"/>
 										</c:if>
-										
+										<div style="word-break:break-all;">
+										${reviewDetail.rev_content}
+										</div>
 									</p>
 								</div>
 								

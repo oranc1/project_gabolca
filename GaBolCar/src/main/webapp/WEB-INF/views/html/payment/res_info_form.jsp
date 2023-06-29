@@ -656,7 +656,8 @@
 			
 			<fieldset class="img_sec_wrap">
 				<div class="img_sec_p">
-					<img src="${pageContext.request.contextPath }${carInfo.car_file1 }" alt="">
+					
+					<img src="${pageContext.request.contextPath}/resources/upload/car/${carInfo.car_file_path}/${carInfo.car_file1}" alt="">
 				</div>
 				<div class="txt_sec_p">
 					<p>

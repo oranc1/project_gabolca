@@ -36,7 +36,7 @@
 								<select name="searchType" id="searchType" style="border: 1px solid #ddd; padding: 5px; border-radius: 3px;">
 									<option value="subject" <c:if test="${param.searchType eq 'subject'}" >selected</c:if>>제목</option>			
 									<option value="content" <c:if test="${param.searchType eq 'content'}">selected</c:if>>내용</option>			
-									<option value="subject_content" <c:if test="${param.searchType eq 'subject_content'}">selected</c:if>>제목&내용</option>			
+									<option value="subject_content" <c:if test="${param.searchType eq 'subject_content'}">selected</c:if>>제목&amp;내용</option>			
 									<option value="name" <c:if test="${param.searchType eq 'name'}">selected</c:if>>작성자</option>
 									<option value="star" <c:if test="${param.searchType eq 'star'}">selected</c:if>>별점</option>
 									<option value="carModel" <c:if test="${param.searchType eq 'carModel'}">selected</c:if>>차종</option>
@@ -44,7 +44,7 @@
 								<input type="text" name="searchKeyword" value="${param.searchKeyword}" id="searchKeyword" style="border: 1px solid #ddd; padding: 5px; border-radius: 3px; margin-left: 5px;">
 								<input type="submit" value="검색" class="searchSubmit" style="margin-left: 5px; padding: 0 20px; border-radius: 3px;">
 							</div>	
-						<%-- 검색타입목록, 검색어입력창 추가! --%>
+							<%-- 검색타입목록, 검색어입력창 추가! --%>
 									<ul class="list">
 										<li class="list_head">
 											<p class="list_num">번호</p>
@@ -125,8 +125,6 @@
 										</li>
 										</c:forEach>
 									</ul>
-																					
-																			
 									<div class="list_pager_wrap">
 										<nav class="pg_wrap">
 											<span class="pg">
@@ -142,9 +140,7 @@
 														<input type="button" value="이전"  class="pg_page pg_prev" disabled="disabled">
 													</c:otherwise>
 												</c:choose>
-										
 												<%-- 위의 문장을 간소화할 경우(조건에 따라 onclick 속성을 추가) --%>
-										<%-- 		<input type="button" value="이전" <c:if test="${pageNum > 1}">onclick="location.href='BoardList.bo?pageNum=${pageNum - 1}'"</c:if>> --%>
 												<%-- ===================================================================== --%>
 												<%-- 페이지번호 목록은 시작페이지(startPage) 부터 끝페이지(endPage) 까지 표시 --%>
 												<c:forEach var="i" begin="${pageInfo.startPage}" end="${pageInfo.endPage}">
@@ -159,10 +155,8 @@
 													</c:choose>
 												</c:forEach>		
 												<%-- ===================================================================== --%>
-												<%--
-												현재 페이지 번호(pageNum)가 최대 페이지 번호(maxPage) 보다 작을 경우에만 [다음] 버튼 동작
-												=> 클릭 시 BoardList.bo 서블릿 요청(파라미터 : 현재 페이지번호 + 1)
-												--%>
+												<%-- 현재 페이지 번호(pageNum)가 최대 페이지 번호(maxPage) 보다 작을 경우에만 [다음] 버튼 동작
+												=> 클릭 시 BoardList.bo 서블릿 요청(파라미터 : 현재 페이지번호 + 1)--%>
 												<c:choose>
 													<c:when test="${pageNum < pageInfo.maxPage}">
 														<input type="button" value="다음" class="pg_page pg_next"  onclick="location.href='${pageContext.request.contextPath}/reviewList?pageNum=${pageNum + 1}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}'">
@@ -174,7 +168,6 @@
 											</span>
 										</nav>
 									</div>	
-									
 								</div>
 							</div>
 						</form>
