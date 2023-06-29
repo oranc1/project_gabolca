@@ -54,7 +54,7 @@
             </div>
             <ul class="side_sub">
                 <li>
-                	<a href="#">리뷰 리스트</a>
+                	<a href="${pageContext.request.contextPath }/reviewList">리뷰 리스트</a>
                 </li>
                 <li>
                     <a href="QuestionListForm">1:1 문의사항</a>
