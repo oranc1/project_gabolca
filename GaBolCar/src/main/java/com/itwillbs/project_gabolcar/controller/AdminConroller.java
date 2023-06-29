@@ -434,7 +434,9 @@ public class AdminConroller {
 		
 	// 차량수정 중
 	@PostMapping("carUpdatePro")
-	public String carUpdatePro(@RequestParam(value = "option_idx", required = false) List<Integer> optionIdxList, CarVO car, HttpSession session, Model model) {
+	public String carUpdatePro(@RequestParam(value = "option_idx", required = false) List<Integer> optionIdxList,
+			@RequestParam(value = "other_window", required = false) String other_window,
+			CarVO car, HttpSession session, Model model) {
 
 	    String uploadDir = "/resources/upload/car"; // 서버 이미지 저장 경로
 	    String saveDir = session.getServletContext().getRealPath(uploadDir);
@@ -535,8 +537,13 @@ public class AdminConroller {
 	        model.addAttribute("msg", "차량 수정 실패!");
 	        return "inc/fail_back";
 	    }
-
+	    
+	    if(other_window != null && other_window.equals("y")) {
+	    	return "inc/close";
+	    }
+  	
 	    return "redirect:/admCarList";
+	    
 	}
 	
 	
