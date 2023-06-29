@@ -86,7 +86,7 @@
 			</script>
 	
 			<div class="finish_btn" align="center">
-				<a href="./"><button>메인으로</button></a>
+				<a href="${pageContext.request.contextPath }"><button>메인으로</button></a>
 				<a href="${pageContext.request.contextPath }/MemberRes"><button>예약내역조회</button></a>
 			</div>
 			
