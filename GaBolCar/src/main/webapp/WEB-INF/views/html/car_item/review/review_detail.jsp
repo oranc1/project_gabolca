@@ -136,23 +136,24 @@
 
 								<div class="write_cont">
 									<!-- 작성글 출력! -->
-									<p>
+									<div class ="product_List" style="width : 1000px; margin : 10px;">
 										<c:if test="${not empty reviewDetail.rev_file1}">
-											<img src="${pageContext.request.contextPath}/resources/upload/${reviewDetail.rev_file1}" style="width:320px; height:167px;"/>
-											
+											<img src="${pageContext.request.contextPath}/resources/upload/${reviewDetail.rev_file1}" class="photo" />
 										</c:if>
 										<c:if test="${not empty reviewDetail.rev_file2}">
 											<br>
-											<img src="${pageContext.request.contextPath}/resources/upload/${reviewDetail.rev_file2}" style="width:320px; height:167px;"/>
+											<img src="${pageContext.request.contextPath}/resources/upload/${reviewDetail.rev_file2}" class="photo" />
 										</c:if>
 										<c:if test="${not empty reviewDetail.rev_file3}">
 											<br>
-											<img src="${pageContext.request.contextPath}/resources/upload/${reviewDetail.rev_file3}" style="width:320px; height:167px;"/>
+											<img src="${pageContext.request.contextPath}/resources/upload/${reviewDetail.rev_file3}" class="photo" />
 										</c:if>
-										<div style="word-break:break-all;">
-										${reviewDetail.rev_content}
 										</div>
-									</p>
+										<p>
+											<div style="word-break:break-all;">
+												${reviewDetail.rev_content}
+											</div>
+										</p>
 								</div>
 								
 								<div class="mod_box">

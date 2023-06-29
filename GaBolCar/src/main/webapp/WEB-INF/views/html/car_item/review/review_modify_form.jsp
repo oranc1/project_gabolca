@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 	<link href="${pageContext.request.contextPath}/resources/css/common.css" rel="stylesheet">
-	<link href="${pageContext.request.contextPath}/resources/css/car_item/review/review_write_form.css" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/resources/css/car_item/review/review_modify_form.css" rel="stylesheet">
 	<link href="${pageContext.request.contextPath}/resources/css/inc/top.css" rel="styleSheet">
 	<link href="${pageContext.request.contextPath}/resources/css/inc/footer.css" rel="styleSheet">
 	<script src="${pageContext.request.contextPath}/resources/js/inc/jquery-3.7.0.js"></script>
@@ -103,7 +103,7 @@
 									</div>
 	
 									<div class="mod_box">
-										<input type="submit" class="delete_btn" value="등록">
+										<input type="submit" class="regist_btn" value="등록">
 										<a class="list_btn" href="${pageContext.request.contextPath}/reviewList?pageNum=${param.pageNum}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}">목록</a>
 									</div>
 								</form>

@@ -30,11 +30,26 @@
 	position: relative;
 }
 
+.inputBox {
+	border: 1px solid #ddd;
+	padding: 9px 15px;
+	width: 100%;
+	resize: none;
+}
+
+.write_cont .inputBox {
+	height: 400px;
+}
+
 .write_info {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	border-bottom: 1px solid #ddd;
+}
+
+textarea {
+	outline: 0;
 }
 
 .write_box {
@@ -61,7 +76,7 @@
 }
 
 .write_cont {
-	padding: 35px;
+	padding: 15px;
 	border-bottom: 1px solid #ddd;
 }
 
@@ -89,7 +104,7 @@
 	padding: 12px 15px;
 }
 
-.mod_box a {
+.mod_box input {
 	display: inline-block;
 	padding: 6px 15px;
     background: rgb(10, 10, 49);
@@ -100,7 +115,7 @@
     font-size: 16px;
 }
 
-.mod_box a:hover {
+.mod_box input:hover {
 	 background: #ff6600;
 }
 .mod_box a:first-child {
@@ -116,18 +131,10 @@
 	}
 }
 
-
-
 .write_scope {
 	padding: 12px 15px;
 	border-bottom: 1px solid #ddd;
-}
-
-
-.write_scope_box {
-	display: flex;
-	justify-content: center;
-	align-items: center;
+	
 }
 
 .car_name {
@@ -135,28 +142,51 @@
 	padding: 0 15px;
 }
 
-.rev_scp {
+#myform {
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
-.rev_scp span {
-	font-size: 24px;
-    color: transparent;
-    text-shadow: 0 0 0 #f0f0f0;
+#myform fieldset {
+	display: inline-block; /* 하위 별점 이미지들이 있는 영역만 자리를 차지함.*/
+	direction: rtl; /* 이모지 순서 반전 */
 }
 
-.rev_scp span.fill {
-	text-shadow: 0 0 0 #FFA500;
+#myform input[type=radio] {
+	display: none; /* 라디오박스 감춤 */
+}
+
+#myform label {
+	font-size: 24px; /* 이모지 크기 */
+	color: transparent; /* 기존 이모지 컬러 제거 */
+	text-shadow: 0 0 0 #f0f0f0; /* 미선택 별 색깔 */
+}
+
+#myform label:hover {
+	text-shadow: 0 0 0 #FFA500; /* 마우스 호버, */
+}
+
+#myform label:hover ~ label {
+	text-shadow: 0 0 0 #FFA500; /* 마우스 호버 뒤에오는 이모지들 */
+}
+
+#myform input[type=radio]:checked ~ label {
+	text-shadow: 0 0 0 #FFA500; /* 마우스 클릭 체크 */
 }
 
 
+@media screen and (max-width: 1024px) {
 
-.product_List img {
-	width:320px; 
-	height:167px; 
-	text-align: center; 
-	display: block;
 }
 
-
-
-
+.mod_box a {
+	display: inline-block;
+	padding: 6px 15px;
+    background: rgb(10, 10, 49);
+    color: #fff;
+    border-radius: 3px;
+    transition: all 0.4s;
+    cursor: pointer;
+    font-size: 16px;
+}
