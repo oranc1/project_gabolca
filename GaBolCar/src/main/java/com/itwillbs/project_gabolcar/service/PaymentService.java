@@ -73,6 +73,10 @@ public class PaymentService {
 		return mapper.getPayStatus(merchant_uid);
 	}
 
+	public int isLicNum(String lic_num) {
+		return mapper.isLicNum(lic_num);
+	}
+
 
 
 	
