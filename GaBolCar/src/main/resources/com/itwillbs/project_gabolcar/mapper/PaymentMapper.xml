@@ -115,4 +115,31 @@
 				WHERE merchant_uid = #{merchant_uid}
 	</select>
 	
+	<select id="getMemIdx" resultType="int">
+		SELECT mem_idx
+			FROM mem_info
+				WHERE mem_id = #{id}
+	</select>
+	
+	<select id="isRes" resultType="int">
+		SELECT COUNT(*)
+			FROM res_info
+				WHERE mem_idx = #{mem_idx}
+	</select>
+	
+	<select id="getRecentlyLicNum" resultType="String">
+		SELECT lic_num
+			FROM res_info
+				WHERE mem_idx = #{mem_idx}
+					ORDER BY res_time DESC
+						LIMIT 1
+	</select>
+	
+	<select id="selectDriverInfo"  resultType="com.itwillbs.project_gabolcar.vo.DriverVO">
+		SELECT *
+			FROM drivers_info
+				WHERE lic_num = #{recentlyLicNum}
+	</select>
+	
+	
 </mapper>

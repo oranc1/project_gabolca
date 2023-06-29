@@ -77,6 +77,22 @@ public class PaymentService {
 		return mapper.isLicNum(lic_num);
 	}
 
+	public int getMemIdx(String id) {
+		return mapper.getMemIdx(id);
+	}
+	
+	public int isRes(int mem_idx) {
+		return mapper.isRes(mem_idx); 
+	}
+
+	public String getRecentlyLicNum(int mem_idx) {
+		return mapper.getRecentlyLicNum(mem_idx);
+	}
+
+	public DriverVO selectDriverInfo(String recentlyLicNum) {
+		return mapper.selectDriverInfo(recentlyLicNum);
+	}
+
 
 
 	

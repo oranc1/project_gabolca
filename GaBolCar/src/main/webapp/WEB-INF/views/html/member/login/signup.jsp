@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko">
 <head>
 	<title>회원가입</title>
 
@@ -41,9 +41,6 @@
 				        	<span class="sign_mark">*</span><br>
 				            <input id="mem_passwd" name="mem_passwd" type="password" placeholder="영문,숫자,특수문자 포함 8~20글자 이상." required="required" autoComplete="off" oninput='validatePw()'>
 				            <div id="passwordError" class="error"></div>
-
-				            
-				            
 				        </div>
 				        <div class="passwordCheck">
 				        	<p>비밀번호 확인</p>
@@ -76,8 +73,6 @@
 							<input type="text" id="sample6_extraAddress" name="sample6_extraAddress" placeholder="참고항목">
 				            <div id="addrError" class="error"></div>
 				        </div>
-				        
-				        
 				        	<p>휴대폰번호</p>
 				        	<span class="sign_mark">*</span><br>
 				       <div class ="phoneAuth">

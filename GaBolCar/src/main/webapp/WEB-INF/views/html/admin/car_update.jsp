@@ -65,6 +65,8 @@
 			}
 		});
 	}
+	
+	
 	$(function() {
 		// 수정 중복검사
 		let carNum = $("input[name=car_number]").val();
@@ -251,6 +253,7 @@
 									<c:set var="index" value="${fn:indexOf(car.car_file1, '_') }" />
 									<c:set var="fileName" value="${fn:substring(car.car_file1, index + 1, length) }" />
 									<a href="${pageContext.request.contextPath}/resources/upload/car/${car.car_file_path}/${car.car_file1}">${car.car_file1 }</a>
+									<img src="${pageContext.request.contextPath}/resources/upload/car/${car.car_file_path}/${car.car_file1}" alt="Car Image" class="car-image">
 									<%-- 삭제버튼 클릭 시 deleteFile() 함수 호출(파라미터로 글번호, 파일명 전달) --%>
 								<input type="button" value="삭제" onclick="deleteFile('${car.car_file1}', 0)">
 								</c:otherwise>
@@ -262,13 +265,14 @@
 				        <td class="td_right"  id="fileBtnArea2">
 							<c:choose>
 								<c:when test="${empty car.car_file2 }">
-										<input type="file" name="files" id="car_file_2" class="form-control" value="${car.car_file2 }" />
+										<input type="file" name="files" id="car_file2" class="form-control" value="${car.car_file2 }" />
 								</c:when>
 								<c:otherwise>
 									<c:set var="length" value="${fn:length(car.car_file2) }" />
 									<c:set var="index" value="${fn:indexOf(car.car_file2, '_') }" />
 									<c:set var="fileName" value="${fn:substring(car.car_file2, index + 1, length) }" />
 									<a href="${pageContext.request.contextPath}/resources/upload/car/${car.car_file_path}/${car.car_file2}">${car.car_file2 }</a>
+									<img src="${pageContext.request.contextPath}/resources/upload/car/${car.car_file_path}/${car.car_file2}" alt="Car Image" class="car-image">
 									<%-- 삭제버튼 클릭 시 deleteFile() 함수 호출(파라미터로 글번호, 파일명 전달) --%>
 								<input type="button" value="삭제" onclick="deleteFile('${car.car_file2}', 1)">
 								</c:otherwise>
@@ -287,6 +291,7 @@
 									<c:set var="index" value="${fn:indexOf(car.car_file3, '_') }" />
 									<c:set var="fileName" value="${fn:substring(car.car_file3, index + 1, length) }" />
 									<a href="${pageContext.request.contextPath}/resources/upload/car/${car.car_file_path}/${car.car_file3}">${car.car_file3 }</a>
+									<img src="${pageContext.request.contextPath}/resources/upload/car/${car.car_file_path}/${car.car_file3}" alt="Car Image" class="car-image">
 									<%-- 삭제버튼 클릭 시 deleteFile() 함수 호출(파라미터로 글번호, 파일명 전달) --%>
 								<input type="button" value="삭제" onclick="deleteFile('${car.car_file3}', 2)">
 								</c:otherwise>
@@ -305,6 +310,7 @@
 									<c:set var="index" value="${fn:indexOf(car.car_file4, '_') }" />
 									<c:set var="fileName" value="${fn:substring(car.car_file4, index + 1, length) }" />
 									<a href="${pageContext.request.contextPath}/resources/upload/car/${car.car_file_path}/${car.car_file4}">${car.car_file4 }</a>
+									<img src="${pageContext.request.contextPath}/resources/upload/car/${car.car_file_path}/${car.car_file4}" alt="Car Image" class="car-image">
 									<%-- 삭제버튼 클릭 시 deleteFile() 함수 호출(파라미터로 글번호, 파일명 전달) --%>
 								<input type="button" value="삭제" onclick="deleteFile('${car.car_file4}', 3)">
 								</c:otherwise>
@@ -323,6 +329,7 @@
 									<c:set var="index" value="${fn:indexOf(car.car_file5, '_') }" />
 									<c:set var="fileName" value="${fn:substring(car.car_file5, index + 1, length) }" />
 									<a href="${pageContext.request.contextPath}/resources/upload/car/${car.car_file_path}/${car.car_file5}">${car.car_file5 }</a>
+									<img src="${pageContext.request.contextPath}/resources/upload/car/${car.car_file_path}/${car.car_file5}" alt="Car Image" class="car-image">
 									<%-- 삭제버튼 클릭 시 deleteFile() 함수 호출(파라미터로 글번호, 파일명 전달) --%>
 								<input type="button" value="삭제" onclick="deleteFile('${car.car_file5}', 4)">
 								</c:otherwise>
@@ -341,6 +348,7 @@
 									<c:set var="index" value="${fn:indexOf(car.car_file6, '_') }" />
 									<c:set var="fileName" value="${fn:substring(car.car_file6, index + 1, length) }" />
 									<a href="${pageContext.request.contextPath}/resources/upload/car/${car.car_file_path}/${car.car_file6}">${car.car_file6 }</a>
+									<img src="${pageContext.request.contextPath}/resources/upload/car/${car.car_file_path}/${car.car_file6}" alt="Car Image" class="car-image">
 									<%-- 삭제버튼 클릭 시 deleteFile() 함수 호출(파라미터로 글번호, 파일명 전달) --%>
 								<input type="button" value="삭제" onclick="deleteFile('${car.car_file6}', 5)">
 								</c:otherwise>

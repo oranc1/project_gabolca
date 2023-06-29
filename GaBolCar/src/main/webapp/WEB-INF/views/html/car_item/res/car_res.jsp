@@ -10,9 +10,10 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>차량예약</title>
+<title>차량 예약</title>
 <%-- css --%>
 
+<link href="${pageContext.request.contextPath}/resources/css/common.css" rel="stylesheet">
 <link
 	href="${pageContext.request.contextPath }/resources/css/inc/top.css"
 	rel="styleSheet">
@@ -59,7 +60,7 @@
 		<jsp:include page="../../../inc/top1.jsp"></jsp:include>
 	</header>
 	<section id="sec_con" class="inr">
-		<h1 class="con_title">차량예약</h1>
+		<h1 class="con_title">차량 예약</h1>
 
 		
 		<form action="" method="post" onsubmit="return menuCheck();">

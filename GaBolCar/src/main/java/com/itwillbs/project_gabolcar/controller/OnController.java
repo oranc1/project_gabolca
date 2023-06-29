@@ -36,7 +36,7 @@ public class OnController { //나중에 합칠거임
 	
 		//회원가입
 		@GetMapping("signup")
-		public String signup() {
+		public String signup() {//회원가입 폼으로 이동
 			return "html/member/login/signup";
 		}
 		
@@ -59,25 +59,25 @@ public class OnController { //나중에 합칠거임
 		//문자인증
 		@PostMapping("/send-phone-authentication")
 		@ResponseBody
-	    public SingleMessageSentResponse sendOne(@RequestParam("phone") String phone) {
+	    public String sendOne(@RequestParam("phone") String phone) {
 			
 			//인증번호 생성
 			String code  = FindUtil.getRandomNum();
 			String msg = "[가볼카 회원가입] 인증번호 ["+code+"]를 입력해 주세요.";
-			SingleMessageSentResponse response = SendUtil.sendMsg(phone, msg);
+//			SingleMessageSentResponse response = 
+			SendUtil.sendMsg(phone, msg);
 			
 			//코드랑 번호 저장
 			codeMap = new HashMap<String, String>();
 			codeMap.put("phone", code);
 
 			
-			return response;
+			return "0";
 	    }
 	   
 		@PostMapping("/verify-phone-authentication")
 		@ResponseBody
 		public boolean phoneAut(@RequestParam("newCode") String newCode, HttpServletRequest request) {
-//			String phone = codeMap.get("phone");
 			String code= codeMap.get("phone");
 		
 			boolean isCorrectCode = false;

@@ -1,4 +1,4 @@
--                                                                                                  <%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.2.0/kakao.min.js" 
@@ -11,7 +11,7 @@
 			<nav class="top_nav">
 				<ul class="gnb">
 					<li class="gnb_cont"><a href="${pageContext.request.contextPath }/carRes">차량예약</a></li>
-					<li class="gnb_cont"><a href="${pageContext.request.contextPath }/carInfoList">차량안내</a></li>
+					<li class="gnb_cont"><a href="${pageContext.request.contextPath }/carInfoList">차량소개</a></li>
 					<li class="gnb_cont"><a href="#">고객센터</a>
 						<ul class="sub_menu shadow" style="display: none;">
 							<li><a href="${pageContext.request.contextPath }/noticeList">공지사항</a></li>
@@ -81,7 +81,7 @@
 				</h2>
 				<ul class="menu_section">
 					<li class="gnb_cont"><a href="${pageContext.request.contextPath }/carRes">차량예약</a></li>
-					<li class="gnb_cont"><a href="${pageContext.request.contextPath }/carInfoList">차량안내</a></li>
+					<li class="gnb_cont"><a href="${pageContext.request.contextPath }/carInfoList">차량소개</a></li>
 					<li class="gnb_cont plus"><a href="#">고객센터</a>
 						<ul class="sub_menu" style="display: block;">
 							<li><a href="${pageContext.request.contextPath }/notice">공지사항</a></li>
@@ -143,7 +143,7 @@
 			
 			if(isLogout){
 // 				kakaoLogout();
-				location.href="Logout";
+				location.href="${pageContext.request.contextPath }/Logout";
 			}
 					}
 	</script>
@@ -194,7 +194,7 @@
         //		관리자페이지 이동
     	function Check() {
     		let data = window.prompt("키워드 입력");
-    		location.href="adminCheck?data="+data;
+    		location.href="'${pageContext.request.contextPath }'/adminCheck?data="+data;
     	}
         
 //     	function kakaoLogout() {
