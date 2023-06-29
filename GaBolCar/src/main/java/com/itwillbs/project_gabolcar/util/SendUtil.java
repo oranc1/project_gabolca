@@ -57,8 +57,7 @@ public class SendUtil {
         System.out.println("여긴???");
         SingleMessageSentResponse response = messageService.sendOne(new SingleMessageSendingRequest(message));
 
-		
-        return response;	
+	    return response;	
 	}
 	
 
