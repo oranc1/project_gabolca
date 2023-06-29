@@ -19,6 +19,8 @@
 			location.href="${pageContext.request.contextPath}/reviewDelete?rev_idx=${reviewDetail.rev_idx}";
 		}
 	}
+	
+
 </script>
 </head>
 <body>
@@ -43,7 +45,7 @@
 									<li class="write_info">
 										<div class="write_box">
 											<span class="write_t">작성자명</span>
-											<span class="write_c">${reviewDetail.rev_name}</span>
+											<span class="write_c" >${reviewDetail.rev_name}</span>
 										</div>
 										<div class="write_box">
 											<span class="write_t">등록일</span>
