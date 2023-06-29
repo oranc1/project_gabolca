@@ -103,6 +103,8 @@ public interface CarMapper {
 
 	int selectCarCheck(Map<String, String> map);
 
+	int deletUpdateCarOption(int car_idx);
+
 	
 
 

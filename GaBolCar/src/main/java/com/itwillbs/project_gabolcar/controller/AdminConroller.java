@@ -446,7 +446,9 @@ public class AdminConroller {
 		
 	// 차량수정
 	@PostMapping("carUpdatePro")
-	public String carUpdatePro(@RequestParam(value = "option_idx", required = false) List<Integer> optionIdxList,
+	public String carUpdatePro(
+			@RequestParam int car_idx,
+			@RequestParam(value = "option_idx", required = false) List<Integer> optionIdxList,
 			@RequestParam(value = "other_window", required = false) String other_window,
 			CarVO car, HttpSession session, Model model) {
 		
@@ -529,7 +531,15 @@ public class AdminConroller {
 	            }
 	        }
 	    }
-
+	    
+	    int deleteOptionResult = car_service.deleteUpdateCarOption(car.getCar_idx());
+	    
+	    if (deleteOptionResult > 0) {
+	        System.out.println("기존 옵션 삭제 성공");
+	    } else {
+	        System.out.println("기존 옵션 삭제 실패");
+	    }
+	    
 	    int updateCount = car_service.carUpdate(car);
 
 	    if (updateCount > 0) {

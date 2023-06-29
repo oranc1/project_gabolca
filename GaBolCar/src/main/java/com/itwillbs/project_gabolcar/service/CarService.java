@@ -183,6 +183,11 @@ public class CarService {
 		return mapper.selectCarCheck(map);
 	}
 
+	public int deleteUpdateCarOption(int car_idx) {
+	    return mapper.deletUpdateCarOption(car_idx);
+
+	}
+
 
 
 

@@ -95,6 +95,7 @@
 		WHERE car_idx = #{car_idx}
 	</select>
 	
+
 	
 	<!-- 차량에 등록된 옵션 삭제 -->
 	<delete id="deleteCarOption" parameterType="int">
