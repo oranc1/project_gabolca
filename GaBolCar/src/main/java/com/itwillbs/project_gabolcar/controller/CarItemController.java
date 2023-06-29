@@ -680,7 +680,7 @@ public class CarItemController {
 					//렌트 비용 집어 넣기
 					carSearchList.get(priceCount).put("rentPrice", rentPrice);
 					priceCount++;
-					System.out.println("rentPrice : " +rentPrice);
+					
 				}
 				
 				map.put("car_search_list", carSearchList);
