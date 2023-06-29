@@ -1,8 +1,8 @@
 @charset "UTF-8";
 
 .car-image {
-  width: 20px; /* 너비를 적당한 크기로 설정하세요 */
-  height: 20px;
+  width: 400px; /* 너비를 적당한 크기로 설정하세요 */
+  height: auto;
   margin-right: 10px;
 }
 
