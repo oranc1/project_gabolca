@@ -125,6 +125,7 @@
 										</li>
 										</c:forEach>
 									</ul>
+																					
 																			
 									<div class="list_pager_wrap">
 										<nav class="pg_wrap">

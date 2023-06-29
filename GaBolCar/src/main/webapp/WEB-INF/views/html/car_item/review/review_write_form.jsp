@@ -10,6 +10,28 @@
 	<link href="${pageContext.request.contextPath}/resources/css/inc/footer.css" rel="styleSheet">
 	<script src="${pageContext.request.contextPath}/resources/js/inc/jquery-3.7.0.js"></script>
 <title>리뷰 게시글 작성</title>
+<script type="text/javascript">
+
+$(function(){
+	
+	// 파일 변경시 확장자 및 용량 제한
+	$("input[type=file]").on("change",function() {
+		let file_val = $(this).val()
+		const reg = /(.*?)\.(xbm|tif|jfif|ico|tiff|gif|svg|jpeg|svgz|jpg|webp|png|bmp|pjp|apng|pjeg|avif|jpg)$/; // 제한 확장자
+		let fileSize = $(this)[0].files[0].size;
+		const maxSize = 1024 * 1024 * 5; // 용량 제한
+		// 파일 확장자 제한
+		if (file_val != "" && (file_val.match(reg) == null || reg.test(file_val) == false)) {
+			$(this).val('');
+			alert("이미지 파일만 업로드 가능합니다.");
+		// 파일 사이즈 제한
+		} else if (fileSize > maxSize) {
+			$(this).val('');
+			alert("첨부파일 사이즈는 5MB 이내로 등록 가능합니다.");
+		}
+	});
+});
+</script>
 </head>
 <body>
 	<header>
@@ -20,7 +42,7 @@
 			<h1 class="con_title">리뷰 작성</h1>
 			<form action="${pageContext.request.contextPath}/reviewWritePro" method="post" enctype="multipart/form-data">
 				<input type="hidden" name="session_id" value="${sessionScope.sId}"/>
-				<input type="hidden" name="res_idx" value="${map.res_idx}"/>
+				<input type="hidden" name="res_idx" value=" ${map.res_idx}"/><!-- ${map.res_idx} , 1     임의의 값. res_idx 값 1주고 연습  -->
 				<section id="board_wrap">
 					<section id="board_list" class="notice">
 						<div class="wrapper">
@@ -84,5 +106,6 @@
 	<footer>
 		<jsp:include page="../../../inc/footer.jsp"></jsp:include>
 	</footer>
+	
 </body>
 </html>
