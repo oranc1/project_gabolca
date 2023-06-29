@@ -7,7 +7,7 @@
 
 	<!-- 리뷰게시판 작은거 3개 -->
 	<select id="getReviewListSmall" resultType="map" parameterType="com.itwillbs.project_gabolcar.vo.ReviewVO">
-	select *, replace(rc.rev_name, substr(rc.rev_name, 2, 1), '@') AS rev_name2 from rev_car rc 
+		select * from rev_car rc 
         where res_idx IN(
             select res_idx from res_info ri
                 where car_idx in ( 

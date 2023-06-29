@@ -7,23 +7,23 @@
 
 	<!-- 리뷰게시판 작은거 3개 -->
 	<select id="getReviewListSmall" resultType="map" parameterType="com.itwillbs.project_gabolcar.vo.ReviewVO">
-	select * from rev_car rc 
-		where res_idx IN(
-			select res_idx from res_info ri
-				where car_idx in ( 
-			select car_idx from car_info ci
-				where car_model= #{car_model}
-				)
-			)
-			ORDER BY rev_star DESC
-			LIMIT 3
+		select * from rev_car rc 
+        where res_idx IN(
+            select res_idx from res_info ri
+                where car_idx in ( 
+            select car_idx from car_info ci
+                where car_model= #{car_model}
+                )
+            )
+            ORDER BY rev_star DESC
+            LIMIT 3
 	</select>
 
 	
 	<!-- 리뷰게시판 목록 페이지 나누기 -->
 	<select id="getReviewListPaging" resultType="com.itwillbs.project_gabolcar.vo.ReviewVO">
 		SELECT * FROM (
-	           	SELECT rc.rev_date, rc.rev_content,  replace(rc.rev_name,substr(rc.rev_name,2,1),'@')AS rev_name, mi.mem_id, rc.rev_idx, rc.rev_star, rc.rev_subject, ci.car_model, 
+	           	SELECT rc.rev_date, rc.rev_content, replace(rc.rev_name,substr(rc.rev_name,2,1),'@')AS rev_name, mi.mem_id, rc.rev_idx, rc.rev_star, rc.rev_subject, ci.car_model, 
 	            date_format(rev_date, '%Y-%m-%d')AS rev_date_format 
 	              FROM rev_car rc
 	              	JOIN res_info ri

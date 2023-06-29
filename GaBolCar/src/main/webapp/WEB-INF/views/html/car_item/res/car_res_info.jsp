@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>  
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>   
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>  
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%--최신본 인증!--%>
 <!DOCTYPE html>
 <html>
@@ -294,7 +295,17 @@
 											</c:choose>
 											<!-- 별점 구현 -->
 											</span></span>
-							<span class="rev_name">&nbsp;&nbsp;&nbsp;&nbsp; ${reviewListS.rev_name2}</span>
+							<span class="rev_name">&nbsp;&nbsp;&nbsp;&nbsp; 
+							<c:set var="name"       value="${reviewListS.rev_name}" />
+							<c:set var="totalLength" value="${fn:length(name) }" />
+							<c:set var="first"      value="${fn:substring(name, 0, 1) }" />
+							<c:set var="last"      value="${fn:substring(name, 2, totalLength) }" />
+							<td>
+								<c:if test="${!empty  name}">
+									<c:out value="${first}*${last}"/>
+								</c:if>
+							</td>
+							</span>
 							<span class="rev_txt">${reviewListS.rev_content}</span>
 							<span class="rev_txt_hobertext">${reviewListS.rev_content}</span>
 						</li>
