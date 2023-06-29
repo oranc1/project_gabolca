@@ -36,7 +36,7 @@ public class OnController { //나중에 합칠거임
 	
 		//회원가입
 		@GetMapping("signup")
-		public String signup() {
+		public String signup() {//회원가입 폼으로 이동
 			return "html/member/login/signup";
 		}
 		
@@ -77,7 +77,6 @@ public class OnController { //나중에 합칠거임
 		@PostMapping("/verify-phone-authentication")
 		@ResponseBody
 		public boolean phoneAut(@RequestParam("newCode") String newCode, HttpServletRequest request) {
-//			String phone = codeMap.get("phone");
 			String code= codeMap.get("phone");
 		
 			boolean isCorrectCode = false;

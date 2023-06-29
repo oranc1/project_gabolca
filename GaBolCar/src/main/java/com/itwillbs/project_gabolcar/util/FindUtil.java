@@ -20,8 +20,7 @@ public static String getRamdomPassword() {
 	int idx = 0;
 	int len = charSet.length;
 	for (int i=0; i<8; i++) {
-		// idx = (int) (len * Math.random());
-		idx = sr.nextInt(len);    // 강력한 난수를 발생시키기 위해 SecureRandom을 사용한다.
+		idx = sr.nextInt(len);    // 강력한 난수를 발생시키기 위해 SecureRandom사용.
 		key.append(charSet[idx]);
 	}
 	
