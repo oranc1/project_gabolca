@@ -103,28 +103,31 @@
 	--%>
 
 	<!-- 렌트 추천 구역 -->
-	<article class="container-fluid mx-auto car_recom_warp">
-		<div class="row">
-			<div class="col-5  car_recom_title">이달의 추천 차량</div>
+	<article class="car_recom_warp">
+		<div class="">
+			<div class="car_recom_title">이달의 추천 차량</div>
 		</div>
-		<div
-			class="row align-items-center car_recom_list_wrap justify-content-center">
-			
+		<div class="car_recom_list_wrap">
 			<c:choose>
 				<c:when test="${!empty map.car_populer_list and fn:length(map.car_populer_list) <= 4}">
 					<c:forEach var="populer_car"  items="${map.car_populer_list }" varStatus="i">			
-					<div
-						class="mt-2 col-2 d-flex align-items-center justify-content-center car_recom_item${i.index + 1 }">
+					<div class="car_recom_item${i.index + 1 }">
 						<a href="javascript:populerCarSearch('${populer_car.car_type }', '${populer_car.car_fuel_type }')">
 							<div>
-								<img class="car_recom_img" alt=""
-									src="${pageContext.request.contextPath}/resources/upload/car/${populer_car.car_file_path}/${populer_car.car_file1}" >
+								<div class="car_img_wrap_box">
+									<p class="img_tit">인기</p>
+									<img class="car_recom_img" alt=""
+										src="${pageContext.request.contextPath}/resources/upload/car/${populer_car.car_file_path}/${populer_car.car_file1}" >
+								</div>
 								<div class="car_recom_info_wrap">
-									<p class="car_recom_info_model">${populer_car.car_model}(${populer_car.car_company})</p>
-									<div class="car_recom_info_list">
-										<span>${populer_car.car_old}년식</span><span>${populer_car.car_fuel_type}</span>
-									</div>
-									<p class="car_recom_info_price">일 ${populer_car.car_weekdays} 원</p>
+									<p class="car_recom_into_company">${populer_car.car_company}</p>
+									<p class="car_recom_info_model">
+										${populer_car.car_model}
+										<span>${populer_car.car_old}년식 / </span><span>${populer_car.car_fuel_type}</span>
+									</p>
+<!-- 									<div class="car_recom_info_list"> -->
+<!-- 									</div> -->
+									<p class="car_recom_info_price">일 <span>${populer_car.car_weekdays}</span> 원</p>
 								</div>
 							</div>
 						</a>
@@ -132,59 +135,67 @@
 					</c:forEach>
 				</c:when> <%-- map.car_populer_list 있을때 --%>
 				<c:otherwise> <%-- 더미값 --%>
-				<div
-					class="mt-2 col-2 d-flex align-items-center justify-content-center car_recom_item1">
+				<div class="car_recom_item1">
 					<div>
 						<img class="car_recom_img" alt=""
 							src="${pageContext.request.contextPath }/resources/img/car_img_storage/test_img/캐스퍼.png">
 						<div class="car_recom_info_wrap">
-							<p class="car_recom_info_model">캐스퍼 1.0 NA 인스퍼레이션</p>
+							<p class="car_recom_into_company">현대</p>
+							<p class="car_recom_info_model">
+								캐스퍼 1.0 NA 인스퍼레이션
+							</p>
 							<div class="car_recom_info_list">
-								<span>21년식</span><span>가솔린</span>
+								<span>21년식 / </span><span>가솔린</span>
 							</div>
-							<p class="car_recom_info_price">일 50,000 원</p>
+							<p class="car_recom_info_price">일 <span>50,000</span> 원</p>
 						</div>
 					</div>
 				</div>
-				<div
-					class="mt-2 col-2 d-flex align-items-center justify-content-center car_recom_item2">
+				<div class="car_recom_item2">
 					<div>
 						<img class="car_recom_img" alt=""
 							src="${pageContext.request.contextPath }/resources/img/car_img_storage/test_img/캐스퍼.png">
 						<div class="car_recom_info_wrap">
-							<p class="car_recom_info_model">캐스퍼 1.0 NA 인스퍼레이션</p>
+							<p class="car_recom_into_company">현대</p>
+							<p class="car_recom_info_model">
+								캐스퍼 1.0 NA 인스퍼레이션
+							</p>
 							<div class="car_recom_info_list">
-								<span>21년식</span><span>가솔린</span>
+								<span>21년식 / </span><span>가솔린</span>
 							</div>
-							<p class="car_recom_info_price">일 50,000 원</p>
+							<p class="car_recom_info_price">일 <span>50,000</span> 원</p>
 						</div>
 					</div>
 				</div>
-				<div
-					class="mt-2 col-2 d-flex align-items-center justify-content-center car_recom_item3">
+				<div class="car_recom_item3">
 					<div>
 						<img class="car_recom_img" alt=""
 							src="${pageContext.request.contextPath }/resources/img/car_img_storage/test_img/캐스퍼.png">
 						<div class="car_recom_info_wrap">
-							<p class="car_recom_info_model">캐스퍼 1.0 NA 인스퍼레이션</p>
+							<p class="car_recom_into_company">현대</p>
+							<p class="car_recom_info_model">
+								캐스퍼 1.0 NA 인스퍼레이션
+							</p>
 							<div class="car_recom_info_list">
-								<span>21년식</span><span>가솔린</span>
+								<span>21년식 / </span><span>가솔린</span>
 							</div>
-							<p class="car_recom_info_price">일 50,000 원</p>
+							<p class="car_recom_info_price">일 <span>50,000</span> 원</p>
 						</div>
 					</div>
 				</div>
-				<div
-					class="mt-2 col-2 d-flex align-items-center justify-content-center car_recom_item4">
+				<div class="car_recom_item4">
 					<div>
 						<img class="car_recom_img" alt=""
 							src="${pageContext.request.contextPath }/resources/img/car_img_storage/test_img/캐스퍼.png">
 						<div class="car_recom_info_wrap">
-							<p class="car_recom_info_model">캐스퍼 1.0 NA 인스퍼레이션</p>
+							<p class="car_recom_into_company">현대</p>
+							<p class="car_recom_info_model">
+								캐스퍼 1.0 NA 인스퍼레이션
+							</p>
 							<div class="car_recom_info_list">
-								<span>21년식</span><span>가솔린</span>
+								<span>21년식 / </span><span>가솔린</span>
 							</div>
-							<p class="car_recom_info_price">일 50,000 원</p>
+							<p class="car_recom_info_price">일 <span>50,000</span> 원</p>
 						</div>
 					</div>
 				</div>
@@ -194,134 +205,143 @@
 	</article>
 
 	<!--  고객 리뷰 구역 !  -->
-	<article class="container-fluid mx-auto review_wrap">
-		<div class="row">
-			<div class="col-3  review_title">고객리뷰</div>
-			<input type="button"
-				class="offset-sm-6  offset-lg-8  offset-md-7 col-1 btn btn-outline-warning review_list_btn"
-				value="더보기"
-				onclick="location.href='${pageContext.request.contextPath }/reviewList'">
-		</div>
-		<div
-			class="row align-items-center review_list_wrap justify-content-center">
-			<%--	리뷰 컨텐츠들을 가로 세로 전부 중앙에 오도록 설정하기
-		
-			d-flex : display:flex 와 동일한 동작 
-				- 현 요소가 col 을 설정하고 있을시
-				 css 에 display:flex를 넣어도 동작을 하지 않음
-				 따라서 d-flex 로 지정하여 사용
-				 flex box 의 설정값들도 css 가 아닌 부트스트랩을 사용해서 지정해야함 	
-		align-items-center :  align-items:center 와 동일
-		justify-content-center : justify-content:center 와 동일  --%>
-
-			<c:choose>
-				<c:when test="${!empty map.car_rev_list}">
-					<c:forEach var="rev_car"  items="${map.car_rev_list }" varStatus="i">
-						<div class="mt-2 col-2  d-flex align-items-center justify-content-center review-wrap${i.index + 1 }">
-							<div class="">
-								<span class="review-star">
-									<c:forEach var="star" begin="1" end="${rev_car.rev_star }" >
-										<span class="fill">★</span>
-									</c:forEach>	
-<%-- 									<c:forEach var="unStar" begin="1" end="${ 5 - rev_car.rev_star }" > --%>
-<!-- 										<span>★</span> -->
-<%-- 									</c:forEach>	 --%>
-								</span> <br>
-								<span class="review-car-name">${rev_car.car_model }(${rev_car.car_company })</span>
-								<div class="review-content">
-									<p>${rev_car.rev_subject}</p>
+	<article class="review_wrap">
+		<div class="review_inn_box">
+			<div class="review_tit_box">
+				<div class="review_title">고객 리뷰</div>
+				<input type="button"
+					class="review_list_btn"
+					value="더보기"
+					onclick="location.href='${pageContext.request.contextPath }/reviewList'">
+			</div>
+			<div
+				class="review_list_wrap">
+				<%--	리뷰 컨텐츠들을 가로 세로 전부 중앙에 오도록 설정하기
+			
+				d-flex : display:flex 와 동일한 동작 
+					- 현 요소가 col 을 설정하고 있을시
+					 css 에 display:flex를 넣어도 동작을 하지 않음
+					 따라서 d-flex 로 지정하여 사용
+					 flex box 의 설정값들도 css 가 아닌 부트스트랩을 사용해서 지정해야함 	
+			align-items-center :  align-items:center 와 동일
+			justify-content-center : justify-content:center 와 동일  --%>
+	
+				<c:choose>
+					<c:when test="${!empty map.car_rev_list}">
+						<c:forEach var="rev_car"  items="${map.car_rev_list }" varStatus="i">
+							<div class="review-wrap${i.index + 1 }">
+								<div class="">
+									<span class="review-star">
+										<c:forEach var="star" begin="1" end="${rev_car.rev_star }" >
+											<span class="fill">★</span>
+										</c:forEach>	
+	<%-- 									<c:forEach var="unStar" begin="1" end="${ 5 - rev_car.rev_star }" > --%>
+	<!-- 										<span>★</span> -->
+	<%-- 									</c:forEach>	 --%>
+									</span> <br>
+									<span class="review-car-name">${rev_car.car_model }(${rev_car.car_company })</span>
+									<div class="review-content">
+										<p>${rev_car.rev_subject}</p>
+									</div>
 								</div>
 							</div>
-						</div>
-					</c:forEach>
-				</c:when>
-				
-				<c:otherwise>
-				
-					<div
-						class="mt-2 col-2  d-flex align-items-center justify-content-center review-wrap1">
-						<div class="">
-							<span class="review-star">5.0</span> <span class="review-car-name">차량이름</span>
-							<div class="review-content">
-								<p>리뷰내용 21313</p>
-							</div>
-						</div>
-					</div>
-					<div
-						class="mt-2 col-2  d-flex align-items-center justify-content-center review-wrap2">
-						<div class="">
-							<span class="review-star">5.0</span> <span class="review-car-name">차량이름2</span>
-							<div class="review-content">
-								<p>리뷰내용 21313</p>
-							</div>
-		
-						</div>
-					</div>
-					<div
-						class="mt-2 col-2  d-flex align-items-center justify-content-center review-wrap3">
-						<div class="">
-							<span class="review-star">5.0</span> <span class="review-car-name">차량이름3</span>
-							<div class="review-content">
-								<p>리뷰내용 21313</p>
-							</div>
-						</div>
-					</div>
-					<div
-						class="mt-2 col-2  d-flex align-items-center justify-content-center review-wrap4">
-						<div class="">
-							<span class="review-star">5.0</span> <span class="review-car-name">차량이름3</span>
-							<div class="review-content">
-								<p>리뷰내용 21313</p>
-							</div>
-						</div>
-					</div>
-				</c:otherwise>
-			</c:choose>		
+						</c:forEach>
+					</c:when>
+					
+					<c:otherwise>
+					
+<!-- 						<div -->
+<!-- 							class="review-wrap1"> -->
+<!-- 							<div class=""> -->
+<!-- 								<span class="review-star">5.0</span> <span class="review-car-name">차량이름</span> -->
+<!-- 								<div class="review-content"> -->
+<!-- 									<p>리뷰내용 21313</p> -->
+<!-- 								</div> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
+<!-- 						<div -->
+<!-- 							class="mt-2 col-2  d-flex align-items-center justify-content-center review-wrap2"> -->
+<!-- 							<div class=""> -->
+<!-- 								<span class="review-star">5.0</span> <span class="review-car-name">차량이름2</span> -->
+<!-- 								<div class="review-content"> -->
+<!-- 									<p>리뷰내용 21313</p> -->
+<!-- 								</div> -->
+			
+<!-- 							</div> -->
+<!-- 						</div> -->
+<!-- 						<div -->
+<!-- 							class="mt-2 col-2  d-flex align-items-center justify-content-center review-wrap3"> -->
+<!-- 							<div class=""> -->
+<!-- 								<span class="review-star">5.0</span> <span class="review-car-name">차량이름3</span> -->
+<!-- 								<div class="review-content"> -->
+<!-- 									<p>리뷰내용 21313</p> -->
+<!-- 								</div> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
+<!-- 						<div -->
+<!-- 							class="mt-2 col-2  d-flex align-items-center justify-content-center review-wrap4"> -->
+<!-- 							<div class=""> -->
+<!-- 								<span class="review-star">5.0</span> <span class="review-car-name">차량이름3</span> -->
+<!-- 								<div class="review-content"> -->
+<!-- 									<p>리뷰내용 21313</p> -->
+<!-- 								</div> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
+					</c:otherwise>
+				</c:choose>		
+			</div>
 		</div>
 	</article>
 
 
 
 	<!-- QnA 구역 ! -->
-	<article class="container-fluid mx-auto qna_wrap ">
+	<article class="qna_wrap ">
 
-		<div class="row qna_title_wrap">
-			<div class="col-sm-4 col-md-3 qna_title">자주 묻는 질문</div>
+		<div class="qna_title_wrap">
+			<div class="qna_title">자주 묻는 질문</div>
 			<input
-				class="offset-sm-4 offset-md-7 offset-lg-8 col-1 btn btn-outline-warning qna_title_btn"
+				class="qna_title_btn"
 				type="button" value="더보기"
 				onclick="location.href='${pageContext.request.contextPath }/siteFAQ'">
 		</div>
 
-		<div class="row align-items-center qna_list_wrap">
+		<div class="qna_list_wrap">
 
 			<div>
+				<span>Q</span>
 				<a href="${pageContext.request.contextPath }/siteFAQ?FAQ=2"
-					class="col-xs-8 col-sm-5  col-md-4 col-xl-3 offset-1">Q. 카시트 등 부가서비스는
-					어떻게 이용하나요?</a> <input type="button" value="▶"
-					class=" btn btn-outline-warning col-1 offset-xs-1 offset-sm-2 offset-md-5 offset-xl-6 btn_typeB2 qna_btn"
-					onclick="location.href='${pageContext.request.contextPath }/siteFAQ?FAQ=2'">
+					class="">카시트 등 부가서비스는
+					어떻게 이용하나요?</a>
+<!-- 					<input type="button" value="▶" -->
+<!-- 					class="btn_typeB2 qna_btn" -->
+<%-- 					onclick="location.href='${pageContext.request.contextPath }/siteFAQ?FAQ=2'"> --%>
 			</div>
 			<div>
+				<span>Q</span>
 				<a href="${pageContext.request.contextPath }/siteFAQ?FAQ=3"
-					class="col-xs-8 col-sm-5 col-md-4 col-xl-3 offset-1">Q. 해외에 거주하고 있는데 예약
-					및 이용이 ...</a> <input type="button" value="▶"
-					class="btn btn-outline-warning col-1 offset-xs-1 offset-sm-2 offset-md-5 offset-xl-6 btn_typeB2 qna_btn"
-					onclick="location.href='${pageContext.request.contextPath }/siteFAQ?FAQ=3'">
+					class="">해외에 거주하고 있는데 예약 및 이용이 가능한가요?</a>
+<!-- 					<input type="button" value="▶" -->
+<!-- 					class="btn_typeB2 qna_btn" -->
+<%-- 					onclick="location.href='${pageContext.request.contextPath }/siteFAQ?FAQ=3'"> --%>
 			</div>
 			<div>
+				<span>Q</span>
 				<a href="${pageContext.request.contextPath }/siteFAQ?FAQ=4"
-					class="col-xs-8 col-sm-5 col-md-4 col-xl-3 offset-1">Q. 사고 또는 고장 발생시 어떻게
-					해야하나요?</a> <input type="button" value="▶"
-					class="btn btn-outline-warning col-1 offset-xs-1 offset-sm-2 offset-md-5 offset-xl-6 btn_typeB2 qna_btn"
-					onclick="location.href='${pageContext.request.contextPath }/siteFAQ?FAQ=4'">
+					class="">사고 또는 고장 발생시 어떻게
+					해야하나요?</a>
+<!-- 					<input type="button" value="▶" -->
+<!-- 					class="btn_typeB2 qna_btn" -->
+<%-- 					onclick="location.href='${pageContext.request.contextPath }/siteFAQ?FAQ=4'"> --%>
 			</div>
 			<div>
+				<span>Q</span>
 				<a href="${pageContext.request.contextPath }/siteFAQ?FAQ=1"
-					class="col-xs-8 col-sm-5 col-md-4 col-xl-3 offset-1">Q. 예약취소 했는데 언제 환불
-					되나요?</a> <input type="button" value="▶"
-					class="btn btn-outline-warning col-1 offset-xs-1 offset-sm-2 offset-md-5 offset-xl-6 btn_typeB2 qna_btn"
-					onclick="location.href='${pageContext.request.contextPath }/siteFAQ?FAQ=1'">
+					class="">예약취소 했는데 언제 환불
+					되나요?</a>
+<!-- 					<input type="button" value="▶" -->
+<!-- 					class="btn_typeB2 qna_btn" -->
+<%-- 					onclick="location.href='${pageContext.request.contextPath }/siteFAQ?FAQ=1'"> --%>
 			</div>
 
 		</div>

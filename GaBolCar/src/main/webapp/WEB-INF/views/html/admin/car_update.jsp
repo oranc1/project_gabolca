@@ -77,6 +77,28 @@ function deleteFile(car_file_value, car_file_index) {
 	  		<input type="hidden" name="other_window" value="${param.other_window }" />
 	  		<div id="modifyForm">
 	    		<table>
+	    			<c:if test='${param.other_window eq "y"}'>
+	    			<tr>
+	    				<td class="td_left"><label>차량상태</label></td>
+	    				<td class="td_right">
+							<input type="radio" class="btn-check" name="car_status" id="option4" value="가능" 
+							<c:if test="${car.car_status eq '가능' }">checked</c:if>>
+							<label class="btn btn-outline-primary" for="option4">대기</label>
+							
+							<input type="radio" class="btn-check" name="car_status" id="option2" value="점검" 
+							<c:if test="${car.car_status eq '점검' }">checked</c:if>>
+							<label class="btn btn-outline-danger" for="option2">점검</label>
+							
+							<input type="radio" class="btn-check" name="car_status" id="option3" value="대여" 
+							<c:if test="${car.car_status eq '대여' }">checked</c:if>>
+							<label class="btn btn-outline-warning" for="option3">대여</label>
+							
+	    					<input type="radio" class="btn-check" name="car_status" id="option1" value="신규" 
+	    					<c:if test="${car.car_status eq '신규' }">checked</c:if>>
+							<label class="btn btn-outline-info" for="option1">신규</label>
+	    				</td>
+	    			</tr>
+	    			</c:if>
 	      			<tr>
 	        			<td class="td_left"><label for="car_type">차종</label></td>
 	        			<td class="td_right">
@@ -303,7 +325,7 @@ function deleteFile(car_file_value, car_file_index) {
 							</c:choose>
 				        </td>
 			      	</tr>
-
+					<c:if test='${empty param.other_window }'>
 	      			<tr>
 	        			<td class="td_left"><label for="car_status">차량상태</label></td>
 	        			<td class="td_right">
@@ -315,6 +337,7 @@ function deleteFile(car_file_value, car_file_index) {
 							</select>
 	        			</td>
 	      			</tr>
+					</c:if>
 				</table> 
 		    <div id="commandCell">
 		      	<input type="submit" value="수정" class="btn btn-warning">&nbsp;&nbsp;

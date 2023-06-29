@@ -86,7 +86,7 @@
    	<script type="text/javascript">
    	
    		function openCarUpdateWindow(car_idx){
-   			window.open('carUpdate?car_idx='+ car_idx + '&other_window=ture','예약차량상세','width=700, height=700');
+   			window.open('carUpdate?car_idx='+ car_idx + '&other_window=y','예약차량상세','width=700, height=700');
    		}
    	</script>
    	

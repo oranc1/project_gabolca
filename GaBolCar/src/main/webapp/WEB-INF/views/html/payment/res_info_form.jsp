@@ -51,12 +51,13 @@
 						</li>
 						<li>
 							<label for="rental_area">대여 지점</label>
-							<select id="rental_area2" name="brc_rent_name" class="drv_80">
-									<option selected="selected" value="${map.brc_rent_name }">${map.brc_rent_name }</option>
+							<input type="text" value="${map.brc_rent_name }" class="brc_name" readonly>
+<!-- 							<select id="rental_area2" name="brc_rent_name" class="drv_80"> -->
+<%-- 									<option selected="selected" value="${map.brc_rent_name }">${map.brc_rent_name }</option> --%>
 <!-- 									<option selected="selected">범일점(본점)</option> -->
 <!-- 									<option>부산역점</option> -->
 <!-- 									<option>해운대점</option> -->
-							</select>
+<!-- 							</select> -->
 						</li>
 						<li>
 							<label for="returndate">반납 날짜</label>
@@ -65,11 +66,12 @@
 						</li>
 						<li>
 							<label for="rental_area">반납 지점</label>
-							<select id="rental_area2" name="brc_return_name" class="drv_80">
-									<option selected="selected" value="${map.brc_return_name }">${map.brc_return_name }</option>
+							<input type="text" value="${map.brc_return_name }" class="brc_name" readonly>
+<!-- 							<select id="rental_area2" name="brc_return_name" class="drv_80"> -->
+<%-- 									<option selected="selected" value="${map.brc_return_name }">${map.brc_return_name }</option> --%>
 <!-- 									<option>부산역점</option> -->
 <!-- 									<option>해운대점</option> -->
-							</select>
+<!-- 							</select> -->
 						</li>
 						<li>
 							<label for="totalhour">총 대여시간</label>

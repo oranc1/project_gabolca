@@ -143,7 +143,7 @@
 										</c:if>
 										<c:if test="${not empty reviewDetail.rev_file2}">
 											<br>
-											<img src="${pageContext.request.contextPath}/resources/upload/${reviewDetail.rev_file2}" style="width:32px; height:167px;"/>
+											<img src="${pageContext.request.contextPath}/resources/upload/${reviewDetail.rev_file2}" style="width:320px; height:167px;"/>
 										</c:if>
 										<c:if test="${not empty reviewDetail.rev_file3}">
 											<br>

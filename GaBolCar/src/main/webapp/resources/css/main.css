@@ -12,6 +12,10 @@ a {
     color: black;
 }
 
+a:hover {
+	color: black;
+}
+
 /* 차량 예약 메뉴 관련 css */
 
 
@@ -38,81 +42,232 @@ a {
 
 
 /* 차량추천 , 리뷰 컨텐츠 , qna 컨텐츠 공통css */
-.car_recom_warp, .review_wrap, .qna_wrap {
-	margin: 30px;
-	padding: 20px;
-	background-color: white;
+
+.car_recom_warp, .qna_wrap {
+	margin: 60px auto;
+/* 	margin: 30px; */
+/* 	padding: 20px; */
+/* 	background-color: white; */
 	
-	border: 2px solid #ececec;
-	border-radius: 20px;
+/* 	border: 2px solid #ececec; */
+/* 	border-radius: 20px; */
+}
+.car_recom_warp, .qna_wrap {
+	max-width: 1400px;
+}
+.qna_title_wrap {
+	display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.qna_list_wrap > div {
+	display: flex;
+	align-items: center;
+}
+.qna_list_wrap div > span {
+	font-size: 22px;
+	font-weight: bold;
+	color: #ff6600;
+}
+.qna_list_wrap div > a {
+	display: inline-block;
+	width: 100%;
+	height: 100%;
+	margin-left: 8px;
+	font-size: 18px;
+	font-weight: 500;
+	color: #222;
+	position: relative;
+    top: 3px;
+}
+.qna_list_wrap > div:nth-child(even) {
+	margin-left: 20px;
+}
+.qna_list_wrap > div:nth-child(n+3) {
+	margin-top: 20px;
+}
+
+.review_inn_box {
+	max-width: 1400px;
+	margin: 0 auto;
+}
+.review_wrap {
+	display: block;
+    padding: 60px 0;
+    background: #f7f7f7;
+}
+.review_tit_box {
+	display: flex;
+	justify-content: space-between;
+}
+.review_tit_box > input {
+	border-radius: 10px;
+    font-size: 17px;
+    text-align: center;
+    width: 70px;
+    height: 35px;
+    background: rgb(255,102,0);
+	background: linear-gradient(90deg, rgba(255,102,0,1) 35%, rgba(255,162,0,1) 100%);
+	color: white;
+    line-height: 35px;
+    font-weight: 400;
+}
+
+.car_recom_list_wrap {
+	display: flex;
 }
 
 .car_recom_title, .review_title, .qna_title_wrap {
 	font-size: 2rem;
 	font-weight: bold;
+	color: #222;
 }
 
 /* 차량 추천 */
 .car_recom_list_wrap{
-	margin: 20px;
+/* 	margin: 20px; */
+	margin-top: 20px;
 }
+
+.car_recom_list_wrap > div {
+	width: 25%;
+	border-radius: 10px;
+    border: 1px solid #ddd;
+}
+
+.car_recom_list_wrap > div:nth-child(n+2) {
+	margin-left: 20px;
+}
+
+.car_recom_info_wrap {
+	padding: 15px;
+}
+.car_recom_into_company {
+	font-size: 17px;
+    color: #888;
+}
+.car_recom_info_model {
+	font-size: 24px;
+    font-weight: 500;
+}
+
 
 .car_recom_list_wrap>div{
-	display: inline-block;
-	width: 270px;
-	height: 300px;
-	border: 2px solid #0B294B;
-	border-radius: 20px;
-	background-color: white;
-	text-align: center;
-	margin: 0 20px;
-	
+/* 	display: inline-block; */
+/* 	width: 270px; */
+/* 	height: 300px; */
+/* 	border: 2px solid #0B294B; */
+/* 	border-radius: 20px; */
+/* 	background-color: white; */
+/* 	text-align: center; */
+/* 	margin: 0 20px; */
+}
+.car_recom_list_wrap > div:hover {
+	box-shadow: 0px 3px 10px #e6e6e6;
 }
 
+.car_img_wrap_box {
+	width: auto;
+    height: 300px;
+    overflow: hidden;
+    border-radius: 10px;
+    position: relative;
+}
+.car_img_wrap_box img {
+	border: 0 !important;
+}
 
 .car_recom_img{
 	display: block;
-	width: 200px;
+    height: 100%;
+    width: 100%;
+    position: relative;
+    object-fit: contain;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+/* 	width: 200px; */
 }
 
+.img_tit {
+	position: absolute;
+    top: 0;
+    left: 0;
+    padding: 3px 13px;
+    background: #0B294B;
+    border-bottom-right-radius: 10px;
+    font-size: 14px;
+    font-weight: bolder;
+    color: white;
+}
+
+.car_recom_info_model > span:first-child {
+	margin-left: 5px;
+	color: #555;
+}
+.car_recom_info_price {
+	font-size: 22px;
+    font-weight: 600;
+}
+.car_recom_info_price span {
+	font-size: 22px;
+    font-weight: 600;
+	color: #ff6600;
+}
+
+
 .car_recom_info_list{
-	margin: 5px;	
+/* 	margin: 5px;	 */
 }
 
 .car_recom_info_list span{
-	display: inline-block;
-	margin: 0 5px;
-	padding: 2px;
-	border: 1px solid #ff6600;
-	border-radius: 5px;
+/* 	display: inline-block; */
+/* 	margin: 0 5px; */
+/* 	padding: 2px; */
+/* 	border: 1px solid #ff6600; */
+/* 	border-radius: 5px; */
 }
 
 .car_recom_info_model{
-	font-weight: bold;
-	font-size: 1.2rem;
+/* 	font-weight: bold; */
+/* 	font-size: 1.2rem; */
 }
 
 .car_recom_info_price{
-	margin-top: 10px;
-	color: #ff6600;
-	font-size: 1.4rem;
-	font-weight: bold;
+/* 	margin-top: 10px; */
+/* 	color: #ff6600; */
+/* 	font-size: 1.4rem; */
+/* 	font-weight: bold; */
 }
 
 /* 리뷰 컨텐츠 관련 css */
 .review_list_wrap {
-	margin: 20px;
+	margin-top: 20px;
+	display: flex;
+/* 	justify-content: space-between; */
 }
 
-.review_list_wrap>div {
-	display: inline-block;
-	width: 200px;
-	height: 250px;
-	border: 2px solid #0B294B;
-	border-radius: 20px;
-	background-color: white;
-	text-align: center;
-	margin: 0 40px;
+.review_list_wrap > div {
+/* 	display: inline-block; */
+/* 	width: 200px; */
+/* 	height: 250px; */
+/* 	border: 2px solid #0B294B; */
+/* 	border-radius: 20px; */
+/* 	background-color: white; */
+/* 	text-align: center; */
+/* 	margin: 0 40px; */
+	width: 25%;
+	background: #fff;
+	border-radius: 10px;
+	padding: 20px;
+	text-align: left;
+	box-shadow: 0px 3px 10px #e6e6e6;
+}
+.review_list_wrap > div:nth-child(n+2) {
+	margin-left: 20px;
+}
+.review-star {
+	display: block;
 }
 
 /* 별점 셋팅 */
@@ -129,16 +284,19 @@ a {
 	text-shadow: 0 0 0 #FFA500;
 }
 .review-car-name{
-	font-size:1.7rem;
+	font-size:1.4rem;
 }
 
 .review-content{
-	margin-top: 2rem;
+/* 	margin-top: 2rem; */
+	
 }
 
 .review-content p {
-	font-size:1.3rem;
-
+	font-size:1.1rem;
+	white-space: nowrap;
+ 	overflow: hidden;
+  	text-overflow: ellipsis;
 }
 
 /* QnA */
@@ -147,26 +305,44 @@ a {
 	font-weight: bold;
 }
 .qna_title_btn, .review_list_btn{
-	width: 70px;
-	font-weight: bold;
+	border-radius: 10px;
+    font-size: 17px;
+    text-align: center;
+    width: 70px;
+    height: 35px;
+    background: rgb(255,102,0);
+    background: linear-gradient(90deg, rgba(255,102,0,1) 35%, rgba(255,162,0,1) 100%);
+    color: white;
+    line-height: 35px;
+    font-weight: 400;
 }
-.qna_list_wrap div {
+.qna_list_wrap {
 	margin-top: 20px;
-	margin-left: 10px;
+	display: flex;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+}
+.qna_list_wrap > div {
+/* 	margin-top: 20px; */
+/* 	margin-left: 10px; */
+	width: calc(50% - 10px);
+    padding: 15px 20px;
+    border-radius: 10px;
+    background: #fbf4ee;
 }
 
 .qna_list_wrap div a {
-	display: inline-block;
-	text-decoration: none;
-	border-bottom: 1px solid ;
-	color: black;
-	font-weight: bold;
+/* 	display: inline-block; */
+/* 	text-decoration: none; */
+/* 	border-bottom: 1px solid ; */
+/* 	color: black; */
+/* 	font-weight: bold; */
 }
 
 /* 부트스트랩 그리드 적용시 버튼이 너무 길어지는걸 방지하기위해
 	길이 고정*/
 .qna_btn {
-	width: 3rem;
+/* 	width: 3rem; */
 }
 
 /* 버튼 커스텀 */
@@ -197,7 +373,9 @@ a {
 	윗 부분 달력, 슬로건*/
 	
 .main_visual {
-	margin-top: 100px;
+/* 	margin-top: 100px; */
+/* 	margin-top 부분 내려와서 수정 */
+	margin-top: 75px;
 	width: 100%;
 	height: 700px;
 	background: url("../img/main/car_image.jpg") no-repeat center bottom;
@@ -223,6 +401,9 @@ a {
 	.main_visual {
 		margin-top: 74px;
 		height: 650px;
+	}
+	.car_recom_warp, .qna_wrap, .review_inn_box {
+		width: 97%;
 	}
 }
 
