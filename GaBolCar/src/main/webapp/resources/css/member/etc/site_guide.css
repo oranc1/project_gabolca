@@ -85,6 +85,7 @@
 
 .int_table th:last-child {
 	border-right: hidden;
+	text-align: center;
 }
 
 .int_table td:last-child {
@@ -183,3 +184,4 @@
 .text_return {
 	color: red;
 }
+
