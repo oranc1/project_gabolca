@@ -143,7 +143,7 @@
 			
 			if(isLogout){
 // 				kakaoLogout();
-				location.href="Logout";
+				location.href="${pageContext.request.contextPath }/Logout";
 			}
 					}
 	</script>
