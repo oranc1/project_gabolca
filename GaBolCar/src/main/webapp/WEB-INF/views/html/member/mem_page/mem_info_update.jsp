@@ -59,10 +59,10 @@ function validatePassword() {
 function signUpCheck() {
 	
 	let password = document.getElementById("mem_passwd").value
-  let passwordCheck = document.getElementById("passwordCheck").value
+    let passwordCheck = document.getElementById("passwordCheck").value
 	  
 	document.getElementById("fr").submit();
-	   alert("정보수정이 완료되었습니다.");
+	alert("정보수정이 완료되었습니다.");
 	
 }  
 
