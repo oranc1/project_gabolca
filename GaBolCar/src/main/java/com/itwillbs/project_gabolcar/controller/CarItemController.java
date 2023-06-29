@@ -446,7 +446,24 @@ public class CarItemController {
 				System.out.println("resultMap : " + resultMap);
 				System.out.println("res_rental_date : " + res_rental_date);
 				System.out.println("res_return_date : " + res_return_date);
-				resultMap.put("car_search_list", carService.carList(resultMap));
+				List<Map<String,Object>> carSearchList = carService.carList(resultMap);
+				
+				// 렌트 비용 계산 하기
+				int count = 0;
+				for(Map<String,Object> carData : carSearchList) {					
+					int rentPrice = carResHandler.resPriceCal(
+							res_rental_date
+							, res_return_date
+							, (int)carData.get("car_weekdays")
+							, (int)carData.get("car_weekend"));
+					//렌트 비용 집어 넣기
+					carSearchList.get(count).put("rentPrice", rentPrice);
+					count++;
+				}
+				
+				resultMap.put("car_search_list", carSearchList);
+				
+				
 				
 			}
 			catch(Exception e) {

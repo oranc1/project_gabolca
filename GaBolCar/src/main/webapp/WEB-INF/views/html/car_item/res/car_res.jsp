@@ -111,7 +111,17 @@
 												<h4>${car.car_model}(${car.car_company})</h4>
 												<p class="car_info_p">${car.car_old} 년식 / ${car.car_shift_type} / ${car.car_riding} 인승 / ${car.car_fuel_type} / 만 ${car.car_age}세 이상</p>
 												<p class="car_amount_p">
-													<span>최저가</span> <span><b><fmt:formatNumber value="${car.car_weekdays}" pattern="#,###" /></b>원</span>
+													<span>최저가</span> 
+													<span><b>
+													<c:choose>
+														<c:when test="${!empty car.rentPrice}">
+															<fmt:formatNumber value="${car.rentPrice}" pattern="#,###" />
+														</c:when>
+														<c:otherwise>
+															<fmt:formatNumber value="${car.car_weekdays}" pattern="#,###" />
+														</c:otherwise>
+													</c:choose>
+													</b>원</span>
 												</p>
 											</div>
 											<p class="res_btn">예약 하러가기</p>

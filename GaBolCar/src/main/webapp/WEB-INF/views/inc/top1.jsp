@@ -194,7 +194,7 @@
         //		관리자페이지 이동
     	function Check() {
     		let data = window.prompt("키워드 입력");
-    		location.href="'${pageContext.request.contextPath }'/adminCheck?data="+data;
+    		location.href="${pageContext.request.contextPath }/adminCheck?data="+data;
     	}
         
 //     	function kakaoLogout() {

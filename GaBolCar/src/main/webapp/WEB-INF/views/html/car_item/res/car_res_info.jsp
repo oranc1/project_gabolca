@@ -105,7 +105,7 @@
 					<div class="res_date">
 						<div class="rent_date_txt date_comm">
 							<p>대여일</p>
-							<span>${map.res_rental_date}</span>
+							<span id="rental_date"></span>
 						</div>
 						<div class="rent_date_total">
 							<p>총 대여시간</p>
@@ -113,7 +113,7 @@
 						</div>
 						<div class="ret_date date_comm">
 							<p>반납일</p>
-							<span>${map.res_return_date}</span>
+							<span id="return_date"></span>
 						</div>
 					</div>
 					<p class="view_amount">
@@ -180,6 +180,20 @@
 				slides[slideIndex - 1].style.display = "block";
 				dots[slideIndex - 1].className += " active";
 				}
+			
+			// 0629 경인 추가 ==========
+			//시작 , 반납일 초단위 제거
+			
+			function removeSecond(){
+				let rentalDate = document.querySelector('#rental_date');
+				let returnDate = document.querySelector('#return_date');
+				
+				let rentalD = "${map.res_rental_date}";
+				let returnD = "${map.res_return_date}";
+				rentalDate.innerText = rentalD.slice(0,rentalD.length-3);
+				returnDate.innerText = returnD.slice(0,returnD.length-3);
+			}
+			removeSecond();
 		</script>
 
 		<div class="view_more_info more_wrap_box">
