@@ -46,6 +46,7 @@
 .int_table th {
 	height: 80px;
 	line-height: 80px;
+	text-align: center;
 }
 
 .int_table td {
