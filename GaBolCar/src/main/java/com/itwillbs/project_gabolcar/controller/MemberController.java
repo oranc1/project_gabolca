@@ -290,7 +290,8 @@ public class MemberController {
 //		}
 //		return "redirect:/QuestionListForm";
 //	}
-
+	
+	// 1:1 문의 게시판 작성 폼
 	@GetMapping("QuestionWriteForm")
 	public String quetionWriteForm(HttpSession session, Model model) {
 
@@ -327,7 +328,7 @@ public class MemberController {
 
 	}
 
-	// 1:1 상담 게시판 작성
+	// 1:1 문의 게시판 작성
 	@PostMapping("QuestionWritePro")
 	public String quetionWritePro(@RequestParam String mem_name, QuestionVO question, HttpSession session,
 			Model model) {
@@ -349,7 +350,8 @@ public class MemberController {
 			return "inc/fail_back";
 		}
 	}
-
+	
+	// 1:1 문의 게시판 폼
 	@GetMapping("QuestionListForm")
 	public String questionBoard(MemberVO member,
 			@RequestParam(name = "searchType", defaultValue = "") String searchType,
@@ -561,29 +563,6 @@ public class MemberController {
 
 	}
 	
-//	// 문의 게시판 수정 폼
-//	@GetMapping("QuestionModifyForm")
-//	public String qstModiyForm(@RequestParam int qst_idx, @RequestParam(defaultValue = "1") int pageNum,
-//			HttpSession session, Model model) {
-//		
-//		String sId = (String) session.getAttribute("sId");
-//		if (sId == null) {
-//			model.addAttribute("msg", "잘못된 접근입니다!");
-//			return "inc/fail_back";
-//		}
-//		
-//		
-//		
-//		
-//		
-//		
-//		QuestionVO question = qst_service.getQuestionBoard(qst_idx);
-//		
-//		model.addAttribute("question", question);
-//		
-//		return "html/member/question/question_modify";
-//	}
-
 	// 문의 게시판 수정 기능
 	@PostMapping("QuestionModifyPro")
 	public String qstModiyPro(@RequestParam String mem_name, @RequestParam int qst_idx, QuestionVO question,

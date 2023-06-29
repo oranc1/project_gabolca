@@ -12,9 +12,9 @@
     <link href="${pageContext.request.contextPath }/resources/css/inc/footer.css" rel="styleSheet">
     <link href="${pageContext.request.contextPath }/resources/css/common.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath }/resources/css/member/question/question_detail.css" rel="stylesheet">
-
     <script src="${pageContext.request.contextPath }/resources/js/inc/jquery-3.7.0.js"></script>
 <script>
+	
 	function confirmDelete() {
 		let isDelete = confirm("정말 삭제하시겠습니까?");
 		
@@ -23,6 +23,7 @@
 			location.href='QuestionDelete?qst_idx=${question.qst_idx}&pageNum=${pageNum}';
 		}
 	}
+	
 </script> 
 <title>1:1 문의 게시판 상세보기</title>
 </head>
@@ -67,16 +68,18 @@
                                         ${question.qst_content}
                                     </p>
                                 </div>
-
                                 <div class="mod_box">
-                                    <a href="QuestionListForm?qst_idx=${question.qst_idx}&pageNum=${pageNum}" class="modify_btn">목록</a>
-					                <c:if test="${loginId eq 'admin@admin.com'}">
-					                    <a href="QuestionReplyForm?qst_idx=${question.qst_idx}&pageNum=${pageNum}" class="modify_btn">답변</a>&nbsp;&nbsp;&nbsp;&nbsp;
-					                </c:if>
-                                    <a href="QuestionModifyForm?qst_idx=${question.qst_idx}&pageNum=${pageNum}" class="modify_btn">수정</a>&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <a class="modify_delete" onclick="confirmDelete()">삭제</a>
-                                </div>
-
+								    <a href="QuestionListForm?qst_idx=${question.qst_idx}&pageNum=${pageNum}" class="modify_btn">목록</a>
+<!-- 								   	관리자가 아닐경우 답변 숨김 -->
+								    <c:if test="${loginId eq 'admin@admin.com'}">
+								        <a href="QuestionReplyForm?qst_idx=${question.qst_idx}&pageNum=${pageNum}" class="modify_btn">답변</a>&nbsp;&nbsp;&nbsp;&nbsp;
+								    </c:if>
+<!-- 								    관리자가 아닐 경우 수정, 삭제 버튼 숨김 -->
+								    <c:if test="${loginId ne 'admin@admin.com' and not fn:startsWith(question.qst_subject, 'Re')}">
+								        <a href="QuestionModifyForm?qst_idx=${question.qst_idx}&pageNum=${pageNum}" class="modify_btn">수정</a>&nbsp;&nbsp;&nbsp;&nbsp;
+								        <a class="modify_delete" onclick="confirmDelete()">삭제</a>
+								    </c:if>
+								</div>
                             </div>
                         </div>
                     </section>

@@ -1,5 +1,11 @@
 @charset "UTF-8";
 
+.car-image {
+  width: 20px; /* 너비를 적당한 크기로 설정하세요 */
+  height: 20px;
+  margin-right: 10px;
+}
+
 #title_container {
    padding-top: 50px;
 padding-bottom: 50px;
