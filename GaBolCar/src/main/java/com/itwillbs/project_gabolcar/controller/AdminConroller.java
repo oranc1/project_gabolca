@@ -63,7 +63,8 @@ public class AdminConroller {
 		String sId = (String)session.getAttribute("sId");
 		if (sId == null || !sId.equals("admin@admin.com")) {
 			model.addAttribute("msg","접근권한이 없습니다.");
-			return "inc/fail_back";
+			model.addAttribute("targetURL","/project_gabolcar");
+			return "inc/success_forward";
 		}
 		return "html/admin/adm_dash";
 	}
@@ -74,7 +75,8 @@ public class AdminConroller {
 		String sId = (String)session.getAttribute("sId");
 		if (sId == null || !sId.equals("admin@admin.com")) {
 			model.addAttribute("msg","접근권한이 없습니다.");
-			return "inc/fail_back";
+			model.addAttribute("targetURL","/project_gabolcar");
+			return "inc/success_forward";
 		}
 		return "html/admin/adm_car_list";
 	}
@@ -135,7 +137,8 @@ public class AdminConroller {
 		String sId = (String)session.getAttribute("sId");
 		if (sId == null || !sId.equals("admin@admin.com")) {
 			model.addAttribute("msg","접근권한이 없습니다.");
-			return "inc/fail_back";
+			model.addAttribute("targetURL","/project_gabolcar");
+			return "inc/success_forward";
 		}
 		List<Map<String, Object>> brcList = brc_service.brcList();
 		model.addAttribute("brcList",brcList);
@@ -148,7 +151,8 @@ public class AdminConroller {
 		String sId = (String)session.getAttribute("sId");
 		if (sId == null || !sId.equals("admin@admin.com")) {
 			model.addAttribute("msg","접근권한이 없습니다.");
-			return "inc/fail_back";
+			model.addAttribute("targetURL","/project_gabolcar");
+			return "inc/success_forward";
 		}
 		List<Map<String, Object>> brcList = brc_service.brcList();
 		List<Map<String, Object>> optionList = car_service.optionList();
@@ -164,7 +168,8 @@ public class AdminConroller {
 		String sId = (String)session.getAttribute("sId");
 		if (sId == null || !sId.equals("admin@admin.com")) {
 			model.addAttribute("msg","접근권한이 없습니다.");
-			return "inc/fail_back";
+			model.addAttribute("targetURL","/project_gabolcar");
+			return "inc/success_forward";
 		}
 	    String uploadDir = "/resources/upload/car"; // 서버 이미지 저장 경로
 	    String saveDir = session.getServletContext().getRealPath(uploadDir);
@@ -259,7 +264,8 @@ public class AdminConroller {
 		String sId = (String)session.getAttribute("sId");
 		if (sId == null || !sId.equals("admin@admin.com")) {
 			model.addAttribute("msg","접근권한이 없습니다.");
-			return "inc/fail_back";
+			model.addAttribute("targetURL","/project_gabolcar");
+			return "inc/success_forward";
 		}
 	    // 차량 옵션 삭제 추가
 //	    int optionDeleteCount = car_service.carOptionDelete(car_idx);
@@ -284,7 +290,8 @@ public class AdminConroller {
 		String sId = (String)session.getAttribute("sId");
 		if (sId == null || !sId.equals("admin@admin.com")) {
 			model.addAttribute("msg","접근권한이 없습니다.");
-			return "inc/fail_back";
+			model.addAttribute("targetURL","/project_gabolcar");
+			return "inc/success_forward";
 		}
 		return "html/admin/brc_register";
 	}
@@ -295,7 +302,8 @@ public class AdminConroller {
 		String sId = (String)session.getAttribute("sId");
 		if (sId == null || !sId.equals("admin@admin.com")) {
 			model.addAttribute("msg","접근권한이 없습니다.");
-			return "inc/fail_back";
+			model.addAttribute("targetURL","/project_gabolcar");
+			return "inc/success_forward";
 		}
 		int insertCount = 0;
 		map.put("brc_addr", map.get("brc_addr") +","+ map.get("brc_addrDetail"));
@@ -320,7 +328,8 @@ public class AdminConroller {
 		String sId = (String)session.getAttribute("sId");
 		if (sId == null || !sId.equals("admin@admin.com")) {
 			model.addAttribute("msg","접근권한이 없습니다.");
-			return "inc/fail_back";
+			model.addAttribute("targetURL","/project_gabolcar");
+			return "inc/success_forward";
 		}
 		Map<String, Object> brc = brc_service.brcSelect(brc_idx);
 		brc.put("brc_addrDetail", brc.get("brc_addr").toString().split(",")[1]);
@@ -335,7 +344,8 @@ public class AdminConroller {
 		String sId = (String)session.getAttribute("sId");
 		if (sId == null || !sId.equals("admin@admin.com")) {
 			model.addAttribute("msg","접근권한이 없습니다.");
-			return "inc/fail_back";
+			model.addAttribute("targetURL","/project_gabolcar");
+			return "inc/success_forward";
 		}
 		map.put("brc_addr", map.get("brc_addr") +","+ map.get("brc_addrDetail"));
 		int updateCount = brc_service.brcUpdate(map);
@@ -353,7 +363,8 @@ public class AdminConroller {
 		String sId = (String)session.getAttribute("sId");
 		if (sId == null || !sId.equals("admin@admin.com")) {
 			model.addAttribute("msg","접근권한이 없습니다.");
-			return "inc/fail_back";
+			model.addAttribute("targetURL","/project_gabolcar");
+			return "inc/success_forward";
 		}
         
         if (car_service.getCarBrcNameCount(brc_idx) > 0) {
@@ -377,7 +388,8 @@ public class AdminConroller {
 		String sId = (String)session.getAttribute("sId");
 		if (sId == null || !sId.equals("admin@admin.com")) {
 			model.addAttribute("msg","접근권한이 없습니다.");
-			return "inc/fail_back";
+			model.addAttribute("targetURL","/project_gabolcar");
+			return "inc/success_forward";
 		}
 		Map<String, Object> map = car_service.carSelect(car);
 		model.addAttribute("car",map);
@@ -437,7 +449,14 @@ public class AdminConroller {
 	public String carUpdatePro(@RequestParam(value = "option_idx", required = false) List<Integer> optionIdxList,
 			@RequestParam(value = "other_window", required = false) String other_window,
 			CarVO car, HttpSession session, Model model) {
-
+		
+		String sId = (String)session.getAttribute("sId");
+		if (sId == null || !sId.equals("admin@admin.com")) {
+			model.addAttribute("msg","접근권한이 없습니다.");
+			model.addAttribute("targetURL","/project_gabolcar");
+			return "inc/success_forward";
+		}
+		
 	    String uploadDir = "/resources/upload/car"; // 서버 이미지 저장 경로
 	    String saveDir = session.getServletContext().getRealPath(uploadDir);
 
@@ -553,7 +572,8 @@ public class AdminConroller {
 		String sId = (String)session.getAttribute("sId");
 		if (sId == null || !sId.equals("admin@admin.com")) {
 			model.addAttribute("msg","접근권한이 없습니다.");
-			return "inc/fail_back";
+			model.addAttribute("targetURL","/project_gabolcar");
+			return "inc/success_forward";
 		}
 		List<Map<String,Object>> optionList = car_service.optionList();
 		model.addAttribute("optionList",optionList);
@@ -566,7 +586,8 @@ public class AdminConroller {
 		String sId = (String)session.getAttribute("sId");
 		if (sId == null || !sId.equals("admin@admin.com")) {
 			model.addAttribute("msg","접근권한이 없습니다.");
-			return "inc/fail_back";
+			model.addAttribute("targetURL","/project_gabolcar");
+			return "inc/success_forward";
 		}
         return "html/admin/option_register";
     }
@@ -587,7 +608,8 @@ public class AdminConroller {
 		String sId = (String)session.getAttribute("sId");
 		if (sId == null || !sId.equals("admin@admin.com")) {
 			model.addAttribute("msg","접근권한이 없습니다.");
-			return "inc/fail_back";
+			model.addAttribute("targetURL","/project_gabolcar");
+			return "inc/success_forward";
 		}
         String uploadDir = "/resources/upload/car_options";
         String saveDir = session.getServletContext().getRealPath(uploadDir);
@@ -624,7 +646,8 @@ public class AdminConroller {
 		String sId = (String)session.getAttribute("sId");
 		if (sId == null || !sId.equals("admin@admin.com")) {
 			model.addAttribute("msg","접근권한이 없습니다.");
-			return "inc/fail_back";
+			model.addAttribute("targetURL","/project_gabolcar");
+			return "inc/success_forward";
 		}
     	Map<String, Object> option = car_service.optionSelect(option_idx);
     	model.addAttribute("option",option);
@@ -643,7 +666,8 @@ public class AdminConroller {
 		String sId = (String)session.getAttribute("sId");
 		if (sId == null || !sId.equals("admin@admin.com")) {
 			model.addAttribute("msg","접근권한이 없습니다.");
-			return "inc/fail_back";
+			model.addAttribute("targetURL","/project_gabolcar");
+			return "inc/success_forward";
 		}
     	int updateCount = 0;
     	if(option_image == null) {
@@ -697,7 +721,8 @@ public class AdminConroller {
 		String sId = (String)session.getAttribute("sId");
 		if (sId == null || !sId.equals("admin@admin.com")) {
 			model.addAttribute("msg","접근권한이 없습니다.");
-			return "inc/fail_back";
+			model.addAttribute("targetURL","/project_gabolcar");
+			return "inc/success_forward";
 		}
     	Map<String, Object> map = car_service.optionSelect(option_idx);
     	int deleteCount = car_service.optionDelete(option_idx);
@@ -723,7 +748,8 @@ public class AdminConroller {
 		String sId = (String)session.getAttribute("sId");
 		if (sId == null || !sId.equals("admin@admin.com")) {
 			model.addAttribute("msg","접근권한이 없습니다.");
-			return "inc/fail_back";
+			model.addAttribute("targetURL","/project_gabolcar");
+			return "inc/success_forward";
 		}
 		return "redirect:/ResListForm";
 	}
@@ -738,7 +764,8 @@ public class AdminConroller {
 		String sId = (String)session.getAttribute("sId");
 		if (sId == null || !sId.equals("admin@admin.com")) {
 			model.addAttribute("msg","접근권한이 없습니다.");
-			return "inc/fail_back";
+			model.addAttribute("targetURL","/project_gabolcar");
+			return "inc/success_forward";
 		}
 		
 		int listLimit = 10; // 한 페이지에서 표시할 목록 갯수 지정
@@ -770,8 +797,17 @@ public class AdminConroller {
 	
 	// 예약 상세
     @RequestMapping(value = "AdmResDetail", method = RequestMethod.GET)
-    public String admResDetail(@ModelAttribute("searchVO") ResInfoVO searchVO, @RequestParam("res_idx") int res_idx, Model model) {
-    	
+    public String admResDetail(
+    		@ModelAttribute("searchVO") ResInfoVO searchVO
+    		, @RequestParam("res_idx") int res_idx
+    		, HttpSession session
+    		, Model model) {
+    	String sId = (String)session.getAttribute("sId");
+		if (sId == null || !sId.equals("admin@admin.com")) {
+			model.addAttribute("msg","접근권한이 없습니다.");
+			model.addAttribute("targetURL","/project_gabolcar");
+			return "inc/success_forward";
+		}
     	ResInfoVO resDetail = res_service.getResDetail(res_idx);
     	model.addAttribute("resDetail", resDetail);
     	
@@ -784,7 +820,8 @@ public class AdminConroller {
 		String sId = (String)session.getAttribute("sId");
 		if (sId == null || !sId.equals("admin@admin.com")) {
 			model.addAttribute("msg","접근권한이 없습니다.");
-			return "inc/fail_back";
+			model.addAttribute("targetURL","/project_gabolcar");
+			return "inc/success_forward";
 		}
 		return "redirect:/MemListForm";     	
 	}
@@ -800,7 +837,8 @@ public class AdminConroller {
 		String sId = (String)session.getAttribute("sId");
 		if (sId == null || !sId.equals("admin@admin.com")) {
 			model.addAttribute("msg","접근권한이 없습니다.");
-			return "inc/fail_back";
+			model.addAttribute("targetURL","/project_gabolcar");
+			return "inc/success_forward";
 		}
 		
 		int listLimit = 5; // 한 페이지에서 표시할 목록 갯수 지정
@@ -832,8 +870,17 @@ public class AdminConroller {
 	
 	// 회원 상세
     @RequestMapping(value = "AdmMemDetail", method = RequestMethod.GET)
-    public String admMemDetail(@ModelAttribute("searchVO") MemberVO searchVO, @RequestParam("mem_idx") int mem_idx, Model model) {
-    	
+    public String admMemDetail(
+    		@ModelAttribute("searchVO") MemberVO searchVO
+    		, @RequestParam("mem_idx") int mem_idx
+    		, HttpSession session
+    		, Model model) {
+    	String sId = (String)session.getAttribute("sId");
+		if (sId == null || !sId.equals("admin@admin.com")) {
+			model.addAttribute("msg","접근권한이 없습니다.");
+			model.addAttribute("targetURL","/project_gabolcar");
+			return "inc/success_forward";
+		}
     	MemberVO memDetail = mem_service.getMemDetail(mem_idx);
     	model.addAttribute("memDetail", memDetail);
     	
