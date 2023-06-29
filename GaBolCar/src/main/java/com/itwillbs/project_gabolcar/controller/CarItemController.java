@@ -895,7 +895,7 @@ public class CarItemController {
 		System.out.println("원본파일명3 : " + mFile3.getOriginalFilename());
 		
 		// 이미지만 업로드 가능
-		/*String filename1 = mFile1.getOriginalFilename();
+		String filename1 = mFile1.getOriginalFilename();
 		String filename2 = mFile2.getOriginalFilename();
 		String filename3 = mFile3.getOriginalFilename();
 		String fileext1 = filename1.substring(filename1.lastIndexOf(".") + 1);
@@ -945,7 +945,7 @@ public class CarItemController {
 				model.addAttribute("msg", "세번째 파일 업로드는 이미지만 업로드 가능합니다.");
 				return "html/car_item/review/fail_back";
 			}
-		}*/
+		}
 		
 		
 		// 파일명 중복 방지를 위한 대첵
