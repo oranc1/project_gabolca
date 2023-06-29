@@ -385,8 +385,9 @@ function signUpCheck(){
     alert("이름을 입력해 주세요");
     document.getElementById("mem_name").focus();
     return;
-  } else if(nameC == false){
-    document.getElementById("mem_name").focus();
+
+
+ementById("mem_name").focus();
     return;
 }
 
