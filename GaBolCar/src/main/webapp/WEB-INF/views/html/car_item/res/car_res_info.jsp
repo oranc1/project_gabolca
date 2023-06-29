@@ -294,7 +294,7 @@
 											</c:choose>
 											<!-- 별점 구현 -->
 											</span></span>
-							<span class="rev_name">&nbsp;&nbsp;&nbsp;&nbsp; ${reviewListS.rev_name}</span>
+							<span class="rev_name">&nbsp;&nbsp;&nbsp;&nbsp; ${reviewListS.rev_name2}</span>
 							<span class="rev_txt">${reviewListS.rev_content}</span>
 							<span class="rev_txt_hobertext">${reviewListS.rev_content}</span>
 						</li>
