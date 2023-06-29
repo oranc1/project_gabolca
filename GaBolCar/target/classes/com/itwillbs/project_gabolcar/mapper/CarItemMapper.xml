@@ -23,7 +23,7 @@
 	<!-- 리뷰게시판 목록 페이지 나누기 -->
 	<select id="getReviewListPaging" resultType="com.itwillbs.project_gabolcar.vo.ReviewVO">
 		SELECT * FROM (
-	           	SELECT rc.rev_date, rc.rev_content, rc.rev_name, mi.mem_id, rc.rev_idx, rc.rev_star, rc.rev_subject, ci.car_model, 
+	           	SELECT rc.rev_date, rc.rev_content,  replace(rc.rev_name,substr(rc.rev_name,2,1),'@')AS rev_name, mi.mem_id, rc.rev_idx, rc.rev_star, rc.rev_subject, ci.car_model, 
 	            date_format(rev_date, '%Y-%m-%d')AS rev_date_format 
 	              FROM rev_car rc
 	              	JOIN res_info ri
@@ -143,7 +143,7 @@
 	
 	<!-- 리뷰 게시판 뷰 -->
 	<select id="reviewDetail" resultType="com.itwillbs.project_gabolcar.vo.ReviewVO">
-		SELECT rc.rev_date, rc.rev_idx, rc.rev_star, mi.mem_id, rc.rev_subject, rc.rev_name, ci.car_model, 
+		SELECT rc.rev_date, rc.rev_idx, rc.rev_star, mi.mem_id, rc.rev_subject, replace(rc.rev_name,substr(rc.rev_name,2,1),'@')AS rev_name, ci.car_model, 
 		rc.rev_content, date_format(rev_date, '%Y-%m-%d')AS rev_date_format, rc.rev_file1, rc.rev_file2, rc.rev_file3 
        		FROM rev_car rc
 	       		JOIN res_info ri
