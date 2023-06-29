@@ -67,6 +67,7 @@
 					var reason = document.querySelector('.cancel_reason').value;
 		        	if (reason == null || reason.trim() == '') { 
 		           		alert("환불 사유를 작성하여주세요!");
+		           		document.querySelector('.cancel_reason').focus();
 		            	return false;
 		      		}
 		        	
