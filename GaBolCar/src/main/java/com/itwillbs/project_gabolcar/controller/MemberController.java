@@ -75,6 +75,8 @@ public class MemberController {
 
 		// 세션 아이디를 사용하여 회원 상세정보 조회 요청
 		MemberVO member = memberService.getMemberInfo(sId);
+		System.out.println(member);
+		System.out.println(sId);
 //							System.out.println(member);
 		member.setPhone1(member.getMem_mtel().split("-")[0]);
 		member.setPhone2(member.getMem_mtel().split("-")[1]);
@@ -102,7 +104,7 @@ public class MemberController {
 
 	@PostMapping("MemberModify")
 	public String MemberModify(MemberVO member, @RequestParam String newPasswd, @RequestParam String newPasswd1,HttpSession session, Model model) {
-
+		
 		String sId = (String) session.getAttribute("sId");
 		String securePasswd = memberService.getPasswd(member);
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(); //비밀번호 암호화
@@ -125,7 +127,8 @@ public class MemberController {
 			}
 
 		}
-
+		
+		
 		// 일반 회원이 패스워드가 일치하거나, 관리자일 때 ModifyMember() 메서드 호출하여 회원 정보 수정 요청
 		memberService.ModifyMember(member, newPasswd1, passwordEncoder.encode(newPasswd));
 		// " 회원 정보 수정 성공! " 메세지 출력 및 포워딩

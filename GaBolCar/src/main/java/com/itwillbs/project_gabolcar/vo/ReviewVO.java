@@ -39,7 +39,7 @@ public class ReviewVO {
 	private MultipartFile file2;
 	private MultipartFile file3;
 	
-	private String trashArr[] = {"미친", "C8", "c8", "18", "욕", "나쁜말"};
+	private String trashArr[] = {"미친", "C8", "c8", "욕", "나쁜말"};
 }
 
 
