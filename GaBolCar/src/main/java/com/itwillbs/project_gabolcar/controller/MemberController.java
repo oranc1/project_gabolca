@@ -95,7 +95,7 @@ public class MemberController {
 		if (member.getMem_addr().toString().split("/").length > 3) {
 			member.setSample6_extraAddress(member.getMem_addr().toString().split("/")[3]);
 		}
-
+		
 		// 회원 상세정보(MemberVO) 저장
 		model.addAttribute("member", member);
 		return "html/member/mem_page/mem_info_update";
@@ -128,7 +128,7 @@ public class MemberController {
 
 		}
 		
-		
+		System.out.println("member : " + member);
 		// 일반 회원이 패스워드가 일치하거나, 관리자일 때 ModifyMember() 메서드 호출하여 회원 정보 수정 요청
 		memberService.ModifyMember(member, newPasswd1, passwordEncoder.encode(newPasswd));
 		// " 회원 정보 수정 성공! " 메세지 출력 및 포워딩

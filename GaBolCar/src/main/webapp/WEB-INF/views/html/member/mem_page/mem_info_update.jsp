@@ -183,13 +183,15 @@ function validatePassword() {
 	<script type="text/javascript">
 	   
 	function signUpCheck() {
-		console.log("test")
+
 		let password = document.getElementById("mem_passwd").value
 	    let passwordCheck = document.getElementById("passwordCheck").value
 	    
-	    if (!validatePassword(password) || !validatePassword(passwordCheck) ) {
-	      alert('영문,숫자,특수문자 포함 8~20글자 이상 입력 해주세요.');
-	      return false;
+	    if(password != null && passwordCheck != null && password != "" && passwordCheck != "" ){
+		    if (!validatePassword(password) || !validatePassword(passwordCheck) ) {
+		      alert('영문,숫자,특수문자 포함 8~20글자 이상 입력 해주세요.');
+		      return false;
+		    }	    	
 	    }
 		return true;
 	}  
