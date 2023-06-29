@@ -45,7 +45,26 @@ public class PaymentController {
 		MemberVO member = service.getMemberInfo(id);
 		model.addAttribute("member", member);
 		
-		
+		// mem_idx 가져오기
+		int mem_idx = service.getMemIdx(id);
+		// res_info 유무
+		int isRes = service.isRes(mem_idx);
+		if(isRes > 0) {
+			// 제일 최근 내역 가져오기
+			String recentlyLicNum = service.getRecentlyLicNum(mem_idx);
+			// 운전자 정보 가져오기
+			DriverVO memDriverInfo = service.selectDriverInfo(recentlyLicNum);
+			memDriverInfo.setDri_tel1(memDriverInfo.getDri_tel().split("-")[0]);
+			memDriverInfo.setDri_tel2(memDriverInfo.getDri_tel().split("-")[1]);
+			memDriverInfo.setDri_tel3(memDriverInfo.getDri_tel().split("-")[2]);
+			
+			memDriverInfo.setLic_num1(memDriverInfo.getLic_num().split("-")[0]);
+			memDriverInfo.setLic_num2(memDriverInfo.getLic_num().split("-")[1]);
+			memDriverInfo.setLic_num3(memDriverInfo.getLic_num().split("-")[2]);
+			memDriverInfo.setLic_num4(memDriverInfo.getLic_num().split("-")[3]);
+			
+			model.addAttribute("memDriverInfo", memDriverInfo);
+		}
 		
 		// 파라미터로 넘긴 예약 정보 저장
 		model.addAttribute("map", map);
@@ -84,7 +103,7 @@ public class PaymentController {
 		}
 //		System.out.println("id" + id);
 		
-		// 운전면허 보유 여부 검증
+		// 운전면허 중복 검증
 		String lic_num = driver.getLic_num1() + "-" + driver.getLic_num2() + "-" + driver.getLic_num3() + "-" + driver.getLic_num4();
 		int isLicNum = service.isLicNum(lic_num);
 		System.out.println(isLicNum);

@@ -88,18 +88,18 @@
 					<ul class="side_sub">
 						<li class="drv_input">
 							<label for="name">운전자명</label>
-							<input type="text" name="dri_name" placeholder="운전자명을 입력해주세요" class="drv_80" required="required">
+							<input type="text" name="dri_name" placeholder="운전자명을 입력해주세요" class="drv_80" required="required" value="${memDriverInfo.dri_name }">
 						</li>
 						<li class="drv_input">
 							<label for="birthDate">생년월일</label>
-							<input type="text" name="dri_birthday" placeholder="생년월일 8자리를 입력해주세요"  maxlength="8" class="drv_80">
+							<input type="text" name="dri_birthday" placeholder="생년월일 8자리를 입력해주세요"  maxlength="8" class="drv_80" value="${memDriverInfo.dri_birthday }">
 						</li>
 						<li class="drv_phone">
 							<label for="phoneNum">휴대폰 번호</label>
 							<div>
-								<input type="text" size="1" maxlength="3" name="dri_tel1">-
-								<input type="text" size="3" maxlength="4" name="dri_tel2">-
-								<input type="text" size="3" maxlength="4" name="dri_tel3">
+								<input type="text" size="1" maxlength="3" name="dri_tel1" value="${memDriverInfo.dri_tel1 }">-
+								<input type="text" size="3" maxlength="4" name="dri_tel2" value="${memDriverInfo.dri_tel2 }">-
+								<input type="text" size="3" maxlength="4" name="dri_tel3" value="${memDriverInfo.dri_tel3 }">
 							</div>
 						</li>
 						<li class="lic_num_inp">
@@ -107,29 +107,29 @@
 							<div>							
 								<select name="lic_num1">
 									<c:forEach begin="11" end="24" var="i">
-										<option value="${i }">${i }</option>
+    									<option value="${i }" <c:if test="${i eq memDriverInfo.lic_num1}">selected</c:if>>${i }</option>
 									</c:forEach>
 								</select>
 								-
-								<input type="text" placeholder="번호 입력" maxlength="2" name="lic_num2">-
-								<input type="text" placeholder="번호 입력" maxlength="6" name="lic_num3">-
-								<input type="text" placeholder="번호 입력" maxlength="2" name="lic_num4">
+								<input type="text" placeholder="번호 입력" maxlength="2" name="lic_num2" value="${memDriverInfo.lic_num2 }">-
+								<input type="text" placeholder="번호 입력" maxlength="6" name="lic_num3" value="${memDriverInfo.lic_num3 }">-
+								<input type="text" placeholder="번호 입력" maxlength="2" name="lic_num4" value="${memDriverInfo.lic_num4 }">
 							</div>
 						</li>
 						<li>
 							<label for="licenseType">면허 종류</label>
 							<select name="lic_info" class="id_type">
-								<option value="1종">1종</option>
-								<option value="2종">2종</option>
+								<option value="1종" <c:if test="${memDriverInfo.lic_info eq '1종'}">selected</c:if>>1종</option>
+								<option value="2종" <c:if test="${memDriverInfo.lic_info eq '2종'}">selected</c:if>>2종</option>
 							</select>
 						</li>
 						<li class="drv_input">
 							<label for="issueDate">발급일자</label>
-							<input type="text" name="lic_issue_date" placeholder="발급일자 8자리를 입력해 주세요"  maxlength="8" class="drv_80">
+							<input type="text" name="lic_issue_date" placeholder="발급일자 8자리를 입력해 주세요"  maxlength="8" class="drv_80" value="${memDriverInfo.lic_issue_date }">
 						</li>
 						<li class="drv_input">
 							<label for="expiredDate">만료일자</label>
-							<input type="text" name="lic_expiration_date" placeholder="만료일자 8자리를 입력해 주세요"  maxlength="8"class="drv_80">
+							<input type="text" name="lic_expiration_date" placeholder="만료일자 8자리를 입력해 주세요"  maxlength="8"class="drv_80" value="${memDriverInfo.lic_expiration_date }">
 						</li>
 					</ul>
 				</li>

@@ -42,5 +42,13 @@ public interface PaymentMapper {
 	String getPayStatus(String merchant_uid);
 
 	int isLicNum(String lic_num);
+
+	int getMemIdx(String id);
+
+	int isRes(int mem_idx);
+
+	String getRecentlyLicNum(int mem_idx);
+
+	DriverVO selectDriverInfo(String recentlyLicNum);
 	
 }
