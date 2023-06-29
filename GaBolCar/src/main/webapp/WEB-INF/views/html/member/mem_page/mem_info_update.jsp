@@ -14,7 +14,6 @@
    <link href="${pageContext.request.contextPath }/resources/css/member/mem_page/mem_info_update.css" rel="stylesheet">
    <link href="${pageContext.request.contextPath }/resources/css/inc/top.css" rel="styleSheet">
    <link href="${pageContext.request.contextPath }/resources/css/inc/footer.css" rel="styleSheet">
-   <script src="${pageContext.request.contextPath }/resources/js/member/login/signup.js"></script>
    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
    <script src="${pageContext.request.contextPath }/resources/js/inc/jquery-3.7.0.js"></script>
@@ -55,19 +54,12 @@ function validatePassword() {
 }
 
 }
-   
-function signUpCheck() {
-	
-	let password = document.getElementById("mem_passwd").value
-    let passwordCheck = document.getElementById("passwordCheck").value
-	  
-	document.getElementById("fr").submit();
-	alert("정보수정이 완료되었습니다.");
-	
-}  
+
 
 
 </script>
+<script src="${pageContext.request.contextPath }/resources/js/member/login/signup.js"></script>
+   
 </head>
 
 
@@ -75,7 +67,7 @@ function signUpCheck() {
    <header>
       <jsp:include page="../../../inc/top1.jsp"></jsp:include>
    </header>
-   <form action="MemberModify" method="post" name="fr">
+   <form action="MemberModify" method="post" name="fr" onsubmit='return signUpCheck();'>
    <section id="sec_con">
       <h1 class="con_title">내 정보 수정</h1>
       <div class="inq_container">
@@ -179,7 +171,7 @@ function signUpCheck() {
                </li>
             </ul>
             <div class="btn_info_update cr">
-               <input type="submit" alt="회원정보수정" value="수정하기" class="upd_btn" onclick='return signUpCheck()'>
+               <input type="submit" alt="회원정보수정" value="수정하기" class="upd_btn" >
             </div>
          </div>
       </div>
@@ -188,7 +180,20 @@ function signUpCheck() {
    <footer>
       <jsp:include page="../../../inc/footer.jsp"></jsp:include>
    </footer>
-
+	<script type="text/javascript">
+	   
+	function signUpCheck() {
+		console.log("test")
+		let password = document.getElementById("mem_passwd").value
+	    let passwordCheck = document.getElementById("passwordCheck").value
+	    
+	    if (!validatePassword(password) || !validatePassword(passwordCheck) ) {
+	      alert('영문,숫자,특수문자 포함 8~20글자 이상 입력 해주세요.');
+	      return false;
+	    }
+		return true;
+	}  
+	</script>
 </body>
 
 </html>
