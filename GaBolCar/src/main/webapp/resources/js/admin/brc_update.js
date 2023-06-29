@@ -81,7 +81,7 @@ $(function(){
 	
 	$("input[name=brc_tel]").on("change",function() {
 		let brcTel = $(this).val();
-		const regTel = /\d{2,3}-\d{3,4}-\d{4}/g;
+		const regTel = /^(0(2|3[1-3]|4[1-4]|5[1-5]|6[1-4]))(\d{3,4})(\d{4})$/;
 		if (!regTel.test(brcTel) && brcTel.length >= 1) {
 			$(this).val('').focus();
 			$(this).attr("placeholder","전화번호 형식에 맞지 않습니다.")
