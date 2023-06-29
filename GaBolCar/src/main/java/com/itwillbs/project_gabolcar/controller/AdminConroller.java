@@ -444,7 +444,7 @@ public class AdminConroller {
 		}
 	}
 		
-	// 차량수정 중
+	// 차량수정
 	@PostMapping("carUpdatePro")
 	public String carUpdatePro(@RequestParam(value = "option_idx", required = false) List<Integer> optionIdxList,
 			@RequestParam(value = "other_window", required = false) String other_window,
