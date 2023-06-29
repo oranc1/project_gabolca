@@ -10,7 +10,7 @@
 <%-- 0627 배경인 수정 네이버 로그인 --%>
   <%
     String clientId = "iyG93Byk9xPFZKJeZAaH";//애플리케이션 클라이언트 아이디값";
-    String redirectURI = URLEncoder.encode("http://c5d2302t3.itwillbs.com/gabolcar/login/oauth2/code/naver", "UTF-8");
+    String redirectURI = URLEncoder.encode("http://c5d2302t3.itwillbs.com/gabolcar_/login/oauth2/code/naver", "UTF-8");
     SecureRandom random = new SecureRandom();
     String state = new BigInteger(130, random).toString();
     String apiURL = "https://nid.naver.com/oauth2.0/authorize?response_type=code";
@@ -150,7 +150,7 @@
 	function loginWithKakao() {
 		Kakao.init('f1a47a651626dab122ca303d5b28aeda'); // JavaScript 키 입력
 		Kakao.Auth.authorize({
-			redirectUri: 'http://c5d2302t3.itwillbs.com/gabolcar/kakaoLogin',
+			redirectUri: 'http://c5d2302t3.itwillbs.com/gabolcar_/kakaoLogin',
 		});
 	}
 </script>

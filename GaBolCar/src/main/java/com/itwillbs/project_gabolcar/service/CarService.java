@@ -179,6 +179,10 @@ public class CarService {
 
 	}
 
+	public int isCarNumberCheck(Map<String, String> map) {
+		return mapper.selectCarCheck(map);
+	}
+
 
 
 

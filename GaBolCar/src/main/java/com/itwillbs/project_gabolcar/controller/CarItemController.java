@@ -526,8 +526,8 @@ public class CarItemController {
 			//데이터 넣기
 			resultMap.put("car_info", carInfo);
 			// 콤마( , ) 로 날짜 분리해서 넣기
-			resultMap.put("res_rental_date", map.get("res_rental_date").toString().replace("%",","));
-			resultMap.put("res_return_date", map.get("res_return_date").toString().replace("%",","));
+			resultMap.put("res_rental_date", map.get("res_rental_date").toString().replace(".0",""));
+			resultMap.put("res_return_date", map.get("res_return_date").toString().replace(".0",""));
 			resultMap.put("brc_rent_name", map.get("brc_rent_name"));
 			resultMap.put("brc_return_name", map.get("brc_return_name"));
 			resultMap.put("car_option", carItemService.getCarOptionList((String)map.get("car_idx")));
@@ -1056,11 +1056,13 @@ public class CarItemController {
 	@GetMapping("reviewDelete")
 	public String reviewDelete(HttpSession session, ReviewVO review, Model model) {
 		String sId = (String)session.getAttribute("sId");
-		//세션아이디가 없거나 관리자가 아닐 때 (미일치 시는 뷰에서 버튼이 사라짐)
-		if(sId == null || !sId.equals("admin@admin.com")) {
+		//세션아이디가 없을 때 (세션아이디와 작성자가 일치할 때는 뷰에 버튼이 생김, 없을 때는 뷰에 버튼이 없어서 들어올 수 없음)
+		if(sId == null) {
 			model.addAttribute("msg", "잘못된 접근입니다");
-			return "html/member/review/fail_back";
-		}
+			return "html/car_item/review/fail_back";
+		} 
+		//관리자, 작성자일 때
+		
 	//삭제 작업 시작
 		int deleteReviewCount = carItemService.deleteReview(review);
 		

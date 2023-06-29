@@ -47,11 +47,11 @@
 						<li>
 							<label for="rentdate">대여 날짜</label>
 							<fmt:parseDate value="${map.res_rental_date }" pattern="yyyy-MM-dd HH:mm" var="res_restal_date"/>
-							<span class="drv_80"><fmt:formatDate value="${res_restal_date }" pattern="yyyy-MM-dd HH:mm" /></span>
+							<span class="drv_80"><fmt:formatDate value="${res_restal_date }" pattern="yyyy-MM-dd HH:mm"/></span>
 						</li>
 						<li>
 							<label for="rental_area">대여 지점</label>
-							<input type="text" value="${map.brc_rent_name }" class="brc_name" readonly>
+							<input type="text" value="${map.brc_rent_name }" class="brc_name" readonly name="brc_rent_name">
 <!-- 							<select id="rental_area2" name="brc_rent_name" class="drv_80"> -->
 <%-- 									<option selected="selected" value="${map.brc_rent_name }">${map.brc_rent_name }</option> --%>
 <!-- 									<option selected="selected">범일점(본점)</option> -->
@@ -66,7 +66,7 @@
 						</li>
 						<li>
 							<label for="rental_area">반납 지점</label>
-							<input type="text" value="${map.brc_return_name }" class="brc_name" readonly>
+							<input type="text" value="${map.brc_return_name }" class="brc_name" readonly name="brc_return_name">
 <!-- 							<select id="rental_area2" name="brc_return_name" class="drv_80"> -->
 <%-- 									<option selected="selected" value="${map.brc_return_name }">${map.brc_return_name }</option> --%>
 <!-- 									<option>부산역점</option> -->

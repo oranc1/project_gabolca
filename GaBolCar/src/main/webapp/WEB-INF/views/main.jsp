@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> 
 <!DOCTYPE html>
 <html>
 <head>
@@ -127,7 +128,7 @@
 									</p>
 <!-- 									<div class="car_recom_info_list"> -->
 <!-- 									</div> -->
-									<p class="car_recom_info_price">일 <span>${populer_car.car_weekdays}</span> 원</p>
+									<p class="car_recom_info_price">일 <span><fmt:formatNumber value="${populer_car.car_weekdays}" pattern="#,###" /></span> 원</p>
 								</div>
 							</div>
 						</a>

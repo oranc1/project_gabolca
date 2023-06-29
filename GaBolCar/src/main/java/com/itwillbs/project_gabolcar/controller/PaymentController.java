@@ -83,14 +83,20 @@ public class PaymentController {
 			return "html/member/notice/fail_back";
 		}
 //		System.out.println("id" + id);
-
-		// 운전자 정보 저장
-		int insertCount = service.insertDriver(driver);
-		if (insertCount == 0) {
-			model.addAttribute("msg", "예약 실패(운전자 정보)");
-			return "html/member/notice/fail_back";
+		
+		// 운전면허 보유 여부 검증
+		String lic_num = driver.getLic_num1() + "-" + driver.getLic_num2() + "-" + driver.getLic_num3() + "-" + driver.getLic_num4();
+		int isLicNum = service.isLicNum(lic_num);
+		System.out.println(isLicNum);
+		if(isLicNum == 0) {
+			// 운전자 정보 저장
+			int insertCount = service.insertDriver(driver);
+			if (insertCount == 0) {
+				model.addAttribute("msg", "예약 실패(운전자 정보)");
+				return "html/member/notice/fail_back";
+			}
 		}
-
+		
 		// 예약 정보 저장
 		res.setMem_idx(service.getIdx(id)); // mem_idx 저장
 		int resInsertCount = service.insertResInfo(res);

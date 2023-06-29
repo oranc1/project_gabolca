@@ -887,4 +887,10 @@ public class AdminConroller {
     	return "html/admin/adm_mem_detail";
     }
     
+    @ResponseBody
+	@GetMapping("carCheckRdndn")
+	public int carCheckRdndn(@RequestParam Map<String,String> map) {
+		return car_service.isCarNumberCheck(map);
+	}
+    
 }

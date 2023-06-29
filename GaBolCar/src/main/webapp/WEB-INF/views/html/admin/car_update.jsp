@@ -15,56 +15,78 @@
 <script src="${pageContext.request.contextPath }/resources/js/inc/jquery-3.7.0.js"></script>
 <script src="${pageContext.request.contextPath }/resources/js/inc/bootstrap.bundle.min.js"></script>
 <script type="text/javascript">
-function deleteFile(car_file_value, car_file_index) {
-	let car_idx = ${car.car_idx};
-
-	$.ajax({
-		type: "POST",
-		url: "carDeleteFile",
-		data: {
-			"car_idx": car_idx,
-			"car_file": car_file_value,
-			"car_file_path": "${car.car_file_path}",
-			"car_file_index": car_file_index // 이 코드 추가
-// 			"car_file_path": "${car.car_file_path}"
-		},
-		success: function(result) {
-			if (result == "true") {
-				alert("파일 삭제 성공");
-
-				// car_file_value에 따라 분기하는 코드를 switch 구문을 사용
-				let index;
-				switch(car_file_value) {
-				    case "${car.car_file1}":
-				        index = "1";
-				        break;
-				    case "${car.car_file2}":
-				        index = "2";
-				        break;
-				    case "${car.car_file3}":
-				        index = "3";
-				        break;
-				    case "${car.car_file4}":
-				        index = "4";
-				        break;
-				    case "${car.car_file5}":
-				        index = "5";
-				        break;
-				    case "${car.car_file6}":
-				        index = "6";
-				        break;
-				    default:
-				        break;
+	function deleteFile(car_file_value, car_file_index) {
+		let car_idx = ${car.car_idx};
+	
+		$.ajax({
+			type: "POST",
+			url: "carDeleteFile",
+			data: {
+				"car_idx": car_idx,
+				"car_file": car_file_value,
+				"car_file_path": "${car.car_file_path}",
+				"car_file_index": car_file_index // 이 코드 추가
+	// 			"car_file_path": "${car.car_file_path}"
+			},
+			success: function(result) {
+				if (result == "true") {
+					alert("파일 삭제 성공");
+	
+					// car_file_value에 따라 분기하는 코드를 switch 구문을 사용
+					let index;
+					switch(car_file_value) {
+					    case "${car.car_file1}":
+					        index = "1";
+					        break;
+					    case "${car.car_file2}":
+					        index = "2";
+					        break;
+					    case "${car.car_file3}":
+					        index = "3";
+					        break;
+					    case "${car.car_file4}":
+					        index = "4";
+					        break;
+					    case "${car.car_file5}":
+					        index = "5";
+					        break;
+					    case "${car.car_file6}":
+					        index = "6";
+					        break;
+					    default:
+					        break;
+					}
+	
+					// 인덱스 번호로 fileBtnArea 엘리먼트를 선택
+					$("#fileBtnArea" + index).html("<input type='file' name='files'/>");
+				} else {
+					alert("일시적인 오류로 파일 삭제에 실패했습니다!");
 				}
-
-				// 인덱스 번호로 fileBtnArea 엘리먼트를 선택
-				$("#fileBtnArea" + index).html("<input type='file' name='files'/>");
-			} else {
-				alert("일시적인 오류로 파일 삭제에 실패했습니다!");
 			}
-		}
-	});
-}
+		});
+	}
+	$(function() {
+		// 수정 중복검사
+		let carNum = $("input[name=car_number]").val();
+		$("input[name=car_number]").on("blur",function() {
+			if (carNum != $(this).val() && $(this).val() != '') {
+				$.ajax({
+					type: "get",
+					url: "carCheckRdndn",
+					data: {
+						'car_number': $(this).val()
+					}
+				}).done(function(result) {
+					if (result == '1') {
+						$("input[name=car_number]").attr("placeholder",$("input[name=car_number]").val()+"은 등록되어있는 차량번호입니다.");
+						$("input[name=car_number]").val('').focus();
+					} else {
+						isChecked = true;
+					}
+				});
+			};
+		});
+	})
 </script>
 </head>
 <body>

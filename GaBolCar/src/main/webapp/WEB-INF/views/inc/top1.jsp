@@ -18,7 +18,7 @@
 							<li><a href="${pageContext.request.contextPath }/siteFAQ">FAQ</a></li>
 							<li><a href="${pageContext.request.contextPath }/QuestionListForm">1:1 문의</a></li>
 							<li><a href="${pageContext.request.contextPath }/siteGuide">이용안내</a></li>
-							<li><a href="${pageContext.request.contextPath }/branchLocation">찾아오는길</a></li>
+							<li><a href="${pageContext.request.contextPath }/branchLocation">찾아오시는길</a></li>
 						</ul></li>
 					<li class="gnb_cont"><a href="${pageContext.request.contextPath }/MemberRes">예약확인</a></li>
 				</ul>
@@ -88,7 +88,7 @@
 							<li><a href="${pageContext.request.contextPath }/siteFAQ">FAQ</a></li>
 							<li><a href="${pageContext.request.contextPath }/question">1:1 문의</a></li>
 							<li><a href="${pageContext.request.contextPath }/siteGuide">이용안내</a></li>
-							<li><a href="${pageContext.request.contextPath }/branchLocation">찾아오는길</a></li>
+							<li><a href="${pageContext.request.contextPath }/branchLocation">찾아오시는길</a></li>
 						</ul></li>
 					<li class="gnb_cont"><a href="${pageContext.request.contextPath }/MemberRes">예약확인</a></li>
 					<%-- 0531 추가 
@@ -143,7 +143,7 @@
 			
 			if(isLogout){
 // 				kakaoLogout();
-				location.href="Logout";
+				location.href="${pageContext.request.contextPath }/Logout";
 			}
 					}
 	</script>
