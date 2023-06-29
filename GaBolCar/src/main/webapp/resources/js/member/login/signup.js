@@ -210,7 +210,8 @@ function changePhone3(){
 function sendMsg(){
 	var phone =$("#phone1").val()+"-"+$("#phone2").val()+"-"+$("#phone3").val();
 	//패턴 확인용
-	var patternPhone = /^01[01]-[^0][0-9]{2,3}-[0-9]{3,4}/;
+	var patternPhone = /^010-(?!0*(\d)\1{3})[1-9]\d{3}-\d{4}$/;
+//	var patternPhone = /^01[01]-[^0][0-9]{2,3}-[0-9]{3,4}/;
 	
 	 if(!patternPhone.test(phone)){
 		alert('유효한 핸드폰 번호를 입력 해 주세요.')
