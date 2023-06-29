@@ -65,6 +65,8 @@
 			}
 		});
 	}
+	
+	
 	$(function() {
 		// 수정 중복검사
 		let carNum = $("input[name=car_number]").val();
@@ -263,7 +265,7 @@
 				        <td class="td_right"  id="fileBtnArea2">
 							<c:choose>
 								<c:when test="${empty car.car_file2 }">
-										<input type="file" name="files" id="car_file_2" class="form-control" value="${car.car_file2 }" />
+										<input type="file" name="files" id="car_file2" class="form-control" value="${car.car_file2 }" />
 								</c:when>
 								<c:otherwise>
 									<c:set var="length" value="${fn:length(car.car_file2) }" />
