@@ -365,6 +365,10 @@ li.lic_num_inp select, li.lic_num_inp input{
     vertical-align: middle;
 }
 
+.brc_name {
+	font-size: 18px;
+}
+
 
 
 
