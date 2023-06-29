@@ -25,7 +25,7 @@
 			</tr>
 			<tr>
 				<td class="td_left"><label for="res_time">예약일시</label></td>
-				<td>${resDetail.res_time}</td>
+				<td><fmt:formatDate value="${resDetail.res_time }" pattern="yy-MM-dd HH:mm" /></td>
 			</tr>
 			<tr>
 				<td class="td_left"><label for="car_idx">차량코드</label></td>
@@ -37,11 +37,11 @@
 			</tr>
 			<tr>
 				<td class="td_left"><label for="res_rental_date">대여일시</label></td>
-				<td>${resDetail.res_rental_date}</td>
+				<td><fmt:formatDate value="${resDetail.res_rental_date }" pattern="yy-MM-dd HH:mm" /></td>
 			</tr>
 			<tr>
 				<td class="td_left"><label for="res_return_date">반납일시</label></td>
-				<td>${resDetail.res_return_date}</td>
+				<td><fmt:formatDate value="${resDetail.res_return_date }" pattern="yy-MM-dd HH:mm" /></td>
 			</tr>
 			<tr>
 				<td class="td_left"><label for="brc_rent_name">대여장소</label></td>
