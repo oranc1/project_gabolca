@@ -31,73 +31,6 @@
 	<div id="sec_con" class="inr">
 		<h1 class="con_title">이용안내</h1>
 
-
-		<div class="rent_cond rent_int_wrap">
-			<h2 class="h2_t">대여 조건</h2>
-			<span class="line"></span>
-			<div class="first_table">
-				<table class="int_table">
-	
-					<thead>
-						<tr>
-							<th>내국인</th>
-							<th>외국인</th>
-						</tr>
-						<tr>
-							<td>도로교통법상 유효한 운전면허증 소지자</td>
-							<td id="la_td">-제네바협약, 비엔나협약, SOFA 가입국에서 발행한 국제운전면허증과 개인여권
-								소지자<br> -운전면허증을 소지한 내국인과 동행하여 공동임차인으로 계약서를 작성
-							</td>
-						</tr>
-					</thead>
-					<tbody></tbody>
-	
-				</table>
-			</div>
-	
-			<div class="t_table rent_int_wrap" >
-				<table class="else_table">
-	
-					<tr>
-						<th colspan="2" class="ln">차량종류</th>
-						<th>나이제한</th>
-						<th>운전경력</th>
-						<th>면허증별</th>
-						<th class="noline">비고</th>
-					</tr>
-					<tr class="fff">
-						<td colspan="2">수입차량</td>
-						<td>만26세 이상</td>
-						<td>3년 이상</td>
-						<td>2종보통이상</td>
-						<td>-</td>
-					</tr>
-					<tr class="fff">
-						<td rowspan="3" class="fff">국산차량</td>
-						<td>대형승용차량</td>
-						<td>만26세 이상</td>
-						<td>3년 이상</td>
-						<td>2종보통 이상</td>
-						<td>-</td>
-					</tr>
-					<tr>
-						<td>승합차량</td>
-						<td>만26세 이상</td>
-						<td>3년 이상</td>
-						<td>1종보통</td>
-						<td>9인승은 2종보통 가능</td>
-					</tr>
-					<tr>
-						<td>그 외 기타</td>
-						<td>24세 이상</td>
-						<td>1년 이상</td>
-						<td>2종보통 이상</td>
-						<td>-</td>
-					</tr>
-				</table>
-			</div>
-		</div>
-
 		<div class="rent_proc rent_int_wrap">
 			<h2 class="h2">대여인수 절차</h2>
 			<span class="line"></span>
@@ -196,18 +129,16 @@
 				<input type="checkbox" checked="checked" disabled="disabled">&nbsp;&nbsp;
 				<b>꼭! 확인하세요</b>
 			</label>
-			<p class="text_return">＊저희 위드렌터카는 고객님의 부득이한 사정으로 예약하신 차량의 예약을
+			<p class="text_return">＊저희 가볼카는 고객님의 부득이한 사정으로 예약하신 차량의 예약을
 				취소할 경우, 다음과 같은 환불규정을 준수합니다.</p>
 			<table class="la_table">
 				<tr>
-					<th>사용개시일로부터 48시간 전 취소시</th>
-					<th>24시간~48시간 이내 취소시</th>
+					<th>사용개시일로부터 24시간 전 취소시</th>
 					<th class="la_noline">24시간 이내 취소시</th>
 				</tr>
 
 				<tr>
-					<td>전액환불(타행거래시 송금수수료 500원 공제)</td>
-					<td>전체요금의 10% 공제후, 나머지 전액환불가</td>
+					<td>전액환불</td>
 					<td class="la_noline">환불불가</td>
 				</tr>
 			</table>
