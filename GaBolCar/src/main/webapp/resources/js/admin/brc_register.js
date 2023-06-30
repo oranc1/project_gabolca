@@ -77,15 +77,53 @@ $(function(){
 		location.reload();
 	});
 	
-	$("input[name=brc_tel]").on("change",function() {
+    $("input[name=brc_tel]").on("change",function() {
 		let brcTel = $(this).val();
-		const regTel = /^(0(2|3[1-3]|4[1-4]|5[1-5]|6[1-4]))-(\d{3,4})-(\d{4})$/;
-		if (!regTel.test(brcTel) && brcTel.length >= 1) {
-			$(this).val('').focus();
-			$(this).attr("placeholder","전화번호 형식에 맞지 않습니다.")
-			
-		}
-	})
+        const regExp = new RegExp(/^\d{2,3}-^\d{3,4}-^\d{4}/g);
+        if( brcTel.replace(regExp, "").length != 0 ) {                
+            if( checkPhoneNumber(brcTel) == true ) {
+                let number = brcTel.replace( /[^0-9]/g, "" );
+                let tel = "";
+                let seoul = 0;
+                $(this).attr("maxlength", "13");
+                if( number.substring( 0, 2 ).indexOf( "02" ) == 0 ) {
+                    seoul = 1;
+                    $(this).attr("maxlength", "12");
+                } 
+                
+                if( number.length < ( 4 - seoul) ) {
+                    return number;
+                } else if( number.length < ( 7 - seoul ) ) {
+                    tel += number.substr( 0, (3 - seoul ) );
+                    tel += "-";
+                    tel += number.substr( 3 - seoul );
+                } else if(number.length < ( 11 - seoul ) ) {
+                    tel += number.substr( 0, ( 3 - seoul ) );
+                    tel += "-";
+                    tel += number.substr( ( 3 - seoul ), 3 );
+                    tel += "-";
+                    tel += number.substr( 6 - seoul );
+                } else {
+                    tel += number.substr( 0, ( 3 - seoul ) );
+                    tel += "-";
+                    tel += number.substr( ( 3 - seoul), 4 );
+                    tel += "-";
+                    tel += number.substr( 7 - seoul );
+                }
+                $(this).val(tel);
+            } else {
+                const regExp = new RegExp( /[^0-9|^-]*$/ );
+                $(this).val(brcTel.replace(regExp, ""));
+            }
+        }
+    });
+
+    function checkPhoneNumber( number ) {
+        const regExp = new RegExp( /^[0-9|-]*$/ );
+        if( regExp.test( number ) == true ) { return true; }
+        else { return false; }
+    }
+	
 	
 	$("input[name=brc_name]").on("change",function() {
 		let brcName = $(this).val();
