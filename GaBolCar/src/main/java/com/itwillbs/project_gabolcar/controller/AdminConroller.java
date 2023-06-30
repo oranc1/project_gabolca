@@ -553,7 +553,16 @@ public class AdminConroller {
 
 	    if (updateCount > 0) {
 	        System.out.println("차량 수정 성공");
-	        car.setCar_idx((int) car_service.carSelect(car).get("car_idx"));
+	        
+            // 0630 배경인 추가
+            // 등록한 차량의 idx를 가져오기 위해 검색시
+            // 내가 만든 when 부분하고 충돌이 일어나 원하지 않는 값이 나옴
+            // 따라서 carTemp 라는 객체를 따로 만들어 어차피 car_number만 있으면 되므로
+            // car_number 만 넣어 보내 car_idx를 가져오기
+            
+            CarVO carTemp = new CarVO();
+            carTemp.setCar_number(car.getCar_number());
+	        car.setCar_idx((int) car_service.carSelect(carTemp).get("car_idx"));
 	        car_service.deleteOptionFile(car.getCar_idx());
 
 	        // 옵션 수정 부분
