@@ -484,7 +484,7 @@ public class AdminConroller {
 	    } catch (IOException e) {
 	        e.printStackTrace();
 	    }
-
+	    // 파일 배열로 관리
 	    MultipartFile[] mFiles = car.getFiles();
 
 	    if (mFiles != null && mFiles.length > 0) {
